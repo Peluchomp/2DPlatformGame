@@ -15,7 +15,7 @@ Player::Player() : Entity(EntityType::PLAYER)
 }
 
 Player::~Player() {
-
+	
 }
 
 bool Player::Awake() {
@@ -43,11 +43,12 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+
 	gravity = 0.3f * dt;
 	movementx = 0;
 
 	
-	jumpDistance++;
+	jumpDistance += 1*dt;
 
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 		//
@@ -55,22 +56,22 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 		//
 	}
-	if (jumpDistance >= 10 && isJumping == true) 
+	if (jumpDistance >= 150 && isJumping == true) 
 	{
 		isJumping = false;
 		jumpDistance = 0;
 	}
 
 
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false) 
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false && isGrounded == true) 
 	{
 		isJumping = true;
 		jumpDistance = 0;
 	}
 	
-	if (isJumping == true) 
+	if (isJumping == true ) 
 	{
-		gravity = -10;
+		gravity = -1 * dt;
 	}
 	
 
@@ -92,6 +93,7 @@ bool Player::Update(float dt)
 
 	app->render->DrawTexture(texture, position.x, position.y);
 
+	
 	return true;
 }
 
@@ -103,13 +105,16 @@ bool Player::CleanUp()
 
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
+	
 	switch (physB->ctype)
 	{
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");
+		
 		app->audio->PlayFx(pickCoinFxId);
 		break;
 	case ColliderType::PLATFORM:
+		isGrounded = true;
 		LOG("Collision PLATFORM");
 		break;
 	case ColliderType::UNKNOWN:

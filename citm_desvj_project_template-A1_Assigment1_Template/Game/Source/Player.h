@@ -34,6 +34,7 @@ public:
 	float gravity;
 	float jumpDistance;
 	bool isJumping;
+	bool isGrounded;
 	float movementx;
 };
 

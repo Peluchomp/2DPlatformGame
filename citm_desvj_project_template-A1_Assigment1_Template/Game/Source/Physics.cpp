@@ -322,6 +322,7 @@ bool Physics::CleanUp()
 // Callback function to collisions with Box2D
 void Physics::BeginContact(b2Contact* contact)
 {
+	
 	// Call the OnCollision listener function to bodies A and B, passing as inputs our custom PhysBody classes
 	PhysBody* physA = (PhysBody*)contact->GetFixtureA()->GetBody()->GetUserData();
 	PhysBody* physB = (PhysBody*)contact->GetFixtureB()->GetBody()->GetUserData();

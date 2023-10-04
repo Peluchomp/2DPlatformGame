@@ -36,6 +36,10 @@ bool Player::Start() {
 	pbody->listener = this;
 	pbody->ctype = ColliderType::PLAYER;
 
+	plegs = app->physics->CreateCircle(position.x + 16, position.y + 30, 10, bodyType::STATIC);
+	plegs->listener = this;
+	plegs->ctype = ColliderType::UNKNOWN;
+
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 
 	return true;
@@ -65,13 +69,14 @@ bool Player::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false && isGrounded == true) 
 	{
+		isGrounded = false;
 		isJumping = true;
 		jumpDistance = 0;
 	}
 	
 	if (isJumping == true ) 
 	{
-		gravity = -1 * dt;
+		gravity = -0.75f * dt;
 	}
 	
 
@@ -91,6 +96,16 @@ bool Player::Update(float dt)
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
+	SDL_GetMouseState(&mousex, &mousey);
+	SDL_Point center{position.x,position.y};
+	SDL_Rect  perim{ position.x,position.y,20,20 };
+	delta_x = position.x - mousex;
+	delta_y = position.y - mousey;
+
+	angle_deg = (atan2(delta_y, delta_x) * 180.0000) / 3.1416;
+
+	SDL_RenderCopyEx(app->render->renderer, texture, NULL,NULL, angle_deg, &center, SDL_FLIP_NONE);
+
 	app->render->DrawTexture(texture, position.x, position.y);
 
 	
@@ -106,7 +121,7 @@ bool Player::CleanUp()
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	
-	switch (physB->ctype)
+   	switch (physB->ctype)
 	{
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");

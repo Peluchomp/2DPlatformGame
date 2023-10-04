@@ -30,12 +30,18 @@ public:
 	const char* texturePath;
 	SDL_Texture* texture = NULL;
 	PhysBody* pbody;
+	PhysBody* plegs;
 	int pickCoinFxId;
 	float gravity;
 	float jumpDistance;
 	bool isJumping;
 	bool isGrounded;
 	float movementx;
+	float angle_deg;
+	float delta_y;
+	float delta_x;
+	int mousex;
+	int mousey;
 };
 
 #endif // __PLAYER_H__

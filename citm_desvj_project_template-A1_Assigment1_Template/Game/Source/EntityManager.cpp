@@ -87,6 +87,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	case EntityType::ITEM:
 		entity = new Item();
 		break;
+	case EntityType::SPEAR:
+		entity = new Item();
+		break;
 	default:
 		break;
 	}

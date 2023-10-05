@@ -54,9 +54,7 @@ bool Player::Update(float dt)
 	
 	jumpDistance += 1*dt;
 
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-		//
-	}
+	
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 		//
 	}
@@ -98,16 +96,26 @@ bool Player::Update(float dt)
 
 	SDL_GetMouseState(&mousex, &mousey);
 	SDL_Point center{position.x,position.y};
-	SDL_Rect  perim{ position.x,position.y,20,20 };
+	SDL_Rect  perim{ position.x,position.y,0,0 };
 	delta_x = position.x - mousex;
 	delta_y = position.y - mousey;
 
 	angle_deg = (atan2(delta_y, delta_x) * 180.0000) / 3.1416;
 
-	SDL_RenderCopyEx(app->render->renderer, texture, NULL,NULL, angle_deg, &center, SDL_FLIP_NONE);
+	
+
 
 	app->render->DrawTexture(texture, position.x, position.y);
 
+	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) 
+	{
+		app->render->DrawTexture(texture, position.x, position.y - 16, 0, 0, angle_deg);
+	}
+	
+	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_UP) 
+	{
+	
+	}
 	
 	return true;
 }

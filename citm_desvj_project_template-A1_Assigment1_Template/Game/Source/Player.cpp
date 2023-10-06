@@ -114,7 +114,7 @@ bool Player::Update(float dt)
 	
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_UP) 
 	{
-	
+		app->entityManager->CreateEntity(EntityType::SPEAR);
 	}
 	
 	return true;

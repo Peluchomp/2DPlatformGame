@@ -3,6 +3,7 @@
 #include "App.h"
 #include "Textures.h"
 #include "Scene.h"
+#include "../Spear.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -88,7 +89,7 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		entity = new Item();
 		break;
 	case EntityType::SPEAR:
-		entity = new Item();
+		entity = new Spear();
 		break;
 	default:
 		break;

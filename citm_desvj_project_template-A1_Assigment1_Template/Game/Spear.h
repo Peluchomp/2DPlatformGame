@@ -26,13 +26,18 @@ public:
 
 	bool isPicked = false;
 
+	int x;
+	int y;
+
 private:
 
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
 	bool started;
+	
 	float angle;
+	
 };
 
 #endif // __SPEAR_H__

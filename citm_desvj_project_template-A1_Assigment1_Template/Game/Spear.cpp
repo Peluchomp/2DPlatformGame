@@ -33,6 +33,7 @@ bool Spear::Start() {
 
 bool Spear::Update(float dt)
 {
+	b2Vec2 vel;
 	if (started == false) 
 	{
 		position.x = app->scene->player->position.x;
@@ -45,11 +46,21 @@ bool Spear::Update(float dt)
 		
 		angle = app->scene->player->angle_deg;
 		started = true;
+		pbody->body->GetFixtureList()->SetSensor(true);
+		SDL_GetMouseState(&x,&y);
+		vel = b2Vec2(app->scene->player->delta_x, app->scene->player->delta_y);
+		vel.Normalize();
+		vel.x *=dt/2;
+		vel.y *=dt/2;
+		
+		pbody->body->SetLinearVelocity(-vel);
 	}
-
+	
 	pbody->body->SetGravityScale(0);
 	pbody->body->SetTransform(pbody->body->GetPosition(), angle);
 
+	
+	
 
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;

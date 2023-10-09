@@ -327,6 +327,9 @@ void Physics::BeginContact(b2Contact* contact)
 	PhysBody* physA = (PhysBody*)contact->GetFixtureA()->GetBody()->GetUserData();
 	PhysBody* physB = (PhysBody*)contact->GetFixtureB()->GetBody()->GetUserData();
 
+	if (physA->ctype == ColliderType::SPEAR && physB->ctype == ColliderType::PLAYER || physA->ctype == ColliderType::PLAYER && physB->ctype == ColliderType::SPEAR)
+		return;
+
 	if (physA && physA->listener != NULL)
 		physA->listener->OnCollision(physA, physB);
 

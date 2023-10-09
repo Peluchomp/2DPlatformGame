@@ -42,12 +42,14 @@ bool Spear::Update(float dt)
 		texture = app->tex->Load(texturePath);
 		pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
 		pbody->ctype = ColliderType::SPEAR;
+		
 		angle = app->scene->player->angle_deg;
 		started = true;
 	}
 
 	pbody->body->SetGravityScale(0);
 	pbody->body->SetTransform(pbody->body->GetPosition(), angle);
+
 
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;

@@ -133,12 +133,15 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");
-		
 		app->audio->PlayFx(pickCoinFxId);
 		break;
 	case ColliderType::PLATFORM:
 		isGrounded = true;
 		LOG("Collision PLATFORM");
+		break;
+	case ColliderType::SPEAR:
+	    
+		LOG("Collision SPEAR");
 		break;
 	case ColliderType::UNKNOWN:
 		LOG("Collision UNKNOWN");

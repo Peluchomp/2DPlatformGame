@@ -22,6 +22,10 @@ public:
 
 	bool CleanUp();
 
+	bool PreUpdate(float dt);
+
+	void OnCollision(PhysBody* physA, PhysBody* physB);
+
 public:
 
 	bool isPicked = false;

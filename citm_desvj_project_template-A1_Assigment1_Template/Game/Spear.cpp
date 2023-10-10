@@ -30,9 +30,15 @@ bool Spear::Start() {
 
 	return true;
 }
+bool Spear::PreUpdate(float dt) 
+{
+	
+	return  true;
+}
 
 bool Spear::Update(float dt)
 {
+	
 	b2Vec2 vel;
 	if (started == false) 
 	{
@@ -45,8 +51,8 @@ bool Spear::Update(float dt)
 		pbody->ctype = ColliderType::SPEAR;
 		
 		angle = app->scene->player->angle_deg;
-		started = true;
-		pbody->body->GetFixtureList()->SetSensor(true);
+		
+	
 		SDL_GetMouseState(&x,&y);
 		vel = b2Vec2(app->scene->player->delta_x, app->scene->player->delta_y);
 		vel.Normalize();
@@ -55,7 +61,14 @@ bool Spear::Update(float dt)
 		
 		pbody->body->SetLinearVelocity(-vel);
 	}
-	
+
+	pbody->body->GetFixtureList()->SetSensor(false);
+	if (started == false)
+	{
+		started = true;
+		pbody->body->GetFixtureList()->SetSensor(true);
+	}
+
 	pbody->body->SetGravityScale(0);
 	pbody->body->SetTransform(pbody->body->GetPosition(), angle);
 
@@ -74,4 +87,27 @@ bool Spear::Update(float dt)
 bool Spear::CleanUp()
 {
 	return true;
+}
+
+void Spear::OnCollision(PhysBody* physA, PhysBody* physB) {
+
+
+	switch (physB->ctype)
+	{
+	case ColliderType::ITEM:
+		LOG("Collision ITEM");
+		
+		break;
+	case ColliderType::PLATFORM:
+		
+		LOG("Collision PLATFORM");
+		break;
+	case ColliderType::PLAYER:
+		pbody->body->GetFixtureList()->SetSensor(true);
+		LOG("Collision SPEAR");
+		break;
+	case ColliderType::UNKNOWN:
+		LOG("Collision UNKNOWN");
+		break;
+	}
 }

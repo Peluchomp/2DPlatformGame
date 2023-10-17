@@ -71,7 +71,7 @@ bool Player::Update(float dt)
 	{
 		isGrounded = false;
 		isJumping = true;
-		gravity = -0.75f * dt;
+		gravity = -0.75f * 16;
 	}
 	
 	if (gravity >= 0.3f *dt && isJumping == true) 
@@ -130,6 +130,7 @@ bool Player::CleanUp()
 
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
+
 	
    	switch (physB->ctype)
 	{
@@ -139,9 +140,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::PLATFORM:
 		if (isJumping == true)
-			isJumping = false;
-			
-
+			isJumping = false;	
 		isGrounded = true;
 		LOG("Collision PLATFORM");
 		break;
@@ -154,3 +153,4 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	}
 }
+

@@ -4,6 +4,9 @@
 #include "Entity.h"
 #include "Point.h"
 #include "SDL/include/SDL.h"
+#include "../Animation.h"
+#include "../Spear.h"
+
 
 struct SDL_Texture;
 
@@ -34,6 +37,12 @@ public:
 	SDL_Texture* texture = NULL;
 	PhysBody* pbody;
 	PhysBody* plegs;
+	Animation* currentAnim;
+
+	Animation playerRun;
+	
+	Spear *mySpear;
+
 	int pickCoinFxId;
 	float gravity;
 	float jumpDistance;

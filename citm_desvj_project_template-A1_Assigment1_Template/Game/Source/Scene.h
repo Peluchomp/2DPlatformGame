@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Player.h"
 #include "Item.h"
+#include "../Spear.h"
 
 struct SDL_Texture;
 

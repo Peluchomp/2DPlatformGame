@@ -32,13 +32,13 @@ public:
 
 	int x;
 	int y;
-
+	bool started = true;
 private:
 
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
-	bool started;
+
 	
 	float angle;
 	

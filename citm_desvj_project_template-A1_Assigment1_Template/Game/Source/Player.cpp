@@ -12,6 +12,8 @@
 Player::Player() : Entity(EntityType::PLAYER)
 {
 	name.Create("Player");
+	playerRun.PushBack({0,0,80,80});
+
 }
 
 Player::~Player() {
@@ -39,6 +41,8 @@ bool Player::Start() {
 	plegs = app->physics->CreateCircle(position.x + 16, position.y + 30, 10, bodyType::STATIC);
 	plegs->listener = this;
 	plegs->ctype = ColliderType::UNKNOWN;
+	
+	currentAnim = &playerRun;
 
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 
@@ -105,9 +109,9 @@ bool Player::Update(float dt)
 	angle_deg = (atan2(delta_y, delta_x) * 180.0000) / 3.1416;
 
 	
+	
 
-
-	app->render->DrawTexture(texture, position.x, position.y);
+	app->render->DrawTexture(texture, position.x-16, position.y-40, &currentAnim->GetCurrentFrame());
 
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) 
 	{
@@ -116,7 +120,8 @@ bool Player::Update(float dt)
 	
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_UP) 
 	{
-		app->entityManager->CreateEntity(EntityType::SPEAR);
+		mySpear->position = position;
+		mySpear->started = false;
 	}
 	
 	return true;

@@ -38,6 +38,11 @@ bool Scene::Awake(pugi::xml_node& config)
 		player->parameters = config.child("player");
 	}
 
+	if (config.child("spear")) {
+		player->mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
+		player->mySpear->parameters = config.child("spear");
+	}
+
 	return ret;
 }
 

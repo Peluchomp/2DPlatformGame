@@ -48,7 +48,9 @@ bool Player::Start() {
 bool Player::Update(float dt)
 {
 
+	if (isJumping == false)
 	gravity = 0.3f * dt;
+
 	movementx = 0;
 
 	
@@ -58,10 +60,10 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 		//
 	}
-	if (jumpDistance >= 150 && isJumping == true) 
+	if (isJumping == true) 
 	{
-		isJumping = false;
-		jumpDistance = 0;
+		gravity += 0.5f;
+		
 	}
 
 
@@ -69,12 +71,12 @@ bool Player::Update(float dt)
 	{
 		isGrounded = false;
 		isJumping = true;
-		jumpDistance = 0;
+		gravity = -0.75f * dt;
 	}
 	
-	if (isJumping == true ) 
+	if (gravity >= 0.3f *dt && isJumping == true) 
 	{
-		gravity = -0.75f * dt;
+		isJumping = false;
 	}
 	
 
@@ -133,12 +135,19 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");
-		
 		app->audio->PlayFx(pickCoinFxId);
 		break;
 	case ColliderType::PLATFORM:
+		if (isJumping == true)
+			isJumping = false;
+			
+
 		isGrounded = true;
 		LOG("Collision PLATFORM");
+		break;
+	case ColliderType::SPEAR:
+	    
+		LOG("Collision SPEAR");
 		break;
 	case ColliderType::UNKNOWN:
 		LOG("Collision UNKNOWN");

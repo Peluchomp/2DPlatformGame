@@ -22,9 +22,16 @@ public:
 
 	bool CleanUp();
 
+	bool PreUpdate(float dt);
+
+	void OnCollision(PhysBody* physA, PhysBody* physB);
+
 public:
 
 	bool isPicked = false;
+
+	int x;
+	int y;
 
 private:
 
@@ -32,7 +39,9 @@ private:
 	const char* texturePath;
 	PhysBody* pbody;
 	bool started;
+	
 	float angle;
+	
 };
 
 #endif // __SPEAR_H__

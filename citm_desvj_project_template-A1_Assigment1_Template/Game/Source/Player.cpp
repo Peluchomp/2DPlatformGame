@@ -9,10 +9,57 @@
 #include "Point.h"
 #include "Physics.h"
 
+#define IDLE_SECS 5;
+
 Player::Player() : Entity(EntityType::PLAYER)
 {
 	name.Create("Player");
-	playerRun.PushBack({0,0,80,80});
+	
+	// idle sprites are 100x80
+	idle.PushBack({ 396,0,100,80 });
+	idle.PushBack({ 496,0,100,80 });
+
+	longIdle1.PushBack({599,0,100,80});
+	longIdle1.PushBack({ 699,0,100,80 });
+	longIdle1.PushBack({ 399,80,100,80 });
+	longIdle2.PushBack({ 499,80,100,80 });
+	longIdle2.PushBack({ 599,80,100,80 });
+	longIdle2.PushBack({ 699,80,100,80 });
+	longIdle2.PushBack({ 399,160,100,80 });
+	longIdle2.PushBack({ 499,160,100,80 });
+	idle.speed = 0.05f;
+	longIdle1.speed = 0.08f;
+	longIdle1.loop = false;
+	longIdle2.speed = 0.07f;
+
+	startRun.PushBack({0,0,80,80});
+	startRun.PushBack({ 80,0,80,80 });
+	startRun.PushBack({ 160,0,80,80 });
+	startRun.PushBack({ 240,0,80,80 });
+	startRun.PushBack({ 320,0,80,80 });
+	
+	startRun.PushBack({ 0,80,80,80 });
+	startRun.PushBack({ 80,80,80,80 });
+	startRun.PushBack({ 160,80,80,80 });
+	startRun.PushBack({ 240,80,80,80 });
+	startRun.PushBack({ 320,80,80,80 });
+	
+	startRun.PushBack({ 0,160,80,80 });
+	startRun.PushBack({ 80,160,80,80 });
+	startRun.PushBack({ 160,160,80,80 });
+	startRun.PushBack({ 240,160,80,80 });
+	playerRun.PushBack({ 320,160,80,80 });
+
+	playerRun.PushBack({ 0,240,80,80 });
+	playerRun.PushBack({ 80,240,80,80 });
+	playerRun.PushBack({ 160,240,80,80 });
+	playerRun.PushBack({ 240,240,80,80 });
+	playerRun.PushBack({ 320,240,80,80 });
+
+
+	playerRun.speed = 0.1f;
+	playerRun.loop = true;
+
 
 }
 
@@ -44,7 +91,7 @@ bool Player::Start() {
 	plegs->listener = this;
 	plegs->ctype = ColliderType::UNKNOWN;
 	
-	currentAnim = &playerRun;
+	currentAnim = &idle;
 
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 
@@ -53,6 +100,18 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+
+	if (currentAnim == &idle && startIdle == false) {
+		startIdle = true;
+		IdleTimer.Start();
+	}
+	if (currentAnim == &idle && startIdle == true && IdleTimer.ReadSec() > 5) {
+		currentAnim = &longIdle1;
+
+	}
+	if (longIdle1.HasFinished()) {
+		currentAnim = &longIdle2;
+	}
 
 	if (isJumping == false)
 	gravity = 0.3f * dt;
@@ -113,7 +172,7 @@ bool Player::Update(float dt)
 	angle_deg = (atan2(delta_y, delta_x) * 180.0000) / 3.1416;
 
 	
-	
+	currentAnim->Update();
 
 	if (myDir == Direction::RIGHT) {
 		app->render->DrawTexture(texture, position.x - 16, position.y - 40, false, &currentAnim->GetCurrentFrame());

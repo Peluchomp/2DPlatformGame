@@ -6,6 +6,7 @@
 #include "SDL/include/SDL.h"
 #include "../Animation.h"
 #include "../Spear.h"
+#include "Timer.h"
 
 enum Direction {
 	RIGHT,
@@ -45,6 +46,10 @@ public:
 	PhysBody* plegs;
 	Animation* currentAnim;
 
+	Animation idle;
+	Animation longIdle1;
+	Animation longIdle2;
+	Animation startRun;
 	Animation playerRun;
 	
 	Spear *mySpear;
@@ -60,6 +65,10 @@ public:
 	float delta_x;
 	int mousex;
 	int mousey;
+
+	bool startIdle = false;
+	Timer IdleTimer;
+
 };
 
 #endif // __PLAYER_H__

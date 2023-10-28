@@ -7,6 +7,10 @@
 #include "../Animation.h"
 #include "../Spear.h"
 
+enum Direction {
+	RIGHT,
+	LEFT
+};
 
 struct SDL_Texture;
 
@@ -32,6 +36,8 @@ public:
 
 
 public:
+	Direction myDir;
+
 	float speed = 0.2f;
 	const char* texturePath;
 	SDL_Texture* texture = NULL;

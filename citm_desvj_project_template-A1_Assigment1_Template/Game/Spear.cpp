@@ -90,7 +90,7 @@ bool Spear::Update(float dt)
 	}
 
 
-	app->render->DrawTexture(texture, position.x, position.y,0,0,angle + 270);
+	app->render->DrawTexture(texture, position.x, position.y, false, 0,0,angle + 270);
 
 	return true;
 }

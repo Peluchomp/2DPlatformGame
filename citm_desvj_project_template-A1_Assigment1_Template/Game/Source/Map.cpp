@@ -56,7 +56,7 @@ bool Map::Update(float dt)
 
                     app->render->DrawTexture(tileset->texture,
                         pos.x,
-                        pos.y,
+                        pos.y, false,
                         &r);
                 }
             }

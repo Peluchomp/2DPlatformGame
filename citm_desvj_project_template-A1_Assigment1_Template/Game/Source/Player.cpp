@@ -26,6 +26,8 @@ bool Player::Awake() {
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 
+	myDir = Direction::RIGHT;
+
 	return true;
 }
 
@@ -85,10 +87,12 @@ bool Player::Update(float dt)
 	
 
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+		myDir = Direction::LEFT;
 		movementx = -speed * dt;
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+		myDir = Direction::RIGHT;
 		movementx = speed * dt;
 	}
 
@@ -111,11 +115,16 @@ bool Player::Update(float dt)
 	
 	
 
-	app->render->DrawTexture(texture, position.x-16, position.y-40, &currentAnim->GetCurrentFrame());
+	if (myDir == Direction::RIGHT) {
+		app->render->DrawTexture(texture, position.x - 16, position.y - 40, false, &currentAnim->GetCurrentFrame());
+	}
+	else {
+		app->render->DrawTexture(texture, position.x - 16, position.y - 40, true, &currentAnim->GetCurrentFrame());
+	}
 
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) 
 	{
-		app->render->DrawTexture(texture, position.x, position.y - 16, 0, 0, angle_deg);
+		app->render->DrawTexture(texture, position.x, position.y - 16, false, 0, 0, angle_deg);
 	}
 	
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_UP) 

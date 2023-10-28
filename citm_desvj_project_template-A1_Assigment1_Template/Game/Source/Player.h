@@ -59,6 +59,7 @@ public:
 	float jumpDistance;
 	bool isJumping;
 	bool isGrounded;
+	bool idleState;
 	float movementx;
 	float angle_deg;
 	float delta_y;

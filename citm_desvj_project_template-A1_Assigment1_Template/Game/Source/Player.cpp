@@ -92,6 +92,7 @@ bool Player::Start() {
 	plegs->ctype = ColliderType::UNKNOWN;
 	
 	currentAnim = &idle;
+	idleState = true;
 
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 
@@ -100,9 +101,10 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
-
+	//-----------Idle Animation Logic---------------//
 	if (currentAnim == &idle && startIdle == false) {
 		startIdle = true;
+		idleState = true;
 		IdleTimer.Start();
 	}
 	if (currentAnim == &idle && startIdle == true && IdleTimer.ReadSec() > 5) {
@@ -146,6 +148,7 @@ bool Player::Update(float dt)
 	
 
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+		idleState = false;
 		myDir = Direction::LEFT;
 		movementx = -speed * dt;
 	}

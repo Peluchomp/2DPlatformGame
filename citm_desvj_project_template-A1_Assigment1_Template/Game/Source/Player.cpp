@@ -113,6 +113,8 @@ bool Player::Update(float dt)
 	}
 	if (longIdle1.HasFinished()) {
 		currentAnim = &longIdle2;
+		longIdle1.Reset();
+		
 	}
 
 	if (isJumping == false)
@@ -122,6 +124,10 @@ bool Player::Update(float dt)
 
 	
 	jumpDistance += 1*dt;
+
+
+
+	if (idleState == true && IdleTimer.ReadSec() < 5) { currentAnim = &idle; }
 
 	
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
@@ -136,6 +142,7 @@ bool Player::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false && isGrounded == true) 
 	{
+		IdleTimer.Start();
 		isGrounded = false;
 		isJumping = true;
 		gravity = -0.75f * 16;
@@ -148,12 +155,19 @@ bool Player::Update(float dt)
 	
 
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		idleState = false;
+		
+		IdleTimer.Start();
+		currentAnim = &playerRun;
+
 		myDir = Direction::LEFT;
 		movementx = -speed * dt;
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+		
+		IdleTimer.Start();
+		currentAnim = &playerRun;
+
 		myDir = Direction::RIGHT;
 		movementx = speed * dt;
 	}

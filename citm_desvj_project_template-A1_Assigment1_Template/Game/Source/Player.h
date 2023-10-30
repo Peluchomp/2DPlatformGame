@@ -51,6 +51,9 @@ public:
 	Animation longIdle2;
 	Animation startRun;
 	Animation playerRun;
+
+	Animation Jump;
+	Animation Fall;
 	
 	Spear *mySpear;
 

@@ -32,6 +32,7 @@ public:
 
 	void Reset()
 	{
+		loopCount = 0;
 		currentFrame = 0;
 	}
 

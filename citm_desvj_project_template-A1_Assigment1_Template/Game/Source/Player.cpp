@@ -60,6 +60,19 @@ Player::Player() : Entity(EntityType::PLAYER)
 	playerRun.speed = 0.1f;
 	playerRun.loop = true;
 
+	Jump.PushBack({ 0,320,80,100 });
+	Jump.PushBack({ 80,320,80,100 });
+	Jump.PushBack({ 160,320,80,100 });
+	Jump.PushBack({ 240,320,80,100 });
+	Jump.speed = 0.2f;
+	Jump.loop = false;
+
+
+	
+	Fall.PushBack({ 320,320,80,100 });
+	Fall.PushBack({ 400,320,80,100 });
+	Fall.speed = 0.1f;
+	Fall.loop = true;
 
 }
 
@@ -101,6 +114,9 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+
+	// Reference to the player's speed
+	b2Vec2 Speed = pbody->body->GetLinearVelocity();
 	//-----------Idle Animation Logic---------------//
 	if (currentAnim == &idle && startIdle == false) {
 		startIdle = true;
@@ -115,6 +131,7 @@ bool Player::Update(float dt)
 		currentAnim = &longIdle2;
 		longIdle1.Reset();
 		
+		
 	}
 
 	if (isJumping == false)
@@ -125,9 +142,14 @@ bool Player::Update(float dt)
 	
 	jumpDistance += 1*dt;
 
+	
+	if (Speed.y > 0 && isGrounded == false) /*Falling*/ {
+		currentAnim = &Fall;
+	}
 
-
-	if (idleState == true && IdleTimer.ReadSec() < 5) { currentAnim = &idle; }
+	if (idleState == true && IdleTimer.ReadSec() < 5 && isGrounded == true) { 
+		currentAnim = &idle;
+	}
 
 	
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
@@ -145,6 +167,8 @@ bool Player::Update(float dt)
 		IdleTimer.Start();
 		isGrounded = false;
 		isJumping = true;
+		Jump.Reset();
+		currentAnim = &Jump;
 		gravity = -0.75f * 16;
 	}
 	
@@ -157,7 +181,9 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		
 		IdleTimer.Start();
-		currentAnim = &playerRun;
+		if (isGrounded) {
+			currentAnim = &playerRun;
+		}
 
 		myDir = Direction::LEFT;
 		movementx = -speed * dt;
@@ -166,7 +192,9 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		
 		IdleTimer.Start();
-		currentAnim = &playerRun;
+		if (isGrounded) {
+			currentAnim = &playerRun;
+		}
 
 		myDir = Direction::RIGHT;
 		movementx = speed * dt;
@@ -231,6 +259,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::PLATFORM:
 		if (isJumping == true)
 			isJumping = false;	
+		Fall.Reset();
 		isGrounded = true;
 		LOG("Collision PLATFORM");
 		break;

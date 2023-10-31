@@ -124,6 +124,7 @@ public:
 private:
 
 	bool LoadMap(pugi::xml_node mapFile);
+	bool Map::LoadObjectGroups(pugi::xml_node mapNode);
 	bool LoadTileSet(pugi::xml_node mapFile);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadAllLayers(pugi::xml_node mapNode);

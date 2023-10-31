@@ -43,8 +43,8 @@ bool Render::Awake(pugi::xml_node& config)
 	}
 	else
 	{
-		camera.w = app->win->screenSurface->w;
-		camera.h = app->win->screenSurface->h;
+		camera.w = app->win->screenSurface->w/2;
+		camera.h = app->win->screenSurface->h/2;
 		camera.x = 0;
 		camera.y = 0;
 	}

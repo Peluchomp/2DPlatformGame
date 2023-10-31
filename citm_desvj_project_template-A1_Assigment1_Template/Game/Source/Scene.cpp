@@ -42,7 +42,6 @@ bool Scene::Awake(pugi::xml_node& config)
 		player->mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
 		player->mySpear->parameters = config.child("spear");
 	}
-
 	return ret;
 }
 
@@ -51,7 +50,7 @@ bool Scene::Start()
 {
 	// NOTE: We have to avoid the use of paths in the code, we will move it later to a config file
 	//img = app->tex->Load("Assets/Textures/test.png");
-	
+
 	//Music is commented so that you can add your own music
 	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
 
@@ -85,23 +84,53 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
-	float camSpeed = 1; 
+	float camSpeed = 1;
+	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+		isInDebugMode = true;
+	}
+	if (app->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
+		isInDebugMode = false;
+	}
+	if (isInDebugMode)
+	{
+		if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+			app->render->camera.y -= (int)ceil(camSpeed * dt);
 
-	if(app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		app->render->camera.y -= (int)ceil(camSpeed * dt);
+		if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+			app->render->camera.y += (int)ceil(camSpeed * dt);
 
-	if(app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		app->render->camera.y += (int)ceil(camSpeed * dt);
+		if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+			app->render->camera.x -= (int)ceil(camSpeed * dt);
 
-	if(app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		app->render->camera.x -= (int)ceil(camSpeed * dt);
-
-	if(app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		app->render->camera.x += (int)ceil(camSpeed * dt);
+		if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+			app->render->camera.x += (int)ceil(camSpeed * dt);
 
 
-	app->render->camera.x = (-app->scene->player->position.x /*+ 560*/);
-	app->render->camera.y = (-app->scene->player->position.y  /* + 560*/);
+	}
+	else
+	{
+		if (player->position.x < app->win->screenSurface->w / 3) {
+			player->position.x = app->win->screenSurface->w / 3;
+		}
+		app->render->camera.x = -player->position.x *2 - 3 + app->win->screenSurface->w / 2;
+
+		if (player->position.y <= 0)
+		{
+			//player->position.y += app->win->screenSurface->h + 13 * 2;
+		}
+		else if (player->position.y >= app->win->screenSurface->h)
+		{
+			player->position.y -= app->win->screenSurface->h - 13 * 2;
+		}
+		else
+		{
+			player->position.y = 0;
+		}
+		app->render->camera.y = -player->position.y;
+
+	}
+
+
 	// Renders the image in the center of the screen 
 	//app->render->DrawTexture(img, (int)textPosX, (int)textPosY);
 
@@ -113,7 +142,7 @@ bool Scene::PostUpdate()
 {
 	bool ret = true;
 
-	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
 	return ret;

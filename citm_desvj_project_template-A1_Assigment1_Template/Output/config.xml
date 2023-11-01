@@ -33,7 +33,7 @@
 
   <map>
     <mapfolder path="Assets/Maps/"/>
-    <mapfile path="Assets/Maps/Project0Map.tmx"/>
+    <mapfile path="Assets/Maps/Level0.tmx"/>
   </map>
   
 </config>

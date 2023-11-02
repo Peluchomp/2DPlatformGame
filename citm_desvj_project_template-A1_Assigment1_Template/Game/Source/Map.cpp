@@ -328,19 +328,42 @@ bool Map::LoadObjectGroups(pugi::xml_node mapNode) {
 
     for (pugi::xml_node objectNode = mapNode.child("objectgroup"); objectNode && ret; objectNode = objectNode.next_sibling("objectgroup"))
     {
-        for (pugi::xml_node objectIt = objectNode.child("object"); objectIt != NULL; objectIt = objectIt.next_sibling("object")) {
-
-            int x = objectIt.attribute("x").as_int();
-            int y = objectIt.attribute("y").as_int();
-            int width = objectIt.attribute("width").as_int();
-            int height = objectIt.attribute("height").as_int();
+        if (objectNode.attribute("id").as_int() == 9) {
+            LOG("Kill");
+            for (pugi::xml_node objectIt = objectNode.child("object"); objectIt != NULL; objectIt = objectIt.next_sibling("object")) {
 
 
-            x += width / 2;
-            y += height / 2;
 
-            PhysBody* c1 = app->physics->CreateRectangle(x,y,width,height, STATIC);
-            c1->ctype = ColliderType::PLATFORM;
+                int x = objectIt.attribute("x").as_int();
+                int y = objectIt.attribute("y").as_int();
+                int width = objectIt.attribute("width").as_int();
+                int height = objectIt.attribute("height").as_int();
+
+
+                x += width / 2;
+                y += height / 2;
+
+                PhysBody* c1 = app->physics->CreateRectangle(x, y, width, height, STATIC);
+                c1->ctype = ColliderType::INSTAKILL;
+            }
+        }
+        else {
+            for (pugi::xml_node objectIt = objectNode.child("object"); objectIt != NULL; objectIt = objectIt.next_sibling("object")) {
+
+
+
+                int x = objectIt.attribute("x").as_int();
+                int y = objectIt.attribute("y").as_int();
+                int width = objectIt.attribute("width").as_int();
+                int height = objectIt.attribute("height").as_int();
+
+
+                x += width / 2;
+                y += height / 2;
+
+                PhysBody* c1 = app->physics->CreateRectangle(x, y, width, height, STATIC);
+                c1->ctype = ColliderType::PLATFORM;
+            }
         }
     }
 

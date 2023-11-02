@@ -11,6 +11,7 @@
 
 #define IDLE_SECS 5;
 
+
 Player::Player() : Entity(EntityType::PLAYER)
 {
 	name.Create("Player");
@@ -94,10 +95,20 @@ bool Player::Awake() {
 bool Player::Start() {
 
 	//initilize textures
+
+	int PlayerCoords[8] = {
+	34, 12,
+	34, 79,
+	51, 79,
+	51, 12
+	};
+
+
 	texture = app->tex->Load(texturePath);
 
-	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
+	pbody = app->physics->CreateChain(position.x , position.y ,PlayerCoords,8, bodyType::DYNAMIC);
 	pbody->listener = this;
+	
 	pbody->ctype = ColliderType::PLAYER;
 
 	plegs = app->physics->CreateCircle(position.x + 16, position.y + 30, 10, bodyType::STATIC);
@@ -107,7 +118,7 @@ bool Player::Start() {
 	currentAnim = &idle;
 	idleState = true;
 
-	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
+	//pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 
 	return true;
 }
@@ -205,8 +216,10 @@ bool Player::Update(float dt)
 	pbody->body->SetLinearVelocity(vel);
 
 	//Update player position in pixels
-	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
-	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
+	const float32* x = &pbody->body->GetTransform().p.x;
+
+	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) +10;
+	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) +40;
 
 	SDL_GetMouseState(&mousex, &mousey);
 	SDL_Point center{position.x,position.y};
@@ -236,6 +249,12 @@ bool Player::Update(float dt)
 		mySpear->position = position;
 		mySpear->started = false;
 	}
+
+	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_UP) {
+		
+		Spawn(0);
+
+	}
 	
 	return true;
 }
@@ -248,28 +267,52 @@ bool Player::CleanUp()
 
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
+	if (dead == false) {
 
-	
-   	switch (physB->ctype)
-	{
-	case ColliderType::ITEM:
-		LOG("Collision ITEM");
-		app->audio->PlayFx(pickCoinFxId);
-		break;
-	case ColliderType::PLATFORM:
-		if (isJumping == true)
-			isJumping = false;	
-		Fall.Reset();
-		isGrounded = true;
-		LOG("Collision PLATFORM");
-		break;
-	case ColliderType::SPEAR:
-	    
-		LOG("Collision SPEAR");
-		break;
-	case ColliderType::UNKNOWN:
-		LOG("Collision UNKNOWN");
-		break;
+		switch (physB->ctype)
+		{
+		case ColliderType::ITEM:
+			LOG("Collision ITEM");
+			app->audio->PlayFx(pickCoinFxId);
+			break;
+		case ColliderType::PLATFORM:
+			if (isJumping == true)
+				isJumping = false;
+			Fall.Reset();
+			isGrounded = true;
+			LOG("Collision PLATFORM");
+			break;
+		case ColliderType::SPEAR:
+
+			LOG("Collision SPEAR");
+			break;
+		case ColliderType::UNKNOWN:
+			LOG("Collision UNKNOWN");
+			break;
+
+		case ColliderType::INSTAKILL:
+
+			if (dead == false) {
+				LOG("Player Died of an instakill");
+				
+				Spawn(0);
+				
+			}
+
+
+		}
 	}
 }
 
+
+void Player::Spawn(int Level) {
+	if (Level == 0) {
+		
+		float x = position.x = parameters.attribute("x").as_float();
+		float y = position.y = parameters.attribute("y").as_float();
+		x = PIXEL_TO_METERS(x); y = PIXEL_TO_METERS(y);
+
+		b2Vec2 startPos = { x,y };
+		pbody->body->SetTransform(startPos, pbody->body->GetAngle());
+	}
+}

@@ -28,7 +28,8 @@ enum class ColliderType {
 	ITEM,
 	PLATFORM,
 	SPEAR,
-	UNKNOWN
+	UNKNOWN,
+	INSTAKILL
 	// ..
 };
 
@@ -51,6 +52,8 @@ public:
 	b2Body* body;
 	Entity* listener;
 	ColliderType ctype;
+
+
 };
 
 // Module --------------------------------------

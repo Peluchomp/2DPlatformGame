@@ -33,7 +33,7 @@ public:
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
 
-	
+	void Spawn(int Level);
 
 
 public:
@@ -57,6 +57,7 @@ public:
 	
 	Spear *mySpear;
 
+	bool dead = false;
 	int pickCoinFxId;
 	float gravity;
 	float jumpDistance;

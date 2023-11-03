@@ -10,6 +10,7 @@
 
 #include <math.h>
 #include "SDL_image/include/SDL_image.h"
+#include "SDL2_ttf-2.20.2/include/SDL_ttf.h"
 
 Map::Map() : Module(), mapLoaded(false)
 {

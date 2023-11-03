@@ -28,10 +28,10 @@ Player::Player() : Entity(EntityType::PLAYER)
 	longIdle2.PushBack({ 699,80,100,80 });
 	longIdle2.PushBack({ 399,160,100,80 });
 	longIdle2.PushBack({ 499,160,100,80 });
-	idle.speed = 0.05f;
-	longIdle1.speed = 0.08f;
+	idle.speed = 0.05f/16;
+	longIdle1.speed = 0.08f/16;
 	longIdle1.loop = false;
-	longIdle2.speed = 0.07f;
+	longIdle2.speed = 0.07f/16;
 
 	startRun.PushBack({0,0,80,80});
 	startRun.PushBack({ 80,0,80,80 });
@@ -58,21 +58,21 @@ Player::Player() : Entity(EntityType::PLAYER)
 	playerRun.PushBack({ 320,240,80,80 });
 
 
-	playerRun.speed = 0.1f;
+	playerRun.speed = 0.1f/16;
 	playerRun.loop = true;
 
 	Jump.PushBack({ 0,320,80,100 });
 	Jump.PushBack({ 80,320,80,100 });
 	Jump.PushBack({ 160,320,80,100 });
 	Jump.PushBack({ 240,320,80,100 });
-	Jump.speed = 0.2f;
+	Jump.speed = 0.2f/16;
 	Jump.loop = false;
 
 
 	
 	Fall.PushBack({ 320,320,80,100 });
 	Fall.PushBack({ 400,320,80,100 });
-	Fall.speed = 0.1f;
+	Fall.speed = 0.1f/16;
 	Fall.loop = true;
 
 }
@@ -168,7 +168,8 @@ bool Player::Update(float dt)
 	}
 	if (isJumping == true) 
 	{
-		gravity += 0.5f;
+		// debe de haber algun problema , aqui le restamos a la velocidad en y pero el dt es mas grande cuanto menor los fps y esto hace que cauga menos/ salte mas
+		gravity += 0.05f*dt;
 		
 	}
 
@@ -180,7 +181,7 @@ bool Player::Update(float dt)
 		isJumping = true;
 		Jump.Reset();
 		currentAnim = &Jump;
-		gravity = -0.75f * 16;
+		gravity = -20;
 	}
 	
 	if (gravity >= 0.3f *dt && isJumping == true) 

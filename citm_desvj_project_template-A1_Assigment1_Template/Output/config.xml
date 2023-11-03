@@ -5,7 +5,8 @@
   </app>
 
   <renderer>
-    <vsync value="true"/>
+    <vsync value="false"/>
+	<fps value ="10"/>
   </renderer>
 
   <window>

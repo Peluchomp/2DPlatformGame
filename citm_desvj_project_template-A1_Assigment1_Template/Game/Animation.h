@@ -1,6 +1,7 @@
 #ifndef __ANIMATION_H__
 #define __ANIMATION_H__
 
+#include "App.h"
 #include "SDL/include/SDL_rect.h"
 #define MAX_FRAMES 200
 
@@ -43,7 +44,7 @@ public:
 
 	void Update()
 	{
-		currentFrame += speed;
+		currentFrame += speed*app->dt;
 		if (currentFrame >= totalFrames)
 		{
 			currentFrame = (loop || pingpong) ? 0.0f : totalFrames - 1;

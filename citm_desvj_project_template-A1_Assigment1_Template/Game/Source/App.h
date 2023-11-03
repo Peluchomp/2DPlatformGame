@@ -99,8 +99,9 @@ private:
 	pugi::xml_node configNode;
 
 	uint frames;
+public:
 	float dt;
-
+private:
     // required variables are provided:
 	Timer startupTime;
 	PerfTimer frameTime;
@@ -112,8 +113,8 @@ private:
 
 	float averageFps = 0.0f;
 	uint32 secondsSinceStartup = 0;
-
-	uint32 maxFrameDuration = 16;
+public:
+	uint32 maxFrameDuration;
 
 };
 

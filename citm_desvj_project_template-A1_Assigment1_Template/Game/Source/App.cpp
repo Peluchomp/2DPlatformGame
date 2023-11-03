@@ -49,6 +49,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	// Render last to swap buffer
 	AddModule(render);
 
+	
+	
+
 	LOG("Timer App Constructor: %f", timer.ReadMSec());
 }
 
@@ -79,7 +82,7 @@ bool App::Awake()
 	Timer timer = Timer();
 
 	bool ret = LoadConfig();
-
+	maxFrameDuration = 1000/ configNode.child("renderer").child("fps").attribute("value").as_int();
 	if(ret == true)
 	{
 		title = configNode.child("app").child("title").child_value(); 
@@ -202,6 +205,7 @@ void App::FinishUpdate()
 		lastSecFrameCount = 0;
 	}
 
+	
 
 	// Shows the time measurements in the window title
 	static char title[256];

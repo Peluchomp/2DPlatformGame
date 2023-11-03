@@ -250,10 +250,10 @@ bool Player::Update(float dt)
 		mySpear->started = false;
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_UP) {
+	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_UP || dead == true) {
 		
 		Spawn(0);
-
+		dead = false;
 	}
 	
 	return true;
@@ -292,13 +292,8 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 		case ColliderType::INSTAKILL:
 
-			if (dead == false) {
-				LOG("Player Died of an instakill");
-				
-				Spawn(0);
-				
-			}
-
+			dead = true;
+			break;
 
 		}
 	}

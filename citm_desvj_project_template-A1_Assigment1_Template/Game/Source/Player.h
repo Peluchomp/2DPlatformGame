@@ -70,6 +70,7 @@ public:
 	float delta_x;
 	int mousex;
 	int mousey;
+	bool godMode;
 
 	bool startIdle = false;
 	Timer IdleTimer;

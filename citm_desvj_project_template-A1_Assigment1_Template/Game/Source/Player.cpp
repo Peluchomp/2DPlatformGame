@@ -212,6 +212,30 @@ bool Player::Update(float dt)
 		movementx = speed * dt;
 	}
 
+	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) 
+	{
+		if (godMode == true) 
+		{
+			godMode = false;
+		}
+		else 
+		{
+			godMode = true;
+		}
+
+	}
+	if (godMode == true) 
+	{
+		gravity = 0;
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) {
+			gravity = -10;
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
+			gravity = 10;
+		}
+	}
+
 	b2Vec2 vel = b2Vec2(movementx, gravity);
 	//Set the velocity of the pbody of the player
 	pbody->body->SetLinearVelocity(vel);
@@ -251,7 +275,7 @@ bool Player::Update(float dt)
 		mySpear->started = false;
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_UP || dead == true) {
+	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_UP|| app->input->GetKey(SDL_SCANCODE_F1) == KEY_UP || dead == true && godMode == false) {
 		
 		Spawn(0);
 		dead = false;

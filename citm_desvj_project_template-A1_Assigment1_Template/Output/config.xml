@@ -23,7 +23,7 @@
   </audio>
 
   <scene>
-    <player x="400" y="100" texturepath="Assets/Textures/playerRun.png"/>
+    <player x="100" y="200" texturepath="Assets/Textures/playerRun.png"/>
     <item x="256" y="515" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="416" y="512" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="384" y="352" texturepath="Assets/Textures/goldCoin.png"/>

@@ -75,6 +75,15 @@ Player::Player() : Entity(EntityType::PLAYER)
 	Fall.speed = 0.1f/16;
 	Fall.loop = true;
 
+	spawnFire.PushBack({ 0,417,80,130 });
+	spawnFire.PushBack({ 80,417,80,130 });
+	spawnFire.PushBack({ 160,417,80,130 });
+	spawnFire.PushBack({ 240,417,80,130 });
+	spawnFire.PushBack({ 320,417,80,130 });
+	spawnFire.loop = true;
+	spawnFire.speed = 0.2f / 16;
+
+
 }
 
 Player::~Player() {
@@ -125,137 +134,140 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+	if (spawning == false) {
+		// Reference to the player's speed
+		b2Vec2 Speed = pbody->body->GetLinearVelocity();
+		//-----------Idle Animation Logic---------------//
+		if (currentAnim == &idle && startIdle == false) {
+			startIdle = true;
+			idleState = true;
+			IdleTimer.Start();
+		}
+		if (currentAnim == &idle && startIdle == true && IdleTimer.ReadSec() > 5) {
+			currentAnim = &longIdle1;
 
-	// Reference to the player's speed
-	b2Vec2 Speed = pbody->body->GetLinearVelocity();
-	//-----------Idle Animation Logic---------------//
-	if (currentAnim == &idle && startIdle == false) {
-		startIdle = true;
-		idleState = true;
-		IdleTimer.Start();
-	}
-	if (currentAnim == &idle && startIdle == true && IdleTimer.ReadSec() > 5) {
-		currentAnim = &longIdle1;
-
-	}
-	if (longIdle1.HasFinished()) {
-		currentAnim = &longIdle2;
-		longIdle1.Reset();
-		
-		
-	}
-
-	if (isJumping == false)
-	gravity = 0.3f * dt;
-
-	movementx = 0;
-
-	
-	jumpDistance += 1*dt;
-
-	
-	if (Speed.y > 0 && isGrounded == false) /*Falling*/ {
-		currentAnim = &Fall;
-	}
-
-	if (idleState == true && IdleTimer.ReadSec() < 5 && isGrounded == true) { 
-		currentAnim = &idle;
-	}
-
-	
-	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-		//
-	}
-	if (isJumping == true) 
-	{
-		// debe de haber algun problema , aqui le restamos a la velocidad en y pero el dt es mas grande cuanto menor los fps y esto hace que cauga menos/ salte mas
-		gravity += 0.05f*dt;
-		
-	}
+		}
+		if (longIdle1.HasFinished()) {
+			currentAnim = &longIdle2;
+			longIdle1.Reset();
 
 
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false && isGrounded == true) 
-	{
-		IdleTimer.Start();
-		isGrounded = false;
-		isJumping = true;
-		Jump.Reset();
-		currentAnim = &Jump;
-		gravity = -20;
-	}
-	
-	if (gravity >= 0.3f *dt && isJumping == true) 
-	{
-		isJumping = false;
-	}
-	
-
-	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		
-		IdleTimer.Start();
-		if (isGrounded) {
-			currentAnim = &playerRun;
 		}
 
-		myDir = Direction::LEFT;
-		movementx = -speed * dt;
-	}
+		if (isJumping == false)
+			gravity = 0.3f * dt;
 
-	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		
-		IdleTimer.Start();
-		if (isGrounded) {
-			currentAnim = &playerRun;
+		movementx = 0;
+
+
+		jumpDistance += 1 * dt;
+
+
+		if (Speed.y > 0 && isGrounded == false) /*Falling*/ {
+			currentAnim = &Fall;
 		}
 
-		myDir = Direction::RIGHT;
-		movementx = speed * dt;
-	}
+		if (idleState == true && IdleTimer.ReadSec() < 5 && isGrounded == true) {
+			currentAnim = &idle;
+		}
 
-	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) 
-	{
-		if (godMode == true) 
+
+		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+			//
+		}
+		if (isJumping == true)
 		{
-			godMode = false;
+			// debe de haber algun problema , aqui le restamos a la velocidad en y pero el dt es mas grande cuanto menor los fps y esto hace que cauga menos/ salte mas
+			gravity += 0.05f * dt;
+
 		}
-		else 
+
+
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false && isGrounded == true)
 		{
-			godMode = true;
+			IdleTimer.Start();
+			isGrounded = false;
+			isJumping = true;
+			Jump.Reset();
+			currentAnim = &Jump;
+			gravity = -20;
 		}
 
+		if (gravity >= 0.3f * dt && isJumping == true)
+		{
+			isJumping = false;
+		}
+
+
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+
+			IdleTimer.Start();
+			if (isGrounded) {
+				currentAnim = &playerRun;
+			}
+
+			myDir = Direction::LEFT;
+			movementx = -speed * dt;
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+
+			IdleTimer.Start();
+			if (isGrounded) {
+				currentAnim = &playerRun;
+			}
+
+			myDir = Direction::RIGHT;
+			movementx = speed * dt;
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+		{
+			if (godMode == true)
+			{
+				godMode = false;
+			}
+			else
+			{
+				godMode = true;
+			}
+
+		}
+		if (godMode == true)
+		{
+			gravity = 0;
+			if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) {
+				gravity = -10;
+			}
+
+			if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
+				gravity = 10;
+			}
+		}
 	}
-	if (godMode == true) 
-	{
-		gravity = 0;
-		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) {
-			gravity = -10;
-		}
+		b2Vec2 vel = b2Vec2(movementx, gravity);
+		//Set the velocity of the pbody of the player
+		pbody->body->SetLinearVelocity(vel);
 
-		if (app->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
-			gravity = 10;
-		}
-	}
+		//Update player position in pixels
+		const float32* x = &pbody->body->GetTransform().p.x;
 
-	b2Vec2 vel = b2Vec2(movementx, gravity);
-	//Set the velocity of the pbody of the player
-	pbody->body->SetLinearVelocity(vel);
+		position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) + 10;
+		position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) + 40;
 
-	//Update player position in pixels
-	const float32* x = &pbody->body->GetTransform().p.x;
+		SDL_GetMouseState(&mousex, &mousey);
+		SDL_Point center{ position.x,position.y };
+		SDL_Rect  perim{ position.x,position.y,0,0 };
+		delta_x = position.x - mousex;
+		delta_y = position.y - mousey;
 
-	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) +10;
-	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) +40;
-
-	SDL_GetMouseState(&mousex, &mousey);
-	SDL_Point center{position.x,position.y};
-	SDL_Rect  perim{ position.x,position.y,0,0 };
-	delta_x = position.x - mousex;
-	delta_y = position.y - mousey;
-
-	angle_deg = (atan2(delta_y, delta_x) * 180.0000) / 3.1416;
+		angle_deg = (atan2(delta_y, delta_x) * 180.0000) / 3.1416;
 
 	
 	currentAnim->Update();
+	spawnFire.Update();
+	
+
 
 	if (myDir == Direction::RIGHT) {
 		app->render->DrawTexture(texture, position.x - 16, position.y - 40, false, &currentAnim->GetCurrentFrame());
@@ -279,6 +291,15 @@ bool Player::Update(float dt)
 		
 		Spawn(0);
 		dead = false;
+	}
+
+	if (spawnFire.loopCount > 3) {
+		spawning = false;
+		spawnFire.Reset();
+	}
+	if ((spawning == true)) {
+
+		app->render->DrawTexture(texture, position.x , position.y - 90, false, &spawnFire.GetCurrentFrame());
 	}
 	
 	return true;
@@ -328,6 +349,8 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 void Player::Spawn(int Level) {
 	if (Level == 0) {
 		
+		spawning = true;
+		spawnFire.loopCount = 2;
 		float x = position.x = parameters.attribute("x").as_float();
 		float y = position.y = parameters.attribute("y").as_float();
 		x = PIXEL_TO_METERS(x); y = PIXEL_TO_METERS(y);

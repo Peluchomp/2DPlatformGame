@@ -52,6 +52,12 @@ public:
 	Animation startRun;
 	Animation playerRun;
 
+	//----Spawn-Anim-----//
+	bool spawning = true;
+
+	Animation spawnFire;
+	SDL_Rect SpawnRect = { 0,417, 80,130 };
+
 	Animation Jump;
 	Animation Fall;
 	

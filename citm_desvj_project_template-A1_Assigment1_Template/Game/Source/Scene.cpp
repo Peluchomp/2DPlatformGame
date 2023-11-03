@@ -91,8 +91,7 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
 		isInDebugMode = false;
 	}
-	if (isInDebugMode)
-	{
+	
 		if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 			app->render->camera.y -= (int)ceil(camSpeed * dt);
 
@@ -106,9 +105,8 @@ bool Scene::Update(float dt)
 			app->render->camera.x += (int)ceil(camSpeed * dt);
 
 
-	}
-	else
-	{
+
+	
 		if (player->position.x < app->win->screenSurface->w / 3) {
 			player->position.x = app->win->screenSurface->w / 3;
 		}
@@ -128,8 +126,7 @@ bool Scene::Update(float dt)
 		}
 		app->render->camera.y = -player->position.y;
 
-	}
-
+	
 
 	// Renders the image in the center of the screen 
 	//app->render->DrawTexture(img, (int)textPosX, (int)textPosY);

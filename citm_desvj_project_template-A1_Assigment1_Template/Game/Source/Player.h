@@ -77,6 +77,7 @@ public:
 	int mousex;
 	int mousey;
 	bool godMode;
+	bool fpsCap = true;
 
 	bool startIdle = false;
 	Timer IdleTimer;

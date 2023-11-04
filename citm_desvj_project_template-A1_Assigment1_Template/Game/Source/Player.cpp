@@ -122,9 +122,9 @@ bool Player::Start() {
 	
 	pbody->ctype = ColliderType::PLAYER;
 
-	plegs = app->physics->CreateCircle(position.x + 16, position.y + 30, 10, bodyType::STATIC);
+	/*plegs = app->physics->CreateCircle(position.x + 16, position.y + 30, 10, bodyType::STATIC);
 	plegs->listener = this;
-	plegs->ctype = ColliderType::UNKNOWN;
+	plegs->ctype = ColliderType::UNKNOWN;*/
 	
 	currentAnim = &idle;
 	idleState = true;
@@ -278,7 +278,7 @@ bool Player::Update(float dt)
 		app->render->DrawTexture(texture, position.x - 16, position.y - 40, true, &currentAnim->GetCurrentFrame());
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) 
+	/*if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) 
 	{
 		app->render->DrawTexture(texture, position.x, position.y - 16, false, 0, 0, angle_deg);
 	}
@@ -287,13 +287,27 @@ bool Player::Update(float dt)
 	{
 		mySpear->position = position;
 		mySpear->started = false;
-	}
+	}*/
 
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_UP|| app->input->GetKey(SDL_SCANCODE_F1) == KEY_UP || dead == true && godMode == false) {
 		
 		Spawn(0);
 		dead = false;
 	}
+
+	
+
+	if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN && fpsCap == true)
+	{
+		app->maxFrameDuration = 1000 / 30;
+		fpsCap = false;
+	}
+	else if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN && fpsCap == false)
+	{
+		app->maxFrameDuration = 1000 / 60;
+		fpsCap = true;
+	}
+
 
 	if (spawnFire.loopCount > 3) {
 		spawning = false;

@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
+#include "External/SDL2_ttf-2.20.2/include/SDL_ttf.h"
 
 #define IDLE_SECS 5;
 
@@ -83,7 +84,7 @@ Player::Player() : Entity(EntityType::PLAYER)
 	spawnFire.loop = true;
 	spawnFire.speed = 0.2f / 16;
 
-
+	TTF_Init();
 }
 
 Player::~Player() {
@@ -112,6 +113,7 @@ bool Player::Start() {
 	51, 12
 	};
 
+	
 
 	texture = app->tex->Load(texturePath);
 

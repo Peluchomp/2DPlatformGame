@@ -84,7 +84,7 @@ Player::Player() : Entity(EntityType::PLAYER)
 	spawnFire.loop = true;
 	spawnFire.speed = 0.2f / 16;
 
-	TTF_Init();
+	
 }
 
 Player::~Player() {
@@ -192,7 +192,7 @@ bool Player::Update(float dt)
 			isJumping = true;
 			Jump.Reset();
 			currentAnim = &Jump;
-			gravity = -20;
+			gravity = -17;
 		}
 
 		if (gravity >= 0.3f * dt && isJumping == true)

@@ -38,6 +38,9 @@ bool Scene::Awake(pugi::xml_node& config)
 		player->parameters = config.child("player");
 	}
 
+	const char* musicPath = config.child("level0_music").attribute("path").as_string();
+	if (musicPath != nullptr) { app->audio->PlayMusic(musicPath); }
+
 	//if (config.child("spear")) {
 	//	player->mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
 	//	player->mySpear->parameters = config.child("spear");

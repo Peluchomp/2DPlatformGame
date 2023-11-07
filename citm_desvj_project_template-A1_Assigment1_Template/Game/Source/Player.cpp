@@ -278,7 +278,7 @@ bool Player::Update(float dt)
 		app->render->DrawTexture(texture, position.x - 16, position.y - 40, true, &currentAnim->GetCurrentFrame());
 	}
 
-	/*if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) 
+	/*if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) en vez de w usamos app->input->GetMouseButtonDown(0) == KEY_REPEAT
 	{
 		app->render->DrawTexture(texture, position.x, position.y - 16, false, 0, 0, angle_deg);
 	}

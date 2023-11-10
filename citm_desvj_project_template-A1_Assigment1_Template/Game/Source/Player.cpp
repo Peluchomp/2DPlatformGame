@@ -278,7 +278,7 @@ bool Player::Update(float dt)
 		app->render->DrawTexture(texture, position.x - 16, position.y - 40, true, &currentAnim->GetCurrentFrame());
 	}
 
-	/*if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) en vez de w usamos app->input->GetMouseButtonDown(0) == KEY_REPEAT
+	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) //en vez de w usamos app->input->GetMouseButtonDown(0) == KEY_REPEAT
 	{
 		app->render->DrawTexture(texture, position.x, position.y - 16, false, 0, 0, angle_deg);
 	}
@@ -287,7 +287,7 @@ bool Player::Update(float dt)
 	{
 		mySpear->position = position;
 		mySpear->started = false;
-	}*/
+	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_UP|| app->input->GetKey(SDL_SCANCODE_F1) == KEY_UP || dead == true && godMode == false) {
 		
@@ -300,6 +300,7 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN && fpsCap == true)
 	{
 		app->maxFrameDuration = 1000 / 30;
+		app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
 		fpsCap = false;
 	}
 	else if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN && fpsCap == false)
@@ -342,6 +343,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 				isJumping = false;
 			Fall.Reset();
 			isGrounded = true;
+			
 			LOG("Collision PLATFORM");
 			break;
 		case ColliderType::SPEAR:
@@ -358,6 +360,10 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			break;
 
 		}
+	}
+
+	if (physA == mySpear->pbody && physB->ctype == ColliderType::PLAYER) {
+
 	}
 }
 

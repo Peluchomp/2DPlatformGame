@@ -26,6 +26,8 @@ public:
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
 
+	void SpawnPlatform();
+
 public:
 
 	bool isPicked = false;
@@ -33,11 +35,14 @@ public:
 	int x;
 	int y;
 	bool started = true;
+	PhysBody* pbody;
+	PhysBody* ThePlatform;
+	bool platform = false;
 private:
 
 	SDL_Texture* texture;
 	const char* texturePath;
-	PhysBody* pbody;
+
 
 	
 	float angle;

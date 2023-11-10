@@ -29,8 +29,11 @@ bool Spear::Start() {
 	texture = app->tex->Load(texturePath);
 
 
-	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
+	pbody = app->physics->CreateRectangle(position.x + 16, position.y + 16,40 , 16,bodyType::DYNAMIC);
 	pbody->ctype = ColliderType::SPEAR;
+	pbody->listener = this;
+	ThePlatform = app->physics->CreateRectangle(position.x + 16, position.y + 16, 40, 16, bodyType::STATIC);
+	ThePlatform->ctype = ColliderType::PLATFORM;
 	return true;
 }
 bool Spear::PreUpdate(float dt) 
@@ -44,11 +47,11 @@ bool Spear::Update(float dt)
 	
 	b2Vec2 vel;
 
-
+	pbody->body->SetTransform(pbody->body->GetPosition(), angle);
 	if (started == false) 
 	{
 	
-		pbody->body->SetTransform(app->scene->player->pbody->body->GetPosition(), angle);
+		pbody->body->SetTransform(app->scene->player->pbody->body->GetPosition(), angle+270);
 		
 		angle = app->scene->player->angle_deg;
 		
@@ -62,7 +65,7 @@ bool Spear::Update(float dt)
 		pbody->body->SetLinearVelocity(-vel);
 	}
 
-	pbody->body->GetFixtureList()->SetSensor(false);
+	
 	
 	pbody->body->SetGravityScale(0);
 
@@ -88,7 +91,15 @@ bool Spear::Update(float dt)
 		started = true;
 		pbody->body->GetFixtureList()->SetSensor(true);
 	}
+	
+	if (platform == true) 
+	{
+		b2Vec2 positiondissapera = b2Vec2(-100,-100);
+		ThePlatform->body->SetTransform(pbody->body->GetPosition(),0);
+		pbody->body->SetTransform(positiondissapera, angle + 270);
+		platform = false;
 
+	}
 
 	app->render->DrawTexture(texture, position.x, position.y, false, 0,0,angle + 270);
 
@@ -110,7 +121,8 @@ void Spear::OnCollision(PhysBody* physA, PhysBody* physB) {
 		
 		break;
 	case ColliderType::PLATFORM:
-		
+		pbody->body->GetFixtureList()->SetSensor(false);
+		platform = true;
 		LOG("Collision PLATFORM");
 		break;
 	case ColliderType::PLAYER:
@@ -122,3 +134,5 @@ void Spear::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	}
 }
+
+

@@ -69,6 +69,66 @@ Player::Player() : Entity(EntityType::PLAYER)
 	Jump.speed = 0.2f/16;
 	Jump.loop = false;
 
+	epicSpawn.speed = 0.13f / 16;
+	epicSpawn.loop = false;
+	epicSpawn.PushBack({ 1,548,112,144 });
+	epicSpawn.PushBack({ 115,548,112,144 });
+	epicSpawn.PushBack({ 229,548,112,144 });
+	epicSpawn.PushBack({ 343,548,112,144 });
+	epicSpawn.PushBack({ 457,548,112,144 });
+	epicSpawn.PushBack({ 571,548,112,144 });
+	epicSpawn.PushBack({ 685,548,112,144 });
+	epicSpawn.PushBack({ 799,548,112,144 });
+	epicSpawn.PushBack({ 913,548,112,144 });
+	epicSpawn.PushBack({ 1027,548,112,144 });
+
+	epicSpawn.PushBack({ 1,  839,112,144 });
+	epicSpawn.PushBack({ 115,839,112,144 });
+	epicSpawn.PushBack({ 229,839,112,144 });
+	epicSpawn.PushBack({ 343,839,112,144 });
+	epicSpawn.PushBack({ 457,839,112,144 });
+	epicSpawn.PushBack({ 571,839,112,144 });
+	epicSpawn.PushBack({ 685,839,112,144 });
+	epicSpawn.PushBack({ 799,839,112,144 });
+	epicSpawn.PushBack({ 913,839,112,144 });
+	epicSpawn.PushBack({ 1027,839,112,144 });
+
+	epicSpawn.PushBack({ 1,  984,112,144 });
+	epicSpawn.PushBack({ 115,984,112,144 });
+	epicSpawn.PushBack({ 229,984,112,144 });
+	epicSpawn.PushBack({ 343,984,112,144 });
+	epicSpawn.PushBack({ 457,984,112,144 });
+	epicSpawn.PushBack({ 571,984,112,144 });
+	epicSpawn.PushBack({ 685,984,112,144 });
+	epicSpawn.PushBack({ 799,984,112,144 });
+	epicSpawn.PushBack({ 913,984,112,144 });
+	epicSpawn.PushBack({ 1027,984,112,144 });
+
+	quickSpawn.speed = 0.18f / 16;
+	quickSpawn.loop = false;
+     /*quickSpawn.PushBack({ 799,548,112,144 });
+     quickSpawn.PushBack({ 913,548,112,144 });
+     quickSpawn.PushBack({ 1027,548,112,144 });
+     quickSpawn.PushBack({ 1,  839,112,144 });*/
+     quickSpawn.PushBack({ 115,839,112,144 });
+     quickSpawn.PushBack({ 229,839,112,144 });
+     quickSpawn.PushBack({ 343,839,112,144 });
+     quickSpawn.PushBack({ 457,839,112,144 });
+     quickSpawn.PushBack({ 571,839,112,144 });
+     quickSpawn.PushBack({ 685,839,112,144 });
+     quickSpawn.PushBack({ 799,839,112,144 });
+     quickSpawn.PushBack({ 913,839,112,144 });
+     quickSpawn.PushBack({ 1027,839,112,144 });
+     quickSpawn.PushBack({ 1,  984,112,144 });
+     quickSpawn.PushBack({ 115,984,112,144 });
+     quickSpawn.PushBack({ 229,984,112,144 });
+     quickSpawn.PushBack({ 343,984,112,144 });
+     quickSpawn.PushBack({ 457,984,112,144 });
+     quickSpawn.PushBack({ 571,984,112,144 });
+     quickSpawn.PushBack({ 685,984,112,144 });
+     quickSpawn.PushBack({ 799,984,112,144 });
+     quickSpawn.PushBack({ 913,984,112,144 });
+     quickSpawn.PushBack({ 1027,984,112,144 });
 
 	
 	Fall.PushBack({ 320,320,80,100 });
@@ -126,8 +186,9 @@ bool Player::Start() {
 	plegs->listener = this;
 	plegs->ctype = ColliderType::UNKNOWN;*/
 	
-	currentAnim = &idle;
-	idleState = true;
+	currentAnim = &epicSpawn;
+	currentSpawnAnim = &epicSpawn;
+	//idleState = true;
 
 	//pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 
@@ -136,6 +197,16 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+	
+	if (currentSpawnAnim->HasFinished()) {
+		epicSpawn.Reset();
+		spawning = false;
+		idleState = true;
+		quickSpawn.Reset();
+		currentSpawnAnim = &quickSpawn;
+	}
+
+
 	if (spawning == false) {
 		// Reference to the player's speed
 		b2Vec2 Speed = pbody->body->GetLinearVelocity();
@@ -272,10 +343,12 @@ bool Player::Update(float dt)
 
 
 	if (myDir == Direction::RIGHT) {
-		app->render->DrawTexture(texture, position.x - 16, position.y - 40, false, &currentAnim->GetCurrentFrame());
+		if(spawning){ app->render->DrawTexture(texture, position.x , position.y - 100, false, &currentAnim->GetCurrentFrame()); }
+		else { app->render->DrawTexture(texture, position.x - 16, position.y - 40, false, &currentAnim->GetCurrentFrame()); }
 	}
 	else {
-		app->render->DrawTexture(texture, position.x - 16, position.y - 40, true, &currentAnim->GetCurrentFrame());
+		if (spawning) { app->render->DrawTexture(texture, position.x, position.y - 100, false, &currentAnim->GetCurrentFrame()); }
+		else { app->render->DrawTexture(texture, position.x - 16, position.y - 40, true, &currentAnim->GetCurrentFrame()); }
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) //en vez de w usamos app->input->GetMouseButtonDown(0) == KEY_REPEAT
@@ -310,13 +383,14 @@ bool Player::Update(float dt)
 	}
 
 
-	if (spawnFire.loopCount > 3) {
+	/*if (spawnFire.loopCount > 3) {
 		spawning = false;
 		spawnFire.Reset();
-	}
+	}*/
 	if ((spawning == true)) {
 
-		app->render->DrawTexture(texture, position.x , position.y - 90, false, &spawnFire.GetCurrentFrame());
+		currentAnim = currentSpawnAnim;
+		//app->render->DrawTexture(texture, position.x , position.y - 90, false, &spawnFire.GetCurrentFrame());
 	}
 	
 	return true;

@@ -51,6 +51,10 @@ public:
 	Animation longIdle2;
 	Animation startRun;
 	Animation playerRun;
+	Animation epicSpawn;
+	Animation quickSpawn;
+
+	Animation* currentSpawnAnim;
 
 	//----Spawn-Anim-----//
 	bool spawning = true;

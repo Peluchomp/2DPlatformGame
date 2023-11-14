@@ -38,6 +38,7 @@ public:
 	PhysBody* pbody;
 	PhysBody* ThePlatform;
 	bool platform = false;
+	bool daPlatform = false;
 private:
 
 	SDL_Texture* texture;

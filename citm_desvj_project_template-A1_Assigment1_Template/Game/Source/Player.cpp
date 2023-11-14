@@ -331,8 +331,8 @@ bool Player::Update(float dt)
 		SDL_GetMouseState(&mousex, &mousey);
 		SDL_Point center{ position.x,position.y };
 		SDL_Rect  perim{ position.x,position.y,0,0 };
-		delta_x = position.x - mousex;
-		delta_y = position.y - mousey;
+		delta_x = pbody->body->GetTransform().p.x - mousex + app->render->camera.x;
+		delta_y = pbody->body->GetTransform().p.y - mousey + app->render->camera.y;
 
 		angle_deg = (atan2(delta_y, delta_x) * 180.0000) / 3.1416;
 
@@ -358,8 +358,17 @@ bool Player::Update(float dt)
 	
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_UP) 
 	{
-		mySpear->position = position;
-		mySpear->started = false;
+		if (mySpear->daPlatform == true) {
+			mySpear->position = position;
+			mySpear->started = false;
+			mySpear->daPlatform = false;
+		}
+		else {
+			b2Vec2 positiondissapera = b2Vec2(-100, -100);
+			mySpear->ThePlatform->body->SetTransform(positiondissapera, 0);
+			mySpear->daPlatform = true;
+		}
+
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_UP|| app->input->GetKey(SDL_SCANCODE_F1) == KEY_UP || dead == true && godMode == false) {

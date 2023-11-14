@@ -130,6 +130,20 @@ Player::Player() : Entity(EntityType::PLAYER)
      quickSpawn.PushBack({ 913,984,112,144 });
      quickSpawn.PushBack({ 1027,984,112,144 });
 
+	 groundAttack.PushBack({ 582,242,138,88 });
+	 groundAttack.PushBack({ 722,242,138,88 });
+	 groundAttack.PushBack({ 862,242,138,88 });
+	 groundAttack.PushBack({ 1002,242,138,88 });
+	 groundAttack.PushBack({ 722,331,138,88 });
+	 groundAttack.PushBack({ 862,331,138,88 });
+	 groundAttack.PushBack({ 1002,331,138,88 });
+	
+	 
+	 groundAttack.loop = false;
+	 groundAttack.speed = 0.14f / 16;
+	 groundAttack.opportunityFrame = 2;
+	 groundAttack.opportunityKey = SDL_SCANCODE_M;
+
 	
 	Fall.PushBack({ 320,320,80,100 });
 	Fall.PushBack({ 400,320,80,100 });
@@ -293,6 +307,20 @@ bool Player::Update(float dt)
 			myDir = Direction::RIGHT;
 			movementx = speed * dt;
 		}
+
+		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && isGrounded) {
+
+			idleState = false;
+			currentAnim = &groundAttack;
+			
+		}
+		if (groundAttack.HasFinished()) {
+			groundAttack.Reset();
+			idleState = true;
+			IdleTimer.Start();
+			currentAnim = &idle;
+		}
+
 
 		if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		{

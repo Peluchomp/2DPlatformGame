@@ -53,6 +53,7 @@ public:
 	Animation playerRun;
 	Animation epicSpawn;
 	Animation quickSpawn;
+	Animation groundAttack;
 
 	Animation* currentSpawnAnim;
 

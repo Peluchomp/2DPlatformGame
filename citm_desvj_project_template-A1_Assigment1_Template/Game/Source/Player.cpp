@@ -17,40 +17,37 @@ Player::Player() : Entity(EntityType::PLAYER)
 {
 	name.Create("Player");
 	
-	// idle sprites are 100x80
-	idle.PushBack({ 396,0,100,80 });
-	idle.PushBack({ 496,0,100,80 });
+	// all sprites are 138x88
+	idle.PushBack({ 696,1,138,88 });
+	idle.PushBack({ 835,1,138,88 });
 
-	longIdle1.PushBack({599,0,100,80});
-	longIdle1.PushBack({ 699,0,100,80 });
-	longIdle1.PushBack({ 399,80,100,80 });
-	longIdle2.PushBack({ 499,80,100,80 });
-	longIdle2.PushBack({ 599,80,100,80 });
-	longIdle2.PushBack({ 699,80,100,80 });
-	longIdle2.PushBack({ 399,160,100,80 });
-	longIdle2.PushBack({ 499,160,100,80 });
+	longIdle1.PushBack({ 974,1,138,88});
+	longIdle1.PushBack({ 1113,1,138,88 });
+	longIdle1.PushBack({ 1252,1,138,88 });
+	longIdle2.PushBack({ 696,90,138,88 });
+	longIdle2.PushBack({ 835,90,138,88 });
+	longIdle2.PushBack({ 974,90,138,88 });
+	longIdle2.PushBack({ 1113,90,138,88 });
+	longIdle2.PushBack({ 1252,90,138,88 });
 	idle.speed = 0.05f/16;
 	longIdle1.speed = 0.08f/16;
 	longIdle1.loop = false;
 	longIdle2.speed = 0.07f/16;
 
-	startRun.PushBack({0,0,80,80});
-	startRun.PushBack({ 80,0,80,80 });
-	startRun.PushBack({ 160,0,80,80 });
-	startRun.PushBack({ 240,0,80,80 });
-	startRun.PushBack({ 320,0,80,80 });
+	longRun.PushBack({ 1  ,1,138,88 });
+	longRun.PushBack({ 140,1,138,88 });
+	longRun.PushBack({ 418,1,138,88 });
+	longRun.PushBack({ 557,1,138,88 });
+
+	longRun.PushBack({ 1  ,90,138,88 });
+	longRun.PushBack({ 140,90,138,88 });
+	longRun.PushBack({ 418,90,138,88 });
+	longRun.PushBack({ 557,90,138,88 });
+
+	longRun.PushBack({ 1  ,179,138,88 });
+	longRun.PushBack({ 140,179,138,88 });
+	longRun.speed = 0.16f / 16;
 	
-	startRun.PushBack({ 0,80,80,80 });
-	startRun.PushBack({ 80,80,80,80 });
-	startRun.PushBack({ 160,80,80,80 });
-	startRun.PushBack({ 240,80,80,80 });
-	startRun.PushBack({ 320,80,80,80 });
-	
-	startRun.PushBack({ 0,160,80,80 });
-	startRun.PushBack({ 80,160,80,80 });
-	startRun.PushBack({ 160,160,80,80 });
-	startRun.PushBack({ 240,160,80,80 });
-	playerRun.PushBack({ 320,160,80,80 });
 
 	playerRun.PushBack({ 0,240,80,80 });
 	playerRun.PushBack({ 80,240,80,80 });
@@ -59,13 +56,13 @@ Player::Player() : Entity(EntityType::PLAYER)
 	playerRun.PushBack({ 320,240,80,80 });
 
 
-	playerRun.speed = 0.1f/16;
+	playerRun.speed = 0.3f/16;
 	playerRun.loop = true;
 
-	Jump.PushBack({ 0,320,80,100 });
-	Jump.PushBack({ 80,320,80,100 });
-	Jump.PushBack({ 160,320,80,100 });
-	Jump.PushBack({ 240,320,80,100 });
+	Jump.PushBack({ 1,1,138,88});
+	Jump.PushBack({ 1,268,138,88 });
+	Jump.PushBack({ 140,268,138,88 });
+	Jump.PushBack({ 279,268,138,88 });
 	Jump.speed = 0.2f/16;
 	Jump.loop = false;
 
@@ -145,8 +142,8 @@ Player::Player() : Entity(EntityType::PLAYER)
 	 groundAttack.opportunityKey = SDL_SCANCODE_M;
 
 	
-	Fall.PushBack({ 320,320,80,100 });
-	Fall.PushBack({ 400,320,80,100 });
+	Fall.PushBack({ 418,268,138,88 });
+	Fall.PushBack({ 418,357,138,88 });
 	Fall.speed = 0.1f/16;
 	Fall.loop = true;
 
@@ -290,7 +287,7 @@ bool Player::Update(float dt)
 
 			IdleTimer.Start();
 			if (isGrounded) {
-				currentAnim = &playerRun;
+				currentAnim = &longRun;
 			}
 
 			myDir = Direction::LEFT;
@@ -301,7 +298,7 @@ bool Player::Update(float dt)
 
 			IdleTimer.Start();
 			if (isGrounded) {
-				currentAnim = &playerRun;
+				currentAnim = &longRun;
 			}
 
 			myDir = Direction::RIGHT;

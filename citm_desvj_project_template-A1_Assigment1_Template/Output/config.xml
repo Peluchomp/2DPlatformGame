@@ -24,7 +24,7 @@
   </audio>
 
   <scene>
-    <player x="100" y="200" texturepath="Assets/Textures/playerRun.png"/>
+    <player x="100" y="200" texturepath="Assets/Textures/playerSheet.png"/>
     <spear x= "0" y ="0"  texturepath="Assets/Textures/spears.png"/>
 	<level0_music path ="Audio/LichYard.wav"/>
   </scene>

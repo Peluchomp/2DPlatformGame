@@ -49,7 +49,7 @@ public:
 	Animation idle;
 	Animation longIdle1;
 	Animation longIdle2;
-	Animation startRun;
+	Animation longRun;
 	Animation playerRun;
 	Animation epicSpawn;
 	Animation quickSpawn;

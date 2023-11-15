@@ -30,15 +30,16 @@ public:
 
 public:
 
-	bool isPicked = false;
-
+	bool isPicked = true;
+	bool isSticked = false;
 	int x;
 	int y;
 	bool started = true;
 	PhysBody* pbody;
 	PhysBody* ThePlatform;
 	bool platform = false;
-	bool daPlatform = true;
+	bool daPlatform = false;
+	bool isThrown = false;
 private:
 
 	SDL_Texture* texture;

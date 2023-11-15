@@ -107,11 +107,17 @@ bool Spear::Update(float dt)
 		b2Vec2 positiondissapera = b2Vec2(-100,-100);
 		ThePlatform->body->SetTransform(pbody->body->GetPosition(),0);
 		pbody->body->SetTransform(positiondissapera, angle + 270);
-	
+		isSticked = true;
 		platform = false;
 
 	}
-
+	if (app->scene->player->position.x - position.x == 0 && app->scene->player->position.y - position.y == 0 && daPlatform == true)
+	{
+ 		isPicked = true;
+		b2Vec2 positiondissapera = b2Vec2(-100, -100);
+		pbody->body->SetTransform(positiondissapera, angle + 270);
+		daPlatform = false;
+	}
 
 
 	app->render->DrawTexture(texture, position.x, position.y, false, 0,0,angle + 270);
@@ -143,6 +149,8 @@ void Spear::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision PLATFORM");
 		break;
 	case ColliderType::PLAYER:
+
+		
 		pbody->body->GetFixtureList()->SetSensor(true);
 		LOG("Collision SPEAR");
 		break;

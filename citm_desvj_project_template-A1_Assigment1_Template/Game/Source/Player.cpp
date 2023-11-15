@@ -270,7 +270,7 @@ bool Player::Update(float dt)
 		}
 
 
-		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false && isGrounded == true)
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false && isGrounded == true && pbody->body->GetLinearVelocity().y == 0)
 		{
 			IdleTimer.Start();
 			isGrounded = false;
@@ -393,8 +393,10 @@ bool Player::Update(float dt)
 		}
 		else {
 			b2Vec2 positiondissapera = b2Vec2(-100, -100);
+			mySpear->pbody->body->SetTransform(mySpear->pbody->body->GetPosition(),0);
 			mySpear->ThePlatform->body->SetTransform(positiondissapera, 0);
 			mySpear->daPlatform = true;
+
 		}
 
 	}

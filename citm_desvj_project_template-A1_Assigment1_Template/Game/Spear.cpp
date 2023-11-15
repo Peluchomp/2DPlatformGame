@@ -65,7 +65,17 @@ bool Spear::Update(float dt)
 		pbody->body->SetLinearVelocity(-vel);
 	}
 
-	
+	if (daPlatform == true) {
+		pbody->body->GetFixtureList()->SetSensor(true);
+
+		vel.x = app->scene->player->position.x-position.x;
+		vel.y = app->scene->player->position.y - position.y;
+		vel.Normalize();
+		vel.x *= dt / 2;
+		vel.y *= dt / 2;
+
+		pbody->body->SetLinearVelocity(vel);
+	}
 	
 	pbody->body->SetGravityScale(0);
 
@@ -124,7 +134,7 @@ void Spear::OnCollision(PhysBody* physA, PhysBody* physB) {
 		
 		break;
 	case ColliderType::PLATFORM:
-		if (physA != ThePlatform || physB != ThePlatform) {
+		if (physA != ThePlatform && daPlatform == false || physB != ThePlatform && daPlatform == false) {
 			pbody->body->GetFixtureList()->SetSensor(false);
 			platform = true;
 

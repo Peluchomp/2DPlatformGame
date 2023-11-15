@@ -30,8 +30,8 @@ public:
 
 public:
 
-	bool isPicked = false;
-
+	bool isPicked = true;
+	bool isSticked = false;
 	int x;
 	int y;
 	bool started = true;
@@ -39,6 +39,7 @@ public:
 	PhysBody* ThePlatform;
 	bool platform = false;
 	bool daPlatform = false;
+	bool isThrown = false;
 private:
 
 	SDL_Texture* texture;

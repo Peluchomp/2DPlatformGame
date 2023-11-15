@@ -10,6 +10,7 @@ to avoid the holes to get to the end of the level. (More information on GDD)
  - Debug
  - Movement
  - Animations
+ - WallJump (provisional)
  
 ## Controls
 

@@ -270,7 +270,7 @@ bool Player::Update(float dt)
 		}
 
 
-		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false && isGrounded == true)
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false && isGrounded == true && pbody->body->GetLinearVelocity().y == 0)
 		{
 			IdleTimer.Start();
 			isGrounded = false;
@@ -379,22 +379,28 @@ bool Player::Update(float dt)
 		else { app->render->DrawTexture(texture, position.x - 16, position.y - 40, true, &currentAnim->GetCurrentFrame()); }
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) //en vez de w usamos app->input->GetMouseButtonDown(0) == KEY_REPEAT
+	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && mySpear->isPicked == true) //en vez de w usamos app->input->GetMouseButtonDown(0) == KEY_REPEAT
 	{
-		app->render->DrawTexture(texture, position.x, position.y - 16, false, 0, 0, angle_deg);
+		app->render->DrawTexture(texture, pbody->body->GetTransform().p.x, pbody->body->GetTransform().p.y - 16, false, 0, 0, angle_deg);
 	}
 	
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_UP) 
 	{
-		if (mySpear->daPlatform == true) {
+		if (mySpear->isPicked == true ) {
 			mySpear->position = position;
 			mySpear->started = false;
 			mySpear->daPlatform = false;
+			mySpear->isPicked = false;
+			mySpear->isSticked = false;
 		}
-		else {
+		else if (mySpear->isPicked == false && mySpear->isSticked == true){
+			
 			b2Vec2 positiondissapera = b2Vec2(-100, -100);
+			b2Vec2 positionThePlatform = b2Vec2(mySpear->ThePlatform->body->GetTransform().p.x, mySpear->ThePlatform->body->GetTransform().p.y);
+			mySpear->pbody->body->SetTransform(positionThePlatform, 0);
 			mySpear->ThePlatform->body->SetTransform(positiondissapera, 0);
 			mySpear->daPlatform = true;
+			mySpear->isSticked = false;
 		}
 
 	}
@@ -458,7 +464,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			LOG("Collision PLATFORM");
 			break;
 		case ColliderType::SPEAR:
-
+	
 			LOG("Collision SPEAR");
 			break;
 		case ColliderType::UNKNOWN:

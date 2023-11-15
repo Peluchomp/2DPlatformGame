@@ -18,6 +18,10 @@ public:
 	int loopCount = 0;
 	float opportunityWindow = 0.3f;
 	int opportunityFrame = 100;
+	SDL_Rect opportunityFrames[MAX_FRAMES];
+	
+	SDL_Rect* currentOpportunity = nullptr;
+
 	bool opportunity = false;
 	
 	SDL_Scancode opportunityKey;
@@ -26,6 +30,10 @@ private:
 	Timer opportunityTimer;
 	bool timerStarted = false;
 	bool missedOpportunity = false;
+
+	int numOpportunities = 0;
+
+	int opportunityIndex = 0;
 
 	float currentFrame = 0.0f;
 	int totalFrames = 0;
@@ -36,10 +44,18 @@ private:
 
 public:
 
-	void PushBack(const SDL_Rect& rect, bool mirror = false)
+	void PushBack(const SDL_Rect& rect, bool opportunit = false, bool mirror = false)
 	{
 		frames[totalFrames++] = rect;
 		this->mirror = mirror;
+
+		if (opportunit == true) {
+			
+			opportunityFrames[opportunityIndex] = rect;
+			currentOpportunity = &opportunityFrames[0];
+			opportunityIndex++;
+			
+		}
 	}
 
 
@@ -66,10 +82,24 @@ public:
 		}
 	}
 
+	bool sameRect(SDL_Rect r1, SDL_Rect r2) {
+		if (r1.x == r2.x && r1.y == r2.y && r1.w == r2.w && r1.h == r2.h) {
+			return true;
+		}
+		else { return false; }
+	}
+
 	void Update()
 	{
-		if (((int)currentFrame <= opportunityFrame) || opportunity == true) { 
+		SDL_Rect r2 = { -1,-1,-1,-1 };
+		if (currentOpportunity != nullptr) {
+			r2 = *currentOpportunity; 
+		}
+		SDL_Rect r = GetCurrentFrame();
+		
+		if (sameRect(r,r2) == false || opportunity == true) {
 			currentFrame += speed * app->dt; 
+			opportunity = false;
 		}
 		else if(timerStarted == false) {
 			opportunityTimer.Start();
@@ -85,9 +115,12 @@ public:
 				pingpongDirection = -pingpongDirection;
 		}
 
-		if (app->input->GetKey(opportunityKey) == KEY_DOWN && (int)currentFrame >= opportunityFrame && opportunity==false) {
+		if (app->input->GetKey(opportunityKey) == KEY_DOWN && sameRect(r,r2) == true && opportunity==false) {
 
 			opportunity = true; // The combo to proceed to the 2nd part of the animation has been succefully performed
+			numOpportunities++;
+			currentOpportunity = &opportunityFrames[numOpportunities];
+			opportunityTimer.Start();
 		}
 
 		if (timerStarted && opportunityTimer.ReadMSec() >= opportunityWindow * 1000 && opportunity == false) /*The player has missed the opportunity for a combo*/ {
@@ -101,7 +134,7 @@ public:
 		return mirror;
 	}
 
-	const SDL_Rect& GetCurrentFrame() const
+	SDL_Rect& GetCurrentFrame() 
 	{
 		int actualFrame = currentFrame;
 		if (pingpongDirection == -1)

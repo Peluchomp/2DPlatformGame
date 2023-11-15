@@ -130,10 +130,16 @@ Player::Player() : Entity(EntityType::PLAYER)
 	 groundAttack.PushBack({ 582,242,138,88 });
 	 groundAttack.PushBack({ 722,242,138,88 });
 	 groundAttack.PushBack({ 862,242,138,88 });
-	 groundAttack.PushBack({ 1002,242,138,88 });
+	 groundAttack.PushBack({ 1002,242,138,88, },true);
 	 groundAttack.PushBack({ 722,331,138,88 });
-	 groundAttack.PushBack({ 862,331,138,88 });
-	 groundAttack.PushBack({ 1002,331,138,88 });
+	 groundAttack.PushBack({ 722,331,138,88 });
+	 groundAttack.PushBack({ 862,331,138,88 }, true);
+	 groundAttack.PushBack({ 582,420,138,88 });
+	 groundAttack.PushBack({ 722,420,138,88 });
+	 groundAttack.PushBack({ 862,420,138,88 });
+	 groundAttack.PushBack({ 1002,420,138,88 });
+	 groundAttack.PushBack({ 1142,420,138,88 });
+	 groundAttack.PushBack({ 1282,420,138,88 });
 	
 	 
 	 groundAttack.loop = false;

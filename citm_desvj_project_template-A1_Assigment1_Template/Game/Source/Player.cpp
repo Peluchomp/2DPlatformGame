@@ -158,7 +158,7 @@ Player::Player() : Entity(EntityType::PLAYER)
 	 airAttack.PushBack({ 1282, 687, 138, 88 });
 	 airAttack.PushBack({ 1422, 687, 138, 88 });
 	 airAttack.loop = false;
-	 airAttack.speed = 0.18f / 16;
+	 airAttack.speed = 0.19f / 16;
 	 airAttack.opportunityKey = SDL_SCANCODE_M;
 	 airAttack.opportunityWindow = 0.15f;
 	 airAttack.opportunityFrame = 2;
@@ -260,9 +260,13 @@ bool Player::Update(float dt)
 
 		}
 
-		if (isJumping == false)
+		if (isJumping == false) {
 			gravity = 0.3f * dt;
 
+			if (Attacking && !isGrounded) {
+				gravity = 0.1f * dt;
+			}
+		}
 		movementx = 0;
 
 
@@ -305,7 +309,7 @@ bool Player::Update(float dt)
 		}
 
 
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !(Attacking && isGrounded)) {
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !(Attacking)) {
 
 			IdleTimer.Start();
 			if (isGrounded) {
@@ -316,7 +320,7 @@ bool Player::Update(float dt)
 			movementx = -speed * dt;
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !(Attacking && isGrounded)) /*Ypu can move as long as youre not attacking on the ground*/ {
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !(Attacking)) /*Ypu can move as long as youre not attacking on the ground*/ {
 
 			IdleTimer.Start();
 			if (isGrounded) {
@@ -335,15 +339,7 @@ bool Player::Update(float dt)
 		}
 		else if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && isGrounded == false) {
 			idleState = false;
-			b2Vec2 upForce(0, 300);
-
-			// Assuming the player's body is rectangular and the center is at the bottom
-			b2Vec2 point(pbody->body->GetPosition().x, pbody->body->GetPosition().y - 80 / 2.0f);
-
-			if (currentAnim != &airAttack && !isJumping) {
- 				gravity -= 60;
-			
-			}
+		
 
 			currentAnim = &airAttack;
 			Attacking = true;

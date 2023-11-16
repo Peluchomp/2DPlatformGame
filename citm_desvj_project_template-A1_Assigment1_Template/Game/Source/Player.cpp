@@ -146,6 +146,22 @@ Player::Player() : Entity(EntityType::PLAYER)
 	 groundAttack.speed = 0.16f / 16;
 	 groundAttack.opportunityFrame = 2;
 	 groundAttack.opportunityKey = SDL_SCANCODE_M;
+	 groundAttack.opportunityWindow = 0.2f;
+
+
+	 airAttack.PushBack({ 1142, 509, 138, 88 });
+	 airAttack.PushBack({ 1282, 509, 138, 88 });
+	 airAttack.PushBack({ 1142, 598, 138, 88 });
+	 airAttack.PushBack({ 1282, 598, 138, 88 });
+	 airAttack.PushBack({ 1422, 598, 138, 88 },true);
+	 airAttack.PushBack({ 1142, 687, 138, 88 });
+	 airAttack.PushBack({ 1282, 687, 138, 88 });
+	 airAttack.PushBack({ 1422, 687, 138, 88 });
+	 airAttack.loop = false;
+	 airAttack.speed = 0.18f / 16;
+	 airAttack.opportunityKey = SDL_SCANCODE_M;
+	 airAttack.opportunityWindow = 0.15f;
+	 airAttack.opportunityFrame = 2;
 
 	
 	Fall.PushBack({ 418,268,138,88 });
@@ -253,7 +269,7 @@ bool Player::Update(float dt)
 		jumpDistance += 1 * dt;
 
 
-		if (Speed.y > 0 && isGrounded == false) /*Falling*/ {
+		if (Speed.y > 0 && isGrounded == false && !Attacking) /*Falling*/ {
 			currentAnim = &Fall;
 		}
 
@@ -289,7 +305,7 @@ bool Player::Update(float dt)
 		}
 
 
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !(Attacking && isGrounded)) {
 
 			IdleTimer.Start();
 			if (isGrounded) {
@@ -300,7 +316,7 @@ bool Player::Update(float dt)
 			movementx = -speed * dt;
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !(Attacking && isGrounded)) /*Ypu can move as long as youre not attacking on the ground*/ {
 
 			IdleTimer.Start();
 			if (isGrounded) {
@@ -312,16 +328,39 @@ bool Player::Update(float dt)
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && isGrounded) {
-
+			
 			idleState = false;
 			currentAnim = &groundAttack;
+			Attacking = true;
+		}
+		else if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && isGrounded == false) {
+			idleState = false;
+			b2Vec2 upForce(0, 300);
+
+			// Assuming the player's body is rectangular and the center is at the bottom
+			b2Vec2 point(pbody->body->GetPosition().x, pbody->body->GetPosition().y - 80 / 2.0f);
+
+			if (currentAnim != &airAttack && !isJumping) {
+ 				gravity -= 60;
 			
+			}
+
+			currentAnim = &airAttack;
+			Attacking = true;
 		}
 		if (groundAttack.HasFinished()) {
 			groundAttack.Reset();
 			idleState = true;
 			IdleTimer.Start();
 			currentAnim = &idle;
+			Attacking = false;
+		}
+		if (airAttack.HasFinished()) {
+			airAttack.Reset();
+			idleState = true;
+			IdleTimer.Start();
+			currentAnim = &idle;
+			Attacking = false;
 		}
 
 

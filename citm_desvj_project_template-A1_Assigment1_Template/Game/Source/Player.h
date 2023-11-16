@@ -54,6 +54,7 @@ public:
 	Animation epicSpawn;
 	Animation quickSpawn;
 	Animation groundAttack;
+	Animation airAttack;
 
 	Animation* currentSpawnAnim;
 
@@ -74,6 +75,7 @@ public:
 	float jumpDistance;
 	bool isJumping;
 	bool isGrounded;
+	bool Attacking = false;
 	bool idleState;
 	float movementx;
 	float angle_deg;

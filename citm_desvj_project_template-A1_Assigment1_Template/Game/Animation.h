@@ -67,6 +67,8 @@ public:
 		 timerStarted = false;
 		 missedOpportunity = false;
 		 opportunity = false;
+		 numOpportunities = 0;
+		 currentOpportunity = &opportunityFrames[0];
 	}
 
 	bool HasFinished()
@@ -100,6 +102,7 @@ public:
 		if (sameRect(r,r2) == false || opportunity == true) {
 			currentFrame += speed * app->dt; 
 			opportunity = false;
+			timerStarted = false;
 		}
 		else if(timerStarted == false) {
 			opportunityTimer.Start();
@@ -125,6 +128,8 @@ public:
 
 		if (timerStarted && opportunityTimer.ReadMSec() >= opportunityWindow * 1000 && opportunity == false) /*The player has missed the opportunity for a combo*/ {
 			missedOpportunity = true;
+			numOpportunities = 0;
+			currentOpportunity = &opportunityFrames[numOpportunities];
 
 		}
 

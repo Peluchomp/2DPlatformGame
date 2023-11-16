@@ -111,7 +111,8 @@ bool Spear::Update(float dt)
 		platform = false;
 
 	}
-	if (app->scene->player->position.x - position.x == 0 && app->scene->player->position.y - position.y == 0 && daPlatform == true)
+
+	if (position.DistanceTo(app->scene->player->position) <= 5 && daPlatform == true /*app->scene->player->position.x - position.x == 0 && app->scene->player->position.y - position.y == 0 && daPlatform == true*/)
 	{
  		isPicked = true;
 		b2Vec2 positiondissapera = b2Vec2(-100, -100);
@@ -120,7 +121,7 @@ bool Spear::Update(float dt)
 	}
 
 
-	app->render->DrawTexture(texture, position.x, position.y, false, 0,0,angle + 270);
+	app->render->DrawTexture(texture, position.x, position.y, false, 0,0,angle);
 
 	return true;
 }

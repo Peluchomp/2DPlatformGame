@@ -143,7 +143,7 @@ Player::Player() : Entity(EntityType::PLAYER)
 	
 	 
 	 groundAttack.loop = false;
-	 groundAttack.speed = 0.14f / 16;
+	 groundAttack.speed = 0.16f / 16;
 	 groundAttack.opportunityFrame = 2;
 	 groundAttack.opportunityKey = SDL_SCANCODE_M;
 

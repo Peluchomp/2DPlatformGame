@@ -395,10 +395,12 @@ bool Player::Update(float dt)
 		position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) + 40;
 
 		SDL_GetMouseState(&mousex, &mousey);
+		mousex -= app->render->camera.x;
+		mousey -= app->render->camera.y;
 		SDL_Point center{ position.x,position.y };
 		SDL_Rect  perim{ position.x,position.y,0,0 };
-		delta_x = pbody->body->GetTransform().p.x - mousex + app->render->camera.x;
-		delta_y = pbody->body->GetTransform().p.y - mousey + app->render->camera.y;
+		delta_x = position.x - mousex/2;
+		delta_y = position.y - mousey/2;
 
 		angle_deg = (atan2(delta_y, delta_x) * 180.0000) / 3.1416;
 
@@ -406,7 +408,7 @@ bool Player::Update(float dt)
 	currentAnim->Update();
 	spawnFire.Update();
 	
-
+	app->render->DrawCircle(position.x+35,position.y-20, 20, 255, 255, 0, 255);
 
 	if (myDir == Direction::RIGHT) {
 		if(spawning){ app->render->DrawTexture(texture, position.x , position.y - 100, false, &currentAnim->GetCurrentFrame()); }

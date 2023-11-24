@@ -23,6 +23,7 @@
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Physics.cpp" />
     <ClCompile Include="Spear.cpp" />
+    <ClCompile Include="ModuleEnemies.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -72,6 +73,7 @@
     <ClInclude Include="Animation.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleEnemies.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

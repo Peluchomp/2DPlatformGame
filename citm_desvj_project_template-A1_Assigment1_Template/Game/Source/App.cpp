@@ -33,6 +33,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new Scene();
 	map = new Map();
 	entityManager = new EntityManager();
+	moduleEnemies = new ModuleEnemies();
 
 
 	// Ordered for awake / Start / Update
@@ -45,6 +46,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(scene);
 	AddModule(map);
 	AddModule(entityManager);
+	AddModule(moduleEnemies);
 
 	// Render last to swap buffer
 	AddModule(render);

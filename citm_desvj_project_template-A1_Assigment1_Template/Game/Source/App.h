@@ -6,7 +6,7 @@
 #include "PerfTimer.h"
 #include "Timer.h"
 #include "EntityManager.h"
-
+#include "../ModuleEnemies.h"
 #include "PugiXml/src/pugixml.hpp"
 
 // Modules
@@ -83,6 +83,7 @@ public:
 	EntityManager* entityManager;
 	Map* map;
 	Physics* physics;
+	ModuleEnemies* moduleEnemies;
 
 private:
 

@@ -23,6 +23,8 @@ bool EntityManager::Awake(pugi::xml_node& config)
 	LOG("Loading Entity Manager");
 	bool ret = true;
 
+
+
 	//Iterates over the entities and calls the Awake
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;

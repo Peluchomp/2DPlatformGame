@@ -4,6 +4,7 @@
 #include "Source/Entity.h"
 #include "Source/Point.h"
 #include "SDL/include/SDL.h"
+#include "Animation.h"
 
 struct SDL_Texture;
 
@@ -40,9 +41,17 @@ public:
 	bool platform = false;
 	bool daPlatform = false;
 	bool isThrown = false;
-private:
+
 
 	SDL_Texture* texture;
+
+	Animation* currentAnim;
+
+	Animation form1Anim;
+	Animation form2Anim;
+	Animation form3Anim;
+
+private:
 	const char* texturePath;
 
 

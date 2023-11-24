@@ -1,7 +1,7 @@
 #ifndef __ANIMATION_H__
 #define __ANIMATION_H__
 
-#include "App.h"
+#include "Source/App.h"
 #include "Source/Input.h"
 #include "Source/Timer.h"
 #include "SDL/include/SDL_rect.h"

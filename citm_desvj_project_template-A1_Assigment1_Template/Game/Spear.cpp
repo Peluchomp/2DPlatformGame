@@ -19,6 +19,9 @@ Spear::~Spear() {}
 bool Spear::Awake() {
 
 	texturePath = parameters.attribute("texturepath").as_string();
+
+	form1Anim.PushBack({ parameters.child("forms").child("form1").attribute("x").as_int(), parameters.child("forms").child("form1").attribute("y").as_int() ,parameters.child("forms").child("form1").attribute("h").as_int() ,parameters.child("forms").child("form1").attribute("w").as_int() });
+
 	return true;
 }
 
@@ -34,6 +37,13 @@ bool Spear::Start() {
 	pbody->listener = this;
 	ThePlatform = app->physics->CreateRectangle(position.x + 16, position.y + 16, 40, 16, bodyType::STATIC);
 	ThePlatform->ctype = ColliderType::PLATFORM;
+
+
+
+	
+
+
+
 	return true;
 }
 bool Spear::PreUpdate(float dt) 
@@ -121,7 +131,7 @@ bool Spear::Update(float dt)
 	}
 
 
-	app->render->DrawTexture(texture, position.x, position.y, false, 0,0,angle);
+	//app->render->DrawTexture(texture, position.x, position.y, false, 0,0,angle);
 
 	return true;
 }

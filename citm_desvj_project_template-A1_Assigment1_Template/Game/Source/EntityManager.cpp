@@ -4,6 +4,7 @@
 #include "Textures.h"
 #include "Scene.h"
 #include "../Spear.h"
+#include "../Orb.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -92,6 +93,10 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		break;
 	case EntityType::SPEAR:
 		entity = new Spear();
+		break;
+	case EntityType::ORB:
+		entity = new Orb();
+		entity->active = true;
 		break;
 	default:
 		break;

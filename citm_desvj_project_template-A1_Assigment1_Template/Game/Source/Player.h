@@ -89,6 +89,7 @@ public:
 	bool fpsCap = true;
 
 	bool thrown = false;
+	bool SpearhasBeenThrown = false;
 	Timer thrownCooldown;
 
 	bool startIdle = false;

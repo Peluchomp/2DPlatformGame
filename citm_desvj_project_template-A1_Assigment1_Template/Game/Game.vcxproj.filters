@@ -24,6 +24,7 @@
     <ClCompile Include="Source\Physics.cpp" />
     <ClCompile Include="Spear.cpp" />
     <ClCompile Include="ModuleEnemies.cpp" />
+    <ClCompile Include="Orb.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -74,6 +75,7 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="ModuleEnemies.h" />
+    <ClInclude Include="Orb.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

@@ -181,7 +181,7 @@ Player::Player() : Entity(EntityType::PLAYER)
 	spearThrown.PushBack({ 1142,776,138,88 });
 	spearThrown.PushBack({ 1282,776,138,88 });
 	spearThrown.PushBack({ 1422,776,138,88 });
-	spearThrown.speed = 0.2f / 16;
+	spearThrown.speed = 0.17f / 16;
 	spearThrown.opportunityFrame = 100;
 	spearThrown.loop = false;
 	
@@ -229,7 +229,7 @@ bool Player::Start() {
 	currentAnim = &epicSpawn;
 	currentSpawnAnim = &epicSpawn;
 	//idleState = true;
-
+	mySpear->currentAnim = &mySpear->form1Anim;
 	//pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 
 	return true;
@@ -367,10 +367,10 @@ bool Player::Update(float dt)
 			currentAnim = &idle;
 			Attacking = false;
 		}
-		if (Attacking && isGrounded && groundAttack.numOpportunities > 1 && !groundBoost) {
+		/*if (Attacking && isGrounded && groundAttack.numOpportunities > 1 && !groundBoost) {
 			movementx += 40;
 			groundBoost = true;
-		}
+		}*/
 		if (spearThrown.HasFinished() || spearThrown.loopCount > 1) {
 			spearThrown.Reset();
 			idleState = true;
@@ -378,6 +378,15 @@ bool Player::Update(float dt)
 			thrown = false;
 			thrownCooldown.Start();
 			currentAnim = &idle;
+			// When the spear is thrown in the animation it actually gets thrown//
+			mySpear->position = position;
+			mySpear->started = false;
+			mySpear->daPlatform = false;
+			mySpear->isPicked = false;
+			mySpear->isSticked = false;
+
+			SpearhasBeenThrown = true;
+
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
@@ -439,8 +448,13 @@ bool Player::Update(float dt)
 		else { app->render->DrawTexture(texture, position.x - 16, position.y - 40, true, &currentAnim->GetCurrentFrame()); }
 	}
 
+	if (SpearhasBeenThrown) {
+		app->render->DrawTexture(mySpear->texture, mySpear->position.x, mySpear->position.y,false, &mySpear->currentAnim->GetCurrentFrame());
+	}
+
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && mySpear->isPicked == true) //en vez de w usamos app->input->GetMouseButtonDown(0) == KEY_REPEAT
 	{
+		IdleTimer.Start();
 		app->render->DrawTexture(texture, pbody->body->GetTransform().p.x, pbody->body->GetTransform().p.y - 16, false, 0, 0, angle_deg);
 	}
 	
@@ -455,11 +469,7 @@ bool Player::Update(float dt)
 				
 			}
 
-			mySpear->position = position;
-			mySpear->started = false;
-			mySpear->daPlatform = false;
-			mySpear->isPicked = false;
-			mySpear->isSticked = false;
+			
 		}
 		else if (mySpear->isPicked == false && mySpear->isSticked == true){
 			

@@ -75,6 +75,8 @@ bool Scene::Start()
 		app->map->mapData.tileHeight,
 		app->map->mapData.tilesets.Count());
 
+	
+
 	return true;
 }
 
@@ -130,6 +132,10 @@ bool Scene::Update(float dt)
 		app->render->camera.y = -player->position.y;
 
 	
+
+		if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+			app->entityManager->CreateEntity(EntityType::ORB);
+		}
 
 	// Renders the image in the center of the screen 
 	//app->render->DrawTexture(img, (int)textPosX, (int)textPosY);

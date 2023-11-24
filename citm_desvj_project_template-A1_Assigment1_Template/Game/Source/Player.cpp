@@ -330,6 +330,7 @@ bool Player::Update(float dt)
 			myDir = Direction::RIGHT;
 			movementx = speed * dt;
 		}
+		//--------------Attacking Logic-----------------//
 
 		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && isGrounded) {
 			
@@ -350,6 +351,7 @@ bool Player::Update(float dt)
 			IdleTimer.Start();
 			currentAnim = &idle;
 			Attacking = false;
+			groundBoost = false;
 		}
 		if (airAttack.HasFinished()) {
 			airAttack.Reset();
@@ -357,6 +359,10 @@ bool Player::Update(float dt)
 			IdleTimer.Start();
 			currentAnim = &idle;
 			Attacking = false;
+		}
+		if (Attacking && isGrounded && groundAttack.numOpportunities > 1 && !groundBoost) {
+			movementx += 40;
+			groundBoost = true;
 		}
 
 

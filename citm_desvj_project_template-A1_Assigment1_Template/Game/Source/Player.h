@@ -76,6 +76,7 @@ public:
 	bool isJumping;
 	bool isGrounded;
 	bool Attacking = false;
+	bool groundBoost = false;
 	bool idleState;
 	float movementx;
 	float angle_deg;

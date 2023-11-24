@@ -19,6 +19,7 @@ public:
 	float opportunityWindow = 0.3f;
 	int opportunityFrame = 100;
 	SDL_Rect opportunityFrames[MAX_FRAMES];
+	int numOpportunities = 0;
 	
 	SDL_Rect* currentOpportunity = nullptr;
 
@@ -31,8 +32,8 @@ private:
 	bool timerStarted = false;
 	bool missedOpportunity = false;
 
-	int numOpportunities = 0;
-
+	
+	
 	int opportunityIndex = 0;
 
 	float currentFrame = 0.0f;
@@ -43,6 +44,10 @@ private:
 	bool mirror;
 
 public:
+
+	int GetOpportunityIndex() {
+		return opportunityIndex;
+	}
 
 	void PushBack(const SDL_Rect& rect, bool opportunit = false, bool mirror = false)
 	{

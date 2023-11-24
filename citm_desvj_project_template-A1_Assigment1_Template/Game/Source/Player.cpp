@@ -177,6 +177,13 @@ Player::Player() : Entity(EntityType::PLAYER)
 	spawnFire.loop = true;
 	spawnFire.speed = 0.2f / 16;
 
+	spearThrown.PushBack({ 582,242,138,88 });
+	spearThrown.PushBack({ 1142,776,138,88 });
+	spearThrown.PushBack({ 1282,776,138,88 });
+	spearThrown.PushBack({ 1422,776,138,88 });
+	spearThrown.speed = 0.2f / 16;
+	spearThrown.opportunityFrame = 100;
+	spearThrown.loop = false;
 	
 }
 
@@ -364,7 +371,14 @@ bool Player::Update(float dt)
 			movementx += 40;
 			groundBoost = true;
 		}
-
+		if (spearThrown.HasFinished() || spearThrown.loopCount > 1) {
+			spearThrown.Reset();
+			idleState = true;
+			Attacking = false;
+			thrown = false;
+			thrownCooldown.Start();
+			currentAnim = &idle;
+		}
 
 		if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		{
@@ -432,7 +446,15 @@ bool Player::Update(float dt)
 	
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_UP) 
 	{
-		if (mySpear->isPicked == true ) {
+		if (mySpear->isPicked == true && thrownCooldown.ReadSec() > 2) {
+			if (thrown == false ) {
+				currentAnim = &spearThrown;
+				idleState = false;
+				Attacking = true;
+				thrown = true;
+				
+			}
+
 			mySpear->position = position;
 			mySpear->started = false;
 			mySpear->daPlatform = false;

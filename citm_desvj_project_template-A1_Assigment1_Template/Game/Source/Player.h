@@ -55,6 +55,7 @@ public:
 	Animation quickSpawn;
 	Animation groundAttack;
 	Animation airAttack;
+	Animation spearThrown;
 
 	Animation* currentSpawnAnim;
 
@@ -86,6 +87,9 @@ public:
 	int mousey;
 	bool godMode;
 	bool fpsCap = true;
+
+	bool thrown = false;
+	Timer thrownCooldown;
 
 	bool startIdle = false;
 	Timer IdleTimer;

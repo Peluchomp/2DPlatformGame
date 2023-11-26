@@ -10,7 +10,7 @@
 
 ModuleEnemies::ModuleEnemies() : Module()
 {
-	name.Create("entitymanager");
+	name.Create("moduleEnemies");
 }
 
 // Destructor
@@ -22,16 +22,17 @@ bool ModuleEnemies::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Entity Manager");
 	bool ret = true;
+	for (pugi::xml_node itemNode = config.child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
+	{
+		//Item* item = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
+		//item->parameters = itemNode;
+	}
 
-	/*iPoint point;
-	point.x = 50;
-	point.y = 50;
-	app->entityManager->CreateEntity(EntityType::ITEM)->parameters = config.child("test");*/
 	return ret;
 
 }
 
-bool ModuleEnemies::Start(pugi::xml_node& config) {
+bool ModuleEnemies::Start() {
 
 	bool ret = true;
 

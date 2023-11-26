@@ -5,6 +5,7 @@
 #include "Source/Entity.h"
 #include "Source/List.h"
 #include "Source/EntityManager.h"
+#include "Source/Item.h"
 
 class ModuleEnemies : public Module
 {
@@ -19,7 +20,7 @@ public:
 	bool Awake(pugi::xml_node& conf);
 
 	// Called after Awake
-	bool Start(pugi::xml_node& conf);
+	bool Start();
 
 	// Called every frame
 	bool Update(float dt);
@@ -29,7 +30,7 @@ public:
 
 
 public:
-
+	Item *item;
 
 
 };

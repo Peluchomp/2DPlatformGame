@@ -1,11 +1,21 @@
 #ifndef __MAP_H__
 #define __MAP_H__
 
+
 #include "Module.h"
 #include "List.h"
 #include "Point.h"
+#include "PQueue.h"
+#include "DynArray.h"
+#include "Pathfinding.h"
 
 #include "PugiXml\src\pugixml.hpp"
+
+enum MapOrientation
+{
+	ORTOGRAPHIC = 0,
+	ISOMETRIC
+};
 
 // Ignore Terrain Types and Tile Types for now, but we want the image!
 struct TileSet
@@ -21,6 +31,18 @@ struct TileSet
 
 	SDL_Texture* texture;
 	SDL_Rect GetTileRect(int gid) const;
+
+	SDL_Rect GetRect(uint gid) {
+		SDL_Rect rect = { 0 };
+
+		int relativeIndex = gid - firstgid;
+		rect.w = tileWidth;
+		rect.h = tileHeight;
+		rect.x = margin + (tileWidth + spacing) * (relativeIndex % columns);
+		rect.y = margin + (tileHeight + spacing) * (relativeIndex / columns);
+
+		return rect;
+	}
 };
 
 //  We create an enum for map type, just for convenience,
@@ -67,21 +89,21 @@ struct MapLayer
 	int id; 
 	int width;
 	int height;
-	uint* data;
+	uint* tiles;
 
 	Properties properties;
 
-	MapLayer() : data(NULL)
+	MapLayer() : tiles(NULL)
 	{}
 
 	~MapLayer()
 	{
-		RELEASE(data);
+		RELEASE(tiles);
 	}
 
 	inline uint Get(int x, int y) const
 	{
-		return data[(y * width) + x];
+		return tiles[(y * width) + x];
 	}
 };
 
@@ -94,7 +116,9 @@ struct MapData
 	List<TileSet*> tilesets;
 	MapTypes type;
 
-	List<MapLayer*> maplayers;
+	MapOrientation orienttation;
+
+	List<MapLayer*> layers;
 };
 
 class Map : public Module
@@ -109,6 +133,8 @@ public:
     // Called before render is available
     bool Awake(pugi::xml_node& conf);
 
+	bool Start();
+
 	// Called each loop iteration
 	bool Update(float dt);
 
@@ -116,30 +142,40 @@ public:
     bool CleanUp();
 
     // Load new map
-    bool Load();
+    bool Load(SString mapFileName);
 
 	iPoint MapToWorld(int x, int y) const;
 	iPoint Map::WorldToMap(int x, int y);
 
-private:
 
 	bool LoadMap(pugi::xml_node mapFile);
 	bool Map::LoadObjectGroups(pugi::xml_node mapNode);
-	bool LoadTileSet(pugi::xml_node mapFile);
+	/*bool LoadTileSet(pugi::xml_node mapFile);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
-	bool LoadAllLayers(pugi::xml_node mapNode);
+	bool LoadAllLayers(pugi::xml_node mapNode);*/
 	TileSet* GetTilesetFromTileId(int gid) const;
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 
+	// New navigation methods 
+	void CreateNavigationMap(int& width, int& height, uchar** buffer) const;
+
+
+	int GetTileWidth();
+	int GetTileHeight();
+
 public: 
+
+	SString name;
+	SString path;
+	PathFinding* pathfinding;
 
 	MapData mapData;
 
 private:
 
-    SString mapFileName;
-	SString mapFolder;
-    bool mapLoaded;
+	bool mapLoaded;
+	MapLayer* navigationLayer;
+	int blockedGid = 49; //!!!! make sure that you assign blockedGid according to your map
 };
 
 #endif // __MAP_H__

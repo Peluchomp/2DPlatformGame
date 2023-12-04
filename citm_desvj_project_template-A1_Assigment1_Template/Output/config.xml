@@ -29,6 +29,7 @@
 
   <scene>
     <player x="100" y="200" texturepath="Assets/Textures/playerSheet.png"/>
+	  <map path="Assets/Maps/" name="Level0.tmx"/>
 	  <spear x= "0" y ="0"  texturepath="Assets/Textures/spears.png">
 		  <forms>
 			  <form1 x = "15" y = "4" h = "65" w = "19" />
@@ -40,9 +41,6 @@
 	<level0_music path ="Audio/LichYard.wav"/>
   </scene>
 
-  <map>
-    <mapfolder path="Assets/Maps/"/>
-    <mapfile path="Assets/Maps/Level0.tmx"/>
-  </map>
+
   
 </config>

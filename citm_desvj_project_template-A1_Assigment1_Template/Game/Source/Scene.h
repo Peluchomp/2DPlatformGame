@@ -37,8 +37,13 @@ public:
 
 	Player* player;
 
+	bool SaveState(pugi::xml_node node);
+
+	bool LoadState(pugi::xml_node node);
+
 	
 private:
+	SDL_Texture* mouseTileTex;
 	SDL_Texture* img;
 	float textPosX, textPosY = 0;
 	uint texW, texH;

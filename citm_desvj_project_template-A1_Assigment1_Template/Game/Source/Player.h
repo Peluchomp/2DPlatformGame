@@ -35,6 +35,8 @@ public:
 
 	void Spawn(int Level);
 
+	bool SaveState(pugi::xml_node node);
+	bool LoadState(pugi::xml_node node);
 
 public:
 	Direction myDir;

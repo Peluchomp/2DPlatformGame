@@ -15,7 +15,7 @@
 
 Player::Player() : Entity(EntityType::PLAYER)
 {
-	name.Create("Player");
+	name.Create("player");
 	
 	// all sprites are 138x88
 	idle.PushBack({ 696,1,138,88 });
@@ -575,4 +575,23 @@ void Player::Spawn(int Level) {
 		b2Vec2 startPos = { x,y };
 		pbody->body->SetTransform(startPos, pbody->body->GetAngle());
 	}
+}
+
+bool Player::LoadState(pugi::xml_node node) {
+
+	position.x = node.child("position").attribute("x").as_int();
+	position.y = node.child("position").attribute("y").as_int();
+
+	return true;
+}
+
+// L14: TODO 8: Create a method to save the state of the renderer
+// using append_child and append_attribute
+bool Player::SaveState(pugi::xml_node node) {
+
+	pugi::xml_node Node = node.append_child("position");
+	Node.append_attribute("x").set_value(position.x);
+	Node.append_attribute("y").set_value(position.y);
+
+	return true;
 }

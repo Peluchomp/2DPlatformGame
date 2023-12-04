@@ -6,7 +6,8 @@
 #include "Window.h"
 #include "Scene.h"
 #include "Map.h"
-
+#include "Player.h"
+#include "Physics.h"
 #include "Defs.h"
 #include "Log.h"
 
@@ -76,7 +77,7 @@ bool Scene::Start()
 		app->map->mapData.tileHeight,
 		app->map->mapData.tilesets.Count());
 
-	
+	mouseTileTex = app->tex->Load("Assets/Maps/tileSelection.png");
 
 	return true;
 }
@@ -138,6 +139,35 @@ bool Scene::Update(float dt)
 			app->entityManager->CreateEntity(EntityType::ORB);
 		}
 
+		iPoint mousePos;
+		app->input->GetMousePosition(mousePos.x, mousePos.y);
+		iPoint mouseTile = app->map->WorldToMap(mousePos.x - app->render->camera.x,
+			mousePos.y - app->render->camera.y);
+
+		// Render a texture where the mouse is over to highlight the tile, use the texture 'mouseTileTex'
+		iPoint highlightedTileWorld = app->map->MapToWorld(mouseTile.x, mouseTile.y);
+		app->render->DrawTexture(mouseTileTex, highlightedTileWorld.x, highlightedTileWorld.y, false);
+
+		iPoint origin = iPoint(2, 2);
+
+		//If mouse button is pressed modify player position
+		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
+			player->position = iPoint(highlightedTileWorld.x, highlightedTileWorld.y);
+			app->map->pathfinding->CreatePath(origin, mouseTile);
+		}
+
+		// L13: Get the latest calculated path and draw
+		const DynArray<iPoint>* path = app->map->pathfinding->GetLastPath();
+		for (uint i = 0; i < path->Count(); ++i)
+		{
+			iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+			app->render->DrawTexture(mouseTileTex, pos.x, pos.y, false);
+		}
+
+		// L14: TODO 3: Request App to Load / Save when pressing the keys F5 (save) / F6 (load)
+		if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveRequest();
+		if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadRequest();
+
 	// Renders the image in the center of the screen 
 	//app->render->DrawTexture(img, (int)textPosX, (int)textPosY);
 
@@ -159,6 +189,27 @@ bool Scene::PostUpdate()
 bool Scene::CleanUp()
 {
 	LOG("Freeing scene");
+
+	return true;
+}
+
+bool Scene::LoadState(pugi::xml_node node) {
+
+	player->position.x = node.child("position").attribute("x").as_int();
+	player->position.y = node.child("position").attribute("y").as_int();
+
+	player->pbody->SetPos(PIXEL_TO_METERS(node.child("position").attribute("x").as_int()), PIXEL_TO_METERS(node.child("position").attribute("y").as_int()));
+
+	return true;
+}
+
+// L14: TODO 8: Create a method to save the state of the renderer
+// using append_child and append_attribute
+bool Scene::SaveState(pugi::xml_node node) {
+
+	pugi::xml_node Node = node.append_child("position");
+	Node.append_attribute("x").set_value(player->position.x);
+	Node.append_attribute("y").set_value(player->position.y);
 
 	return true;
 }

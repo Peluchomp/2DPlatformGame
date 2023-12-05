@@ -29,41 +29,188 @@
 
   <scene>
 	  <player x="100" y="200" texturepath="Assets/Textures/playerSheet.png">
-
 		  <animations>
 			  <idle>
-				  <frame> x ="696" y = "1" w = "138" h = "88" </frame>
-				  <frame> x ="835" y = "1" w = "138" h = "88" </frame>
-				  <speed value ="0.05/16"/>
+				  <frame x="696" y="1" w="138" h="88" />
+				  <frame x="835" y="1" w="138" h="88" />
+				  <speed value="0.05/16" />
 			  </idle>
+
 			  <longIdle1>
-				  <frame> x ="974" y = "1" w = "138" h = "88" </frame>
-				  <frame> x ="1113" y = "1" w = "138" h = "88" </frame>
-				  <frame> x = "1252" y = "1" w = "138" h = "88" </frame>
-				  <frame> x ="696" y = "90" w = "138" h = "88" </frame>
-				  <frame> x ="835" y = "90" w = "138" h = "88" </frame>
-				  <frame> x ="974" y = "90" w = "138" h = "88" </frame>
-				  <frame> x ="1113" y = "90" w = "138" h = "88" </frame>
-				  <frame> x ="1252" y = "90" w = "138" h = "88" </frame>
-				  <speed value ="0.05/16"/>
+				  <frame x="974" y="1" w="138" h="88" />
+				  <frame x="1113" y="1" w="138" h="88" />
+				  <frame x="1252" y="1" w="138" h="88" />
+				  <frame x="696" y="90" w="138" h="88" />
+				  <frame x="835" y="90" w="138" h="88" />
+				  <frame x="974" y="90" w="138" h="88" />
+				  <frame x="1113" y="90" w="138" h="88" />
+				  <frame x="1252" y="90" w="138" h="88" />
+				  <speed value="0.08/16" />
+				  <loop>false</loop>
 			  </longIdle1>
+
+			  <longIdle2>
+				  <frame x="696" y="90" w="138" h="88" />
+				  <frame x="835" y="90" w="138" h="88" />
+				  <frame x="974" y="90" w="138" h="88" />
+				  <frame x="1113" y="90" w="138" h="88" />
+				  <frame x="1252" y="90" w="138" h="88" />
+				  <speed value="0.07/16" />
+			  </longIdle2>
+
 			  <longRun>
-				  <frame> x ="1" y = "1" w = "138" h = "88" </frame>
-				  <frame> x ="140" y = "1" w = "138" h = "88" </frame>
-				  
-				  
-				  
+				  <frame x="1" y="1" w="138" h="88" />
+				  <frame x="140" y="1" w="138" h="88" />
+				  <frame x="418" y="1" w="138" h="88" />
+				  <frame x="557" y="1" w="138" h="88" />
+				  <frame x="1" y="90" w="138" h="88" />
+				  <frame x="140" y="90" w="138" h="88" />
+				  <frame x="418" y="90" w="138" h="88" />
+				  <frame x="557" y="90" w="138" h="88" />
+				  <frame x="1" y="179" w="138" h="88" />
+				  <frame x="140" y="179" w="138" h="88" />
+				  <speed value="0.16/16" />
 			  </longRun>
 
+			  <playerRun>
+				  <frame x="0" y="240" w="80" h="80" />
+				  <frame x="80" y="240" w="80" h="80" />
+				  <frame x="160" y="240" w="80" h="80" />
+				  <frame x="240" y="240" w="80" h="80" />
+				  <frame x="320" y="240" w="80" h="80" />
+				  <speed value="0.3/16" />
+				  <loop>true</loop>
+			  </playerRun>
 
+			  <!-- Add other animations in a similar manner -->
 
+			  <groundAttack>
+				  <frame x="582" y="242" w="138" h="88" />
+				  <frame x="722" y="242" w="138" h="88" />
+				  <frame x="862" y="242" w="138" h="88" />
+				  <frame x="1002" y="242" w="138" h="88" opportunity="true" />
+				  <frame x="722" y="331" w="138" h="88" />
+				  <frame x="722" y="331" w="138" h="88" />
+				  <frame x="862" y="331" w="138" h="88" opportunity="true" />
+				  <frame x="582" y="420" w="138" h="88" />
+				  <frame x="722" y="420" w="138" h="88" />
+				  <frame x="862" y="420" w="138" h="88" />
+				  <frame x="1002" y="420" w="138" h="88" />
+				  <frame x="1142" y="420" w="138" h="88" />
+				  <frame x="1282" y="420" w="138" h="88" />
+				  <loop>false</loop>
+				  <speed value="0.16/16" />
+				  <opportunityFrame>2</opportunityFrame>
+				  <opportunityKey>SDL_SCANCODE_M</opportunityKey>
+				  <opportunityWindow>0.2</opportunityWindow>
+			  </groundAttack>
 
+			  <airAttack>
+				  <!-- Add airAttack frames here -->
+				  <loop>false</loop>
+				  <speed value="0.19/16" />
+				  <opportunityKey>SDL_SCANCODE_M</opportunityKey>
+				  <opportunityWindow>0.15</opportunityWindow>
+				  <opportunityFrame>2</opportunityFrame>
+			  </airAttack>
+
+			  <fall>
+				  <frame x="418" y="268" w="138" h="88" />
+				  <frame x="418" y="357" w="138" h="88" />
+				  <speed value="0.1/16" />
+				  <loop>true</loop>
+			  </fall>
+
+			  <spawnFire>
+				  <frame x="0" y="417" w="80" h="130" />
+				  <frame x="80" y="417" w="80" h="130" />
+				  <frame x="160" y="417" w="80" h="130" />
+				  <frame x="240" y="417" w="80" h="130" />
+				  <frame x="320" y="417" w="80" h="130" />
+				  <loop>true</loop>
+				  <speed value="0.2/16" />
+			  </spawnFire>
+
+			  <spearThrown>
+				  <frame x="582" y="242" w="138" h="88" />
+				  <frame x="1142" y="776" w="138" h="88" />
+				  <frame x="1282" y="776" w="138" h="88" />
+				  <frame x="1422" y="776" w="138" h="88" />
+				  <speed value="0.17/16" />
+				  <opportunityFrame>100</opportunityFrame>
+				  <loop>false</loop>
+			  </spearThrown>
+
+			  <jump>
+				  <frame x="1" y="1" w="138" h="88" />
+				  <frame x="1" y="268" w="138" h="88" />
+				  <frame x="140" y="268" w="138" h="88" />
+				  <frame x="279" y="268" w="138" h="88" />
+				  <speed value="0.2/16" />
+				  <loop>false</loop>
+			  </jump>
+
+			  <epicSpawn>
+				  <frame x="1" y="548" w="112" h="144" />
+				  <frame x="115" y="548" w="112" h="144" />
+				  <frame x="229" y="548" w="112" h="144" />
+				  <frame x="343" y="548" w="112" h="144" />
+				  <frame x="457" y="548" w="112" h="144" />
+				  <frame x="571" y="548" w="112" h="144" />
+				  <frame x="685" y="548" w="112" h="144" />
+				  <frame x="799" y="548" w="112" h="144" />
+				  <frame x="913" y="548" w="112" h="144" />
+				  <frame x="1027" y="548" w="112" h="144" />
+
+				  <frame x="1" y="839" w="112" h="144" />
+				  <frame x="115" y="839" w="112" h="144" />
+				  <frame x="229" y="839" w="112" h="144" />
+				  <frame x="343" y="839" w="112" h="144" />
+				  <frame x="457" y="839" w="112" h="144" />
+				  <frame x="571" y="839" w="112" h="144" />
+				  <frame x="685" y="839" w="112" h="144" />
+				  <frame x="799" y="839" w="112" h="144" />
+				  <frame x="913" y="839" w="112" h="144" />
+				  <frame x="1027" y="839" w="112" h="144" />
+
+				  <frame x="1" y="984" w="112" h="144" />
+				  <frame x="115" y="984" w="112" h="144" />
+				  <frame x="229" y="984" w="112" h="144" />
+				  <frame x="343" y="984" w="112" h="144" />
+				  <frame x="457" y="984" w="112" h="144" />
+				  <frame x="571" y="984" w="112" h="144" />
+				  <frame x="685" y="984" w="112" h="144" />
+				  <frame x="799" y="984" w="112" h="144" />
+				  <frame x="913" y="984" w="112" h="144" />
+				  <frame x="1027" y="984" w="112" h="144" />
+				  <speed value="0.13f"      />
+			  </epicSpawn>
+
+			  <quickSpawn>
+				  <!-- Include quickSpawn frames here -->
+				  <speed value="0.18/16" />
+				  <loop>false</loop>
+				  <frame x="115" y="839" w="112" h="144" />
+				  <frame x="229" y="839" w="112" h="144" />
+				  <frame x="343" y="839" w="112" h="144" />
+				  <frame x="457" y="839" w="112" h="144" />
+				  <frame x="571" y="839" w="112" h="144" />
+				  <frame x="685" y="839" w="112" h="144" />
+				  <frame x="799" y="839" w="112" h="144" />
+				  <frame x="913" y="839" w="112" h="144" />
+				  <frame x="1027" y="839" w="112" h="144" />
+				  <frame x="1" y="984" w="112" h="144" />
+				  <frame x="115" y="984" w="112" h="144" />
+				  <frame x="229" y="984" w="112" h="144" />
+				  <frame x="343" y="984" w="112" h="144" />
+				  <frame x="457" y="984" w="112" h="144" />
+				  <frame x="571" y="984" w="112" h="144" />
+				  <frame x="685" y="984" w="112" h="144" />
+				  <frame x="799" y="984" w="112" h="144" />
+				  <frame x="913" y="984" w="112" h="144" />
+				  <frame x="1027" y="984" w="112" h="144" />
+			  </quickSpawn>
 		  </animations>
-
-
-
-
-
 	  </player>
 			
 			

@@ -27,6 +27,9 @@ bool Scene::Awake(pugi::xml_node& config)
 	bool ret = true;
 	app->map->name = config.child("map").attribute("name").as_string();
 	app->map->path = config.child("map").attribute("path").as_string();
+
+	scene_parameter = config;
+
 	// iterate all objects in the scene
 	// Check https://pugixml.org/docs/quickstart.html#access
 	for (pugi::xml_node itemNode = config.child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
@@ -136,7 +139,14 @@ bool Scene::Update(float dt)
 	
 
 		if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
-			app->entityManager->CreateEntity(EntityType::ORB);
+			for (int i = 0; i < 50; ++i) {
+				if (orbs[i] == nullptr) {
+					orbs[i] = (Orb*)app->entityManager->CreateEntity(EntityType::ORB);
+					orbs[i]->parameters = scene_parameter.child("orb");
+					break;
+				}
+			}
+			
 		}
 
 		

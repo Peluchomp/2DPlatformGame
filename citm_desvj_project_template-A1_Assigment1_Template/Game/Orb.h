@@ -27,7 +27,14 @@ public:
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
 
-	
+	Animation* currentAnimation;
+	Animation defaultAnim;
+
+	SDL_Texture* texture = nullptr;
+
+	PhysBody* _body;
+
+	bool awake = false;
 
 private:
 	const char* texturePath;

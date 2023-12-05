@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Window.h"
 #include "Box2D/Box2D/Box2D.h"
+#include "List.h"
 
 // Tell the compiler to reference the compiled Box2D libraries
 #ifdef _DEBUG
@@ -99,13 +100,14 @@ PhysBody* Physics::CreateRectangle(int x, int y, int width, int height, bodyType
 	pbody->width = width * 0.5f;
 	pbody->height = height * 0.5f;
 
-
+	physBodies.Add(pbody);
+	
 	return pbody;
 }
 
 
 
-PhysBody* Physics::CreateCircle(int x, int y, int radious, bodyType type)
+PhysBody* Physics::CreateCircle(int x, int y, int radious, bodyType type, bool sensor)
 {
 	// Create BODY at position x,y
 	b2BodyDef body;
@@ -127,6 +129,7 @@ PhysBody* Physics::CreateCircle(int x, int y, int radious, bodyType type)
 	b2FixtureDef fixture;
 	fixture.shape = &circle;
 	fixture.density = 1.0f;
+	fixture.isSensor = sensor;
 	b->ResetMassData();
 
 	// Add fixture to the BODY
@@ -139,9 +142,12 @@ PhysBody* Physics::CreateCircle(int x, int y, int radious, bodyType type)
 	pbody->width = radious * 0.5f;
 	pbody->height = radious * 0.5f;
 
+	physBodies.Add(pbody);
 	// Return our PhysBody class
 	return pbody;
 }
+
+
 
 PhysBody* Physics::CreateRectangleSensor(int x, int y, int width, int height, bodyType type)
 {
@@ -175,6 +181,7 @@ PhysBody* Physics::CreateRectangleSensor(int x, int y, int width, int height, bo
 	pbody->width = width;
 	pbody->height = height;
 
+	physBodies.Add(pbody);
 	// Return our PhysBody class
 	return pbody;
 }
@@ -217,6 +224,7 @@ PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType typ
 	b->SetUserData(pbody);
 	pbody->width = pbody->height = 0;
 
+	physBodies.Add(pbody);
 	// Return our PhysBody class
 	return pbody;
 }
@@ -235,75 +243,85 @@ bool Physics::PostUpdate()
 	{
 		for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
 		{
-			for (b2Fixture* f = b->GetFixtureList(); f; f = f->GetNext())
-			{
-				switch (f->GetType())
-				{
-					// Draw circles ------------------------------------------------
-				case b2Shape::e_circle:
-				{
-					b2CircleShape* shape = (b2CircleShape*)f->GetShape();
-					uint width, height;
-					app->win->GetWindowSize(width, height);
-					b2Vec2 pos = f->GetBody()->GetPosition();
-					app->render->DrawCircle(METERS_TO_PIXELS(pos.x), METERS_TO_PIXELS(pos.y), METERS_TO_PIXELS(shape->m_radius) * app->win->GetScale(), 255, 255, 255);
-				}
-				break;
+			
+			for (ListItem<PhysBody*>* p =  physBodies.start;  p != nullptr ; p = p->next) {
 
-				// Draw polygons ------------------------------------------------
-				case b2Shape::e_polygon:
-				{
-					b2PolygonShape* polygonShape = (b2PolygonShape*)f->GetShape();
-					int32 count = polygonShape->GetVertexCount();
-					b2Vec2 prev, v;
+				if (p->data->body == b && p->data->active) {
+					for (b2Fixture* f = b->GetFixtureList(); f; f = f->GetNext())
+			
+						switch (f->GetType())
+						{
+							// Draw circles ------------------------------------------------
+						case b2Shape::e_circle:
+						{
+							b2CircleShape* shape = (b2CircleShape*)f->GetShape();
+							uint width, height;
+							app->win->GetWindowSize(width, height);
+							b2Vec2 pos = f->GetBody()->GetPosition();
+							app->render->DrawCircle(METERS_TO_PIXELS(pos.x), METERS_TO_PIXELS(pos.y), METERS_TO_PIXELS(shape->m_radius) * app->win->GetScale(), 255, 255, 255);
+						}
+						break;
 
-					for (int32 i = 0; i < count; ++i)
-					{
-						v = b->GetWorldPoint(polygonShape->GetVertex(i));
-						if (i > 0)
-							app->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), 255, 255, 100);
+						// Draw polygons ------------------------------------------------
+						case b2Shape::e_polygon:
+						{
+							b2PolygonShape* polygonShape = (b2PolygonShape*)f->GetShape();
+							int32 count = polygonShape->GetVertexCount();
+							b2Vec2 prev, v;
 
-						prev = v;
-					}
+							for (int32 i = 0; i < count; ++i)
+							{
+								v = b->GetWorldPoint(polygonShape->GetVertex(i));
+								if (i > 0)
+									app->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), 255, 255, 100);
 
-					v = b->GetWorldPoint(polygonShape->GetVertex(0));
-					app->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), 255, 100, 100);
-				}
-				break;
+								prev = v;
+							}
 
-				// Draw chains contour -------------------------------------------
-				case b2Shape::e_chain:
-				{
-					b2ChainShape* shape = (b2ChainShape*)f->GetShape();
-					b2Vec2 prev, v;
+							v = b->GetWorldPoint(polygonShape->GetVertex(0));
+							app->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), 255, 100, 100);
+						}
+						break;
 
-					for (int32 i = 0; i < shape->m_count; ++i)
-					{
-						v = b->GetWorldPoint(shape->m_vertices[i]);
-						if (i > 0)
+						// Draw chains contour -------------------------------------------
+						case b2Shape::e_chain:
+						{
+							b2ChainShape* shape = (b2ChainShape*)f->GetShape();
+							b2Vec2 prev, v;
+
+							for (int32 i = 0; i < shape->m_count; ++i)
+							{
+								v = b->GetWorldPoint(shape->m_vertices[i]);
+								if (i > 0)
+									app->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), 100, 255, 100);
+								prev = v;
+							}
+
+							v = b->GetWorldPoint(shape->m_vertices[0]);
 							app->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), 100, 255, 100);
-						prev = v;
+						}
+						break;
+
+						// Draw a single segment(edge) ----------------------------------
+						case b2Shape::e_edge:
+						{
+							b2EdgeShape* shape = (b2EdgeShape*)f->GetShape();
+							b2Vec2 v1, v2;
+
+							v1 = b->GetWorldPoint(shape->m_vertex0);
+							v1 = b->GetWorldPoint(shape->m_vertex1);
+							app->render->DrawLine(METERS_TO_PIXELS(v1.x), METERS_TO_PIXELS(v1.y), METERS_TO_PIXELS(v2.x), METERS_TO_PIXELS(v2.y), 100, 100, 255);
+						}
+						break;
 					}
-
-					v = b->GetWorldPoint(shape->m_vertices[0]);
-					app->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), 100, 255, 100);
 				}
-				break;
-
-				// Draw a single segment(edge) ----------------------------------
-				case b2Shape::e_edge:
-				{
-					b2EdgeShape* shape = (b2EdgeShape*)f->GetShape();
-					b2Vec2 v1, v2;
-
-					v1 = b->GetWorldPoint(shape->m_vertex0);
-					v1 = b->GetWorldPoint(shape->m_vertex1);
-					app->render->DrawLine(METERS_TO_PIXELS(v1.x), METERS_TO_PIXELS(v1.y), METERS_TO_PIXELS(v2.x), METERS_TO_PIXELS(v2.y), 100, 100, 255);
-				}
-				break;
-				}
+				
 
 			}
+
+			
+
+			
 		}
 	}
 

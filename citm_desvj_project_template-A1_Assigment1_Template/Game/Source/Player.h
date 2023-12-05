@@ -35,6 +35,8 @@ public:
 
 	void Spawn(int Level);
 
+	void LoadAnimations();
+
 	bool SaveState(pugi::xml_node node);
 	bool LoadState(pugi::xml_node node);
 
@@ -67,10 +69,14 @@ public:
 	Animation spawnFire;
 	SDL_Rect SpawnRect = { 0,417, 80,130 };
 
+	SDL_Rect orbMeter = { 20, 600, 0,20 };
+
 	Animation Jump;
 	Animation Fall;
 	
 	Spear *mySpear;
+
+	int orbs = 0;
 
 	bool dead = false;
 	int pickCoinFxId;

@@ -17,177 +17,6 @@ Player::Player() : Entity(EntityType::PLAYER)
 {
 	name.Create("player");
 
-	
-	
-	// all sprites are 138x88
-	//idle.PushBack({ 696,1,138,88 });
-	//idle.PushBack({ 835,1,138,88 });
-
-	//longIdle1.PushBack({ 974,1,138,88});
-	//longIdle1.PushBack({ 1113,1,138,88 });
-	//longIdle1.PushBack({ 1252,1,138,88 });
-	//longIdle2.PushBack({ 696,90,138,88 });
-	//longIdle2.PushBack({ 835,90,138,88 });
-	//longIdle2.PushBack({ 974,90,138,88 });
-	//longIdle2.PushBack({ 1113,90,138,88 });
-	//longIdle2.PushBack({ 1252,90,138,88 });
-	//idle.speed = 0.05f/16;
-	//longIdle1.speed = 0.08f/16;
-	//longIdle1.loop = false;
-	//longIdle2.speed = 0.07f/16;
-
-	//longRun.PushBack({ 1  ,1,138,88 });
-	//longRun.PushBack({ 140,1,138,88 });
-	//longRun.PushBack({ 418,1,138,88 });
-	//longRun.PushBack({ 557,1,138,88 });
-
-	//longRun.PushBack({ 1  ,90,138,88 });
-	//longRun.PushBack({ 140,90,138,88 });
-	//longRun.PushBack({ 418,90,138,88 });
-	//longRun.PushBack({ 557,90,138,88 });
-
-	//longRun.PushBack({ 1  ,179,138,88 });
-	//longRun.PushBack({ 140,179,138,88 });
-	//longRun.speed = 0.16f / 16;
-	//
-
-	//playerRun.PushBack({ 0,240,80,80 });
-	//playerRun.PushBack({ 80,240,80,80 });
-	//playerRun.PushBack({ 160,240,80,80 });
-	//playerRun.PushBack({ 240,240,80,80 });
-	//playerRun.PushBack({ 320,240,80,80 });
-
-
-	//playerRun.speed = 0.3f/16;
-	//playerRun.loop = true;
-
-	//Jump.PushBack({ 1,1,138,88});
-	//Jump.PushBack({ 1,268,138,88 });
-	//Jump.PushBack({ 140,268,138,88 });
-	//Jump.PushBack({ 279,268,138,88 });
-	//Jump.speed = 0.2f/16;
-	//Jump.loop = false;
-
-	//epicSpawn.speed = 0.13f / 16;
-	//epicSpawn.loop = false;
-	//epicSpawn.PushBack({ 1,548,112,144 });
-	//epicSpawn.PushBack({ 115,548,112,144 });
-	//epicSpawn.PushBack({ 229,548,112,144 });
-	//epicSpawn.PushBack({ 343,548,112,144 });
-	//epicSpawn.PushBack({ 457,548,112,144 });
-	//epicSpawn.PushBack({ 571,548,112,144 });
-	//epicSpawn.PushBack({ 685,548,112,144 });
-	//epicSpawn.PushBack({ 799,548,112,144 });
-	//epicSpawn.PushBack({ 913,548,112,144 });
-	//epicSpawn.PushBack({ 1027,548,112,144 });
-
-	//epicSpawn.PushBack({ 1,  839,112,144 });
-	//epicSpawn.PushBack({ 115,839,112,144 });
-	//epicSpawn.PushBack({ 229,839,112,144 });
-	//epicSpawn.PushBack({ 343,839,112,144 });
-	//epicSpawn.PushBack({ 457,839,112,144 });
-	//epicSpawn.PushBack({ 571,839,112,144 });
-	//epicSpawn.PushBack({ 685,839,112,144 });
-	//epicSpawn.PushBack({ 799,839,112,144 });
-	//epicSpawn.PushBack({ 913,839,112,144 });
-	//epicSpawn.PushBack({ 1027,839,112,144 });
-
-	//epicSpawn.PushBack({ 1,  984,112,144 });
-	//epicSpawn.PushBack({ 115,984,112,144 });
-	//epicSpawn.PushBack({ 229,984,112,144 });
-	//epicSpawn.PushBack({ 343,984,112,144 });
-	//epicSpawn.PushBack({ 457,984,112,144 });
-	//epicSpawn.PushBack({ 571,984,112,144 });
-	//epicSpawn.PushBack({ 685,984,112,144 });
-	//epicSpawn.PushBack({ 799,984,112,144 });
-	//epicSpawn.PushBack({ 913,984,112,144 });
-	//epicSpawn.PushBack({ 1027,984,112,144 });
-
-	//quickSpawn.speed = 0.18f / 16;
-	//quickSpawn.loop = false;
- //    /*quickSpawn.PushBack({ 799,548,112,144 });
- //    quickSpawn.PushBack({ 913,548,112,144 });
- //    quickSpawn.PushBack({ 1027,548,112,144 });
- //    quickSpawn.PushBack({ 1,  839,112,144 });*/
- //    quickSpawn.PushBack({ 115,839,112,144 });
- //    quickSpawn.PushBack({ 229,839,112,144 });
- //    quickSpawn.PushBack({ 343,839,112,144 });
- //    quickSpawn.PushBack({ 457,839,112,144 });
- //    quickSpawn.PushBack({ 571,839,112,144 });
- //    quickSpawn.PushBack({ 685,839,112,144 });
- //    quickSpawn.PushBack({ 799,839,112,144 });
- //    quickSpawn.PushBack({ 913,839,112,144 });
- //    quickSpawn.PushBack({ 1027,839,112,144 });
- //    quickSpawn.PushBack({ 1,  984,112,144 });
- //    quickSpawn.PushBack({ 115,984,112,144 });
- //    quickSpawn.PushBack({ 229,984,112,144 });
- //    quickSpawn.PushBack({ 343,984,112,144 });
- //    quickSpawn.PushBack({ 457,984,112,144 });
- //    quickSpawn.PushBack({ 571,984,112,144 });
- //    quickSpawn.PushBack({ 685,984,112,144 });
- //    quickSpawn.PushBack({ 799,984,112,144 });
- //    quickSpawn.PushBack({ 913,984,112,144 });
- //    quickSpawn.PushBack({ 1027,984,112,144 });
-
-	// groundAttack.PushBack({ 582,242,138,88 });
-	// groundAttack.PushBack({ 722,242,138,88 });
-	// groundAttack.PushBack({ 862,242,138,88 });
-	// groundAttack.PushBack({ 1002,242,138,88, },true);
-	// groundAttack.PushBack({ 722,331,138,88 });
-	// groundAttack.PushBack({ 722,331,138,88 });
-	// groundAttack.PushBack({ 862,331,138,88 }, true);
-	// groundAttack.PushBack({ 582,420,138,88 });
-	// groundAttack.PushBack({ 722,420,138,88 });
-	// groundAttack.PushBack({ 862,420,138,88 });
-	// groundAttack.PushBack({ 1002,420,138,88 });
-	// groundAttack.PushBack({ 1142,420,138,88 });
-	// groundAttack.PushBack({ 1282,420,138,88 });
-	//
-	// 
-	// groundAttack.loop = false;
-	// groundAttack.speed = 0.16f / 16;
-	// groundAttack.opportunityFrame = 2;
-	// groundAttack.opportunityKey = SDL_SCANCODE_M;
-	// groundAttack.opportunityWindow = 0.2f;
-
-
-	// airAttack.PushBack({ 1142, 509, 138, 88 });
-	// airAttack.PushBack({ 1282, 509, 138, 88 });
-	// airAttack.PushBack({ 1142, 598, 138, 88 });
-	// airAttack.PushBack({ 1282, 598, 138, 88 });
-	// airAttack.PushBack({ 1422, 598, 138, 88 },true);
-	// airAttack.PushBack({ 1142, 687, 138, 88 });
-	// airAttack.PushBack({ 1282, 687, 138, 88 });
-	// airAttack.PushBack({ 1422, 687, 138, 88 });
-	// airAttack.loop = false;
-	// airAttack.speed = 0.19f / 16;
-	// airAttack.opportunityKey = SDL_SCANCODE_M;
-	// airAttack.opportunityWindow = 0.15f;
-	// airAttack.opportunityFrame = 2;
-
-	//
-	//Fall.PushBack({ 418,268,138,88 });
-	//Fall.PushBack({ 418,357,138,88 });
-	//Fall.speed = 0.1f/16;
-	//Fall.loop = true;
-
-	//spawnFire.PushBack({ 0,417,80,130 });
-	//spawnFire.PushBack({ 80,417,80,130 });
-	//spawnFire.PushBack({ 160,417,80,130 });
-	//spawnFire.PushBack({ 240,417,80,130 });
-	//spawnFire.PushBack({ 320,417,80,130 });
-	//spawnFire.loop = true;
-	//spawnFire.speed = 0.2f / 16;
-
-	//spearThrown.PushBack({ 582,242,138,88 });
-	//spearThrown.PushBack({ 1142,776,138,88 });
-	//spearThrown.PushBack({ 1282,776,138,88 });
-	//spearThrown.PushBack({ 1422,776,138,88 });
-	//spearThrown.speed = 0.17f / 16;
-	//spearThrown.opportunityFrame = 100;
-	//spearThrown.loop = false;
-	
-
 }
 
 Player::~Player() {
@@ -200,100 +29,7 @@ bool Player::Awake() {
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 
-	for (pugi::xml_node node = parameters.child("animations").child("idle").child("frame"); node != NULL; node = node.next_sibling("frame")) {
-
-		idle.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		idle.speed = parameters.child("animations").child("idle").child("speed").attribute("value").as_float() / 16;
-		//idle.loop = parameters.child("animations").child("idle").child("loop").attribute("value").as_bool();
-	}
-	for (pugi::xml_node node = parameters.child("animations").child("longIdle1").child("frame"); node != NULL; node = node.next_sibling("frame")) {
-
-		longIdle1.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		longIdle1.speed = parameters.child("animations").child("longIdle1").child("speed").attribute("value").as_float() / 16;
-		longIdle1.loop = parameters.child("animations").child("longIdle1").child("loop").attribute("value").as_bool();
-	}
-	for (pugi::xml_node node = parameters.child("animations").child("longIdle2").child("frame"); node != NULL; node = node.next_sibling("frame")) {
-
-		longIdle2.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		longIdle2.speed = parameters.child("animations").child("longIdle2").child("speed").attribute("value").as_float() / 16;
-		//longIdle2.loop = parameters.child("animations").child("longIdle2").child("loop").attribute("value").as_bool();
-
-	}
-	for (pugi::xml_node node = parameters.child("animations").child("longRun").child("frame"); node != NULL; node = node.next_sibling("frame")) {
-
-		longRun.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		longRun.speed = parameters.child("animations").child("longRun").child("speed").attribute("value").as_float() / 16;
-		//longRun.loop = parameters.child("animations").child("longRun").child("loop").attribute("value").as_bool();
-	}
-	for (pugi::xml_node node = parameters.child("animations").child("playerRun").child("frame"); node != NULL; node = node.next_sibling("frame")) {
-
-		playerRun.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		playerRun.speed = parameters.child("animations").child("playerRun").child("speed").attribute("value").as_float() / 16;
-		playerRun.loop = parameters.child("animations").child("playerRun").child("loop").attribute("value").as_bool();
-	}
-	for (pugi::xml_node node = parameters.child("animations").child("groundAttack").child("frame"); node != NULL; node = node.next_sibling("frame")) {
-
-		groundAttack.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, node.attribute("opportunity").as_bool());
-		groundAttack.speed = parameters.child("animations").child("groundAttack").child("speed").attribute("value").as_float() / 16;
-		groundAttack.loop = parameters.child("animations").child("groundAttack").child("loop").attribute("value").as_bool();
-	}
-
-	groundAttack.opportunityFrame = 2;
-	groundAttack.opportunityKey = SDL_SCANCODE_M;
-	groundAttack.opportunityWindow = 0.2f;
-
-	airAttack.loop = false;
-	airAttack.speed = 0.19f / 16;
-	airAttack.opportunityKey = SDL_SCANCODE_M;
-	airAttack.opportunityWindow = 0.15f;
-	airAttack.opportunityFrame = 2;
-
-
-	for (pugi::xml_node node = parameters.child("animations").child("airAttack").child("frame"); node != NULL; node = node.next_sibling("frame")) {
-
-		airAttack.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, node.attribute("opportunity").as_bool());
-		airAttack.speed = parameters.child("animations").child("airAttack").child("speed").attribute("value").as_float() / 16;
-		airAttack.loop = parameters.child("animations").child("airAttack").child("loop").attribute("value").as_bool();
-	}
-	for (pugi::xml_node node = parameters.child("animations").child("fall").child("frame"); node != NULL; node = node.next_sibling("frame")) {
-
-		Fall.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		Fall.speed = parameters.child("animations").child("fall").child("speed").attribute("value").as_float() / 16;
-		
-	}
-	for (pugi::xml_node node = parameters.child("animations").child("spawnFire").child("frame"); node != NULL; node = node.next_sibling("frame")) {
-
-		spawnFire.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		spawnFire.speed = parameters.child("animations").child("spawnFire").child("speed").attribute("value").as_float() / 16;
-	}
-	for (pugi::xml_node node = parameters.child("animations").child("spearThrown").child("frame"); node != NULL; node = node.next_sibling("frame")) {
-
-		spearThrown.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		spearThrown.speed = parameters.child("animations").child("spearThrown").child("speed").attribute("value").as_float() / 16;
-		spearThrown.loop = parameters.child("animations").child("spearThrown").child("loop").attribute("value").as_bool();
-	}
-	for (pugi::xml_node node = parameters.child("animations").child("jump").child("frame"); node != NULL; node = node.next_sibling("frame")) {
-
-		Jump.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		Jump.speed = parameters.child("animations").child("jump").child("speed").attribute("value").as_float() / 16;
-		Jump.loop = parameters.child("animations").child("jump").child("loop").attribute("value").as_bool();
-	}
-
-	for (pugi::xml_node node = parameters.child("animations").child("epicSpawn").child("frame"); node != NULL; node = node.next_sibling("frame")) {
-
-		epicSpawn.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		epicSpawn.speed = parameters.child("animations").child("epicSpawn").child("speed").attribute("value").as_float() / 16;
-		epicSpawn.loop = false;
-	}
-	//epicSpawn.speed = 0.13f/16;
-
-
-	for (pugi::xml_node node = parameters.child("animations").child("quickSpawn").child("frame"); node != NULL; node = node.next_sibling("frame")) {
-
-		quickSpawn.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		quickSpawn.speed = parameters.child("animations").child("quickSpawn").child("speed").attribute("value").as_float() / 16;
-		quickSpawn.loop = false;
-	}
+	LoadAnimations();
 
 	myDir = Direction::RIGHT;
 
@@ -611,6 +347,11 @@ bool Player::Update(float dt)
 		currentAnim = currentSpawnAnim;
 		//app->render->DrawTexture(texture, position.x , position.y - 90, false, &spawnFire.GetCurrentFrame());
 	}
+
+	// ---------------Orb stuf----------------//
+	orbMeter = { 100, 20, orbs*10, 15 };
+	app->render->DrawRectangle(orbMeter, 50, 0, 140, 255);
+
 	
 	return true;
 }
@@ -623,7 +364,7 @@ bool Player::CleanUp()
 
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
-	if (dead == false) {
+	if (dead == false && physB->active) {
 
 		switch (physB->ctype)
 		{
@@ -650,6 +391,11 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		case ColliderType::INSTAKILL:
 
 			dead = true;
+			break;
+		case ColliderType::ORB:
+			LOG("Player touched an orb");
+			orbs++;
+			physB->active = false;
 			break;
 
 		}
@@ -692,4 +438,102 @@ bool Player::SaveState(pugi::xml_node node) {
 	Node.append_attribute("y").set_value(position.y);
 
 	return true;
+}
+
+void Player::LoadAnimations() {
+
+	for (pugi::xml_node node = parameters.child("animations").child("idle").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		idle.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		idle.speed = parameters.child("animations").child("idle").child("speed").attribute("value").as_float() / 16;
+		//idle.loop = parameters.child("animations").child("idle").child("loop").attribute("value").as_bool();
+	}
+	for (pugi::xml_node node = parameters.child("animations").child("longIdle1").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		longIdle1.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		longIdle1.speed = parameters.child("animations").child("longIdle1").child("speed").attribute("value").as_float() / 16;
+		longIdle1.loop = parameters.child("animations").child("longIdle1").child("loop").attribute("value").as_bool();
+	}
+	for (pugi::xml_node node = parameters.child("animations").child("longIdle2").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		longIdle2.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		longIdle2.speed = parameters.child("animations").child("longIdle2").child("speed").attribute("value").as_float() / 16;
+		//longIdle2.loop = parameters.child("animations").child("longIdle2").child("loop").attribute("value").as_bool();
+
+	}
+	for (pugi::xml_node node = parameters.child("animations").child("longRun").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		longRun.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		longRun.speed = parameters.child("animations").child("longRun").child("speed").attribute("value").as_float() / 16;
+		//longRun.loop = parameters.child("animations").child("longRun").child("loop").attribute("value").as_bool();
+	}
+	for (pugi::xml_node node = parameters.child("animations").child("playerRun").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		playerRun.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		playerRun.speed = parameters.child("animations").child("playerRun").child("speed").attribute("value").as_float() / 16;
+		playerRun.loop = parameters.child("animations").child("playerRun").child("loop").attribute("value").as_bool();
+	}
+	for (pugi::xml_node node = parameters.child("animations").child("groundAttack").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		groundAttack.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, node.attribute("opportunity").as_bool());
+		groundAttack.speed = parameters.child("animations").child("groundAttack").child("speed").attribute("value").as_float() / 16;
+		groundAttack.loop = parameters.child("animations").child("groundAttack").child("loop").attribute("value").as_bool();
+	}
+
+	groundAttack.opportunityFrame = 2;
+	groundAttack.opportunityKey = SDL_SCANCODE_M;
+	groundAttack.opportunityWindow = 0.2f;
+
+	airAttack.loop = false;
+	airAttack.speed = 0.19f / 16;
+	airAttack.opportunityKey = SDL_SCANCODE_M;
+	airAttack.opportunityWindow = 0.15f;
+	airAttack.opportunityFrame = 2;
+
+
+	for (pugi::xml_node node = parameters.child("animations").child("airAttack").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		airAttack.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, node.attribute("opportunity").as_bool());
+		airAttack.speed = parameters.child("animations").child("airAttack").child("speed").attribute("value").as_float() / 16;
+		airAttack.loop = parameters.child("animations").child("airAttack").child("loop").attribute("value").as_bool();
+	}
+	for (pugi::xml_node node = parameters.child("animations").child("fall").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		Fall.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		Fall.speed = parameters.child("animations").child("fall").child("speed").attribute("value").as_float() / 16;
+
+	}
+	for (pugi::xml_node node = parameters.child("animations").child("spawnFire").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		spawnFire.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		spawnFire.speed = parameters.child("animations").child("spawnFire").child("speed").attribute("value").as_float() / 16;
+	}
+	for (pugi::xml_node node = parameters.child("animations").child("spearThrown").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		spearThrown.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		spearThrown.speed = parameters.child("animations").child("spearThrown").child("speed").attribute("value").as_float() / 16;
+		spearThrown.loop = parameters.child("animations").child("spearThrown").child("loop").attribute("value").as_bool();
+	}
+	for (pugi::xml_node node = parameters.child("animations").child("jump").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		Jump.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		Jump.speed = parameters.child("animations").child("jump").child("speed").attribute("value").as_float() / 16;
+		Jump.loop = parameters.child("animations").child("jump").child("loop").attribute("value").as_bool();
+	}
+
+	for (pugi::xml_node node = parameters.child("animations").child("epicSpawn").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		epicSpawn.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		epicSpawn.speed = parameters.child("animations").child("epicSpawn").child("speed").attribute("value").as_float() / 16;
+		epicSpawn.loop = false;
+	}
+	//epicSpawn.speed = 0.13f/16;
+
+
+	for (pugi::xml_node node = parameters.child("animations").child("quickSpawn").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		quickSpawn.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		quickSpawn.speed = parameters.child("animations").child("quickSpawn").child("speed").attribute("value").as_float() / 16;
+		quickSpawn.loop = false;
+	}
 }

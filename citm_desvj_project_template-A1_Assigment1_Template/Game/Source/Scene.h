@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Item.h"
 #include "../Spear.h"
+#include "../Orb.h"
 
 struct SDL_Texture;
 
@@ -36,11 +37,13 @@ public:
 	bool CleanUp();
 
 	Player* player;
+	Orb* orbs[50] = { nullptr };
 
 	bool SaveState(pugi::xml_node node);
 
 	bool LoadState(pugi::xml_node node);
 
+	pugi::xml_node scene_parameter;
 	
 private:
 	SDL_Texture* mouseTileTex;

@@ -28,12 +28,19 @@
   </audio>
 
   <scene>
+	  <orb texturepath ="Assets/Textures/orbSheet.png" >
+		  <frame x="1" y="1" w="38" h="38" />
+		  <frame x="41" y="1" w="38" h="38" />
+		  <frame x="81" y="1" w="38" h="38" />
+		  <frame x="121" y="1" w="38" h="38" />
+		  <speed value="0.05" />
+	  </orb>
 	  <player x="100" y="200" texturepath="Assets/Textures/playerSheet.png">
 		  <animations>
 			  <idle>
 				  <frame x="696" y="1" w="138" h="88" />
 				  <frame x="835" y="1" w="138" h="88" />
-				  <speed value="0.05/16" />
+				  <speed value="0.05" />
 			  </idle>
 
 			  <longIdle1>
@@ -82,7 +89,6 @@
 				  <loop>true</loop>
 			  </playerRun>
 
-			  <!-- Add other animations in a similar manner -->
 
 			  <groundAttack>
 				  <frame x="582" y="242" w="138" h="88" />
@@ -194,7 +200,6 @@
 			  </epicSpawn>
 
 			  <quickSpawn>
-				  <!-- Include quickSpawn frames here -->
 				  <speed value="0.18/16" />
 				  <loop value ="false"/>
 				  <frame x="115" y="839" w="112" h="144" />

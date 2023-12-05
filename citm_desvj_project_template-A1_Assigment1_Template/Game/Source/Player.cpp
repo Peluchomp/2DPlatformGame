@@ -51,10 +51,15 @@ bool Player::Start() {
 
 	texture = app->tex->Load(texturePath);
 
-	pbody = app->physics->CreateChain(position.x , position.y ,PlayerCoords,8, bodyType::DYNAMIC);
+	pbody = app->physics->CreateChain(position.x +35 , position.y ,PlayerCoords,8, bodyType::DYNAMIC);
 	pbody->listener = this;
 	
 	pbody->ctype = ColliderType::PLAYER;
+
+	attackTrigger = app->physics->CreateRectangleSensor(position.x + 110, position.y+40, 60, 70, bodyType::STATIC);
+	attackTrigger->listener = this; // CHANGE to enemies
+	attackTrigger->ctype = ColliderType::PLAYER_ATTACK;
+
 
 	/*plegs = app->physics->CreateCircle(position.x + 16, position.y + 30, 10, bodyType::STATIC);
 	plegs->listener = this;
@@ -130,6 +135,7 @@ bool Player::Update(float dt)
 		{
 			// debe de haber algun problema , aqui le restamos a la velocidad en y pero el dt es mas grande cuanto menor los fps y esto hace que cauga menos/ salte mas
 			gravity += 0.05f * dt;
+			
 
 		}
 
@@ -275,11 +281,11 @@ bool Player::Update(float dt)
 
 	if (myDir == Direction::RIGHT) {
 		if(spawning){ app->render->DrawTexture(texture, position.x , position.y - 100, false, &currentAnim->GetCurrentFrame()); }
-		else { app->render->DrawTexture(texture, position.x - 16, position.y - 40, false, &currentAnim->GetCurrentFrame()); }
+		else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, false, &currentAnim->GetCurrentFrame()); }
 	}
 	else {
 		if (spawning) { app->render->DrawTexture(texture, position.x, position.y - 100, false, &currentAnim->GetCurrentFrame()); }
-		else { app->render->DrawTexture(texture, position.x - 16, position.y - 40, true, &currentAnim->GetCurrentFrame()); }
+		else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, true, &currentAnim->GetCurrentFrame()); }
 	}
 
 	if (SpearhasBeenThrown) {
@@ -349,9 +355,11 @@ bool Player::Update(float dt)
 	}
 
 	// ---------------Orb stuf----------------//
-	orbMeter = { 100, 20, orbs*10, 15 };
+	orbMeter = { 50 - (app->render->camera.x/2), 20, orbs*10, 15 };
 	app->render->DrawRectangle(orbMeter, 50, 0, 140, 255);
 
+	// Method that manages the logic of the attack hitbox
+	AttackHitBoxManagement();
 	
 	return true;
 }
@@ -418,6 +426,8 @@ void Player::Spawn(int Level) {
 
 		b2Vec2 startPos = { x,y };
 		pbody->body->SetTransform(startPos, pbody->body->GetAngle());
+
+		orbs = 0;
 	}
 }
 
@@ -536,4 +546,21 @@ void Player::LoadAnimations() {
 		quickSpawn.speed = parameters.child("animations").child("quickSpawn").child("speed").attribute("value").as_float() / 16;
 		quickSpawn.loop = false;
 	}
+}
+
+
+void Player::AttackHitBoxManagement() {
+
+	/*b2Vec2 v(PIXEL_TO_METERS(position.x + 110), PIXEL_TO_METERS(position.y + 40));
+	attackTrigger->body->SetTransform(v, 0  );*/
+
+	/*if (Attacking) {
+		attackTrigger->active = true;
+	}
+	else {
+		attackTrigger->active = false;
+	}*/
+
+
+
 }

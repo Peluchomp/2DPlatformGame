@@ -60,8 +60,8 @@ bool Orb::Update(float dt)
 			defaultAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
 			defaultAnim.speed = parameters.child("speed").attribute("value").as_float() / 16;
 			//idle.loop = parameters.child("animations").child("idle").child("loop").attribute("value").as_bool();
-			position = app->scene->player->position;
-			position.y -= 100;
+			/*position = app->scene->player->position;
+			position.y -= 100;*/
 		}
 		awake = true;
 		currentAnimation = &defaultAnim;

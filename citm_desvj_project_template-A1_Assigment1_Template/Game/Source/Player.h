@@ -37,6 +37,8 @@ public:
 
 	void LoadAnimations();
 
+	void AttackHitBoxManagement();
+
 	bool SaveState(pugi::xml_node node);
 	bool LoadState(pugi::xml_node node);
 
@@ -48,6 +50,8 @@ public:
 	SDL_Texture* texture = NULL;
 	PhysBody* pbody;
 	PhysBody* plegs;
+	PhysBody* attackTrigger;
+
 	Animation* currentAnim;
 
 	Animation idle;

@@ -45,8 +45,8 @@
 				  <frame x="974" y="90" w="138" h="88" />
 				  <frame x="1113" y="90" w="138" h="88" />
 				  <frame x="1252" y="90" w="138" h="88" />
-				  <speed value="0.08/16" />
-				  <loop>false</loop>
+				  <speed value="0.08" />
+				  <loop value ="false"  />
 			  </longIdle1>
 
 			  <longIdle2>
@@ -55,7 +55,7 @@
 				  <frame x="974" y="90" w="138" h="88" />
 				  <frame x="1113" y="90" w="138" h="88" />
 				  <frame x="1252" y="90" w="138" h="88" />
-				  <speed value="0.07/16" />
+				  <speed value="0.07" />
 			  </longIdle2>
 
 			  <longRun>
@@ -69,7 +69,7 @@
 				  <frame x="557" y="90" w="138" h="88" />
 				  <frame x="1" y="179" w="138" h="88" />
 				  <frame x="140" y="179" w="138" h="88" />
-				  <speed value="0.16/16" />
+				  <speed value="0.16" />
 			  </longRun>
 
 			  <playerRun>
@@ -78,7 +78,7 @@
 				  <frame x="160" y="240" w="80" h="80" />
 				  <frame x="240" y="240" w="80" h="80" />
 				  <frame x="320" y="240" w="80" h="80" />
-				  <speed value="0.3/16" />
+				  <speed value="0.3" />
 				  <loop>true</loop>
 			  </playerRun>
 
@@ -98,17 +98,24 @@
 				  <frame x="1002" y="420" w="138" h="88" />
 				  <frame x="1142" y="420" w="138" h="88" />
 				  <frame x="1282" y="420" w="138" h="88" />
-				  <loop>false</loop>
-				  <speed value="0.16/16" />
+				  <loop value="false"/>
+				  <speed value="0.16" />
 				  <opportunityFrame>2</opportunityFrame>
 				  <opportunityKey>SDL_SCANCODE_M</opportunityKey>
 				  <opportunityWindow>0.2</opportunityWindow>
 			  </groundAttack>
 
 			  <airAttack>
-				  <!-- Add airAttack frames here -->
-				  <loop>false</loop>
-				  <speed value="0.19/16" />
+				  <frame x="1142" y="509" w="138" h="88" />
+				  <frame x="1282" y="509" w="138" h="88" />
+				  <frame x="1142" y="598" w="138" h="88" />
+				  <frame x="1282" y="598" w="138" h="88" />
+				  <frame x="1422" y="598" w="138" h="88" opportunity="true" />
+				  <frame x="1142" y="687" w="138" h="88" />
+				  <frame x="1282" y="687" w="138" h="88" />
+				  <frame x="1422" y="687" w="138" h="88" />
+				  <loop value ="false"/>
+				  <speed value="0.19" />
 				  <opportunityKey>SDL_SCANCODE_M</opportunityKey>
 				  <opportunityWindow>0.15</opportunityWindow>
 				  <opportunityFrame>2</opportunityFrame>
@@ -117,8 +124,8 @@
 			  <fall>
 				  <frame x="418" y="268" w="138" h="88" />
 				  <frame x="418" y="357" w="138" h="88" />
-				  <speed value="0.1/16" />
-				  <loop>true</loop>
+				  <speed value="0.1" />
+				 
 			  </fall>
 
 			  <spawnFire>
@@ -127,8 +134,8 @@
 				  <frame x="160" y="417" w="80" h="130" />
 				  <frame x="240" y="417" w="80" h="130" />
 				  <frame x="320" y="417" w="80" h="130" />
-				  <loop>true</loop>
-				  <speed value="0.2/16" />
+				
+				  <speed value="0.2" />
 			  </spawnFire>
 
 			  <spearThrown>
@@ -138,7 +145,7 @@
 				  <frame x="1422" y="776" w="138" h="88" />
 				  <speed value="0.17/16" />
 				  <opportunityFrame>100</opportunityFrame>
-				  <loop>false</loop>
+				  <loop value ="false"/>
 			  </spearThrown>
 
 			  <jump>
@@ -146,8 +153,8 @@
 				  <frame x="1" y="268" w="138" h="88" />
 				  <frame x="140" y="268" w="138" h="88" />
 				  <frame x="279" y="268" w="138" h="88" />
-				  <speed value="0.2/16" />
-				  <loop>false</loop>
+				  <speed value="0.2" />
+				  <loop value ="false"/>
 			  </jump>
 
 			  <epicSpawn>
@@ -189,7 +196,7 @@
 			  <quickSpawn>
 				  <!-- Include quickSpawn frames here -->
 				  <speed value="0.18/16" />
-				  <loop>false</loop>
+				  <loop value ="false"/>
 				  <frame x="115" y="839" w="112" h="144" />
 				  <frame x="229" y="839" w="112" h="144" />
 				  <frame x="343" y="839" w="112" h="144" />

@@ -203,57 +203,80 @@ bool Player::Awake() {
 	for (pugi::xml_node node = parameters.child("animations").child("idle").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		idle.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		idle.speed = node.attribute("speed").as_int();
+		idle.speed = parameters.child("animations").child("idle").child("speed").attribute("value").as_float() / 16;
+		//idle.loop = parameters.child("animations").child("idle").child("loop").attribute("value").as_bool();
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("longIdle1").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		longIdle1.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		longIdle1.speed = node.attribute("speed").as_int();
+		longIdle1.speed = parameters.child("animations").child("longIdle1").child("speed").attribute("value").as_float() / 16;
+		longIdle1.loop = parameters.child("animations").child("longIdle1").child("loop").attribute("value").as_bool();
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("longIdle2").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		longIdle2.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		longIdle2.speed = node.attribute("speed").as_int();
+		longIdle2.speed = parameters.child("animations").child("longIdle2").child("speed").attribute("value").as_float() / 16;
+		//longIdle2.loop = parameters.child("animations").child("longIdle2").child("loop").attribute("value").as_bool();
+
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("longRun").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		longRun.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		longRun.speed = node.attribute("speed").as_int();
+		longRun.speed = parameters.child("animations").child("longRun").child("speed").attribute("value").as_float() / 16;
+		//longRun.loop = parameters.child("animations").child("longRun").child("loop").attribute("value").as_bool();
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("playerRun").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		playerRun.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		playerRun.speed = node.attribute("speed").as_int();
+		playerRun.speed = parameters.child("animations").child("playerRun").child("speed").attribute("value").as_float() / 16;
+		playerRun.loop = parameters.child("animations").child("playerRun").child("loop").attribute("value").as_bool();
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("groundAttack").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
-		groundAttack.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		groundAttack.speed = node.attribute("speed").as_int();
+		groundAttack.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, node.attribute("opportunity").as_bool());
+		groundAttack.speed = parameters.child("animations").child("groundAttack").child("speed").attribute("value").as_float() / 16;
+		groundAttack.loop = parameters.child("animations").child("groundAttack").child("loop").attribute("value").as_bool();
 	}
+
+	groundAttack.opportunityFrame = 2;
+	groundAttack.opportunityKey = SDL_SCANCODE_M;
+	groundAttack.opportunityWindow = 0.2f;
+
+	airAttack.loop = false;
+	airAttack.speed = 0.19f / 16;
+	airAttack.opportunityKey = SDL_SCANCODE_M;
+	airAttack.opportunityWindow = 0.15f;
+	airAttack.opportunityFrame = 2;
+
+
 	for (pugi::xml_node node = parameters.child("animations").child("airAttack").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
-		airAttack.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		airAttack.speed = node.attribute("speed").as_int();
+		airAttack.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, node.attribute("opportunity").as_bool());
+		airAttack.speed = parameters.child("animations").child("airAttack").child("speed").attribute("value").as_float() / 16;
+		airAttack.loop = parameters.child("animations").child("airAttack").child("loop").attribute("value").as_bool();
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("fall").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		Fall.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		Fall.speed = node.attribute("speed").as_int();
+		Fall.speed = parameters.child("animations").child("fall").child("speed").attribute("value").as_float() / 16;
+		
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("spawnFire").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		spawnFire.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		spawnFire.speed = node.attribute("speed").as_int();
+		spawnFire.speed = parameters.child("animations").child("spawnFire").child("speed").attribute("value").as_float() / 16;
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("spearThrown").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		spearThrown.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		spearThrown.speed = node.attribute("speed").as_int();
+		spearThrown.speed = parameters.child("animations").child("spearThrown").child("speed").attribute("value").as_float() / 16;
+		spearThrown.loop = parameters.child("animations").child("spearThrown").child("loop").attribute("value").as_bool();
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("jump").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		Jump.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		Jump.speed = node.attribute("speed").as_int();
+		Jump.speed = parameters.child("animations").child("jump").child("speed").attribute("value").as_float() / 16;
+		Jump.loop = parameters.child("animations").child("jump").child("loop").attribute("value").as_bool();
 	}
 
 	for (pugi::xml_node node = parameters.child("animations").child("epicSpawn").child("frame"); node != NULL; node = node.next_sibling("frame")) {
@@ -268,7 +291,8 @@ bool Player::Awake() {
 	for (pugi::xml_node node = parameters.child("animations").child("quickSpawn").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		quickSpawn.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		quickSpawn.speed = node.attribute("speed").as_int();
+		quickSpawn.speed = parameters.child("animations").child("quickSpawn").child("speed").attribute("value").as_float() / 16;
+		quickSpawn.loop = false;
 	}
 
 	myDir = Direction::RIGHT;

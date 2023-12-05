@@ -228,19 +228,19 @@ uint PathNode::FindWalkableAdjacents(PathList& listToFill) const
 
 	// top
 	tile.Create(pos.x, pos.y + 1);
-	//if(app->map->pathfinding->IsWalkable(tile)) listToFill.list.Add(PathNode(-1, -1, tile, this));
+	if(app->map->pathfinding->IsWalkable(tile)) listToFill.list.Add(PathNode(-1, -1, tile, this));
 
 	//// bottom
-	//tile.Create(pos.x, pos.y - 1);
-	//if(app->map->pathfinding->IsWalkable(tile)) listToFill.list.Add(PathNode(-1, -1, tile, this));
+	tile.Create(pos.x, pos.y - 1);
+	if(app->map->pathfinding->IsWalkable(tile)) listToFill.list.Add(PathNode(-1, -1, tile, this));
 
 	//// left
-	//tile.Create(pos.x + 1, pos.y);
-	//if(app->map->pathfinding->IsWalkable(tile)) listToFill.list.Add(PathNode(-1, -1, tile, this));
+	tile.Create(pos.x + 1, pos.y);
+	if(app->map->pathfinding->IsWalkable(tile)) listToFill.list.Add(PathNode(-1, -1, tile, this));
 
 	//// right
-	//tile.Create(pos.x - 1, pos.y);
-	//if(app->map->pathfinding->IsWalkable(tile)) listToFill.list.Add(PathNode(-1, -1, tile, this));
+	tile.Create(pos.x - 1, pos.y);
+	if(app->map->pathfinding->IsWalkable(tile)) listToFill.list.Add(PathNode(-1, -1, tile, this));
 
 	return listToFill.list.Count();
 }

@@ -32,6 +32,7 @@ bool Item::Start() {
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
 	pbody->ctype = ColliderType::ITEM;
+	pbody->body->SetGravityScale(0);
 
 	return true;
 }
@@ -42,6 +43,37 @@ bool Item::Update(float dt)
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
+	iPoint highlightedTileWorld = app->scene->player->position;
+	app->render->DrawTexture(texture, highlightedTileWorld.x, highlightedTileWorld.y, false);
+
+	iPoint origin = app->map->WorldToMap(app->scene->player->position.x, app->scene->player->position.y+10);
+	iPoint origin2 = app->map->WorldToMap(position.x,position.y);
+
+	
+	//If mouse button is pressed modify player position
+	
+		
+		app->map->pathfinding->CreatePath(origin, origin2);
+	
+		iPoint origin3;
+	// L13: Get the latest calculated path and draw
+	const DynArray<iPoint>* path = app->map->pathfinding->GetLastPath();
+	for (uint i = 0; i < path->Count(); ++i)
+	{
+
+		iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+		app->render->DrawTexture(texture, pos.x, pos.y, false);
+		
+	}
+
+
+
+
+	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
+		origin3 = app->map->MapToWorld(path->At(0)->x,path->At(0)->y);
+		pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(origin.x),PIXEL_TO_METERS(origin.y)),0);
+	}
+	
 	
 	
 	app->render->DrawTexture(texture, position.x, position.y, false);

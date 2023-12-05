@@ -168,13 +168,13 @@ bool Scene::PostUpdate()
 	iPoint highlightedTileWorld = app->map->MapToWorld(mouseTile.x, mouseTile.y);
 	app->render->DrawTexture(mouseTileTex, highlightedTileWorld.x, highlightedTileWorld.y, false);
 
-	iPoint origin = iPoint(2, 2);
+	iPoint origin = iPoint(player->position.x, player->position.y);
 
 	//If mouse button is pressed modify player position
-	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
+	/*if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
 		player->position = iPoint(highlightedTileWorld.x, highlightedTileWorld.y);
 		app->map->pathfinding->CreatePath(origin, mouseTile);
-	}
+	}*/
 
 	// L13: Get the latest calculated path and draw
 	const DynArray<iPoint>* path = app->map->pathfinding->GetLastPath();

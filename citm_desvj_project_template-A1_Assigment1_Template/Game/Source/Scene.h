@@ -53,6 +53,7 @@ private:
 	uint windowW, windowH;
 	bool isInDebugMode;
 
+
 };
 
 #endif // __SCENE_H__

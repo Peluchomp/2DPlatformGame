@@ -42,7 +42,8 @@ public:
 	bool daPlatform = false;
 	bool isThrown = false;
 
-
+	float spearekis;
+	float spearyi;
 	SDL_Texture* texture;
 
 	Animation* currentAnim;

@@ -28,6 +28,7 @@
   </audio>
 
   <scene>
+    <item x= "200" y ="200"  texturepath="Assets/Textures/goldCoin.png"/>
 	  <orb texturepath ="Assets/Textures/orbSheet.png" >
 		  <frame x="1" y="1" w="38" h="38" />
 		  <frame x="41" y="1" w="38" h="38" />

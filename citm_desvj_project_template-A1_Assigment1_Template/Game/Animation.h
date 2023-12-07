@@ -5,6 +5,7 @@
 #include "Source/Input.h"
 #include "Source/Timer.h"
 #include "SDL/include/SDL_rect.h"
+#include "Source/Physics.h"
 #define MAX_FRAMES 200
 
 class Animation
@@ -22,6 +23,7 @@ public:
 	int numOpportunities = 0;
 	
 	SDL_Rect* currentOpportunity = nullptr;
+
 
 	bool opportunity = false;
 	
@@ -153,5 +155,12 @@ public:
 		return frames[actualFrame];
 	}
 };
+
+
+//void CompareFrames(SDL_Rect frameA, SDL_Rect frameB, SDL_Rect frameB2 = NULL, SDL_Rect frameB3 = NULL) {
+//
+//	if(frameA.x)
+//
+//}
 
 #endif

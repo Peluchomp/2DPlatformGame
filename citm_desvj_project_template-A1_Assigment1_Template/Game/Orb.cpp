@@ -65,7 +65,7 @@ bool Orb::Update(float dt)
 		}
 		awake = true;
 		currentAnimation = &defaultAnim;
-		_body = app->physics->CreateCircle(position.x + 19, position.y+19 , 30, bodyType::KINEMATIC, true);
+		_body = app->physics->CreateCircle(position.x + 19, position.y+19 , 15, bodyType::KINEMATIC, true);
 		_body->body->SetGravityScale(0);
 		_body->ctype = ColliderType::ORB;
 		

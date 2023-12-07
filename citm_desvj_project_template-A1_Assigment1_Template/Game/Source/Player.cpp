@@ -56,7 +56,8 @@ bool Player::Start() {
 	
 	pbody->ctype = ColliderType::PLAYER;
 
-	attackTrigger = app->physics->CreateRectangleSensor(position.x + 110, position.y+40, 60, 70, bodyType::STATIC);
+	attackTrigger = app->physics->CreateRectangleSensor(position.x + 110, position.y+40, 60, 70, bodyType::DYNAMIC);
+	attackTrigger->body->SetGravityScale(0);
 	attackTrigger->listener = this; // CHANGE to enemies
 	attackTrigger->ctype = ColliderType::PLAYER_ATTACK;
 
@@ -427,6 +428,10 @@ void Player::Spawn(int Level) {
 		b2Vec2 startPos = { x,y };
 		pbody->body->SetTransform(startPos, pbody->body->GetAngle());
 
+		pbody->body->SetLinearVelocity(b2Vec2(0, 0));
+		pbody->body->SetAngularVelocity(0.0f);
+		movementx = 0; 
+
 		orbs = 0;
 	}
 }
@@ -551,16 +556,65 @@ void Player::LoadAnimations() {
 
 void Player::AttackHitBoxManagement() {
 
-	/*b2Vec2 v(PIXEL_TO_METERS(position.x + 110), PIXEL_TO_METERS(position.y + 40));
-	attackTrigger->body->SetTransform(v, 0  );*/
+	
+	
 
-	/*if (Attacking) {
+	if (Attacking) {
 		attackTrigger->active = true;
 	}
 	else {
 		attackTrigger->active = false;
-	}*/
+	}
+
+	if (myDir == Direction::RIGHT) {
+		attackTrigger->body->SetTransform(pbody->body->GetPosition() + b2Vec2(1.5f, 0.8f), 0.0f);
+
+		SDL_Rect r{ 722 ,331 ,138 ,88 };
+		SDL_Rect r2{ 862 ,331 ,138 ,88 };
+		SDL_Rect r3{ 582 ,420 ,138 ,88 };
+
+		if (currentAnim == &groundAttack && ((groundAttack.GetCurrentFrame().x == r.x && groundAttack.GetCurrentFrame().y == r.y) || (groundAttack.GetCurrentFrame().x == r2.x && groundAttack.GetCurrentFrame().y == r2.y) || (groundAttack.GetCurrentFrame().x == r3.x && groundAttack.GetCurrentFrame().y == r3.y))) {
+
+			LOG("Move hitboxes");
+			attackTrigger->body->SetTransform(pbody->body->GetPosition() + b2Vec2(0.2f, 0.8f), 0.0f);
+		}
+
+		SDL_Rect deavtice1{ 722 ,420 ,138 ,88 };
+		SDL_Rect deavtice2{ 862 ,420 ,138 ,88 };
+		SDL_Rect deavtice3{ 1002 ,420 ,138 ,88 };
+
+		if (currentAnim == &groundAttack && ((groundAttack.GetCurrentFrame().x == deavtice1.x && groundAttack.GetCurrentFrame().y == deavtice1.y) || (groundAttack.GetCurrentFrame().x == deavtice2.x && groundAttack.GetCurrentFrame().y == deavtice2.y) || (groundAttack.GetCurrentFrame().x == deavtice3.x && groundAttack.GetCurrentFrame().y == deavtice3.y))) {
+
+			LOG("Move hitboxes");
+			attackTrigger->active = false;
+		}
+	}
+	else {
+
+		attackTrigger->body->SetTransform(pbody->body->GetPosition() + b2Vec2(1.5 -1.2f, 0.8f), 0.0f);
 
 
+		SDL_Rect r{ 722 ,331 ,138 ,88 };
+		SDL_Rect r2{ 862 ,331 ,138 ,88 };
+		SDL_Rect r3{ 582 ,420 ,138 ,88 };
 
+		if (currentAnim == &groundAttack && ((groundAttack.GetCurrentFrame().x == r.x && groundAttack.GetCurrentFrame().y == r.y) || (groundAttack.GetCurrentFrame().x == r2.x && groundAttack.GetCurrentFrame().y == r2.y) || (groundAttack.GetCurrentFrame().x == r3.x && groundAttack.GetCurrentFrame().y == r3.y))) {
+
+			LOG("Move hitboxes");
+			attackTrigger->body->SetTransform(pbody->body->GetPosition() + b2Vec2(0.2f +1.3f, 0.8f), 0.0f);
+		}
+
+		SDL_Rect deavtice1{ 722 ,420 ,138 ,88 };
+		SDL_Rect deavtice2{ 862 ,420 ,138 ,88 };
+		SDL_Rect deavtice3{ 1002 ,420 ,138 ,88 };
+
+		if (currentAnim == &groundAttack && ((groundAttack.GetCurrentFrame().x == deavtice1.x && groundAttack.GetCurrentFrame().y == deavtice1.y) || (groundAttack.GetCurrentFrame().x == deavtice2.x && groundAttack.GetCurrentFrame().y == deavtice2.y) || (groundAttack.GetCurrentFrame().x == deavtice3.x && groundAttack.GetCurrentFrame().y == deavtice3.y))) {
+
+			LOG("Move hitboxes");
+			attackTrigger->active = false;
+		}
+
+	}
+
+				  
 }

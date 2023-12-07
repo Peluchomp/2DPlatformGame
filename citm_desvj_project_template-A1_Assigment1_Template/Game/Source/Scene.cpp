@@ -125,27 +125,42 @@ bool Scene::Update(float dt)
 			app->render->camera.x += (int)ceil(camSpeed * dt);
 
 
+		if (isInDebugMode == false) {
+			if (player->position.x < app->win->screenSurface->w / 3) {
+				//player->position.x = app->win->screenSurface->w / 3;
+			}
+			//app->render->camera.x = -player->position.x * 2 - 3 + app->win->screenSurface->w / 2;
 
+			if (player->position.y <= 0)
+			{
+				//player->position.y += app->win->screenSurface->h + 13 * 2;
+			}
+			else if (player->position.y >= app->win->screenSurface->h)
+			{
+				//player->position.y -= app->win->screenSurface->h - 13 * 2;
+			}
+			else
+			{
+				//player->position.y = 0;
+			}
+			//app->render->camera.y = -player->position.y +app->win->screenSurface->h/2-143;
+		}
 	
-		if (player->position.x < app->win->screenSurface->w / 3) {
-			player->position.x = app->win->screenSurface->w / 3;
-		}
-		app->render->camera.x = -player->position.x *2 - 3 + app->win->screenSurface->w / 2;
+		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
+		//app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
+		app->render->camera.y = -app->scene->player->position.y + app->render->camera.h / 2;
+		if (app->render->camera.x > 0) app->render->camera.x = 0;
+		if (app->render->camera.y > 0) app->render->camera.y = 0;
+		/*if (app->render->camera.x < -app->map->mapData.width * app->map->mapData.tileWidth + app->render->camera.w)
+			app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;*/
+			if (app->render->camera.y < -app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h)
+				app->render->camera.y = (-app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h) * 2;
 
-		if (player->position.y <= 0)
-		{
-			//player->position.y += app->win->screenSurface->h + 13 * 2;
-		}
-		else if (player->position.y >= app->win->screenSurface->h)
-		{
-			player->position.y -= app->win->screenSurface->h - 13 * 2;
-		}
-		else
-		{
-			player->position.y = 0;
-		}
-		app->render->camera.y = -player->position.y;
+/**2 - 3 + app->win->screenSurface->w / 2;*/
+		
 
+
+		app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
 	
 
 		if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {

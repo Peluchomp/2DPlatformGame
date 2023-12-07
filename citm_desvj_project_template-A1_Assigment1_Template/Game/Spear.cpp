@@ -116,6 +116,7 @@ bool Spear::Update(float dt)
 	{
 		b2Vec2 positiondissapera = b2Vec2(-100,-100);
 		ThePlatform->body->SetTransform(pbody->body->GetPosition(),0);
+		
 		pbody->body->SetTransform(positiondissapera, angle + 270);
 		isSticked = true;
 		platform = false;
@@ -129,8 +130,8 @@ bool Spear::Update(float dt)
 		pbody->body->SetTransform(positiondissapera, angle + 270);
 		daPlatform = false;
 	}
-
-
+	
+	app->render->DrawTexture(texture, METERS_TO_PIXELS(ThePlatform->body->GetPosition().x-30), METERS_TO_PIXELS(ThePlatform->body->GetPosition().y -8), false,&form1Anim.GetCurrentFrame());
 	//app->render->DrawTexture(texture, position.x, position.y, false, 0,0,angle);
 
 	return true;

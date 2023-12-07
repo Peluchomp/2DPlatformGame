@@ -12,6 +12,14 @@ class Item : public Entity
 {
 public:
 
+	enum class State
+	{
+		IDLE,
+		FLYING,
+		DYING
+	};
+
+
 	Item();
 	virtual ~Item();
 
@@ -28,8 +36,21 @@ public:
 	bool isPicked = false;
 
 private:
+	iPoint lastPlayerPosition;
+	DynArray<iPoint> path;
+	bool hasPath = false;
+	int pathIndex = 0;
 
+
+	fPoint fposition = fPoint(position.x, position.y);
+	State state;
+	fPoint initialPosition;
+
+
+
+	float timer;
 	SDL_Texture* texture;
+	SDL_Texture* texture2;
 	const char* texturePath;
 	PhysBody* pbody;
 };

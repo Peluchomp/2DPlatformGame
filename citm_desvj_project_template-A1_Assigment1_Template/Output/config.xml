@@ -49,7 +49,7 @@
 	  <orb_spawn x="2431" y="333" />
 	  <orb_spawn x="3447" y="317" />
 	  <orb_spawn x="3711" y="108" />
-	  <player x="100" y="200" texturepath="Assets/Textures/playerSheet.png">
+	  <player x="100" y="200" texturepath="Assets/Textures/playerSheet-export.png">
 		  <animations>
 			  <idle>
 				  <frame x="696" y="1" w="138" h="88" />
@@ -124,6 +124,27 @@
 				  <opportunityKey>SDL_SCANCODE_M</opportunityKey>
 				  <opportunityWindow>0.2</opportunityWindow>
 			  </groundAttack>
+
+			  <mid_groundAttack>
+				  <frame x="1422" y="242" w="138" h="88" />
+				  <frame x="1562" y="242" w="138" h="88" />
+				  <frame x="1702" y="242" w="138" h="88" />
+				  <frame x="1842" y="242" w="138" h="88" opportunity="true" />
+				  <frame x="1562" y="331" w="138" h="88" />
+				  <frame x="1702" y="331" w="138" h="88" />
+				  <frame x="1842" y="331" w="138" h="88" opportunity="true" />
+				  <frame x="1562" y="420" w="138" h="88" />
+				  <frame x="1702" y="420" w="138" h="88" />
+				  <frame x="1842" y="420" w="138" h="88" />
+				  <frame x="1982" y="420" w="138" h="88" />
+				  <frame x="2122" y="420" w="138" h="88" />
+				  <frame x="2122" y="420" w="138" h="88" />
+				  <loop value="false"/>
+				  <speed value="0.16" />
+				  <opportunityFrame>2</opportunityFrame>
+				  <opportunityKey>SDL_SCANCODE_M</opportunityKey>
+				  <opportunityWindow>0.2</opportunityWindow>
+			  </mid_groundAttack>
 
 			  <airAttack>
 				  <frame x="1142" y="509" w="138" h="88" />

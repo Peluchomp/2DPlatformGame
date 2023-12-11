@@ -180,55 +180,8 @@ bool Player::Update(float dt)
 		}
 		//--------------Attacking Logic-----------------//
 
-		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && isGrounded) {
-			
-			idleState = false;
-			currentAnim = &groundAttack;
-			Attacking = true;
-		}
-		else if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && isGrounded == false) {
-			idleState = false;
+		AttackingLogic();
 		
-
-			currentAnim = &airAttack;
-			Attacking = true;
-		}
-		if (groundAttack.HasFinished()) {
-			groundAttack.Reset();
-			idleState = true;
-			IdleTimer.Start();
-			currentAnim = &idle;
-			Attacking = false;
-			groundBoost = false;
-		}
-		if (airAttack.HasFinished()) {
-			airAttack.Reset();
-			idleState = true;
-			IdleTimer.Start();
-			currentAnim = &idle;
-			Attacking = false;
-		}
-		/*if (Attacking && isGrounded && groundAttack.numOpportunities > 1 && !groundBoost) {
-			movementx += 40;
-			groundBoost = true;
-		}*/
-		if (spearThrown.HasFinished() || spearThrown.loopCount > 1) {
-			spearThrown.Reset();
-			idleState = true;
-			Attacking = false;
-			thrown = false;
-			thrownCooldown.Start();
-			currentAnim = &idle;
-			// When the spear is thrown in the animation it actually gets thrown//
-			mySpear->position = position;
-			mySpear->started = false;
-			mySpear->daPlatform = false;
-			mySpear->isPicked = false;
-			mySpear->isSticked = false;
-
-			SpearhasBeenThrown = true;
-
-		}
 
 		if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		{
@@ -279,6 +232,9 @@ bool Player::Update(float dt)
 	spawnFire.Update();
 	
 	app->render->DrawCircle(position.x+35,position.y-20, 20, 255, 255, 0, 255);
+
+	const SDL_Rect r{ 585,242,138,88 };
+	app->render->DrawTexture(texture, 100, 100, &r);
 
 	if (myDir == Direction::RIGHT) {
 		if(spawning){ app->render->DrawTexture(texture, position.x , position.y - 100, false, &currentAnim->GetCurrentFrame()); }
@@ -418,7 +374,8 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 void Player::Spawn(int Level) {
 	if (Level == 0) {
-		
+		power = PowerLvl::NORMAL;
+
 		spawning = true;
 		spawnFire.loopCount = 2;
 		float x = position.x = parameters.attribute("x").as_float();
@@ -494,10 +451,19 @@ void Player::LoadAnimations() {
 		groundAttack.speed = parameters.child("animations").child("groundAttack").child("speed").attribute("value").as_float() / 16;
 		groundAttack.loop = parameters.child("animations").child("groundAttack").child("loop").attribute("value").as_bool();
 	}
+	for (pugi::xml_node node = parameters.child("animations").child("mid_groundAttack").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		mid_groundAttack.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, node.attribute("opportunity").as_bool());
+		mid_groundAttack.speed = parameters.child("animations").child("mid_groundAttack").child("speed").attribute("value").as_float() / 16;
+		mid_groundAttack.loop = parameters.child("animations").child(" mid_groundAttack").child("loop").attribute("value").as_bool();
+	}
 
 	groundAttack.opportunityFrame = 2;
 	groundAttack.opportunityKey = SDL_SCANCODE_M;
 	groundAttack.opportunityWindow = 0.2f;
+	mid_groundAttack.opportunityFrame = 2;
+	mid_groundAttack.opportunityKey = SDL_SCANCODE_M;
+	mid_groundAttack.opportunityWindow = 0.2f;
 
 	airAttack.loop = false;
 	airAttack.speed = 0.19f / 16;
@@ -617,4 +583,102 @@ void Player::AttackHitBoxManagement() {
 	}
 
 				  
+}
+
+void Player::AttackingLogic() {
+	switch (power) {
+	case PowerLvl::NORMAL:
+		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && isGrounded) {
+
+			idleState = false;
+			currentAnim = &groundAttack;
+			Attacking = true;
+		}
+		else if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && isGrounded == false) {
+			idleState = false;
+
+
+			currentAnim = &airAttack;
+			Attacking = true;
+		}
+		if (groundAttack.HasFinished()) {
+			groundAttack.Reset();
+			idleState = true;
+			IdleTimer.Start();
+			currentAnim = &idle;
+			Attacking = false;
+			groundBoost = false;
+		}
+		if (airAttack.HasFinished()) {
+			airAttack.Reset();
+			idleState = true;
+			IdleTimer.Start();
+			currentAnim = &idle;
+			Attacking = false;
+		}
+		if (spearThrown.HasFinished() || spearThrown.loopCount > 1) {
+			spearThrown.Reset();
+			idleState = true;
+			Attacking = false;
+			thrown = false;
+			thrownCooldown.Start();
+			currentAnim = &idle;
+			// When the spear is thrown in the animation it actually gets thrown//
+			mySpear->position = position;
+			mySpear->started = false;
+			mySpear->daPlatform = false;
+			mySpear->isPicked = false;
+			mySpear->isSticked = false;
+
+			SpearhasBeenThrown = true;
+
+		}
+		break;
+	case PowerLvl::MID:
+		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && isGrounded) {
+
+			idleState = false;
+			currentAnim = &mid_groundAttack;
+			Attacking = true;
+		}
+		else if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && isGrounded == false) {
+			idleState = false;
+
+
+			currentAnim = &mid_airAttack;
+			Attacking = true;
+		}
+		if (mid_groundAttack.HasFinished()) {
+			mid_groundAttack.Reset();
+			idleState = true;
+			IdleTimer.Start();
+			currentAnim = &idle;
+			Attacking = false;
+			groundBoost = false;
+		}
+		if (mid_airAttack.HasFinished()) {
+			mid_airAttack.Reset();
+			idleState = true;
+			IdleTimer.Start();
+			currentAnim = &idle;
+			Attacking = false;
+		}
+		if (spearThrown.HasFinished() || spearThrown.loopCount > 1) {
+			spearThrown.Reset();
+			idleState = true;
+			Attacking = false;
+			thrown = false;
+			thrownCooldown.Start();
+			currentAnim = &idle;
+			// When the spear is thrown in the animation it actually gets thrown//
+			mySpear->position = position;
+			mySpear->started = false;
+			mySpear->daPlatform = false;
+			mySpear->isPicked = false;
+			mySpear->isSticked = false;
+
+			SpearhasBeenThrown = true;
+		}
+		break;
+	}
 }

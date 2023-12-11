@@ -12,6 +12,11 @@ enum Direction {
 	RIGHT,
 	LEFT
 };
+enum PowerLvl {
+	NORMAL,
+	MID,
+	OP
+};
 
 struct SDL_Texture;
 
@@ -38,6 +43,8 @@ public:
 	void LoadAnimations();
 
 	void AttackHitBoxManagement();
+
+	void AttackingLogic();
 
 	bool SaveState(pugi::xml_node node);
 	bool LoadState(pugi::xml_node node);
@@ -67,6 +74,11 @@ public:
 
 	Animation* currentSpawnAnim;
 
+	//----Mid power Animations----//
+	Animation mid_groundAttack;
+	Animation mid_airAttack;
+	Animation mid_spearThrow;
+
 	//----Spawn-Anim-----//
 	bool spawning = true;
 
@@ -79,6 +91,7 @@ public:
 	Animation Fall;
 	
 	Spear *mySpear;
+	PowerLvl power = PowerLvl::MID;
 
 	int orbs = 0;
 

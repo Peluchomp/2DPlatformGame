@@ -33,7 +33,7 @@ bool Item::Start() {
 	texture2 = app->tex->Load("Assets/Textures/Morgan.png");
 	pbody = app->physics->CreateCircle(position.x, position.y, 16, bodyType::DYNAMIC);
 	pbody->ctype = ColliderType::ITEM;
-	pbody->body->SetGravityScale(0);
+	pbody->body->SetGravityScale(1);
 	
 
 	return true;
@@ -61,13 +61,28 @@ bool Item::Update(float dt)
 		app->render->DrawTexture(texture, pos.x, pos.y,false);
 	}
 
-	if (timer>=60 && path->Count()>2) {
-		iPoint pos = app->map->MapToWorld(path->At(2)->x, path->At(2)->y);
+	if ( path->Count()>1 && app->map->pathfinding->CreatePath(enemyPos, playerPos) != -1) {
+		iPoint pos = app->map->MapToWorld(path->At(1)->x, path->At(1)->y);
 		
-		pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(pos.x), PIXEL_TO_METERS(pos.y)), 0);
+		
+		if (enemyPos.x-playerPos.x < 0 && abs(enemyPos.x - playerPos.x) > 2)
+		pbody->body->SetLinearVelocity(b2Vec2(1, 9.8f));
+		else if (abs(enemyPos.x - playerPos.x) > 2)
+		pbody->body->SetLinearVelocity(b2Vec2(-1, 9.8f));
+		else if (abs(enemyPos.x - playerPos.x) < 2) {
+			//aqui codigo de atacar
+			pbody->body->SetLinearVelocity(b2Vec2(0, 9.8f));
+			pbody->body->SetLinearDamping(0);
+		}
+		
+
 		timer = 0;
 	}
-	timer++;
+	
+	if (app->map->pathfinding->CreatePath(enemyPos, playerPos) == -1) {
+		pbody->body->SetLinearVelocity(b2Vec2(0, 9.8f));
+		pbody->body->SetLinearDamping(0);
+	}
 
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x);
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y);
@@ -75,40 +90,7 @@ bool Item::Update(float dt)
 	SDL_Rect section = { 1,1,99,78 };
 	app->render->DrawTexture(texture2, position.x - 64, position.y - 64, false, &section);
 
-	//iPoint highlightedTileWorld = app->scene->player->position;
-	//app->render->DrawTexture(texture, highlightedTileWorld.x, highlightedTileWorld.y, false);
-
-	//iPoint origin = app->map->WorldToMap(app->scene->player->position.x, app->scene->player->position.y+10);
-	//iPoint origin2 = app->map->WorldToMap(position.x,position.y);
-
-	//
-	////If mouse button is pressed modify player position
-	//
-	//	
-	//	app->map->pathfinding->CreatePath(origin, origin2);
-	//
-	//	iPoint origin3;
-	//// L13: Get the latest calculated path and draw
-	//const DynArray<iPoint>* path = app->map->pathfinding->GetLastPath();
-	//for (uint i = 0; i < path->Count(); ++i)
-	//{
-
-	//	iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-	//	app->render->DrawTexture(texture, pos.x, pos.y, false);
-	//	
-	//}
-
-
-
-
-	//if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
-	//	origin3 = app->map->MapToWorld(path->At(0)->x,path->At(0)->y);
-	//	pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(origin.x),PIXEL_TO_METERS(origin.y)),0);
-	//}
-	//
-	//
-	//
-	//app->render->DrawTexture(texture, position.x, position.y, false);
+	
 
 	return true;
 }

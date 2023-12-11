@@ -47,7 +47,7 @@ private:
 	fPoint initialPosition;
 
 
-
+	int hp = 2;
 	float timer;
 	SDL_Texture* texture;
 	SDL_Texture* texture2;

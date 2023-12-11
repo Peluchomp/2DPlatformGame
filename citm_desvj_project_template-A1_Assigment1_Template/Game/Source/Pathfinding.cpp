@@ -246,7 +246,7 @@ uint PathNode::FindWalkableAdjacents(PathList& listToFill) const
 }
 
 // PathNode -------------------------------------------------------------------------
-// Calculates this tile score
+// Calculates this tile score -------------------------------------------------------
 // ----------------------------------------------------------------------------------
 int PathNode::Score() const
 {

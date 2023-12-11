@@ -120,6 +120,10 @@ public:
 	bool startIdle = false;
 	Timer IdleTimer;
 
+	//-------Audio effects--------//
+	uint sound_airAttack1;
+	uint sound_airAttack2;
+
 };
 
 #endif // __PLAYER_H__

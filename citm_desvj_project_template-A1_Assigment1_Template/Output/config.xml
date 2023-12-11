@@ -50,6 +50,11 @@
 	  <orb_spawn x="3447" y="317" />
 	  <orb_spawn x="3711" y="108" />
 	  <player x="100" y="200" texturepath="Assets/Textures/playerSheet-export.png">
+		  <soundEffects>
+			  <airSlash1 audiopath = "Audio/AirSlash2.wav" />
+			  <airSlash2 audiopath = "Audio/AirSlash2.wav" />
+			  
+		  </soundEffects>
 		  <animations>
 			  <idle>
 				  <frame x="696" y="1" w="138" h="88" />
@@ -161,6 +166,22 @@
 				  <opportunityWindow>0.15</opportunityWindow>
 				  <opportunityFrame>2</opportunityFrame>
 			  </airAttack>
+
+			  <mid_airAttack>
+				  <frame x="1562" y="509" w="138" h="88" />
+				  <frame x="1702" y="509" w="138" h="88" />
+				  <frame x="1562" y="598" w="138" h="88" />
+				  <frame x="1702" y="598" w="138" h="88" />
+				  <frame x="1842" y="598" w="138" h="88" opportunity="true" />
+				  <frame x="1562" y="687" w="138" h="88" />
+				  <frame x="1702" y="687" w="138" h="88" />
+				  <frame x="1842" y="687" w="138" h="88" />
+				  <loop value ="false"/>
+				  <speed value="0.19" />
+				  <opportunityKey>SDL_SCANCODE_M</opportunityKey>
+				  <opportunityWindow>0.15</opportunityWindow>
+				  <opportunityFrame>2</opportunityFrame>
+			  </mid_airAttack>
 
 			  <fall>
 				  <frame x="418" y="268" w="138" h="88" />

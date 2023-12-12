@@ -124,6 +124,10 @@ public:
 	uint sound_airAttack1;
 	uint sound_airAttack2;
 
+	uint sound_groundAttack1;
+	uint sound_groundAttack2;
+	uint sound_groundAttack3;
+
 };
 
 #endif // __PLAYER_H__

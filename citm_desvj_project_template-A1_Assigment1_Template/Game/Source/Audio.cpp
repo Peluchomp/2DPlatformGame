@@ -55,6 +55,8 @@ bool Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
+	Mix_Volume(-1, 5);
+
 	return ret;
 }
 
@@ -147,6 +149,8 @@ unsigned int Audio::LoadFx(const char* path)
 		return 0;
 
 	Mix_Chunk* chunk = Mix_LoadWAV(path);
+
+	
 
 	if (chunk == NULL)
 	{

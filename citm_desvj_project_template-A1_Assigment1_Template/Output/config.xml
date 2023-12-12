@@ -51,8 +51,13 @@
 	  <orb_spawn x="3711" y="108" />
 	  <player x="100" y="200" texturepath="Assets/Textures/playerSheet-export.png">
 		  <soundEffects>
-			  <airSlash1 audiopath = "Audio/AirSlash2.wav" />
-			  <airSlash2 audiopath = "Audio/AirSlash2.wav" />
+			  <airSlash1 audiopath = "Assets/Audio/Fx/airSlash_01.wav" />
+			  <airSlash2 audiopath = "Assets/Audio/Fx/airSlash_01.wav" />
+			  
+			  <groundSlash1 audiopath ="Assets/Audio/Fx/groundSlash_01.wav"/>
+			  <groundSlash2 audiopath ="Assets/Audio/Fx/groundSlash_02.wav"/>
+			  <groundSlash3 audiopath ="Assets/Audio/Fx/groundSlash_03.wav"/>
+			  
 			  
 		  </soundEffects>
 		  <animations>
@@ -111,13 +116,13 @@
 
 			  <groundAttack>
 				  <frame x="582" y="242" w="138" h="88" />
-				  <frame x="722" y="242" w="138" h="88" />
+				  <frame x="722" y="242" w="138" h="88" audio ="Assets/Audio/Fx/groundSlash_01.wav"/>
 				  <frame x="862" y="242" w="138" h="88" />
 				  <frame x="1002" y="242" w="138" h="88" opportunity="true" />
-				  <frame x="722" y="331" w="138" h="88" />
+				  <frame x="722" y="331" w="138" h="88" audio ="Assets/Audio/Fx/groundSlash_02.wav"/>
 				  <frame x="722" y="331" w="138" h="88" />
 				  <frame x="862" y="331" w="138" h="88" opportunity="true" />
-				  <frame x="582" y="420" w="138" h="88" />
+				  <frame x="582" y="420" w="138" h="88" audio ="Assets/Audio/Fx/groundSlash_03.wav"/>
 				  <frame x="722" y="420" w="138" h="88" />
 				  <frame x="862" y="420" w="138" h="88" />
 				  <frame x="1002" y="420" w="138" h="88" />
@@ -132,14 +137,14 @@
 
 			  <mid_groundAttack>
 				  <frame x="1422" y="242" w="138" h="88" />
-				  <frame x="1562" y="242" w="138" h="88" />
+				  <frame x="1562" y="242" w="138" h="88" audio ="Assets/Audio/Fx/groundSlash_01.wav"/>
 				  <frame x="1702" y="242" w="138" h="88" />
 				  <frame x="1842" y="242" w="138" h="88" opportunity="true" />
-				  <frame x="1562" y="331" w="138" h="88" />
+				  <frame x="1562" y="331" w="138" h="88" audio ="Assets/Audio/Fx/groundSlash_02.wav"/>
 				  <frame x="1702" y="331" w="138" h="88" />
 				  <frame x="1842" y="331" w="138" h="88" opportunity="true" />
 				  <frame x="1562" y="420" w="138" h="88" />
-				  <frame x="1702" y="420" w="138" h="88" />
+				  <frame x="1702" y="420" w="138" h="88" audio ="Assets/Audio/Fx/groundSlash_03.wav"/>
 				  <frame x="1842" y="420" w="138" h="88" />
 				  <frame x="1982" y="420" w="138" h="88" />
 				  <frame x="2122" y="420" w="138" h="88" />
@@ -153,11 +158,11 @@
 
 			  <airAttack>
 				  <frame x="1142" y="509" w="138" h="88" />
-				  <frame x="1282" y="509" w="138" h="88" />
+				  <frame x="1282" y="509" w="138" h="88" audio ="Assets/Audio/Fx/airSlash_01.wav"/>
 				  <frame x="1142" y="598" w="138" h="88" />
 				  <frame x="1282" y="598" w="138" h="88" />
 				  <frame x="1422" y="598" w="138" h="88" opportunity="true" />
-				  <frame x="1142" y="687" w="138" h="88" />
+				  <frame x="1142" y="687" w="138" h="88" audio ="Assets/Audio/Fx/airSlash_02.wav"/>
 				  <frame x="1282" y="687" w="138" h="88" />
 				  <frame x="1422" y="687" w="138" h="88" />
 				  <loop value ="false"/>
@@ -169,11 +174,11 @@
 
 			  <mid_airAttack>
 				  <frame x="1562" y="509" w="138" h="88" />
-				  <frame x="1702" y="509" w="138" h="88" />
+				  <frame x="1702" y="509" w="138" h="88" audio ="Assets/Audio/Fx/airSlash_01.wav"/>
 				  <frame x="1562" y="598" w="138" h="88" />
 				  <frame x="1702" y="598" w="138" h="88" />
 				  <frame x="1842" y="598" w="138" h="88" opportunity="true" />
-				  <frame x="1562" y="687" w="138" h="88" />
+				  <frame x="1562" y="687" w="138" h="88" audio ="Assets/Audio/Fx/airSlash_02.wav"/>
 				  <frame x="1702" y="687" w="138" h="88" />
 				  <frame x="1842" y="687" w="138" h="88" />
 				  <loop value ="false"/>
@@ -303,7 +308,7 @@
 
 	  <orb  texturepath ="Assets/Textures/orbSheet.png" />
    
-	<level0_music path ="Audio/LichYard.wav"/>
+	<level0_music path ="r"/>
   </scene>
 
 

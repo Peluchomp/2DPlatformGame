@@ -20,7 +20,6 @@ bool Orb::Awake() {
 
 	// the awake is only called for entities that are awaken with the manager
 
-	
 
 	return true;
 }
@@ -28,16 +27,6 @@ bool Orb::Awake() {
 bool Orb::Start() {
 
 	//initilize textures
-
-	
-
-
-	
-
-
-
-
-
 
 	return true;
 }

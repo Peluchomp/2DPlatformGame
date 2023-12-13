@@ -18,14 +18,23 @@
     <ClCompile Include="Source\PerfTimer.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
-    <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Item.cpp" />
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Physics.cpp" />
-    <ClCompile Include="Spear.cpp" />
     <ClCompile Include="ModuleEnemies.cpp" />
-    <ClCompile Include="Orb.cpp" />
     <ClCompile Include="Source\Pathfinding.cpp" />
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Spear.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Orb.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Thunder.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -67,17 +76,26 @@
     <ClInclude Include="Source\Timer.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
-    <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Physics.h" />
-    <ClInclude Include="Spear.h" />
     <ClInclude Include="Animation.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="ModuleEnemies.h" />
-    <ClInclude Include="Orb.h" />
     <ClInclude Include="Source\Pathfinding.h" />
+    <ClInclude Include="Source\Player.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Spear.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Orb.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Thunder.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -88,6 +106,9 @@
     </Filter>
     <Filter Include="External\PugiXml">
       <UniqueIdentifier>{2855ff7f-53a1-413d-a75b-18b4ade921dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{46aae0b1-0501-410c-894e-efb7feea5a71}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -43,4 +43,4 @@ private:
 
 };
 
-#endif // __SPEAR_H__
+#endif // __ORB_H__

@@ -163,11 +163,12 @@ bool Scene::Update(float dt)
 		app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
 	
 
-		if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+		if (app->physics->debug && app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
 			for (int i = 0; i < 50; ++i) {
 				if (orbs[i] == nullptr) {
 					orbs[i] = (Orb*)app->entityManager->CreateEntity(EntityType::ORB);
 					orbs[i]->parameters = scene_parameter.child("orb");
+					orbs[i]->position.x = player->position.x; orbs[i]->position.y = 100;
 					break;
 				}
 			}
@@ -201,7 +202,7 @@ bool Scene::PostUpdate()
 
 	// Render a texture where the mouse is over to highlight the tile, use the texture 'mouseTileTex'
 	iPoint highlightedTileWorld = app->map->MapToWorld(mouseTile.x, mouseTile.y);
-	app->render->DrawTexture(mouseTileTex, highlightedTileWorld.x, highlightedTileWorld.y, false);
+	//app->render->DrawTexture(mouseTileTex, highlightedTileWorld.x, highlightedTileWorld.y, false);
 
 	iPoint origin = iPoint(player->position.x, player->position.y);
 
@@ -238,6 +239,21 @@ bool Scene::LoadState(pugi::xml_node node) {
 
 	player->pbody->SetPos(PIXEL_TO_METERS(node.child("position").attribute("x").as_int()), PIXEL_TO_METERS(node.child("position").attribute("y").as_int()));
 
+
+	player->orbs = node.attribute("orbs").as_int();
+	int level = node.attribute("PowerLvl").as_int();
+	switch (level) {
+	case(0):
+		player->power = PowerLvl::NORMAL;
+		break;
+	case(1):
+		player->power = PowerLvl::MID;
+		break;
+	case(2):
+		player->power = PowerLvl::OP;
+		break;
+	}
+
 	return true;
 }
 
@@ -248,6 +264,9 @@ bool Scene::SaveState(pugi::xml_node node) {
 	pugi::xml_node Node = node.append_child("position");
 	Node.append_attribute("x").set_value(player->position.x);
 	Node.append_attribute("y").set_value(player->position.y);
+
+	node.append_attribute("orbs").set_value(player->orbs);
+	node.append_attribute("PowerLvl").set_value(player->power);
 
 	return true;
 }

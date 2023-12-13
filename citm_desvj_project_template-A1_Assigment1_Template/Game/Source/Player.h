@@ -2,6 +2,7 @@
 #define __PLAYER_H__
 
 #include "Entity.h"
+#include "../Thunder.h"
 #include "Point.h"
 #include "SDL/include/SDL.h"
 #include "../Animation.h"
@@ -19,6 +20,19 @@ enum PowerLvl {
 };
 
 struct SDL_Texture;
+
+class PowerPopUp {
+public:
+
+	Animation* currentAnim;
+	Animation defaultAnim;
+
+	bool active = false;
+	Timer myTimer;
+
+	iPoint position;
+
+};
 
 class Player : public Entity
 {
@@ -73,6 +87,9 @@ public:
 	Animation spearThrown;
 
 	Animation* currentSpawnAnim;
+	Animation poweUpAnim;
+	Animation poweUpAnim2;
+	Animation poweUpAnim3;
 
 	//----Mid power Animations----//
 	Animation mid_groundAttack;
@@ -91,7 +108,11 @@ public:
 	Animation Fall;
 	
 	Spear *mySpear;
-	PowerLvl power = PowerLvl::MID;
+	Thunder* myThunder;
+	PowerLvl power = PowerLvl::NORMAL;
+	PowerPopUp powerMessage;
+
+	b2Vec2 provisional = { 999,999 };
 
 	int orbs = 0;
 
@@ -120,13 +141,11 @@ public:
 	bool startIdle = false;
 	Timer IdleTimer;
 
-	//-------Audio effects--------//
-	uint sound_airAttack1;
-	uint sound_airAttack2;
+	bool powerTransition = false;
 
-	uint sound_groundAttack1;
-	uint sound_groundAttack2;
-	uint sound_groundAttack3;
+	//-------Audio effects--------//
+	
+	uint orbEffect;
 
 };
 

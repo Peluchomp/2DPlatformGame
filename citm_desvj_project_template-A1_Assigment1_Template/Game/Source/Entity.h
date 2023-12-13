@@ -14,6 +14,7 @@ enum class EntityType
 	ITEM,
 	SPEAR,
 	ORB,
+	THUNDER,
 	UNKNOWN
 };
 

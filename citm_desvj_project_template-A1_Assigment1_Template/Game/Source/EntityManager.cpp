@@ -98,6 +98,10 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		entity = new Orb();
 		entity->active = true;
 		break;
+	case EntityType::THUNDER:
+		entity = new Thunder();
+		entity->active = true;
+		break;
 	default:
 		break;
 	}

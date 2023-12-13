@@ -36,12 +36,7 @@ bool Player::Awake() {
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 
-	/*sound_airAttack1 = app->audio->LoadFx( parameters.child("soundEffects").child("airSlash1").attribute("audiopath").as_string());
-	sound_airAttack2 = app->audio->LoadFx(parameters.child( "soundEffects").child("airSlash2").attribute("audiopath").as_string());
-
-	sound_groundAttack1 = app->audio->LoadFx(parameters.child("soundEffects").child("groundSlash1").attribute("audiopath").as_string());
-	sound_groundAttack2 = app->audio->LoadFx(parameters.child("soundEffects").child("groundSlash2").attribute("audiopath").as_string());
-	sound_groundAttack3 = app->audio->LoadFx(parameters.child("soundEffects").child("groundSlash3").attribute("audiopath").as_string());*/
+	
 
 
 	LoadAnimations();
@@ -65,6 +60,7 @@ bool Player::Start() {
 	
 
 	texture = app->tex->Load(texturePath);
+	powerMessage.currentAnim = &powerMessage.defaultAnim;
 
 	pbody = app->physics->CreateChain(position.x +35 , position.y ,PlayerCoords,8, bodyType::DYNAMIC);
 	pbody->listener = this;
@@ -76,16 +72,13 @@ bool Player::Start() {
 	attackTrigger->listener = this; // CHANGE to enemies
 	attackTrigger->ctype = ColliderType::PLAYER_ATTACK;
 
+	orbEffect = app->audio->LoadFx(parameters.child("soundEffects").child("orbSound").attribute("audiopath").as_string());
 
-	/*plegs = app->physics->CreateCircle(position.x + 16, position.y + 30, 10, bodyType::STATIC);
-	plegs->listener = this;
-	plegs->ctype = ColliderType::UNKNOWN;*/
-	
 	currentAnim = &epicSpawn;
 	currentSpawnAnim = &epicSpawn;
 	//idleState = true;
 	mySpear->currentAnim = &mySpear->form1Anim;
-	//pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
+
 
 	return true;
 }
@@ -241,50 +234,22 @@ bool Player::Update(float dt)
 		delta_y = position.y - mousey/2;
 
 		angle_deg = (atan2(delta_y, delta_x) * 180.0000) / 3.1416;
-
 	
-	currentAnim->Update();
-	spawnFire.Update();
-	
-	app->render->DrawCircle(position.x+35,position.y-20, 20, 255, 255, 0, 255);
-
-	const SDL_Rect r{ 585,242,138,88 };
-	app->render->DrawTexture(texture, 100, 100, &r);
-
-	if (myDir == Direction::RIGHT) {
-		if(spawning){ app->render->DrawTexture(texture, position.x , position.y - 100, false, &currentAnim->GetCurrentFrame()); }
-		else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, false, &currentAnim->GetCurrentFrame()); }
-	}
-	else {
-		if (spawning) { app->render->DrawTexture(texture, position.x, position.y - 100, false, &currentAnim->GetCurrentFrame()); }
-		else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, true, &currentAnim->GetCurrentFrame()); }
-	}
-
-	if (SpearhasBeenThrown) {
-		app->render->DrawTexture(mySpear->texture, mySpear->position.x, mySpear->position.y,false, &mySpear->currentAnim->GetCurrentFrame());
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && mySpear->isPicked == true) //en vez de w usamos app->input->GetMouseButtonDown(0) == KEY_REPEAT
-	{
-		IdleTimer.Start();
-		app->render->DrawTexture(texture, pbody->body->GetTransform().p.x, pbody->body->GetTransform().p.y - 16, false, 0, 0, angle_deg);
-	}
-	
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_UP) 
+	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
 	{
 		if (mySpear->isPicked == true && thrownCooldown.ReadSec() > 2) {
-			if (thrown == false ) {
+			if (thrown == false) {
 				currentAnim = &spearThrown;
 				idleState = false;
 				Attacking = true;
 				thrown = true;
-				
+
 			}
 
-			
+
 		}
-		else if (mySpear->isPicked == false && mySpear->isSticked == true){
-			
+		else if (mySpear->isPicked == false && mySpear->isSticked == true) {
+
 			b2Vec2 positiondissapera = b2Vec2(-100, -100);
 			b2Vec2 positionThePlatform = b2Vec2(mySpear->ThePlatform->body->GetTransform().p.x, mySpear->ThePlatform->body->GetTransform().p.y);
 			mySpear->pbody->body->SetTransform(positionThePlatform, 0);
@@ -295,13 +260,13 @@ bool Player::Update(float dt)
 
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_UP|| app->input->GetKey(SDL_SCANCODE_F1) == KEY_UP || dead == true && godMode == false) {
-		
+	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_UP || app->input->GetKey(SDL_SCANCODE_F1) == KEY_UP || dead == true && godMode == false) {
+
 		Spawn(0);
 		dead = false;
 	}
 
-	
+
 
 	if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN && fpsCap == true)
 	{
@@ -316,22 +281,116 @@ bool Player::Update(float dt)
 	}
 
 
-	/*if (spawnFire.loopCount > 3) {
-		spawning = false;
-		spawnFire.Reset();
-	}*/
-	if ((spawning == true)) {
 
+	if ((spawning == true && powerTransition == false && currentAnim != &poweUpAnim2 && currentAnim != &poweUpAnim3)) {
+
+		if (provisional == b2Vec2{ 999,999 }) {
+			provisional = { movementx, gravity };
+		}
+
+		movementx = 0; gravity = 0;
 		currentAnim = currentSpawnAnim;
-		//app->render->DrawTexture(texture, position.x , position.y - 90, false, &spawnFire.GetCurrentFrame());
+		if (currentSpawnAnim->HasFinished()) {
+			movementx = provisional.x;
+			gravity = provisional.y;
+			provisional = b2Vec2{ 999,999 };
+		}
+		
+	}
+	if ((powerTransition == true) && currentAnim != &poweUpAnim2 && currentAnim != &poweUpAnim3) {
+
+		if (provisional == b2Vec2{ 999,999 }) {
+			provisional = { movementx, gravity };
+		}
+
+		movementx = 0; gravity = 0;
+		currentAnim = &poweUpAnim;
+		if (poweUpAnim.HasFinished()) {
+			poweUpAnim.Reset();
+			
+			currentAnim = &poweUpAnim2;
+		}
+	}
+	if (currentAnim == &poweUpAnim2) {
+		powerMessage.active = true;
+
+		if (poweUpAnim2.loopCount > 2) {
+			poweUpAnim2.Reset();
+			currentAnim = &poweUpAnim3;
+			
+		}
+	}
+	if (currentAnim == &poweUpAnim3) {
+		if (poweUpAnim3.loopCount > 2) {
+
+			poweUpAnim3.Reset();
+			movementx = provisional.x;
+			gravity = provisional.y;
+			provisional = b2Vec2{ 999,999 };
+			powerTransition = false;
+			spawning = false;
+			powerMessage.active = false;
+		}
 	}
 
 	// ---------------Orb stuf----------------//
-	orbMeter = { 50 - (app->render->camera.x/2), 20, orbs*10, 15 };
+	orbMeter = { 50 - (app->render->camera.x / 2), 20, orbs * 10, 15 };
 	app->render->DrawRectangle(orbMeter, 50, 0, 140, 255);
+	if (orbs > 10) {
+		orbs = 0;
+		myThunder = (Thunder*)app->entityManager->CreateEntity(EntityType::THUNDER);
+		myThunder->parameters = app->scene->scene_parameter.child("thunder");
+		
+
+		switch (power) {
+		case(PowerLvl::NORMAL):
+			power = PowerLvl::MID;
+			powerTransition = true;
+			spawning = true;
+			break;
+
+		case(PowerLvl::MID):
+			//power = PowerLvl::OP; // not finished
+			powerTransition = true;
+			spawning = true;
+			break;
+		}
+	}
+
 
 	// Method that manages the logic of the attack hitbox
 	AttackHitBoxManagement();
+
+	//-------------Post update animation blit------------TT
+	currentAnim->Update();
+
+	if (myDir == Direction::RIGHT) {
+		if (powerTransition) { app->render->DrawTexture(texture, position.x - 33, position.y -45, false, &currentAnim->GetCurrentFrame()); }
+		else if(spawning){ app->render->DrawTexture(texture, position.x , position.y - 100, false, &currentAnim->GetCurrentFrame()); }
+		else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, false, &currentAnim->GetCurrentFrame()); }
+	}
+	else {
+		if (powerTransition) { app->render->DrawTexture(texture, position.x - 33, position.y -45, false, &currentAnim->GetCurrentFrame()); }
+		else if (spawning) { app->render->DrawTexture(texture, position.x, position.y - 100, false, &currentAnim->GetCurrentFrame()); }
+		else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, true, &currentAnim->GetCurrentFrame()); }
+	}
+
+	if (SpearhasBeenThrown) {
+		app->render->DrawTexture(mySpear->texture, mySpear->position.x, mySpear->position.y,false, &mySpear->currentAnim->GetCurrentFrame());
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && mySpear->isPicked == true) //en vez de w usamos app->input->GetMouseButtonDown(0) == KEY_REPEAT
+	{
+		IdleTimer.Start();
+		app->render->DrawTexture(texture, pbody->body->GetTransform().p.x, pbody->body->GetTransform().p.y - 16, false, 0, 0, angle_deg);
+	}
+
+	// ----Power up message----------//
+	if (powerMessage.active){
+		powerMessage.currentAnim->Update();
+		app->render->DrawTexture(texture, position.x-32, position.y-85, false, &powerMessage.currentAnim->GetCurrentFrame());
+	}
+	
 	
 	return true;
 }
@@ -375,6 +434,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		case ColliderType::ORB:
 			LOG("Player touched an orb");
 			orbs++;
+			app->audio->PlayFx(orbEffect);
 			physB->active = false;
 			break;
 
@@ -408,24 +468,7 @@ void Player::Spawn(int Level) {
 	}
 }
 
-bool Player::LoadState(pugi::xml_node node) {
-
-	position.x = node.child("position").attribute("x").as_int();
-	position.y = node.child("position").attribute("y").as_int();
-
-	return true;
-}
-
-// L14: TODO 8: Create a method to save the state of the renderer
-// using append_child and append_attribute
-bool Player::SaveState(pugi::xml_node node) {
-
-	pugi::xml_node Node = node.append_child("position");
-	Node.append_attribute("x").set_value(position.x);
-	Node.append_attribute("y").set_value(position.y);
-
-	return true;
-}
+// The player attributes are saved and loaded from scene
 
 void Player::LoadAnimations() {
 
@@ -531,7 +574,7 @@ void Player::LoadAnimations() {
 
 	for (pugi::xml_node node = parameters.child("animations").child("epicSpawn").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
-		epicSpawn.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		epicSpawn.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() },false, node.attribute("audio").as_string());
 		epicSpawn.speed = parameters.child("animations").child("epicSpawn").child("speed").attribute("value").as_float() / 16;
 		epicSpawn.loop = false;
 	}
@@ -540,9 +583,33 @@ void Player::LoadAnimations() {
 
 	for (pugi::xml_node node = parameters.child("animations").child("quickSpawn").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
-		quickSpawn.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		quickSpawn.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, false, node.attribute("audio").as_string());
 		quickSpawn.speed = parameters.child("animations").child("quickSpawn").child("speed").attribute("value").as_float() / 16;
 		quickSpawn.loop = false;
+	}
+	for (pugi::xml_node node = parameters.child("animations").child("powerUp").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		poweUpAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		poweUpAnim.speed = parameters.child("animations").child("powerUp").child("speed").attribute("value").as_float() / 16;
+		poweUpAnim.loop = false;
+	}
+	for (pugi::xml_node node = parameters.child("animations").child("powerUp2").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		poweUpAnim2.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		poweUpAnim2.speed = parameters.child("animations").child("powerUp2").child("speed").attribute("value").as_float() / 16;
+		poweUpAnim2.loop = true;
+	}
+	for (pugi::xml_node node = parameters.child("animations").child("powerUp3").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		poweUpAnim3.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		poweUpAnim3.speed = parameters.child("animations").child("powerUp3").child("speed").attribute("value").as_float() / 16;
+		poweUpAnim3.loop = true;
+	}
+	for (pugi::xml_node node = parameters.child("popUp").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		powerMessage.defaultAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		powerMessage.defaultAnim.speed = parameters.child("popUp").child("speed").attribute("value").as_float() / 16;
+		powerMessage.defaultAnim.loop = true;
 	}
 }
 
@@ -574,9 +641,7 @@ void Player::AttackHitBoxManagement() {
 					LOG("Move hitboxes");
 					attackTrigger->body->SetTransform(pbody->body->GetPosition() + b2Vec2(0.2f, 0.8f), 0.0f);
 				}/*First attck*/
-				else if (currentAnim == &mid_groundAttack && attackTrigger->active) {
-					app->audio->PlayFx(sound_groundAttack1);
-				}
+				
 
 				// frames where the collider has to be deActive
 				SDL_Rect deavtice1{ 722 ,420 ,138 ,88 };
@@ -629,16 +694,13 @@ void Player::AttackHitBoxManagement() {
 
 				//-----------second attack------------//
 				if (currentAnim == &mid_groundAttack && ((mid_groundAttack.GetCurrentFrame().x == r.x && mid_groundAttack.GetCurrentFrame().y == r.y) || (mid_groundAttack.GetCurrentFrame().x == r2.x && mid_groundAttack.GetCurrentFrame().y == r2.y) || (mid_groundAttack.GetCurrentFrame().x == r3.x && mid_groundAttack.GetCurrentFrame().y == r3.y))) {
-					app->audio->PlayFx(sound_groundAttack2);
+					
 
 
 					LOG("Move hitboxes");
 					attackTrigger->body->SetTransform(pbody->body->GetPosition() + b2Vec2(0.2f, 0.8f), 0.0f);
 				} /*First attck*/
-				else if (currentAnim == &mid_groundAttack && attackTrigger->active) {
-					app->audio->PlayFx(sound_groundAttack1);
-				}
-
+				
 				// frames where the collider has to be deActive
 				SDL_Rect deavtice1{ 1702 ,420 ,138 ,88 };
 				SDL_Rect deavtice2{ 1842 ,420 ,138 ,88 };
@@ -646,8 +708,6 @@ void Player::AttackHitBoxManagement() {
 
 				//-----------third attack------------//
 				if (currentAnim == &mid_groundAttack && ((mid_groundAttack.GetCurrentFrame().x == deavtice1.x && mid_groundAttack.GetCurrentFrame().y == deavtice1.y) || (mid_groundAttack.GetCurrentFrame().x == deavtice2.x && mid_groundAttack.GetCurrentFrame().y == deavtice2.y) || (mid_groundAttack.GetCurrentFrame().x == deavtice3.x && mid_groundAttack.GetCurrentFrame().y == deavtice3.y))) {
-					app->audio->PlayFx(sound_groundAttack3);
-
 					LOG("Move hitboxes");
 					attackTrigger->active = false;
 				}
@@ -663,12 +723,9 @@ void Player::AttackHitBoxManagement() {
 
 				//-----------second attack------------//
 				if (currentAnim == &mid_groundAttack && ((mid_groundAttack.GetCurrentFrame().x == r.x && mid_groundAttack.GetCurrentFrame().y == r.y) || (mid_groundAttack.GetCurrentFrame().x == r2.x && mid_groundAttack.GetCurrentFrame().y == r2.y) || (mid_groundAttack.GetCurrentFrame().x == r3.x && mid_groundAttack.GetCurrentFrame().y == r3.y))) {
-					app->audio->PlayFx(sound_groundAttack2);
-
 					LOG("Move hitboxes");
 					attackTrigger->body->SetTransform(pbody->body->GetPosition() + b2Vec2(0.2f + 1.3f, 0.8f), 0.0f);
 				}
-				else if (currentAnim == &groundAttack && attackTrigger->active) { app->audio->PlayFx(sound_groundAttack1); }
 
 				// frames where the collider has to be deActive
 				SDL_Rect deavtice1{ 1702 ,420 ,138 ,88 };
@@ -677,8 +734,6 @@ void Player::AttackHitBoxManagement() {
 
 				//-----------third attack------------//
 				if (currentAnim == &mid_groundAttack && ((mid_groundAttack.GetCurrentFrame().x == deavtice1.x && mid_groundAttack.GetCurrentFrame().y == deavtice1.y) || (mid_groundAttack.GetCurrentFrame().x == deavtice2.x && mid_groundAttack.GetCurrentFrame().y == deavtice2.y) || (mid_groundAttack.GetCurrentFrame().x == deavtice3.x && mid_groundAttack.GetCurrentFrame().y == deavtice3.y))) {
-					app->audio->PlayFx(sound_groundAttack3);
-
 					LOG("Move hitboxes");
 					attackTrigger->active = false;
 				}

@@ -114,6 +114,7 @@
     <ClCompile Include="Source\Timer.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Spear.cpp" />
+    <ClCompile Include="Thunder.cpp" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="ModuleEnemies.h" />
     <ClInclude Include="Orb.h" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Source\External\PugiXml\src\pugixml.hpp" />
     <ClCompile Include="Source\External\PugiXml\src\pugixml.cpp" />
     <ClInclude Include="Spear.h" />
+    <ClInclude Include="Thunder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

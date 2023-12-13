@@ -49,17 +49,63 @@
 	  <orb_spawn x="2431" y="333" />
 	  <orb_spawn x="3447" y="317" />
 	  <orb_spawn x="3711" y="108" />
+
+	  <thunder texturepath ="Assets/Textures/thunder-Sheet.png" >
+		  <frame x="1" y="1" w="138" h="344" />
+		  <frame x="141" y="1" w="138" h="344" />
+		  <frame x="281" y="1" w="138" h="344" />
+		  <frame x="421" y="1" w="138" h="344" />
+		  <frame x="561" y="1" w="138" h="344" />
+		  <frame x="701" y="1" w="138" h="344" />
+		  <frame x="841" y="1" w="138" h="344" />
+		  <frame x="1" y="  347" w="138" h="344" />
+		  <frame x="141" y="347" w="138" h="344" audio ="Assets/Audio/Fx/thunder.wav"/>
+		  <frame x="281" y="347" w="138" h="344" />
+		  <frame x="421" y="347" w="138" h="344" />
+		  <frame x="561" y="347" w="138" h="344" />
+		  <frame x="701" y="347" w="138" h="344" />
+		  <frame x="841" y="347" w="138" h="344" />
+		  <frame x="1" y="  692" w="138" h="344" />
+		  <frame x="141" y="692" w="138" h="344" />
+		  <frame x="281" y="692" w="138" h="344" />
+		  <frame x="421" y="692" w="138" h="344" />
+		  <frame x="561" y="692" w="138" h="344" />
+		  <frame x="701" y="692" w="138" h="344" />
+		  <frame x="841" y="692" w="138" h="344" />
+		  <frame x="1" y="  1037" w="138" h="344" />
+		  <frame x="141" y="1037" w="138" h="344" />
+		  <frame x="281" y="1037" w="138" h="344" />
+		  <frame x="421" y="1037" w="138" h="344" />
+		  <frame x="561" y="1037" w="138" h="344" />
+		  <frame x="701" y="1037" w="138" h="344" />
+		  <frame x="841" y="1037" w="138" h="344" />
+		  <frame x="1" y="  1382" w="138" h="344" />
+		  <frame x="141" y="1382" w="138" h="344" />
+		  <frame x="281" y="1382" w="138" h="344" />
+		  <frame x="421" y="1382" w="138" h="344" />
+		  <frame x="561" y="1382" w="138" h="344" />
+		  <frame x="701" y="1382" w="138" h="344" />
+		  <frame x="841" y="1382" w="138" h="344" />
+		  <frame x="1" y="  1727" w="138" h="344" />
+		  <frame x="141" y="1727" w="138" h="344" />
+		  <frame x="281" y="1727" w="138" h="344" />
+		  <frame x="1" y="1" w="1" h="1" />
+		  <speed value="0.42" />
+		  <loop value="false" />
+
+	  </thunder>
 	  <player x="100" y="200" texturepath="Assets/Textures/playerSheet-export.png">
 		  <soundEffects>
-			  <airSlash1 audiopath = "Assets/Audio/Fx/airSlash_01.wav" />
-			  <airSlash2 audiopath = "Assets/Audio/Fx/airSlash_01.wav" />
-			  
-			  <groundSlash1 audiopath ="Assets/Audio/Fx/groundSlash_01.wav"/>
-			  <groundSlash2 audiopath ="Assets/Audio/Fx/groundSlash_02.wav"/>
-			  <groundSlash3 audiopath ="Assets/Audio/Fx/groundSlash_03.wav"/>
-			  
-			  
+			  <orbSound audiopath = "Assets/Audio/Fx/orb.wav" />  
 		  </soundEffects>
+
+		  <popUp >
+			  <frame x="279" y="179" w="138" h="38" />
+			  <frame x="1" y="1" w="1" h="1" />
+			  <speed value="0.2" />
+			  <loop value="true" />
+		  </popUp>/>
+		  
 		  <animations>
 			  <idle>
 				  <frame x="696" y="1" w="138" h="88" />
@@ -122,8 +168,8 @@
 				  <frame x="722" y="331" w="138" h="88" audio ="Assets/Audio/Fx/groundSlash_02.wav"/>
 				  <frame x="722" y="331" w="138" h="88" />
 				  <frame x="862" y="331" w="138" h="88" opportunity="true" />
-				  <frame x="582" y="420" w="138" h="88" audio ="Assets/Audio/Fx/groundSlash_03.wav"/>
-				  <frame x="722" y="420" w="138" h="88" />
+				  <frame x="582" y="420" w="138" h="88"/>
+				  <frame x="722" y="420" w="138" h="88"  audio ="Assets/Audio/Fx/groundSlash_03.wav"/>
 				  <frame x="862" y="420" w="138" h="88" />
 				  <frame x="1002" y="420" w="138" h="88" />
 				  <frame x="1142" y="420" w="138" h="88" />
@@ -207,7 +253,7 @@
 
 			  <spearThrown>
 				  <frame x="582" y="242" w="138" h="88" />
-				  <frame x="1142" y="776" w="138" h="88" />
+				  <frame x="1142" y="776" w="138" h="88" audio = "Assets/Audio/Fx/spearThrow.wav" />
 				  <frame x="1282" y="776" w="138" h="88" />
 				  <frame x="1422" y="776" w="138" h="88" />
 				  <speed value="0.17/16" />
@@ -216,8 +262,8 @@
 			  </spearThrown>
 
 			  <jump>
-				  <frame x="1" y="1" w="138" h="88" />
-				  <frame x="1" y="268" w="138" h="88" />
+				  <frame x="1" y="1" w="138" h="88" audio="Assets/Audio/Fx/Jump.wav" />
+				  <frame x="1" y="268" w="138" h="88"  />
 				  <frame x="140" y="268" w="138" h="88" />
 				  <frame x="279" y="268" w="138" h="88" />
 				  <speed value="0.2" />
@@ -244,14 +290,14 @@
 				  <frame x="571" y="839" w="112" h="144" />
 				  <frame x="685" y="839" w="112" h="144" />
 				  <frame x="799" y="839" w="112" h="144" />
-				  <frame x="913" y="839" w="112" h="144" />
+				  <frame x="913" y="839" w="112" h="144" audio= "Assets/Audio/Fx/spawn_explosion.wav" /> />
 				  <frame x="1027" y="839" w="112" h="144" />
 
 				  <frame x="1" y="984" w="112" h="144" />
 				  <frame x="115" y="984" w="112" h="144" />
 				  <frame x="229" y="984" w="112" h="144" />
 				  <frame x="343" y="984" w="112" h="144" />
-				  <frame x="457" y="984" w="112" h="144" />
+				  <frame x="457" y="984" w="112" h="144" audio= "Assets/Audio/Fx/spawn_explosion2.wav" />
 				  <frame x="571" y="984" w="112" h="144" />
 				  <frame x="685" y="984" w="112" h="144" />
 				  <frame x="799" y="984" w="112" h="144" />
@@ -271,18 +317,38 @@
 				  <frame x="685" y="839" w="112" h="144" />
 				  <frame x="799" y="839" w="112" h="144" />
 				  <frame x="913" y="839" w="112" h="144" />
-				  <frame x="1027" y="839" w="112" h="144" />
+				  <frame x="1027" y="839" w="112" h="144" audio= "Assets/Audio/Fx/spawn_explosion.wav" /> />
 				  <frame x="1" y="984" w="112" h="144" />
 				  <frame x="115" y="984" w="112" h="144" />
 				  <frame x="229" y="984" w="112" h="144" />
 				  <frame x="343" y="984" w="112" h="144" />
-				  <frame x="457" y="984" w="112" h="144" />
+				  <frame x="457" y="984" w="112" h="144" audio= "Assets/Audio/Fx/spawn_explosion2.wav" /> />
 				  <frame x="571" y="984" w="112" h="144" />
 				  <frame x="685" y="984" w="112" h="144" />
 				  <frame x="799" y="984" w="112" h="144" />
 				  <frame x="913" y="984" w="112" h="144" />
 				  <frame x="1027" y="984" w="112" h="144" />
 			  </quickSpawn>
+
+			  <powerUp>
+				  <speed value="0.1f"/>
+				  <loop value ="false"/>
+				  <frame x="1" y="459" w="  138" h="88"/>
+				  <frame x="141" y="459" w="138" h="88"/>
+				 
+			  </powerUp>
+			  <powerUp2>
+				  <speed value="0.12f"/>
+				  <loop value ="true"/>
+				  <frame x="281" y="459" w="138" h="88"/>
+				  <frame x="421" y="459" w="138" h="88"/>
+			  </powerUp2>
+			  <powerUp3>
+				  <speed value="0.12f"/>
+				  <loop value ="true"/>
+				  <frame x="1" y="370" w="138" h="88"/>
+				  <frame x="141" y="370" w="138" h="88"/>
+			  </powerUp3>
 		  </animations>
 	  </player>
 			

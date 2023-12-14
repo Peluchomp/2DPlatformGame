@@ -70,6 +70,7 @@ bool Item::Update(float dt)
 		else if (abs(enemyPos.x - playerPos.x) > 2)
 		pbody->body->SetLinearVelocity(b2Vec2(-1, 9.8f));
 		else if (abs(enemyPos.x - playerPos.x) < 2) {
+			    
 			//aqui codigo de atacar
 			pbody->body->SetLinearVelocity(b2Vec2(0, 9.8f));
 			pbody->body->SetLinearDamping(0);

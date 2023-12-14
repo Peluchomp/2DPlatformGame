@@ -75,6 +75,9 @@ bool Spear::Update(float dt)
 		pbody->body->SetLinearVelocity(-vel);
 	}
 
+	
+
+
 	if (daPlatform == true) {
 		pbody->body->GetFixtureList()->SetSensor(true);
 

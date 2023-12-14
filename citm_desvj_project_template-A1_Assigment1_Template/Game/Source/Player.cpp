@@ -231,11 +231,14 @@ bool Player::Update(float dt)
 		SDL_Point center{ position.x,position.y };
 		SDL_Rect  perim{ position.x,position.y,0,0 };
 		delta_x = position.x - mousex/2;
-		delta_y = position.y - mousey/2;
+		delta_y = position.y - mousey/2 -40;
+
+		app->render->DrawCircle(position.x,position.y, 30,255,45,100,255);
+		app->render->DrawCircle(delta_x, delta_y, 30, 255, 45, 100, 255);
 
 		angle_deg = (atan2(delta_y, delta_x) * 180.0000) / 3.1416;
 	
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_UP)
+	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 	{
 		if (mySpear->isPicked == true && thrownCooldown.ReadSec() > 2) {
 			if (thrown == false) {
@@ -259,7 +262,17 @@ bool Player::Update(float dt)
 		}
 
 	}
+	else if (mySpear->isPicked == false && position.DistanceTo(mySpear->position) > 400 && mySpear->isSticked == false && mySpear->platform == false)
+	{
+		b2Vec2 positiondissapera = b2Vec2(-100, -100);
+		
+	
+		
+		mySpear->daPlatform = true;
+		mySpear->isSticked = false;
+	}
 
+	
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_UP || app->input->GetKey(SDL_SCANCODE_F1) == KEY_UP || dead == true && godMode == false) {
 
 		Spawn(0);
@@ -382,7 +395,7 @@ bool Player::Update(float dt)
 		app->render->DrawTexture(mySpear->texture, mySpear->position.x, mySpear->position.y,false, &mySpear->currentAnim->GetCurrentFrame());
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && mySpear->isPicked == true) //en vez de w usamos app->input->GetMouseButtonDown(0) == KEY_REPEAT
+	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && mySpear->isPicked == true) //en vez de w usamos app->input->GetMouseButtonDown(0) == KEY_REPEAT
 	{
 		IdleTimer.Start();
 		app->render->DrawTexture(texture, pbody->body->GetTransform().p.x, pbody->body->GetTransform().p.y - 16, false, 0, 0, angle_deg);

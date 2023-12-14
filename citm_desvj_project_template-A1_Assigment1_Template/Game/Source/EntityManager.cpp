@@ -142,3 +142,24 @@ bool EntityManager::Update(float dt)
 
 	return ret;
 }
+
+bool EntityManager::LoadState(pugi::xml_node node) {
+
+	
+
+	return true;
+}
+
+// L14: TODO 8: Create a method to save the state of the renderer
+// using append_child and append_attribute
+bool EntityManager::SaveState(pugi::xml_node node) {
+
+	pugi::xml_node Node = node.append_child("position");
+	Node.append_attribute("x").set_value(player->position.x);
+	Node.append_attribute("y").set_value(player->position.y);
+
+	node.append_attribute("orbs").set_value(player->orbs);
+	node.append_attribute("PowerLvl").set_value(player->power);
+
+	return true;
+}

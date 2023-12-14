@@ -234,6 +234,22 @@
 				  <opportunityFrame>2</opportunityFrame>
 			  </mid_airAttack>
 
+			  <op_airAttack>
+				  <frame x="1141" y="865" w="198" h="133" />
+				  <frame x="1341" y="865" w="198" h="133" audio ="Assets/Audio/Fx/airSlash_01.wav"/>
+				  <frame x="1541" y="865" w="198" h="133" />
+				  <frame x="1741" y="865" w="198" h="133" />
+				  <frame x="1941" y="865" w="198" h="133" opportunity="true" />
+				  <frame x="2141" y="865" w="198" h="133" audio ="Assets/Audio/Fx/airSlash_02.wav"/>
+				  <frame x="2341" y="865" w="198" h="133" />
+				  <frame x="1141" y="999" w="198" h="133" />
+				  <loop value ="false"/>
+				  <speed value="0.19" />
+				  <opportunityKey>SDL_SCANCODE_M</opportunityKey>
+				  <opportunityWindow>0.15</opportunityWindow>
+				  <opportunityFrame>2</opportunityFrame>
+			  </op_airAttack>
+
 			  <fall>
 				  <frame x="418" y="268" w="138" h="88" />
 				  <frame x="418" y="357" w="138" h="88" />

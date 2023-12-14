@@ -96,6 +96,9 @@ public:
 	Animation mid_airAttack;
 	Animation mid_spearThrow;
 
+	//----OP power Animations-----//
+	Animation op_airAttack;
+
 	//----Spawn-Anim-----//
 	bool spawning = true;
 
@@ -109,7 +112,7 @@ public:
 	
 	Spear *mySpear;
 	Thunder* myThunder;
-	PowerLvl power = PowerLvl::NORMAL;
+	PowerLvl power = PowerLvl::OP;
 	PowerPopUp powerMessage;
 
 	b2Vec2 provisional = { 999,999 };

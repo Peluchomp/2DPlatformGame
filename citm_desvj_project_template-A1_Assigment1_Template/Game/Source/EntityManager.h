@@ -5,6 +5,14 @@
 #include "Entity.h"
 #include "List.h"
 
+
+struct EntityData {
+
+	bool active = true;
+	Entity& myEntity;
+
+};
+
 class EntityManager : public Module
 {
 public:
@@ -41,6 +49,8 @@ public:
 public:
 
 	List<Entity*> entities;
+
+	List<Entity*> savedEntities;
 
 };
 

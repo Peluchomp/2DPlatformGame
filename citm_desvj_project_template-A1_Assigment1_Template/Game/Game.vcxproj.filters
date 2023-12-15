@@ -77,7 +77,6 @@
     </ClInclude>
     <ClInclude Include="Source\PerfTimer.h" />
     <ClInclude Include="Source\Timer.h" />
-    <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\Map.h" />
@@ -100,6 +99,10 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="Jorge.h">
+     <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Entity.h">
+
       <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>

@@ -50,6 +50,42 @@ public:
 		Clear();
 	}
 
+	List(const List& other)
+	{
+		// Initialize members
+		start = end = nullptr;
+		size = 0;
+
+		// Copy items from the other list
+		ListItem<tdata>* pItem = other.start;
+		while (pItem != nullptr)
+		{
+			Add(pItem->data);
+			pItem = pItem->next;
+		}
+	}
+
+	// Assignment operator (deep copy)
+	List& operator=(const List& other)
+	{
+		// Check for self-assignment
+		if (this != &other)
+		{
+			// Clear current content
+			Clear();
+
+			// Copy items from the other list
+			ListItem<tdata>* pItem = other.start;
+			while (pItem != nullptr)
+			{
+				Add(pItem->data);
+				pItem = pItem->next;
+			}
+		}
+
+		return *this;
+	}
+
 	// Get Size
 	unsigned int Count() const
 	{

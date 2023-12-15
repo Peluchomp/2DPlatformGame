@@ -140,6 +140,16 @@ bool EntityManager::Update(float dt)
 	{
 		pEntity = item->data;
 
+		if (pEntity->pendingToDestroy) {
+
+			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
+
+				app->physics->DestroyObject((PhysBody*)corpse->data);
+				pEntity->pendingToDestroy = false;
+				DestroyEntity(pEntity);
+			}
+		}
+
 		if (pEntity->active == false) continue;
 		ret = item->data->Update(dt);
 	}
@@ -149,7 +159,26 @@ bool EntityManager::Update(float dt)
 
 bool EntityManager::LoadState(pugi::xml_node node) {
 
+	ListItem<Entity*>* item;
 	
+	bool ret = true;
+
+	Entity* pEntity = NULL;
+
+	// Delete ALL entities
+	for (item = entities.start; item != NULL && ret == true; item = item->next)
+	{
+		pEntity = item->data;
+		if (pEntity->type == EntityType::ORB) {
+			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
+
+				app->physics->DestroyObject((PhysBody*)corpse->data);
+				pEntity->pendingToDestroy = false;
+				DestroyEntity(pEntity);
+			}
+		}
+	}
+	// entities.Clear(); this removes them from the list, it doesnt delete them
 
 	return true;
 }
@@ -158,12 +187,8 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 // using append_child and append_attribute
 bool EntityManager::SaveState(pugi::xml_node node) {
 
-	pugi::xml_node Node = node.append_child("position");
-	//Node.append_attribute("x").set_value(player->position.x);
-	//Node.append_attribute("y").set_value(player->position.y);
 
-	//node.append_attribute("orbs").set_value(player->orbs);
-	//node.append_attribute("PowerLvl").set_value(player->power);
+	savedEntities = entities;
 
 	return true;
 }

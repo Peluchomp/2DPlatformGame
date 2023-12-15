@@ -62,7 +62,10 @@ bool Scene::Awake(pugi::xml_node& config)
 		Orb* orb = (Orb*)app->entityManager->CreateEntity(EntityType::ORB);
 		orb->position.x = orbNode.attribute("x").as_int();
 		orb->position.y = orbNode.attribute("y").as_int();
+		orb->num = orbNode.attribute("num").as_int();
 		orb->parameters = scene_parameter.child("orb");
+
+		int p;
 	
 	}
 
@@ -258,6 +261,34 @@ bool Scene::LoadState(pugi::xml_node node) {
 	case(2):
 		player->power = PowerLvl::OP;
 		break;
+	}
+	ListItem<Entity*>* item;
+
+	bool ret = true;
+
+	Entity* pEntity = NULL;
+
+	// Spawn saved entities
+	for (item = app->entityManager->savedEntities.start ; item != NULL && ret == true; item = item->next)
+	{
+		pEntity = item->data;
+		
+		if (pEntity->type == EntityType::ORB) {
+			
+			for (pugi::xml_node orbNode = scene_parameter.child("orb_spawn"); orbNode; orbNode = orbNode.next_sibling("orb_spawn")) {
+				if (pEntity->num == orbNode.attribute("num").as_int()) {
+					pEntity = app->entityManager->CreateEntity(EntityType::ORB);
+					pEntity->position.x = orbNode.attribute("x").as_int();
+					pEntity->position.y = orbNode.attribute("y").as_int();
+					pEntity->num = orbNode.attribute("num").as_int();
+					pEntity->parameters = scene_parameter.child("orb");
+
+					int p;
+				}
+			}
+			
+		}
+
 	}
 
 	return true;

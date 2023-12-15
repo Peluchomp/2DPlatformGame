@@ -451,7 +451,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			LOG("Player touched an orb");
 			orbs++;
 			app->audio->PlayFx(orbEffect);
-			physB->active = false;
+			physB->listener->pendingToDestroy = true;
 			break;
 
 		}

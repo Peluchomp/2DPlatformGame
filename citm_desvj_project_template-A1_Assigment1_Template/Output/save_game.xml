@@ -5,13 +5,13 @@
 	<textures />
 	<audio />
 	<:anonymous />
-	<scene orbs="2" PowerLvl="0">
-		<position x="654" y="240" />
+	<scene orbs="0" PowerLvl="2">
+		<position x="144" y="240" />
 	</scene>
 	<:anonymous />
 	<entitymanager />
 	<moduleEnemies />
 	<renderer>
-		<camera x="-796" y="0" />
+		<camera x="0" y="0" />
 	</renderer>
 </game_state>

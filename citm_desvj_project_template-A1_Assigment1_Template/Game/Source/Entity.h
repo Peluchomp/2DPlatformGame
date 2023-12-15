@@ -5,6 +5,7 @@
 #include "SString.h"
 #include "Input.h"
 #include "Render.h"
+#include "List.h"
 
 class PhysBody;
 
@@ -87,6 +88,10 @@ public:
 	// want our Entity class, maybe it's not renderable...
 	iPoint position;       
 	bool renderable = true;
+
+	bool pendingToDestroy = false;
+
+	List<PhysBody*> myBodies;
 };
 
 #endif // __ENTITY_H__

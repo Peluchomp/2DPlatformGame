@@ -55,6 +55,8 @@ bool Orb::Update(float dt)
 		awake = true;
 		currentAnimation = &defaultAnim;
 		_body = app->physics->CreateCircle(position.x + 19, position.y+19 , 15, bodyType::KINEMATIC, true);
+		myBodies.Add(_body);
+		_body->listener = this;
 		_body->body->SetGravityScale(0);
 		_body->ctype = ColliderType::ORB;
 		
@@ -73,6 +75,8 @@ bool Orb::Update(float dt)
 		app->render->DrawTexture(texture, position.x, position.y, false, &currentAnimation->GetCurrentFrame());
 
 	}
+	
+
 	return true;
 }
 

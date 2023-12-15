@@ -36,19 +36,19 @@
 		  <frame x="121" y="1" w="38" h="38" />
 		  <speed value="0.05" />
 	  </orb>
-	  <orb_spawn x="264" y="191" />
-	  <orb_spawn x="528" y="311" />
-	  <orb_spawn x="528" y="186" />
-	  <orb_spawn x="833" y="95" />
-	  <orb_spawn x="991" y="60" />
-	  <orb_spawn x="991" y="141" />
-	  <orb_spawn x="1231" y="149" />
-	  <orb_spawn x="1375" y="224" />
-	  <orb_spawn x="1656" y="317" />
-	  <orb_spawn x="2028" y="208" />
-	  <orb_spawn x="2431" y="333" />
-	  <orb_spawn x="3447" y="317" />
-	  <orb_spawn x="3711" y="108" />
+	  <orb_spawn num="0"  x="264" y="191" />
+	  <orb_spawn num="1"  x="528" y="311" />
+	  <orb_spawn num="2"  x="528" y="186" />
+	  <orb_spawn num="3"  x="833" y="95" />
+	  <orb_spawn num="4"  x="991" y="60" />
+	  <orb_spawn num="5"  x="991" y="141" />
+	  <orb_spawn num="6"  x="1231" y="149" />
+	  <orb_spawn num="7"  x="1375" y="224" />
+	  <orb_spawn num="8"  x="1656" y="317" />
+	  <orb_spawn num="9"  x="2028" y="208" />
+	  <orb_spawn num="10"  x="2431" y="333" />
+	  <orb_spawn num="11"  x="3447" y="317" />
+	  <orb_spawn num="12"  x="3711" y="108" />
 
 	  <thunder texturepath ="Assets/Textures/thunder-Sheet.png" >
 		  <frame x="1" y="1" w="138" h="344" />

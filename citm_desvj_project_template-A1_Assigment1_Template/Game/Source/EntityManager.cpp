@@ -165,19 +165,16 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 	for (item = entities.start; item != NULL && ret == true; item = item->next)
 	{
 		pEntity = item->data;
+		if (pEntity->type == EntityType::ORB) {
 			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
 
 				app->physics->DestroyObject((PhysBody*)corpse->data);
 				pEntity->pendingToDestroy = false;
 				DestroyEntity(pEntity);
 			}
+		}
 	}
-	entities.Clear();
-
-	for (item = savedEntities.start; item != NULL && ret == true; item = item->next)
-	{
-		CreateEntity(item->data->type);
-	}
+	// entities.Clear(); this removes them from the list, it doesnt delete them
 
 	return true;
 }
@@ -186,6 +183,7 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 // using append_child and append_attribute
 bool EntityManager::SaveState(pugi::xml_node node) {
 
+	// theoretically this makes a copy list that is not linked
 	savedEntities = entities;
 
 	return true;

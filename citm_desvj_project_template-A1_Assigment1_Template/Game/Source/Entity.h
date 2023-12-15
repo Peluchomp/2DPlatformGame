@@ -91,6 +91,8 @@ public:
 
 	bool pendingToDestroy = false;
 
+	int num = -1;
+
 	List<PhysBody*> myBodies;
 };
 

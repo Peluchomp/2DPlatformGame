@@ -21,7 +21,7 @@ enum PowerLvl {
 
 struct SDL_Texture;
 
-class PowerPopUp {
+class Icon {
 public:
 
 	Animation* currentAnim;
@@ -73,6 +73,8 @@ public:
 	PhysBody* plegs;
 	PhysBody* attackTrigger;
 
+	PhysBody* op_attackTrigger;
+
 	Animation* currentAnim;
 
 	Animation idle;
@@ -98,6 +100,7 @@ public:
 
 	//----OP power Animations-----//
 	Animation op_airAttack;
+	Animation op_groundAttack;
 
 	//----Spawn-Anim-----//
 	bool spawning = true;
@@ -113,7 +116,8 @@ public:
 	Spear *mySpear;
 	Thunder* myThunder;
 	PowerLvl power = PowerLvl::NORMAL;
-	PowerPopUp powerMessage;
+	Icon powerMessage;
+	Icon noSpearIcon;
 
 	b2Vec2 provisional = { 999,999 };
 
@@ -146,9 +150,13 @@ public:
 
 	bool powerTransition = false;
 
+	bool _noSpearIcon;
+	Timer spear_icon_timer;
+
 	//-------Audio effects--------//
 	
 	uint orbEffect;
+	uint noSpearEffect;
 
 };
 

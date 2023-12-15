@@ -97,7 +97,8 @@
 	  </thunder>
 	  <player x="100" y="200" texturepath="Assets/Textures/playerSheet-export.png">
 		  <soundEffects>
-			  <orbSound audiopath = "Assets/Audio/Fx/orb.wav" />  
+			  <orbSound audiopath = "Assets/Audio/Fx/orb.wav" />
+			  <noSpearSound audiopath = "Assets/Audio/Fx/no_spear.wav" />
 		  </soundEffects>
 
 		  <popUp >
@@ -106,6 +107,13 @@
 			  <speed value="0.2" />
 			  <loop value="true" />
 		  </popUp>/>
+		  
+		  <NoSpear>
+			  <frame x="419" y="180" w="17" h="18" />
+			  <frame x="437" y="180" w="17" h="18" />
+			  <speed value="0.1" />
+			  <loop value="true" />
+		  </NoSpear>
 		  
 		  <animations>
 			  <idle>
@@ -202,6 +210,27 @@
 				  <opportunityKey>SDL_SCANCODE_M</opportunityKey>
 				  <opportunityWindow>0.2</opportunityWindow>
 			  </mid_groundAttack>
+
+			  <op_groundAttack>
+				  <frame x="1391" y="1" w="  198" h="133" />
+				  <frame x="1591" y="1" w="  198" h="133" audio ="Assets/Audio/Fx/groundSlash_01.wav"/>
+				  <frame x="1791" y="1" w="  198" h="133" />
+				  <frame x="1991" y="1" w="  198" h="133" opportunity="true" />
+				  <frame x="2191" y="1" w="  198" h="133" audio ="Assets/Audio/Fx/groundSlash_02.wav"/>
+				  <frame x="1991" y="135" w="198" h="133" />
+				  <frame x="2191" y="135" w="198" h="133" opportunity="true" />
+				  <frame x="1991" y="269" w="198" h="133" />
+				  <frame x="2191" y="269" w="198" h="133" audio ="Assets/Audio/Fx/groundSlash_03.wav"/>
+				  <frame x="2391" y="1" w="  198" h="133" />
+				  <frame x="2391" y="135" w="198" h="133" />
+				  <frame x="2391" y="269" w="198" h="133" />
+				  <frame x="2391" y="403" w="198 " h="133" />
+				  <loop value="false"/>
+				  <speed value="0.16" />
+				  <opportunityFrame>2</opportunityFrame>
+				  <opportunityKey>SDL_SCANCODE_M</opportunityKey>
+				  <opportunityWindow>0.2</opportunityWindow>
+			  </op_groundAttack>
 
 			  <airAttack>
 				  <frame x="1142" y="509" w="138" h="88" />

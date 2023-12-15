@@ -6,6 +6,7 @@
 #include "Item.h"
 #include "../Spear.h"
 #include "../Orb.h"
+#include "../Jorge.h"
 
 struct SDL_Texture;
 

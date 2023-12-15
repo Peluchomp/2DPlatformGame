@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "../Spear.h"
 #include "../Orb.h"
+#include "../Jorge.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -102,6 +103,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		entity = new Thunder();
 		entity->active = true;
 		break;
+	case EntityType::JORGE:
+		entity = new Jorge();
+		break;
 	default:
 		break;
 	}
@@ -155,11 +159,11 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 bool EntityManager::SaveState(pugi::xml_node node) {
 
 	pugi::xml_node Node = node.append_child("position");
-	Node.append_attribute("x").set_value(player->position.x);
-	Node.append_attribute("y").set_value(player->position.y);
+	//Node.append_attribute("x").set_value(player->position.x);
+	//Node.append_attribute("y").set_value(player->position.y);
 
-	node.append_attribute("orbs").set_value(player->orbs);
-	node.append_attribute("PowerLvl").set_value(player->power);
+	//node.append_attribute("orbs").set_value(player->orbs);
+	//node.append_attribute("PowerLvl").set_value(player->power);
 
 	return true;
 }

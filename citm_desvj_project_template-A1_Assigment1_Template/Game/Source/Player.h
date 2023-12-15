@@ -112,7 +112,7 @@ public:
 	
 	Spear *mySpear;
 	Thunder* myThunder;
-	PowerLvl power = PowerLvl::OP;
+	PowerLvl power = PowerLvl::NORMAL;
 	PowerPopUp powerMessage;
 
 	b2Vec2 provisional = { 999,999 };

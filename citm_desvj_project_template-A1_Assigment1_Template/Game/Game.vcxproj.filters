@@ -35,6 +35,9 @@
     <ClCompile Include="Thunder.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Jorge.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -94,6 +97,9 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="Thunder.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Jorge.h">
       <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>

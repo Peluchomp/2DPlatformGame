@@ -38,6 +38,12 @@ bool Scene::Awake(pugi::xml_node& config)
 		item->parameters = itemNode;
 	}
 
+	for (pugi::xml_node itemNode = config.child("jorge"); itemNode; itemNode = itemNode.next_sibling("jorge"))
+	{
+		Jorge* jorge = (Jorge*)app->entityManager->CreateEntity(EntityType::JORGE);
+		jorge->parameters = itemNode;
+	}
+
 	if (config.child("player")) {
 		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 		player->parameters = config.child("player");

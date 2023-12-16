@@ -6,7 +6,7 @@
 #include "../Spear.h"
 #include "../Orb.h"
 #include "../Jorge.h"
-
+#include "../Morgan.h"
 #include "Defs.h"
 #include "Log.h"
 
@@ -45,7 +45,7 @@ bool EntityManager::Awake(pugi::xml_node& config)
 
 bool EntityManager::Start() {
 
-	bool ret = true; 
+	bool ret = true;
 
 	//Iterates over the entities and calls Start
 	ListItem<Entity*>* item;
@@ -82,15 +82,15 @@ bool EntityManager::CleanUp()
 
 Entity* EntityManager::CreateEntity(EntityType type)
 {
-	Entity* entity = nullptr; 
+	Entity* entity = nullptr;
 
 	switch (type)
 	{
 	case EntityType::PLAYER:
 		entity = new Player();
 		break;
-	case EntityType::ITEM:
-		entity = new Item();
+	case EntityType::MORGAN:
+		entity = new Morgan();
 		break;
 	case EntityType::SPEAR:
 		entity = new Spear();
@@ -111,6 +111,7 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	}
 
 	entities.Add(entity);
+	entity->pathTexture = app->scene->pathTexture;
 
 	return entity;
 }
@@ -127,7 +128,7 @@ void EntityManager::DestroyEntity(Entity* entity)
 
 void EntityManager::AddEntity(Entity* entity)
 {
-	if ( entity != nullptr) entities.Add(entity);
+	if (entity != nullptr) entities.Add(entity);
 }
 
 bool EntityManager::Update(float dt)
@@ -135,7 +136,7 @@ bool EntityManager::Update(float dt)
 	bool ret = true;
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
-	
+
 	for (item = entities.start; item != NULL && ret == true; item = item->next)
 	{
 		pEntity = item->data;
@@ -160,7 +161,7 @@ bool EntityManager::Update(float dt)
 bool EntityManager::LoadState(pugi::xml_node node) {
 
 	ListItem<Entity*>* item;
-	
+
 	bool ret = true;
 
 	Entity* pEntity = NULL;

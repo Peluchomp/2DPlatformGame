@@ -12,7 +12,7 @@ class PhysBody;
 enum class EntityType
 {
 	PLAYER,
-	ITEM,
+	MORGAN,
 	SPEAR,
 	ORB,
 	THUNDER,
@@ -83,14 +83,16 @@ public:
 	SString name;
 	EntityType type;
 	bool active = true;
-	pugi::xml_node parameters; 
+	pugi::xml_node parameters;
 
 	// Possible properties, it depends on how generic we
 	// want our Entity class, maybe it's not renderable...
-	iPoint position;       
+	iPoint position;
 	bool renderable = true;
 
 	bool pendingToDestroy = false;
+
+	SDL_Texture* pathTexture = nullptr;
 
 	int num = -1;
 

@@ -32,17 +32,8 @@ bool Scene::Awake(pugi::xml_node& config)
 
 	// iterate all objects in the scene
 	// Check https://pugixml.org/docs/quickstart.html#access
-	for (pugi::xml_node itemNode = config.child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
-	{
-		Item* item = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
-		item->parameters = itemNode;
-	}
 
-	for (pugi::xml_node itemNode = config.child("jorge"); itemNode; itemNode = itemNode.next_sibling("jorge"))
-	{
-		Jorge* jorge = (Jorge*)app->entityManager->CreateEntity(EntityType::JORGE);
-		jorge->parameters = itemNode;
-	}
+
 
 	if (config.child("player")) {
 		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
@@ -66,7 +57,7 @@ bool Scene::Awake(pugi::xml_node& config)
 		orb->parameters = scene_parameter.child("orb");
 
 		int p;
-	
+
 	}
 
 	return ret;
@@ -99,7 +90,23 @@ bool Scene::Start()
 		app->map->mapData.tileHeight,
 		app->map->mapData.tilesets.Count());
 
+
 	mouseTileTex = app->tex->Load("Assets/Textures/goldCoin.png");
+
+	const char* tilePath = scene_parameter.child("pathTile").attribute("texturepath").as_string();
+	pathTexture = app->tex->Load(tilePath);
+
+	for (pugi::xml_node itemNode = scene_parameter.child("morgan"); itemNode; itemNode = itemNode.next_sibling("item"))
+	{
+		Morgan* item = (Morgan*)app->entityManager->CreateEntity(EntityType::MORGAN);
+		item->parameters = itemNode;
+	}
+
+	for (pugi::xml_node itemNode = scene_parameter.child("jorge"); itemNode; itemNode = itemNode.next_sibling("jorge"))
+	{
+		Jorge* jorge = (Jorge*)app->entityManager->CreateEntity(EntityType::JORGE);
+		jorge->parameters = itemNode;
+	}
 
 	return true;
 }
@@ -120,74 +127,74 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
 		isInDebugMode = false;
 	}
-	
-		if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-			app->render->camera.y -= (int)ceil(camSpeed * dt);
 
-		if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-			app->render->camera.y += (int)ceil(camSpeed * dt);
+	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		app->render->camera.y -= (int)ceil(camSpeed * dt);
 
-		if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-			app->render->camera.x -= (int)ceil(camSpeed * dt);
+	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		app->render->camera.y += (int)ceil(camSpeed * dt);
 
-		if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-			app->render->camera.x += (int)ceil(camSpeed * dt);
+	if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		app->render->camera.x -= (int)ceil(camSpeed * dt);
+
+	if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		app->render->camera.x += (int)ceil(camSpeed * dt);
 
 
-		if (isInDebugMode == false) {
-			if (player->position.x < app->win->screenSurface->w / 3) {
-				//player->position.x = app->win->screenSurface->w / 3;
-			}
-			//app->render->camera.x = -player->position.x * 2 - 3 + app->win->screenSurface->w / 2;
-
-			if (player->position.y <= 0)
-			{
-				//player->position.y += app->win->screenSurface->h + 13 * 2;
-			}
-			else if (player->position.y >= app->win->screenSurface->h)
-			{
-				//player->position.y -= app->win->screenSurface->h - 13 * 2;
-			}
-			else
-			{
-				//player->position.y = 0;
-			}
-			//app->render->camera.y = -player->position.y +app->win->screenSurface->h/2-143;
+	if (isInDebugMode == false) {
+		if (player->position.x < app->win->screenSurface->w / 3) {
+			//player->position.x = app->win->screenSurface->w / 3;
 		}
-	
-		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
-		//app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
-		app->render->camera.y = -app->scene->player->position.y + app->render->camera.h / 2;
-		if (app->render->camera.x > 0) app->render->camera.x = 0;
-		if (app->render->camera.y > 0) app->render->camera.y = 0;
-		/*if (app->render->camera.x < -app->map->mapData.width * app->map->mapData.tileWidth + app->render->camera.w)
-			app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;*/
-			if (app->render->camera.y < -app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h)
-				app->render->camera.y = (-app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h) * 2;
+		//app->render->camera.x = -player->position.x * 2 - 3 + app->win->screenSurface->w / 2;
 
-/**2 - 3 + app->win->screenSurface->w / 2;*/
-		
+		if (player->position.y <= 0)
+		{
+			//player->position.y += app->win->screenSurface->h + 13 * 2;
+		}
+		else if (player->position.y >= app->win->screenSurface->h)
+		{
+			//player->position.y -= app->win->screenSurface->h - 13 * 2;
+		}
+		else
+		{
+			//player->position.y = 0;
+		}
+		//app->render->camera.y = -player->position.y +app->win->screenSurface->h/2-143;
+	}
+
+	app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
+	//app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
+	app->render->camera.y = -app->scene->player->position.y + app->render->camera.h / 2;
+	if (app->render->camera.x > 0) app->render->camera.x = 0;
+	if (app->render->camera.y > 0) app->render->camera.y = 0;
+	/*if (app->render->camera.x < -app->map->mapData.width * app->map->mapData.tileWidth + app->render->camera.w)
+		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;*/
+	if (app->render->camera.y < -app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h)
+		app->render->camera.y = (-app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h) * 2;
+
+	/**2 - 3 + app->win->screenSurface->w / 2;*/
 
 
-		app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
-	
 
-		if (app->physics->debug && app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
-			for (int i = 0; i < 50; ++i) {
-				if (orbs[i] == nullptr) {
-					orbs[i] = (Orb*)app->entityManager->CreateEntity(EntityType::ORB);
-					orbs[i]->parameters = scene_parameter.child("orb");
-					orbs[i]->position.x = player->position.x; orbs[i]->position.y = 100;
-					break;
-				}
+	app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
+
+
+	if (app->physics->debug && app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+		for (int i = 0; i < 50; ++i) {
+			if (orbs[i] == nullptr) {
+				orbs[i] = (Orb*)app->entityManager->CreateEntity(EntityType::ORB);
+				orbs[i]->parameters = scene_parameter.child("orb");
+				orbs[i]->position.x = player->position.x; orbs[i]->position.y = 100;
+				break;
 			}
-			
 		}
 
-		
-		// L14: TODO 3: Request App to Load / Save when pressing the keys F5 (save) / F6 (load)
-		if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveRequest();
-		if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadRequest();
+	}
+
+
+	// L14: TODO 3: Request App to Load / Save when pressing the keys F5 (save) / F6 (load)
+	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveRequest();
+	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadRequest();
 
 	// Renders the image in the center of the screen 
 	//app->render->DrawTexture(img, (int)textPosX, (int)textPosY);
@@ -269,12 +276,12 @@ bool Scene::LoadState(pugi::xml_node node) {
 	Entity* pEntity = NULL;
 
 	// Spawn saved entities
-	for (item = app->entityManager->savedEntities.start ; item != NULL && ret == true; item = item->next)
+	for (item = app->entityManager->savedEntities.start; item != NULL && ret == true; item = item->next)
 	{
 		pEntity = item->data;
-		
+
 		if (pEntity->type == EntityType::ORB) {
-			
+
 			for (pugi::xml_node orbNode = scene_parameter.child("orb_spawn"); orbNode; orbNode = orbNode.next_sibling("orb_spawn")) {
 				if (pEntity->num == orbNode.attribute("num").as_int()) {
 					pEntity = app->entityManager->CreateEntity(EntityType::ORB);
@@ -286,7 +293,7 @@ bool Scene::LoadState(pugi::xml_node node) {
 					int p;
 				}
 			}
-			
+
 		}
 
 	}

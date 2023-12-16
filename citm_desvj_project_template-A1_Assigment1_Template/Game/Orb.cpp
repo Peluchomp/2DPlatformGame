@@ -54,12 +54,12 @@ bool Orb::Update(float dt)
 		}
 		awake = true;
 		currentAnimation = &defaultAnim;
-		_body = app->physics->CreateCircle(position.x + 19, position.y+19 , 15, bodyType::KINEMATIC, true);
+		_body = app->physics->CreateCircle(position.x + 19, position.y + 19, 15, bodyType::KINEMATIC, true);
 		myBodies.Add(_body);
 		_body->listener = this;
 		_body->body->SetGravityScale(0);
 		_body->ctype = ColliderType::ORB;
-		
+
 	}
 
 	if (_body->active) {
@@ -75,7 +75,7 @@ bool Orb::Update(float dt)
 		app->render->DrawTexture(texture, position.x, position.y, false, &currentAnimation->GetCurrentFrame());
 
 	}
-	
+
 
 	return true;
 }
@@ -90,12 +90,12 @@ void Orb::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	switch (physB->ctype)
 	{
-	case ColliderType::ITEM:
-		LOG("Collision ITEM");
+	case ColliderType::ENEMY:
+		LOG("Collision ENEMY");
 
 		break;
-	
-	case ColliderType::PLAYER :
+
+	case ColliderType::PLAYER:
 		LOG("Player touched orb");
 		break;
 

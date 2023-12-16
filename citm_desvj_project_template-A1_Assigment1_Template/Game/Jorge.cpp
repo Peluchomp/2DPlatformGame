@@ -19,9 +19,7 @@ Jorge::~Jorge() {}
 
 bool Jorge::Awake() {
 
-	position.x = parameters.attribute("x").as_int();
-	position.y = parameters.attribute("y").as_int();
-	texturePath = parameters.attribute("texturepath").as_string();
+	
 
 	return true;
 }
@@ -29,10 +27,14 @@ bool Jorge::Awake() {
 bool Jorge::Start() {
 
 	//initilize textures
+	position.x = parameters.attribute("x").as_int();
+	position.y = parameters.attribute("y").as_int();
+	texturePath = parameters.attribute("texturepath").as_string();
+
 	texture = app->tex->Load(texturePath);
 	texture2 = app->tex->Load("Assets/Textures/goldCoin.png");
 	pbody = app->physics->CreateCircle(position.x, position.y, 16, bodyType::DYNAMIC);
-	pbody->ctype = ColliderType::ITEM;
+	pbody->ctype = ColliderType::ENEMY;
 	pbody->body->SetGravityScale(0);
 
 

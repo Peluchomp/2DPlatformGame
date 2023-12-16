@@ -24,8 +24,8 @@ enum bodyType {
 };
 
 enum class ColliderType {
-	PLAYER, 
-	ITEM,
+	PLAYER,
+	ENEMY,
 	PLATFORM,
 	SPEAR,
 	UNKNOWN,
@@ -89,7 +89,7 @@ public:
 	PhysBody* CreateChain(int x, int y, int* points, int size, bodyType type);
 
 	void DestroyObject(PhysBody* pbody);
-	
+
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
 
@@ -98,7 +98,7 @@ public:
 
 private:
 
-	
+
 
 	// Box2D World
 	b2World* world;

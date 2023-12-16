@@ -95,11 +95,12 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Jorge.cpp" />
     <ClCompile Include="ModuleEnemies.cpp" />
+    <ClCompile Include="Morgan.cpp" />
     <ClCompile Include="Orb.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
-    <ClCompile Include="Source\Item.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\App.cpp" />
     <ClCompile Include="Source\Audio.cpp" />
@@ -117,12 +118,13 @@
     <ClCompile Include="Spear.cpp" />
     <ClCompile Include="Thunder.cpp" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Jorge.h" />
     <ClInclude Include="ModuleEnemies.h" />
+    <ClInclude Include="Morgan.h" />
     <ClInclude Include="Orb.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
-    <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Pathfinding.h" />
     <ClInclude Include="Source\PerfTimer.h" />

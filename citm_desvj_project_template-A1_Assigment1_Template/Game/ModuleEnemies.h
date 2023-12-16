@@ -5,7 +5,7 @@
 #include "Source/Entity.h"
 #include "Source/List.h"
 #include "Source/EntityManager.h"
-#include "Source/Item.h"
+#include "Item.h"
 
 class ModuleEnemies : public Module
 {
@@ -30,7 +30,7 @@ public:
 
 
 public:
-	Item *item;
+	//Item *item;
 
 
 };

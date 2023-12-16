@@ -3,7 +3,7 @@
 
 #include "Module.h"
 #include "Player.h"
-#include "Item.h"
+#include "../Morgan.h"
 #include "../Spear.h"
 #include "../Orb.h"
 #include "../Jorge.h"
@@ -45,10 +45,15 @@ public:
 	bool LoadState(pugi::xml_node node);
 
 	pugi::xml_node scene_parameter;
-	
+
+	SDL_Texture* pathTexture = nullptr;
+
 private:
 	SDL_Texture* mouseTileTex;
 	SDL_Texture* img;
+
+
+
 	float textPosX, textPosY = 0;
 	uint texW, texH;
 	uint windowW, windowH;

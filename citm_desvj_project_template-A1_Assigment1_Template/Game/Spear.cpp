@@ -150,7 +150,7 @@ void Spear::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	switch (physB->ctype)
 	{
-	case ColliderType::ITEM:
+	case ColliderType::ENEMY:
 		LOG("Collision ITEM");
 		
 		break;

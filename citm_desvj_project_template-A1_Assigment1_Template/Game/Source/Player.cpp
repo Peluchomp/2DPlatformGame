@@ -20,7 +20,7 @@ Player::Player() : Entity(EntityType::PLAYER)
 }
 
 Player::~Player() {
-	
+
 }
 
 bool SameRectP(SDL_Rect r1, SDL_Rect r2) {
@@ -36,7 +36,7 @@ bool Player::Awake() {
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 
-	
+
 
 
 	LoadAnimations();
@@ -57,18 +57,18 @@ bool Player::Start() {
 	51, 12
 	};
 
-	
+
 
 	texture = app->tex->Load(texturePath);
 	powerMessage.currentAnim = &powerMessage.defaultAnim;
 	noSpearIcon.currentAnim = &noSpearIcon.defaultAnim;
 
-	pbody = app->physics->CreateChain(position.x +35 , position.y ,PlayerCoords,8, bodyType::DYNAMIC);
+	pbody = app->physics->CreateChain(position.x + 35, position.y, PlayerCoords, 8, bodyType::DYNAMIC);
 	pbody->listener = this;
-	
+
 	pbody->ctype = ColliderType::PLAYER;
 
-	attackTrigger = app->physics->CreateRectangleSensor(position.x + 110, position.y+40, 60, 70, bodyType::DYNAMIC);
+	attackTrigger = app->physics->CreateRectangleSensor(position.x + 110, position.y + 40, 60, 70, bodyType::DYNAMIC);
 	attackTrigger->body->SetGravityScale(0);
 	attackTrigger->listener = this; // CHANGE to enemies
 	attackTrigger->ctype = ColliderType::PLAYER_ATTACK;
@@ -92,7 +92,7 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
-	
+
 	if (currentSpawnAnim->HasFinished()) {
 		epicSpawn.Reset();
 		spawning = false;
@@ -151,7 +151,7 @@ bool Player::Update(float dt)
 		{
 			// debe de haber algun problema , aqui le restamos a la velocidad en y pero el dt es mas grande cuanto menor los fps y esto hace que cauga menos/ salte mas
 			gravity += 0.05f * dt;
-			
+
 
 		}
 
@@ -203,7 +203,7 @@ bool Player::Update(float dt)
 			spear_icon_timer.Start();
 			app->audio->PlayFx(noSpearEffect);
 		}
-		
+
 
 		if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		{
@@ -229,29 +229,29 @@ bool Player::Update(float dt)
 			}
 		}
 	}
-		b2Vec2 vel = b2Vec2(movementx, gravity);
-		//Set the velocity of the pbody of the player
-		pbody->body->SetLinearVelocity(vel);
+	b2Vec2 vel = b2Vec2(movementx, gravity);
+	//Set the velocity of the pbody of the player
+	pbody->body->SetLinearVelocity(vel);
 
-		//Update player position in pixels
-		const float32* x = &pbody->body->GetTransform().p.x;
+	//Update player position in pixels
+	const float32* x = &pbody->body->GetTransform().p.x;
 
-		position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) + 10;
-		position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) + 40;
+	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) + 10;
+	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) + 40;
 
-		SDL_GetMouseState(&mousex, &mousey);
-		mousex -= app->render->camera.x;
-		mousey -= app->render->camera.y;
-		SDL_Point center{ position.x,position.y };
-		SDL_Rect  perim{ position.x,position.y,0,0 };
-		delta_x = position.x - mousex/2;
-		delta_y = position.y - mousey/2 -40;
+	SDL_GetMouseState(&mousex, &mousey);
+	mousex -= app->render->camera.x;
+	mousey -= app->render->camera.y;
+	SDL_Point center{ position.x,position.y };
+	SDL_Rect  perim{ position.x,position.y,0,0 };
+	delta_x = position.x - mousex / 2;
+	delta_y = position.y - mousey / 2 - 40;
 
-		app->render->DrawCircle(position.x,position.y, 30,255,45,100,255);
-		app->render->DrawCircle(delta_x, delta_y, 30, 255, 45, 100, 255);
+	app->render->DrawCircle(position.x, position.y, 30, 255, 45, 100, 255);
+	app->render->DrawCircle(delta_x, delta_y, 30, 255, 45, 100, 255);
 
-		angle_deg = (atan2(delta_y, delta_x) * 180.0000) / 3.1416;
-	
+	angle_deg = (atan2(delta_y, delta_x) * 180.0000) / 3.1416;
+
 	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 	{
 		if (mySpear->isPicked == true && thrownCooldown.ReadSec() > 2) {
@@ -279,14 +279,14 @@ bool Player::Update(float dt)
 	else if (mySpear->isPicked == false && position.DistanceTo(mySpear->position) > 400 && mySpear->isSticked == false && mySpear->platform == false)
 	{
 		b2Vec2 positiondissapera = b2Vec2(-100, -100);
-		
-	
-		
+
+
+
 		mySpear->daPlatform = true;
 		mySpear->isSticked = false;
 	}
 
-	
+
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_UP || app->input->GetKey(SDL_SCANCODE_F1) == KEY_UP || dead == true && godMode == false) {
 
 		Spawn(0);
@@ -322,7 +322,7 @@ bool Player::Update(float dt)
 			gravity = provisional.y;
 			provisional = b2Vec2{ 999,999 };
 		}
-		
+
 	}
 	if ((powerTransition == true) && currentAnim != &poweUpAnim2 && currentAnim != &poweUpAnim3) {
 
@@ -334,7 +334,7 @@ bool Player::Update(float dt)
 		currentAnim = &poweUpAnim;
 		if (poweUpAnim.HasFinished()) {
 			poweUpAnim.Reset();
-			
+
 			currentAnim = &poweUpAnim2;
 		}
 	}
@@ -344,7 +344,7 @@ bool Player::Update(float dt)
 		if (poweUpAnim2.loopCount > 2) {
 			poweUpAnim2.Reset();
 			currentAnim = &poweUpAnim3;
-			
+
 		}
 	}
 	if (currentAnim == &poweUpAnim3) {
@@ -367,7 +367,7 @@ bool Player::Update(float dt)
 		orbs = 0;
 		myThunder = (Thunder*)app->entityManager->CreateEntity(EntityType::THUNDER);
 		myThunder->parameters = app->scene->scene_parameter.child("thunder");
-		
+
 
 		switch (power) {
 		case(PowerLvl::NORMAL):
@@ -392,25 +392,25 @@ bool Player::Update(float dt)
 	currentAnim->Update();
 
 	if (myDir == Direction::RIGHT) {
-	    
-		if (Attacking && power == PowerLvl::OP) { app->render->DrawTexture(texture, position.x - 36 -30, position.y - 40 -24, false, &currentAnim->GetCurrentFrame()); }
 
-		else if (powerTransition) { app->render->DrawTexture(texture, position.x - 33, position.y -45, false, &currentAnim->GetCurrentFrame()); }
-		else if(spawning){ app->render->DrawTexture(texture, position.x , position.y - 100, false, &currentAnim->GetCurrentFrame()); }
+		if (Attacking && power == PowerLvl::OP) { app->render->DrawTexture(texture, position.x - 36 - 30, position.y - 40 - 24, false, &currentAnim->GetCurrentFrame()); }
+
+		else if (powerTransition) { app->render->DrawTexture(texture, position.x - 33, position.y - 45, false, &currentAnim->GetCurrentFrame()); }
+		else if (spawning) { app->render->DrawTexture(texture, position.x, position.y - 100, false, &currentAnim->GetCurrentFrame()); }
 		else if (!isGrounded) { app->render->DrawTexture(texture, position.x - 50, position.y - 40, false, &currentAnim->GetCurrentFrame()); }
 		else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, false, &currentAnim->GetCurrentFrame()); }
 	}
 	else {
-		
+
 		if (Attacking && power == PowerLvl::OP) { app->render->DrawTexture(texture, position.x - 36 - 30, position.y - 40 - 24, true, &currentAnim->GetCurrentFrame()); }
-		else if (powerTransition) { app->render->DrawTexture(texture, position.x - 33, position.y -45, false, &currentAnim->GetCurrentFrame()); }
+		else if (powerTransition) { app->render->DrawTexture(texture, position.x - 33, position.y - 45, false, &currentAnim->GetCurrentFrame()); }
 		else if (spawning) { app->render->DrawTexture(texture, position.x, position.y - 100, false, &currentAnim->GetCurrentFrame()); }
 		else if (!isGrounded) { app->render->DrawTexture(texture, position.x - 21, position.y - 40, true, &currentAnim->GetCurrentFrame()); }
 		else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, true, &currentAnim->GetCurrentFrame()); }
 	}
 
 	if (SpearhasBeenThrown) {
-		app->render->DrawTexture(mySpear->texture, mySpear->position.x, mySpear->position.y,false, &mySpear->currentAnim->GetCurrentFrame());
+		app->render->DrawTexture(mySpear->texture, mySpear->position.x, mySpear->position.y, false, &mySpear->currentAnim->GetCurrentFrame());
 	}
 
 	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && mySpear->isPicked == true) //en vez de w usamos app->input->GetMouseButtonDown(0) == KEY_REPEAT
@@ -420,17 +420,17 @@ bool Player::Update(float dt)
 	}
 
 	// ----Power up message----------//
-	if (powerMessage.active){
+	if (powerMessage.active) {
 		powerMessage.currentAnim->Update();
-		app->render->DrawTexture(texture, position.x-32, position.y-85, false, &powerMessage.currentAnim->GetCurrentFrame());
+		app->render->DrawTexture(texture, position.x - 32, position.y - 85, false, &powerMessage.currentAnim->GetCurrentFrame());
 	}
 	//----No Spear Icon-----------//
-	
+
 	if (_noSpearIcon && spear_icon_timer.ReadMSec() < 1500) {
 		noSpearIcon.currentAnim->Update();
-		app->render->DrawTexture(texture, position.x+28, position.y-50, false, &noSpearIcon.currentAnim->GetCurrentFrame());
+		app->render->DrawTexture(texture, position.x + 28, position.y - 50, false, &noSpearIcon.currentAnim->GetCurrentFrame());
 	}
-	
+
 	return true;
 }
 
@@ -446,20 +446,21 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 		switch (physB->ctype)
 		{
-		case ColliderType::ITEM:
-			LOG("Collision ITEM");
-			app->audio->PlayFx(pickCoinFxId);
+		case ColliderType::ENEMY:
+			LOG("Collision ENEMY");
+
+
 			break;
 		case ColliderType::PLATFORM:
 			if (isJumping == true)
 				isJumping = false;
 			Fall.Reset();
 			isGrounded = true;
-			
+
 			LOG("Collision PLATFORM");
 			break;
 		case ColliderType::SPEAR:
-	
+
 			LOG("Collision SPEAR");
 			break;
 		case ColliderType::UNKNOWN:
@@ -501,7 +502,7 @@ void Player::Spawn(int Level) {
 
 		pbody->body->SetLinearVelocity(b2Vec2(0, 0));
 		pbody->body->SetAngularVelocity(0.0f);
-		movementx = 0; 
+		movementx = 0;
 
 		orbs = 0;
 	}
@@ -550,7 +551,7 @@ void Player::LoadAnimations() {
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("mid_groundAttack").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
-		
+
 		mid_groundAttack.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, node.attribute("opportunity").as_bool(), node.attribute("audio").as_string());
 		mid_groundAttack.speed = parameters.child("animations").child("mid_groundAttack").child("speed").attribute("value").as_float() / 16;
 		mid_groundAttack.loop = parameters.child("animations").child(" mid_groundAttack").child("loop").attribute("value").as_bool();
@@ -617,25 +618,25 @@ void Player::LoadAnimations() {
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("spawnFire").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
-		spawnFire.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() },false, node.attribute("audio").as_string());
+		spawnFire.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, false, node.attribute("audio").as_string());
 		spawnFire.speed = parameters.child("animations").child("spawnFire").child("speed").attribute("value").as_float() / 16;
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("spearThrown").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
-		spearThrown.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() },false , node.attribute("audio").as_string());
+		spearThrown.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, false, node.attribute("audio").as_string());
 		spearThrown.speed = parameters.child("animations").child("spearThrown").child("speed").attribute("value").as_float() / 16;
 		spearThrown.loop = parameters.child("animations").child("spearThrown").child("loop").attribute("value").as_bool();
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("jump").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
-		Jump.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() },false, node.attribute("audio").as_string());
+		Jump.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, false, node.attribute("audio").as_string());
 		Jump.speed = parameters.child("animations").child("jump").child("speed").attribute("value").as_float() / 16;
 		Jump.loop = parameters.child("animations").child("jump").child("loop").attribute("value").as_bool();
 	}
 
 	for (pugi::xml_node node = parameters.child("animations").child("epicSpawn").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
-		epicSpawn.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() },false, node.attribute("audio").as_string());
+		epicSpawn.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, false, node.attribute("audio").as_string());
 		epicSpawn.speed = parameters.child("animations").child("epicSpawn").child("speed").attribute("value").as_float() / 16;
 		epicSpawn.loop = false;
 	}
@@ -683,7 +684,7 @@ void Player::LoadAnimations() {
 
 
 void Player::AttackHitBoxManagement() {
-	
+
 
 	if (Attacking) {
 		if (power != PowerLvl::OP) {
@@ -818,8 +819,8 @@ void Player::AttackHitBoxManagement() {
 
 				// frames where the collider has to be behind
 				SDL_Rect r{ 2191 ,1 ,   198  ,133 };
-				SDL_Rect r2{ 1991 ,135 ,198 ,133};
-				SDL_Rect r3{ 2191 ,135 ,198 ,133};
+				SDL_Rect r2{ 1991 ,135 ,198 ,133 };
+				SDL_Rect r3{ 2191 ,135 ,198 ,133 };
 
 				//-----------second attack------------//
 				if (currentAnim == &op_groundAttack && ((op_groundAttack.GetCurrentFrame().x == r.x && op_groundAttack.GetCurrentFrame().y == r.y) || (op_groundAttack.GetCurrentFrame().x == r2.x && op_groundAttack.GetCurrentFrame().y == r2.y) || (op_groundAttack.GetCurrentFrame().x == r3.x && op_groundAttack.GetCurrentFrame().y == r3.y))) {
@@ -873,14 +874,14 @@ void Player::AttackHitBoxManagement() {
 				SDL_Rect deavtice4{ 2391,135,198,133 };
 
 				//-----------third attack------------//
-				if (currentAnim == &op_groundAttack && (SameRectP(deavtice1,currentAnim->GetCurrentFrame()) || SameRectP(deavtice2, currentAnim->GetCurrentFrame()) || SameRectP(deavtice3, currentAnim->GetCurrentFrame()) || SameRectP(deavtice4, currentAnim->GetCurrentFrame()))) {
+				if (currentAnim == &op_groundAttack && (SameRectP(deavtice1, currentAnim->GetCurrentFrame()) || SameRectP(deavtice2, currentAnim->GetCurrentFrame()) || SameRectP(deavtice3, currentAnim->GetCurrentFrame()) || SameRectP(deavtice4, currentAnim->GetCurrentFrame()))) {
 					LOG("Move hitboxes");
 					op_attackTrigger->active = false;
-					
+
 				}
 
-				SDL_Rect extended1 = {2391 ,269 ,198 ,133};
-				SDL_Rect extended2 = {2391, 403 ,198 ,133};
+				SDL_Rect extended1 = { 2391 ,269 ,198 ,133 };
+				SDL_Rect extended2 = { 2391, 403 ,198 ,133 };
 				if (SameRectP(currentAnim->GetCurrentFrame(), extended1) || SameRectP(currentAnim->GetCurrentFrame(), extended2)) {
 					op_attackTrigger->body->SetTransform(pbody->body->GetPosition() + b2Vec2(-0.2f, 0.8f), 0.0f);
 				}
@@ -930,7 +931,7 @@ void Player::AttackHitBoxManagement() {
 				}
 				break;
 			}
-		
+
 		case PowerLvl::OP:
 			if (myDir == Direction::RIGHT) {                                            // a 0.3 increase in the x axis
 				op_attackTrigger->body->SetTransform(pbody->body->GetPosition() + b2Vec2(1.9f, 0.8f), 0.0f);
@@ -952,8 +953,8 @@ void Player::AttackHitBoxManagement() {
 			}
 		}
 
-}
-				  
+	}
+
 }
 
 void Player::AttackingLogic() {
@@ -961,14 +962,14 @@ void Player::AttackingLogic() {
 	case PowerLvl::NORMAL:
 		op_attackTrigger->active = false;
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && isGrounded) {
-			
+
 			idleState = false;
 			currentAnim = &groundAttack;
 			Attacking = true;
 		}
 		else if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && isGrounded == false) {
 			idleState = false;
-			
+
 
 			currentAnim = &airAttack;
 			Attacking = true;
@@ -1009,7 +1010,7 @@ void Player::AttackingLogic() {
 	case PowerLvl::MID:
 		op_attackTrigger->active = false;
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && isGrounded) {
-			
+
 			idleState = false;
 			currentAnim = &mid_groundAttack;
 			Attacking = true;

@@ -28,7 +28,30 @@
   </audio>
 
   <scene>
-    <item x= "200" y ="200"  texturepath="Assets/Textures/goldCoin.png"/>
+	  <pathTile  texturepath ="Assets/Textures/markedTile.png" />
+
+	  <morgan    texturepath="Assets/Textures/Morgan.png"/>
+	    <animations>
+			<walking>
+	             <frame x="1   " y="   1" w="99" h="78" />
+	             <frame x="101 " y=" 1" w="99" h="78" />
+	             <frame x="201 " y=" 1" w="99" h="78" />
+	             <frame x="301 " y=" 1" w="99" h="78" />
+	             <frame x="401 " y=" 1" w="99" h="78" />
+	             <frame x="501 " y=" 1" w="99" h="78" />
+	             <frame x="601 " y=" 1" w="99" h="78" />
+	             <frame x="701 " y=" 1" w="99" h="78" />
+	             <frame x="801 " y=" 1" w="99" h="78" />
+	             <frame x="901 " y=" 1" w="99" h="78" />
+	             <frame x="1001" y="1" w="99" h="78" />
+	             <frame x="1101" y="1" w="99" h="78" />
+				<speed value="0.06" />
+			</walking>
+	   </animations>
+	  <morgan/>
+	  
+	  
+	  
 	<jorge x= "200" y ="200"  texturepath="Assets/Textures/goldCoin.png"/>
 	  <orb texturepath ="Assets/Textures/orbSheet.png" >
 		  <frame x="1" y="1" w="38" h="38" />
@@ -398,17 +421,7 @@
 		  </animations>
 	  </player>
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+				
 			
 		
 	  <map path="Assets/Maps/" name="Level0.tmx"/>
@@ -419,8 +432,8 @@
 	  </spear>
 
 	  <orb  texturepath ="Assets/Textures/orbSheet.png" />
-   
-	<level0_music path ="r"/>
+	  
+	<level0_music path ="Assets/Audio/Music/Level0Theme.wav"/>
   </scene>
 
 

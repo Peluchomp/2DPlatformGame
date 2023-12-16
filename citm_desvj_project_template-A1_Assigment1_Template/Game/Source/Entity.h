@@ -9,6 +9,11 @@
 
 class PhysBody;
 
+enum Direction {
+	RIGHT,
+	LEFT
+};
+
 enum class EntityType
 {
 	PLAYER,
@@ -19,6 +24,8 @@ enum class EntityType
 	JORGE,
 	UNKNOWN
 };
+
+
 
 class Entity
 {
@@ -80,6 +87,7 @@ public:
 
 public:
 
+	Direction myDir;
 	SString name;
 	EntityType type;
 	bool active = true;

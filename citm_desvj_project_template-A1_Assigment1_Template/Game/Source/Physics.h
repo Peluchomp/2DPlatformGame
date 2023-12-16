@@ -31,7 +31,8 @@ enum class ColliderType {
 	UNKNOWN,
 	INSTAKILL,
 	ORB,
-	PLAYER_ATTACK
+	PLAYER_ATTACK,
+	ENEMY_ATTACK
 	// ..
 };
 

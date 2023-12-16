@@ -9,10 +9,8 @@
 #include "../Spear.h"
 #include "Timer.h"
 
-enum Direction {
-	RIGHT,
-	LEFT
-};
+#define INVINCIBILITY_MS 800
+
 enum PowerLvl {
 	NORMAL,
 	MID,
@@ -60,16 +58,18 @@ public:
 
 	void AttackingLogic();
 
+	void StartIFrames();
+	void ManageInvencibility();
+
 	bool SaveState(pugi::xml_node node);
 	bool LoadState(pugi::xml_node node);
 
 public:
-	Direction myDir;
-
 	float speed = 0.2f;
 	const char* texturePath;
 	SDL_Texture* texture = NULL;
 	PhysBody* pbody;
+	PhysBody* hurtBox;
 	PhysBody* plegs;
 	PhysBody* attackTrigger;
 
@@ -109,6 +109,7 @@ public:
 	SDL_Rect SpawnRect = { 0,417, 80,130 };
 
 	SDL_Rect orbMeter = { 20, 600, 0,20 };
+	SDL_Rect healthBar = { 20,40,80,20 };
 
 	Animation Jump;
 	Animation Fall;
@@ -123,7 +124,17 @@ public:
 
 	int orbs = 0;
 
+
+	//----HP stuff----//
+	int hp = 4;
+	bool iframes = false;
 	bool dead = false;
+	Timer invicibilityTimer;
+	bool hurt = false;
+	Timer knockTimer;
+	Direction knockDir = LEFT;
+
+
 	int pickCoinFxId;
 	float gravity;
 	float jumpDistance;

@@ -64,8 +64,11 @@ bool Physics::PreUpdate()
 			// If so, we call the OnCollision listener function (only of the sensor), passing as inputs our custom PhysBody classes
 			PhysBody* pb1 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
 			PhysBody* pb2 = (PhysBody*)c->GetFixtureB()->GetBody()->GetUserData();
+			if (pb1->ctype == ColliderType::PLAYER && pb2->ctype == ColliderType::ENEMY_ATTACK || pb1->ctype == ColliderType::ENEMY_ATTACK && pb2->ctype == ColliderType::PLAYER) {
+				LOG("Here");
+			}
 			
-			if (pb1 && pb2 && pb1->listener)
+			if (pb1 && pb2 && pb1->listener && pb1->active && pb2->active)
 				pb1->listener->OnCollision(pb1, pb2);
 		}
 	}

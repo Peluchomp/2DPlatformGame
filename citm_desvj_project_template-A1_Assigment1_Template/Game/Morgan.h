@@ -34,6 +34,8 @@ public:
 
 	void LoadAnimations();
 
+	void HitBoxManagement();
+
 public:
 
 	bool isPicked = false;
@@ -51,6 +53,7 @@ private:
 
 	Animation* currentAnimation;
 	Animation walking;
+	Animation attacking;
 
 	int hp = 2;
 	float timer;
@@ -58,6 +61,7 @@ private:
 	SDL_Texture* texture2;
 	const char* texturePath;
 	PhysBody* pbody;
+	PhysBody* snakeBody;
 };
 
 #endif // __MORGAN_H__

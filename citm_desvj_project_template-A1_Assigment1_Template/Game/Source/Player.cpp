@@ -92,6 +92,7 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+	ManageInvencibility(); /*Check if ifrmaes are still active*/
 
 	if (currentSpawnAnim->HasFinished()) {
 		epicSpawn.Reset();
@@ -229,6 +230,7 @@ bool Player::Update(float dt)
 			}
 		}
 	}
+
 	b2Vec2 vel = b2Vec2(movementx, gravity);
 	//Set the velocity of the pbody of the player
 	pbody->body->SetLinearVelocity(vel);
@@ -360,8 +362,12 @@ bool Player::Update(float dt)
 		}
 	}
 
+	//----------------Health Bar----------------//
+	healthBar = { 25 - (app->render->camera.x / 2), 42, hp *20, 15 };
+	app->render->DrawRectangle(healthBar, 27, 210, 152,255);
+
 	// ---------------Orb stuf----------------//
-	orbMeter = { 50 - (app->render->camera.x / 2), 20, orbs * 10, 15 };
+	orbMeter = { 25 - (app->render->camera.x / 2), 20, orbs * 10, 15 };
 	app->render->DrawRectangle(orbMeter, 50, 0, 140, 255);
 	if (orbs > 10) {
 		orbs = 0;
@@ -384,6 +390,13 @@ bool Player::Update(float dt)
 		}
 	}
 
+	if(hurt && knockTimer.ReadMSec()<200 && knockDir == Direction::RIGHT){ 
+		pbody->body->SetLinearVelocity(b2Vec2(8, -3)); 
+	}
+	else if (hurt && knockTimer.ReadMSec() < 200 && knockDir == Direction::LEFT) {
+		pbody->body->SetLinearVelocity(b2Vec2(-8, -3));
+	}
+	else if(knockTimer.ReadMSec() > 200) { hurt = false; }
 
 	// Method that manages the logic of the attack hitbox
 	AttackHitBoxManagement();
@@ -442,13 +455,34 @@ bool Player::CleanUp()
 
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
-	if (dead == false && physB->active) {
+	
+
+	if (physA->ctype == ColliderType::PLAYER && dead == false && physB->active) {
 
 		switch (physB->ctype)
 		{
 		case ColliderType::ENEMY:
 			LOG("Collision ENEMY");
 
+
+			break;
+		case ColliderType::ENEMY_ATTACK:
+			LOG("Collision ENEMY ATTACK");
+			
+
+				hp--;
+				hurt = true;
+				int enemyX; int enemyY;
+				physB->GetPosition(enemyX, enemyY);
+				if (enemyX +30 < position.x) {
+					knockDir = Direction::RIGHT; 
+				}
+				else { 
+					knockDir = Direction::LEFT;
+				}
+				StartIFrames();
+			
+			
 
 			break;
 		case ColliderType::PLATFORM:
@@ -474,16 +508,14 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		case ColliderType::ORB:
 			LOG("Player touched an orb");
 			orbs++;
+			
 			app->audio->PlayFx(orbEffect);
 			physB->listener->pendingToDestroy = true;
 			break;
 
 		}
 	}
-
-	if (physA == mySpear->pbody && physB->ctype == ColliderType::PLAYER) {
-
-	}
+	
 }
 
 
@@ -1100,4 +1132,20 @@ void Player::AttackingLogic() {
 			break;
 		}
 	}
+}
+
+void Player::StartIFrames() {
+	if (!iframes) {
+		iframes = true;
+		invicibilityTimer.Start();
+		knockTimer.Start();
+	}
+}
+
+void Player::ManageInvencibility() {
+
+	if (iframes && invicibilityTimer.ReadMSec()> INVINCIBILITY_MS) {
+		iframes = false;
+	}
+
 }

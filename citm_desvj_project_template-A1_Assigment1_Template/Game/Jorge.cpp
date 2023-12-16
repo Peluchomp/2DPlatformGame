@@ -34,7 +34,7 @@ bool Jorge::Start() {
 	texture = app->tex->Load(texturePath);
 
 	Bubble = app->physics->CreateCircle(position.x + 16, position.y + 16,10, bodyType::DYNAMIC);
-	Bubble->ctype = ColliderType::ENEMY;
+	Bubble->ctype = ColliderType::ENEMY_ATTACK;
 	Bubble->body->SetGravityScale(0);
 	Bubble->body->GetFixtureList()->SetSensor(true);
 
@@ -65,14 +65,18 @@ bool Jorge::Update(float dt)
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x);
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y);
 
+	fposition.x = METERS_TO_PIXELS(Bubble->body->GetTransform().p.x);
+	fposition.y = METERS_TO_PIXELS(Bubble->body->GetTransform().p.y);
+
 	iPoint origin = iPoint(10, 136);
 	iPoint destination = iPoint(20, 134);
 
 	iPoint enemyPos = app->map->WorldToMap(position.x, position.y);
 	iPoint playerPos = app->map->WorldToMap(app->scene->player->position.x, app->scene->player->position.y);
 
-	app->map->pathfinding->CreatePath(enemyPos, playerPos);
-
+	if (position.DistanceTo(app->scene->player->position) < 10) {
+		app->map->pathfinding->CreatePath(enemyPos, playerPos);
+	}
 	const DynArray<iPoint>* path = app->map->pathfinding->GetLastPath();
 	b2Vec2 posi;
 	for (uint i = 0; i < path->Count(); ++i)
@@ -82,7 +86,7 @@ bool Jorge::Update(float dt)
 		
 	}
 
-	if (path->Count() > 2 && app->map->pathfinding->CreatePath(enemyPos, playerPos) != -1) {
+	if (path->Count() > 2 && app->map->pathfinding->CreatePath(enemyPos, playerPos) != -1 && path->Count() < 10) {
 
 		iPoint pos = app->map->MapToWorld(path->At(2)->x, path->At(2)->y);
 	
@@ -91,7 +95,7 @@ bool Jorge::Update(float dt)
 
 		pbody->body->SetLinearVelocity(b2Vec2(-dirx/30,-diry/30));
 
-	 if (abs(enemyPos.x - playerPos.x) < 2) {
+		 if (abs(enemyPos.x - playerPos.x) < 2) {
 
 		//aqui codigo de atacar
 		 if (timer > 60) 
@@ -103,7 +107,7 @@ bool Jorge::Update(float dt)
 			 attacking.Reset();
 			 currentAnimation = &swimming;
 			 b2Vec2 vel;
-			 vel.x = app->scene->player->position.x - position.x;
+			 vel.x = app->scene->player->position.x +15 - position.x;
 			 vel.y = app->scene->player->position.y - position.y;
 			 vel.Normalize();
 			 vel.x *= dt / 2;
@@ -116,9 +120,14 @@ bool Jorge::Update(float dt)
 		 }
 		pbody->body->SetLinearVelocity(b2Vec2(0, 0));
 		pbody->body->SetLinearDamping(0);
-	}
+		 }
 
 		
+	}
+	else 
+	{
+		pbody->body->SetLinearVelocity(b2Vec2(0, 0));
+		pbody->body->SetLinearDamping(0);
 	}
 		
 	timer++;
@@ -126,6 +135,17 @@ bool Jorge::Update(float dt)
 		if (app->scene->player->Attacking == true)
 			hp--;
 	}
+
+	if (app->scene->player->attackTrigger->Contains(fposition.x, fposition.y) || app->scene->player->attackTrigger->Contains(fposition.x + 16, fposition.y) || app->scene->player->attackTrigger->Contains(fposition.x, fposition.y + 16) || app->scene->player->attackTrigger->Contains(fposition.x + 16, fposition.y + 16)) {
+		if (app->scene->player->Attacking == true) 
+		{
+			b2Vec2 positiondissapera = b2Vec2(100, 100);
+			Bubble->body->SetTransform(positiondissapera, 0);
+		}
+			
+	}
+
+
 
 	if (hp <= 0) {
 		app->physics->DestroyObject((PhysBody*)pbody);

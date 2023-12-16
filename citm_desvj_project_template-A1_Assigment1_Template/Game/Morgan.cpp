@@ -65,7 +65,7 @@ bool Morgan::Update(float dt)
 		}
 		else if (pbody->body->GetLinearVelocity().x < 0) {
 			myDir = Direction::LEFT;
-			;
+			
 		}
 
 		// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  

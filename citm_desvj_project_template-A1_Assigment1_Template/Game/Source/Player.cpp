@@ -81,6 +81,9 @@ bool Player::Start() {
 	orbEffect = app->audio->LoadFx(parameters.child("soundEffects").child("orbSound").attribute("audiopath").as_string());
 	noSpearEffect = app->audio->LoadFx(parameters.child("soundEffects").child("noSpearSound").attribute("audiopath").as_string());
 
+	hurtEffectText = app->tex->Load("Assets/Textures/hurtEffect.png");
+	hurtScreenText = app->tex->Load("Assets/Textures/hurtScreen.png");
+
 	currentAnim = &epicSpawn;
 	currentSpawnAnim = &epicSpawn;
 	//idleState = true;
@@ -363,8 +366,8 @@ bool Player::Update(float dt)
 	}
 
 	//----------------Health Bar----------------//
-	healthBar = { 25 - (app->render->camera.x / 2), 42, hp *20, 15 };
-	app->render->DrawRectangle(healthBar, 27, 210, 152,255);
+	healthBar = { 25 - (app->render->camera.x / 2), 42, hp * 20, 15 };
+	app->render->DrawRectangle(healthBar, 27, 210, 152, 255);
 
 	// ---------------Orb stuf----------------//
 	orbMeter = { 25 - (app->render->camera.x / 2), 20, orbs * 10, 15 };
@@ -390,13 +393,15 @@ bool Player::Update(float dt)
 		}
 	}
 
-	if(hurt && knockTimer.ReadMSec()<200 && knockDir == Direction::RIGHT){ 
-		pbody->body->SetLinearVelocity(b2Vec2(8, -3)); 
+	if (hurt && knockTimer.ReadMSec() < 200 && knockDir == Direction::RIGHT) {
+		pbody->body->SetLinearVelocity(b2Vec2(8, -3));
+		currentAnim = &hurtAnim;
 	}
 	else if (hurt && knockTimer.ReadMSec() < 200 && knockDir == Direction::LEFT) {
 		pbody->body->SetLinearVelocity(b2Vec2(-8, -3));
+		currentAnim = &hurtAnim;
 	}
-	else if(knockTimer.ReadMSec() > 200) { hurt = false; }
+	else if (knockTimer.ReadMSec() > 200) { hurt = false; }
 
 	// Method that manages the logic of the attack hitbox
 	AttackHitBoxManagement();
@@ -443,6 +448,15 @@ bool Player::Update(float dt)
 		noSpearIcon.currentAnim->Update();
 		app->render->DrawTexture(texture, position.x + 28, position.y - 50, false, &noSpearIcon.currentAnim->GetCurrentFrame());
 	}
+	
+	if (hurt) {
+		hurtIcon.currentAnim = &hurtIcon.defaultAnim;
+		hurtIcon.currentAnim->Update();
+		hurtIcon.defaultAnim.loop = false;
+		app->render->DrawTexture(hurtEffectText, position.x -121, position.y -170, false, &hurtIcon.currentAnim->GetCurrentFrame());
+	}
+
+
 
 	return true;
 }
@@ -455,7 +469,7 @@ bool Player::CleanUp()
 
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
-	
+
 
 	if (physA->ctype == ColliderType::PLAYER && dead == false && physB->active) {
 
@@ -463,26 +477,37 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		{
 		case ColliderType::ENEMY:
 			LOG("Collision ENEMY");
-
+			hurtIcon.defaultAnim.Reset();
+			hp--;
+			hurt = true;
+			int _enemyX; int _enemyY;
+			physB->GetPosition(_enemyX, _enemyY);
+			if (_enemyX + 30 < position.x) {
+				knockDir = Direction::RIGHT;
+			}
+			else {
+				knockDir = Direction::LEFT;
+			}
+			StartIFrames();
 
 			break;
 		case ColliderType::ENEMY_ATTACK:
 			LOG("Collision ENEMY ATTACK");
-			
 
-				hp--;
-				hurt = true;
-				int enemyX; int enemyY;
-				physB->GetPosition(enemyX, enemyY);
-				if (enemyX +30 < position.x) {
-					knockDir = Direction::RIGHT; 
-				}
-				else { 
-					knockDir = Direction::LEFT;
-				}
-				StartIFrames();
-			
-			
+			hurtIcon.defaultAnim.Reset();
+			hp--;
+			hurt = true;
+			int enemyX; int enemyY;
+			physB->GetPosition(enemyX, enemyY);
+			if (enemyX + 30 < position.x) {
+				knockDir = Direction::RIGHT;
+			}
+			else {
+				knockDir = Direction::LEFT;
+			}
+			StartIFrames();
+
+
 
 			break;
 		case ColliderType::PLATFORM:
@@ -508,14 +533,14 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		case ColliderType::ORB:
 			LOG("Player touched an orb");
 			orbs++;
-			
+
 			app->audio->PlayFx(orbEffect);
 			physB->listener->pendingToDestroy = true;
 			break;
 
 		}
 	}
-	
+
 }
 
 
@@ -711,6 +736,19 @@ void Player::LoadAnimations() {
 		noSpearIcon.defaultAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
 		noSpearIcon.defaultAnim.speed = parameters.child("NoSpear").child("speed").attribute("value").as_float() / 16;
 		noSpearIcon.defaultAnim.loop = true;
+	}
+	for (pugi::xml_node node = parameters.child("animations").child("hurt").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		hurtAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		hurtAnim.speed = parameters.child("animations").child("hurt").child("speed").attribute("value").as_float() / 16;
+		hurtAnim.loop = true;
+	}
+
+	for (pugi::xml_node node = parameters.child("hurtEffect").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		hurtIcon.defaultAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		hurtIcon.defaultAnim.speed = parameters.child("hurtEffect").child("speed").attribute("value").as_float() / 16;
+		hurtIcon.defaultAnim.loop = false;
 	}
 }
 
@@ -1144,7 +1182,7 @@ void Player::StartIFrames() {
 
 void Player::ManageInvencibility() {
 
-	if (iframes && invicibilityTimer.ReadMSec()> INVINCIBILITY_MS) {
+	if (iframes && invicibilityTimer.ReadMSec() > INVINCIBILITY_MS) {
 		iframes = false;
 	}
 

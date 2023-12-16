@@ -37,9 +37,6 @@
     <ClCompile Include="Jorge.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Morgan.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
@@ -106,9 +103,6 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Entity.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Item.h">
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="Morgan.h">

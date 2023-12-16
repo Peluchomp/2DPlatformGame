@@ -156,6 +156,17 @@
 			  <speed value="0.1" />
 			  <loop value="true" />
 		  </NoSpear>
+
+		  <hurtEffect texturepath = "Assets/Textures/hurtEffect.png" >
+
+			  <frame x="1" y="1" w="328" h="358" />
+			  <frame x="331" y="1" w="328" h="358" />
+			  <frame x="661" y="1" w="328" h="358" />
+			  <frame x="991" y="1" w="328" h="358" />
+			  <speed value="0.3" />
+			  <loop value="false" />
+
+			</hurtEffect>  
 		  
 		  <animations>
 			  <idle>
@@ -209,6 +220,18 @@
 				  <speed value="0.3" />
 				  <loop>true</loop>
 			  </playerRun>
+
+			  <hurt>
+				  <frame x="1141" y="242" w="138" h="88" />
+				  <frame x="1141" y="242" w="138" h="88" />
+				  <frame x="1141" y="242" w="138" h="88" />
+				  <frame x="1141" y="242" w="138" h="88" />
+				  <frame x="1141" y="242" w="138" h="88" />
+				  <frame x="1141" y="242" w="138" h="88" />
+				  
+				  <speed value="0.01" />
+				  <loop>false</loop>
+			  </hurt>
 
 
 			  <groundAttack>

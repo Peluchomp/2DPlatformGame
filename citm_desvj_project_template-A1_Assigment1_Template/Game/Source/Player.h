@@ -37,7 +37,7 @@ class Player : public Entity
 public:
 
 	Player();
-	
+
 	virtual ~Player();
 
 	bool Awake();
@@ -93,6 +93,8 @@ public:
 	Animation poweUpAnim2;
 	Animation poweUpAnim3;
 
+	Animation hurtAnim;
+
 	//----Mid power Animations----//
 	Animation mid_groundAttack;
 	Animation mid_airAttack;
@@ -113,12 +115,16 @@ public:
 
 	Animation Jump;
 	Animation Fall;
-	
-	Spear *mySpear;
+
+	Spear* mySpear;
 	Thunder* myThunder;
 	PowerLvl power = PowerLvl::NORMAL;
 	Icon powerMessage;
 	Icon noSpearIcon;
+	Icon hurtIcon;
+	Icon hurtScreen;
+	SDL_Texture* hurtEffectText = nullptr;
+	SDL_Texture* hurtScreenText = nullptr;
 
 	b2Vec2 provisional = { 999,999 };
 
@@ -165,7 +171,7 @@ public:
 	Timer spear_icon_timer;
 
 	//-------Audio effects--------//
-	
+
 	uint orbEffect;
 	uint noSpearEffect;
 

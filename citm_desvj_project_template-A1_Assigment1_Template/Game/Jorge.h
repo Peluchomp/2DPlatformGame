@@ -46,7 +46,7 @@ private:
 	State state;
 	fPoint initialPosition;
 
-
+	PhysBody* Bubble;
 	int hp = 2;
 	float timer;
 	SDL_Texture* texture;

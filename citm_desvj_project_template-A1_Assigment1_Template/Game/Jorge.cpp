@@ -84,7 +84,16 @@ bool Jorge::Update(float dt)
 		
 	}
 
+	if (app->scene->player->attackTrigger->Contains(position.x, position.y) || app->scene->player->attackTrigger->Contains(position.x + 32, position.y) || app->scene->player->attackTrigger->Contains(position.x, position.y + 32) || app->scene->player->attackTrigger->Contains(position.x + 32, position.y + 32)) {
+		if (app->scene->player->Attacking == true)
+			hp--;
+	}
 
+	if (hp <= 0) {
+		app->physics->DestroyObject((PhysBody*)pbody);
+		pendingToDestroy = false;
+		app->entityManager->DestroyEntity(this);
+	}
 
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x);
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y);

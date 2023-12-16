@@ -88,6 +88,17 @@ bool Morgan::Update(float dt)
 			timer = 0;
 		}
 
+		if (app->scene->player->attackTrigger->Contains(position.x, position.y) || app->scene->player->attackTrigger->Contains(position.x + 32, position.y) || app->scene->player->attackTrigger->Contains(position.x, position.y + 32) || app->scene->player->attackTrigger->Contains(position.x + 32, position.y + 32)) {
+			if (app->scene->player->Attacking == true)
+				hp--;
+		}
+
+		if (hp <= 0) {
+			app->physics->DestroyObject((PhysBody*)pbody);
+			pendingToDestroy = false;
+			app->entityManager->DestroyEntity(this);
+		}
+
 		if (app->map->pathfinding->CreatePath(enemyPos, playerPos) == -1) {
 
 			pbody->body->SetLinearVelocity(b2Vec2(0, 9.8f));

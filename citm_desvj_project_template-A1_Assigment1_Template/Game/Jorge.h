@@ -38,7 +38,7 @@ public:
 
 private:
 	iPoint lastPlayerPosition;
-	DynArray<iPoint> path;
+	const DynArray<iPoint>* path = app->map->pathfinding->GetLastPath();
 	bool hasPath = false;
 	int pathIndex = 0;
 

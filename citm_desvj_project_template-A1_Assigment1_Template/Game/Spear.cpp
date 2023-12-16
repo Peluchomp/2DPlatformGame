@@ -31,11 +31,11 @@ bool Spear::Start() {
 
 	texture = app->tex->Load(texturePath);
 
-
-	pbody = app->physics->CreateRectangle(position.x + 16, position.y + 16,40 , 16,bodyType::DYNAMIC);
+	b2Vec2 positiondissapera = b2Vec2(-120, -100);
+	pbody = app->physics->CreateRectangle(positiondissapera.x + 16, positiondissapera.y + 16, 40, 16, bodyType::DYNAMIC);
 	pbody->ctype = ColliderType::SPEAR;
 	pbody->listener = this;
-	ThePlatform = app->physics->CreateRectangle(position.x + 16, position.y + 16, 40, 16, bodyType::STATIC);
+	ThePlatform = app->physics->CreateRectangle(positiondissapera.x + 16, positiondissapera.y + 16, 40, 16, bodyType::STATIC);
 	ThePlatform->ctype = ColliderType::PLATFORM;
 
 

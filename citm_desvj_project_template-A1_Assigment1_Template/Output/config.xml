@@ -18,7 +18,7 @@
   </window>
 
   <moduleEnemies>
-    <item x= "200" y ="200"  texturepath="Assets/Textures/goldCoin.png"/>
+    <item x= "200" y ="200"  texturepath="Assets/Textures/markedTile.png"/>
   </moduleEnemies>
   
   <audio>
@@ -30,7 +30,7 @@
   <scene>
 	  <pathTile  texturepath ="Assets/Textures/markedTile.png" />
 
-	  <morgan    texturepath="Assets/Textures/Morgan.png"/>
+	  <morgan    texturepath="Assets/Textures/Morgan.png">
 	    <animations>
 			<walking>
 	             <frame x="1   " y="   1" w="99" h="78" />
@@ -48,11 +48,30 @@
 				<speed value="0.06" />
 			</walking>
 	   </animations>
-	  <morgan/>
+	  </morgan>
 	  
 	  
 	  
-	<jorge x= "200" y ="200"  texturepath="Assets/Textures/goldCoin.png"/>
+	<jorge x= "200" y ="200"  texturepath="Assets/Textures/Morgan.png">
+
+		<swimming>
+			<frame x="801" y="80 " w=" 73" h=" 48" />
+			<frame x="876" y="80 " w=" 73" h=" 48" />
+			<speed value ="0.04" />
+		</swimming>
+		<attacking>
+			<frame x="951" y="80 " w=" 73" h=" 48" />
+			<frame x="1026" y="80 " w=" 73" h=" 48" />
+			<frame x="1101" y="80 " w=" 73" h=" 48" />
+			<frame x="801" y="129 " w=" 73" h=" 48" />
+			<frame x="876" y="129 " w=" 73" h=" 48" />
+	
+			<speed value ="0.07" />
+			
+		</attacking>
+
+
+	</jorge>
 	  <orb texturepath ="Assets/Textures/orbSheet.png" >
 		  <frame x="1" y="1" w="38" h="38" />
 		  <frame x="41" y="1" w="38" h="38" />

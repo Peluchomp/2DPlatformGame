@@ -5,6 +5,7 @@
 #include "../Point.h"
 #include "SDL/include/SDL.h"
 #include "../Map.h"
+#include "Animation.h"
 
 struct SDL_Texture;
 
@@ -41,10 +42,16 @@ private:
 	bool hasPath = false;
 	int pathIndex = 0;
 
+	Animation* currentAnimation = nullptr;
+	Animation swimming;
+	Animation attacking;
 
 	fPoint fposition = fPoint(position.x, position.y);
 	State state;
 	fPoint initialPosition;
+
+	bool attackingState = false;
+
 
 	PhysBody* Bubble;
 	int hp = 2;

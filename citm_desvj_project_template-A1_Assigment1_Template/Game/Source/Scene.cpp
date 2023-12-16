@@ -91,7 +91,7 @@ bool Scene::Start()
 		app->map->mapData.tilesets.Count());
 
 
-	mouseTileTex = app->tex->Load("Assets/Textures/goldCoin.png");
+	mouseTileTex = app->tex->Load("Assets/Textures/markedTile.png");
 
 	const char* tilePath = scene_parameter.child("pathTile").attribute("texturepath").as_string();
 	pathTexture = app->tex->Load(tilePath);

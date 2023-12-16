@@ -74,9 +74,9 @@ bool Jorge::Update(float dt)
 	iPoint enemyPos = app->map->WorldToMap(position.x, position.y);
 	iPoint playerPos = app->map->WorldToMap(app->scene->player->position.x, app->scene->player->position.y);
 
-	if (position.DistanceTo(app->scene->player->position) < 10) {
+	
 		app->map->pathfinding->CreatePath(enemyPos, playerPos);
-	}
+	
 	const DynArray<iPoint>* path = app->map->pathfinding->GetLastPath();
 	b2Vec2 posi;
 	for (uint i = 0; i < path->Count(); ++i)
@@ -93,7 +93,12 @@ bool Jorge::Update(float dt)
 		float dirx = position.x - pos.x;
 		float diry = position.y - pos.y;
 
-		pbody->body->SetLinearVelocity(b2Vec2(-dirx/30,-diry/30));
+		b2Vec2 vel;
+		vel.x = dirx;
+		vel.y = diry;
+		vel.Normalize();
+		
+		pbody->body->SetLinearVelocity(b2Vec2(-vel.x *2,-vel.y*2));
 
 		 if (abs(enemyPos.x - playerPos.x) < 2) {
 

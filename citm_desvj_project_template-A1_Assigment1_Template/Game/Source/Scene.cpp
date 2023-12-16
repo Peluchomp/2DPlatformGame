@@ -164,7 +164,8 @@ bool Scene::Update(float dt)
 
 	app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
 	//app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
-	app->render->camera.y = -app->scene->player->position.y + app->render->camera.h / 2;
+	if (app->render->camera.y < 1000)
+	app->render->camera.y = -app->scene->player->position.y + app->render->camera.h / 2 + 50;
 	if (app->render->camera.x > 0) app->render->camera.x = 0;
 	if (app->render->camera.y > 0) app->render->camera.y = 0;
 	/*if (app->render->camera.x < -app->map->mapData.width * app->map->mapData.tileWidth + app->render->camera.w)
@@ -176,7 +177,7 @@ bool Scene::Update(float dt)
 
 
 
-	app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
+	//app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
 
 
 	if (app->physics->debug && app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {

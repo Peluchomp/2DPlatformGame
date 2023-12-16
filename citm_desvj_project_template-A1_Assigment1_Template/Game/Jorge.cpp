@@ -31,6 +31,11 @@ bool Jorge::Start() {
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 
+	Bubble = app->physics->CreateCircle(position.x + 16, position.y + 16,10, bodyType::DYNAMIC);
+	Bubble->ctype = ColliderType::ENEMY;
+	Bubble->body->SetGravityScale(0);
+	Bubble->body->GetFixtureList()->SetSensor(true);
+
 	texture = app->tex->Load(texturePath);
 	texture2 = app->tex->Load("Assets/Textures/goldCoin.png");
 	pbody = app->physics->CreateCircle(position.x, position.y, 16, bodyType::DYNAMIC);
@@ -77,13 +82,28 @@ bool Jorge::Update(float dt)
 	 if (abs(enemyPos.x - playerPos.x) < 2) {
 
 		//aqui codigo de atacar
+		 if (timer > 60) 
+		 {
+			 b2Vec2 vel;
+			 vel.x = app->scene->player->position.x - position.x;
+			 vel.y = app->scene->player->position.y - position.y;
+			 vel.Normalize();
+			 vel.x *= dt / 2;
+			 vel.y *= dt / 2;
+
+			
+			 Bubble->body->SetTransform(pbody->body->GetPosition(), 0);
+			 Bubble->body->SetLinearVelocity(vel);
+			 timer = 0;
+		 }
 		pbody->body->SetLinearVelocity(b2Vec2(0, 0));
 		pbody->body->SetLinearDamping(0);
 	}
 
 		
 	}
-
+		
+	timer++;
 	if (app->scene->player->attackTrigger->Contains(position.x, position.y) || app->scene->player->attackTrigger->Contains(position.x + 32, position.y) || app->scene->player->attackTrigger->Contains(position.x, position.y + 32) || app->scene->player->attackTrigger->Contains(position.x + 32, position.y + 32)) {
 		if (app->scene->player->Attacking == true)
 			hp--;

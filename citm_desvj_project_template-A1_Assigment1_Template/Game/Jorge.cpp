@@ -78,70 +78,73 @@ bool Jorge::Update(float dt)
 	iPoint enemyPos = app->map->WorldToMap(position.x, position.y);
 	iPoint playerPos = app->map->WorldToMap(app->scene->player->position.x, app->scene->player->position.y);
 
-	
+	if (position.DistanceTo(app->scene->player->position) < 500) {
 		app->map->pathfinding->CreatePath(enemyPos, playerPos);
-	
-	const DynArray<iPoint>* path = app->map->pathfinding->GetLastPath();
-	b2Vec2 posi;
-	for (uint i = 0; i < path->Count(); ++i)
-	{
-		iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-		/*app->render->DrawTexture(texture, pos.x, pos.y, false);*/
-		
+
+		const DynArray<iPoint>* path = app->map->pathfinding->GetLastPath();
+		b2Vec2 posi;
+		for (uint i = 0; i < path->Count(); ++i)
+		{
+			iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+			/*app->render->DrawTexture(texture, pos.x, pos.y, false);*/
+
+		}
+
+		if (path->Count() > 2 && app->map->pathfinding->CreatePath(enemyPos, playerPos) != -1 && path->Count() < 10) {
+
+			iPoint pos = app->map->MapToWorld(path->At(2)->x, path->At(2)->y);
+
+			float dirx = position.x - pos.x;
+			float diry = position.y - pos.y;
+
+			b2Vec2 vel;
+			vel.x = dirx;
+			vel.y = diry;
+			vel.Normalize();
+
+			pbody->body->SetLinearVelocity(b2Vec2(-vel.x * 2, -vel.y * 2));
+
+			if (abs(enemyPos.x - playerPos.x) < 2) {
+
+				//aqui codigo de atacar
+				if (timer > 60)
+				{
+					currentAnimation = &attacking;
+
+				}
+				if (attacking.HasFinished()) {
+					attacking.Reset();
+					currentAnimation = &swimming;
+					b2Vec2 vel;
+					vel.x = app->scene->player->position.x + 15 - position.x;
+					vel.y = app->scene->player->position.y - position.y;
+					vel.Normalize();
+					vel.x *= dt / 2;
+					vel.y *= dt / 2;
+
+
+					Bubble->body->SetTransform(pbody->body->GetPosition(), 0);
+					Bubble->body->SetLinearVelocity(vel);
+					int bubbleX; int bubbleY;
+					Bubble->GetPosition(bubbleX, bubbleY);
+					SDL_Rect bbRect = { 1026, 130, 15, 15 };
+					app->render->DrawTexture(texture, bubbleX, bubbleY, false, &bbRect); /*not sure where to draw the bubble*/
+					timer = 0;
+				}
+				pbody->body->SetLinearVelocity(b2Vec2(0, 0));
+				pbody->body->SetLinearDamping(0);
+			}
+
+
+		}
+		else
+		{
+			pbody->body->SetLinearVelocity(b2Vec2(0, 0));
+			pbody->body->SetLinearDamping(0);
+		}
 	}
-
-	if (path->Count() > 2 && app->map->pathfinding->CreatePath(enemyPos, playerPos) != -1 && path->Count() < 10) {
-
-		iPoint pos = app->map->MapToWorld(path->At(2)->x, path->At(2)->y);
-	
-		float dirx = position.x - pos.x;
-		float diry = position.y - pos.y;
-
-		b2Vec2 vel;
-		vel.x = dirx;
-		vel.y = diry;
-		vel.Normalize();
 		
-		pbody->body->SetLinearVelocity(b2Vec2(-vel.x *2,-vel.y*2));
 
-		 if (abs(enemyPos.x - playerPos.x) < 2) {
-
-		//aqui codigo de atacar
-		 if (timer > 60) 
-		 {
-			 currentAnimation = &attacking;
-
-		 }
-		 if (attacking.HasFinished()) {
-			 attacking.Reset();
-			 currentAnimation = &swimming;
-			 b2Vec2 vel;
-			 vel.x = app->scene->player->position.x +15 - position.x;
-			 vel.y = app->scene->player->position.y - position.y;
-			 vel.Normalize();
-			 vel.x *= dt / 2;
-			 vel.y *= dt / 2;
-
-
-			 Bubble->body->SetTransform(pbody->body->GetPosition(), 0);
-			 Bubble->body->SetLinearVelocity(vel);
-			 int bubbleX; int bubbleY;
-			 Bubble->GetPosition(bubbleX, bubbleY);
-			 SDL_Rect bbRect = { 1026, 130, 15, 15 };
-			 app->render->DrawTexture(texture, bubbleX, bubbleY, false, &bbRect); /*not sure where to draw the bubble*/
-			 timer = 0;
-		 }
-		pbody->body->SetLinearVelocity(b2Vec2(0, 0));
-		pbody->body->SetLinearDamping(0);
-		 }
-
-		
-	}
-	else 
-	{
-		pbody->body->SetLinearVelocity(b2Vec2(0, 0));
-		pbody->body->SetLinearDamping(0);
-	}
 		
 	timer++;
 	if (app->scene->player->attackTrigger->Contains(position.x, position.y) || app->scene->player->attackTrigger->Contains(position.x + 32, position.y) || app->scene->player->attackTrigger->Contains(position.x, position.y + 32) || app->scene->player->attackTrigger->Contains(position.x + 32, position.y + 32)) {

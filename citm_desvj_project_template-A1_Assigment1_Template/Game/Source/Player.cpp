@@ -84,6 +84,7 @@ bool Player::Start() {
 
 	const char* hurtEffectPath = parameters.child("hurtEffect").attribute("texturepath").as_string();
 	hurtEffectText = app->tex->Load(hurtEffectPath);
+	winEffext = app->audio->LoadFx(app->scene->scene_parameter.child("winEffect").attribute("audiopath").as_string());
 
 	currentAnim = &epicSpawn;
 	currentSpawnAnim = &epicSpawn;
@@ -111,9 +112,10 @@ bool Player::Update(float dt)
 
 	if (hp == 0) { 
 		Spawn(0); 
-		
-	
-	
+	}
+	if (position.x > 7720) /*Victory condition*/ {
+		Spawn(0);
+		app->audio->PlayFx(winEffext);
 	}
 
 	if (spawning == false) {

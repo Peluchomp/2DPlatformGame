@@ -60,6 +60,8 @@ bool Jorge::Start() {
 	currentAnimation = &swimming;
 	hp = JORGE_HP;
 
+	enemyDeathFx = app->scene->enemyDeathEffect;
+
 	return true;
 }
 
@@ -164,11 +166,14 @@ bool Jorge::Update(float dt)
 
 
 	if (hp <= 0) {
+		app->audio->PlayFx(enemyDeathFx);
+		hp = 100000;
 		for (ListItem<PhysBody*>* corpse = myBodies.start; corpse != NULL; corpse = corpse->next) {
 
 			// Destroy all of the entity's b2bodies
 			app->physics->DestroyObject((PhysBody*)corpse->data);
 		}
+		
 		pendingToDestroy = false;
 		app->entityManager->DestroyEntity(this);
 	}

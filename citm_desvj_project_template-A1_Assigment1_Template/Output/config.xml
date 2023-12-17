@@ -35,6 +35,8 @@
 
   <scene>
 	  <pathTile  texturepath ="Assets/Textures/markedTile.png" />
+	  <enemyEffect  audiopath ="Assets/Audio/Fx/enemy_wounded.wav"  />
+	  <winEffect audiopath = "Assets/Audio/Fx/endLevel.wav"/>
 
 	  <morgan  num="13"  texturepath="Assets/Textures/Morgan.png">
 		  <position x="0" y="0"/>

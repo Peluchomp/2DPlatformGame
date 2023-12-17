@@ -42,6 +42,8 @@ public:
 
 	bool isPicked = false;
 
+	uint enemyDeathFx;
+
 private:
 	iPoint lastPlayerPosition;
 	DynArray<iPoint> path;

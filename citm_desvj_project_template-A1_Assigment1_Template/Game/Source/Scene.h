@@ -61,6 +61,9 @@ private:
 	uint windowW, windowH;
 	bool isInDebugMode;
 
+public:
+
+	uint enemyDeathEffect;
 
 };
 

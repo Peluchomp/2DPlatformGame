@@ -176,7 +176,7 @@ public:
 
 	uint orbEffect;
 	uint noSpearEffect;
-
+	uint winEffext;
 };
 
 #endif // __PLAYER_H__

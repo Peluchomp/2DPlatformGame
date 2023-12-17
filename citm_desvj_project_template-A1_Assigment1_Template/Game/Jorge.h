@@ -38,6 +38,8 @@ public:
 
 	bool isPicked = false;
 
+	uint enemyDeathFx;
+
 private:
 	iPoint lastPlayerPosition;
 	const DynArray<iPoint>* path = app->map->pathfinding->GetLastPath();

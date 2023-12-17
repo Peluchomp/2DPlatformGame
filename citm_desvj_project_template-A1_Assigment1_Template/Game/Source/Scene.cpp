@@ -56,8 +56,6 @@ bool Scene::Awake(pugi::xml_node& config)
 		orb->num = orbNode.attribute("num").as_int();
 		orb->parameters = scene_parameter.child("orb");
 
-		
-
 	}
 
 	return ret;
@@ -96,7 +94,7 @@ bool Scene::Start()
 	const char* tilePath = scene_parameter.child("pathTile").attribute("texturepath").as_string();
 	pathTexture = app->tex->Load(tilePath);
 
-	for (pugi::xml_node itemNode = scene_parameter.child("morgan"); itemNode; itemNode = itemNode.next_sibling("item"))
+	for (pugi::xml_node itemNode = scene_parameter.child("morgan"); itemNode; itemNode = itemNode.next_sibling("morgan"))
 	{
 		Morgan* item = (Morgan*)app->entityManager->CreateEntity(EntityType::MORGAN);
 		item->parameters = itemNode;

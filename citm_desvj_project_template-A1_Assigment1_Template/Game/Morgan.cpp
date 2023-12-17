@@ -86,7 +86,7 @@ bool Morgan::Update(float dt)
 		for (uint i = 0; i < path->Count(); ++i)
 		{
 			iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-			app->render->DrawTexture(pathTexture, pos.x, pos.y, false);
+			if(app->physics->debug)app->render->DrawTexture(pathTexture, pos.x, pos.y, false);
 		}
 
 		if (path->Count() > 1 && app->map->pathfinding->CreatePath(enemyPos, playerPos) != -1) {

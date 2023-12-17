@@ -226,7 +226,7 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 			for (pugi::xml_node orbNode = node.child("morgan"); orbNode; orbNode = orbNode.next_sibling("morgan")) {
 				if (pEntity->num == orbNode.attribute("num").as_int()) {
 					pEntity = app->entityManager->CreateEntity(EntityType::MORGAN);
-					pEntity->position.x = orbNode.attribute("x").as_int(); // these should be read from the savegame.xml
+					pEntity->position.x = orbNode.attribute("x").as_int(); 
 					pEntity->position.y = orbNode.attribute("y").as_int();
 					pEntity->num = orbNode.attribute("num").as_int();
 					pEntity->parameters = orbNode;

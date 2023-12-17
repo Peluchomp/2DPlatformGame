@@ -67,7 +67,37 @@
 			</attacking>
 	   </animations>
 	  </morgan>
-	  
+	  <morgan  num="15"  texturepath="Assets/Textures/Morgan.png">
+		  <position x="1000" y="0"/>
+		  <animations>
+			  <walking>
+				  <frame x="1   " y="   1" w="99" h="78" />
+				  <frame x="101 " y=" 1" w="99" h="78" />
+				  <frame x="201 " y=" 1" w="99" h="78" />
+				  <frame x="301 " y=" 1" w="99" h="78" />
+				  <frame x="401 " y=" 1" w="99" h="78" />
+				  <frame x="501 " y=" 1" w="99" h="78" />
+				  <frame x="601 " y=" 1" w="99" h="78" />
+				  <frame x="701 " y=" 1" w="99" h="78" />
+				  <frame x="801 " y=" 1" w="99" h="78" />
+				  <frame x="901 " y=" 1" w="99" h="78" />
+				  <frame x="1001" y="1" w="99" h="78" />
+				  <frame x="1101" y="1" w="99" h="78" />
+				  <speed value="0.15" />
+			  </walking>
+			  <attacking>
+				  <frame x="1   " y=" 80" w="99" h="78" />
+				  <frame x="101 " y=" 80" w="99" h="78" />
+				  <frame x="201 " y=" 80" w="99" h="78" />
+				  <frame x="301 " y=" 80" w="99" h="78" />
+				  <frame x="401 " y=" 80" w="99" h="78" />
+				  <frame x="501 " y=" 80" w="99" h="78" />
+				  <frame x="601 " y=" 80" w="99" h="78" />
+				  <frame x="701 " y=" 80" w="99" h="78" />
+				  <speed value="0.15" />
+			  </attacking>
+		  </animations>
+	  </morgan>
 	  
 	  
 	<jorge num= "14"  texturepath="Assets/Textures/Morgan.png">
@@ -79,7 +109,7 @@
 		</swimming>
 		<attacking>
 			<frame x="951" y="80 " w=" 73" h=" 48" />
-			<frame x="1026" y="80 " w=" 73" h=" 48" />
+			<frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
 			<frame x="1101" y="80 " w=" 73" h=" 48" />
 			<frame x="801" y="129 " w=" 73" h=" 48" />
 			<frame x="876" y="129 " w=" 73" h=" 48" />

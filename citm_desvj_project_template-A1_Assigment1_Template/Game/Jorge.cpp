@@ -53,7 +53,7 @@ bool Jorge::Start() {
 	}
 	for (pugi::xml_node node = myNode.child("attacking").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
-		attacking.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		attacking.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() },false, node.attribute("audio").as_string());
 		attacking.speed = parameters.child("attacking").child("speed").attribute("value").as_float() / 16;
 		attacking.loop = false;
 	}
@@ -125,6 +125,10 @@ bool Jorge::Update(float dt)
 
 			 Bubble->body->SetTransform(pbody->body->GetPosition(), 0);
 			 Bubble->body->SetLinearVelocity(vel);
+			 int bubbleX; int bubbleY;
+			 Bubble->GetPosition(bubbleX, bubbleY);
+			 SDL_Rect bbRect = { 1026, 130, 15, 15 };
+			 app->render->DrawTexture(texture, bubbleX, bubbleY, false, &bbRect); /*not sure where to draw the bubble*/
 			 timer = 0;
 		 }
 		pbody->body->SetLinearVelocity(b2Vec2(0, 0));

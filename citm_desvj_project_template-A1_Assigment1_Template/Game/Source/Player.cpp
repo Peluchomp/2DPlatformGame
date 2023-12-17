@@ -81,8 +81,9 @@ bool Player::Start() {
 	orbEffect = app->audio->LoadFx(parameters.child("soundEffects").child("orbSound").attribute("audiopath").as_string());
 	noSpearEffect = app->audio->LoadFx(parameters.child("soundEffects").child("noSpearSound").attribute("audiopath").as_string());
 
-	hurtEffectText = app->tex->Load("Assets/Textures/hurtEffect.png");
-	hurtScreenText = app->tex->Load("Assets/Textures/hurtScreen.png");
+
+	const char* hurtEffectPath = parameters.child("hurtEffect").attribute("texturepath").as_string();
+	hurtEffectText = app->tex->Load(hurtEffectPath);
 
 	currentAnim = &epicSpawn;
 	currentSpawnAnim = &epicSpawn;
@@ -586,7 +587,6 @@ void Player::LoadAnimations() {
 
 		idle.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
 		idle.speed = parameters.child("animations").child("idle").child("speed").attribute("value").as_float() / 16;
-		//idle.loop = parameters.child("animations").child("idle").child("loop").attribute("value").as_bool();
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("longIdle1").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
@@ -598,7 +598,6 @@ void Player::LoadAnimations() {
 
 		longIdle2.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
 		longIdle2.speed = parameters.child("animations").child("longIdle2").child("speed").attribute("value").as_float() / 16;
-		//longIdle2.loop = parameters.child("animations").child("longIdle2").child("loop").attribute("value").as_bool();
 
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("longRun").child("frame"); node != NULL; node = node.next_sibling("frame")) {
@@ -708,7 +707,7 @@ void Player::LoadAnimations() {
 
 		epicSpawn.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, false, node.attribute("audio").as_string());
 		epicSpawn.speed = parameters.child("animations").child("epicSpawn").child("speed").attribute("value").as_float() / 16;
-		epicSpawn.loop = false;
+		epicSpawn.loop = parameters.child("animations").child("epicSpawn").child("loop").attribute("value").as_bool();
 	}
 	//epicSpawn.speed = 0.13f/16;
 
@@ -717,51 +716,51 @@ void Player::LoadAnimations() {
 
 		quickSpawn.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, false, node.attribute("audio").as_string());
 		quickSpawn.speed = parameters.child("animations").child("quickSpawn").child("speed").attribute("value").as_float() / 16;
-		quickSpawn.loop = false;
+		quickSpawn.loop = parameters.child("animations").child("quickSpawn").child("loop").attribute("value").as_bool();
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("powerUp").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		poweUpAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
 		poweUpAnim.speed = parameters.child("animations").child("powerUp").child("speed").attribute("value").as_float() / 16;
-		poweUpAnim.loop = false;
+		poweUpAnim.loop = parameters.child("animations").child("powerUp").child("loop").attribute("value").as_bool();
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("powerUp2").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		poweUpAnim2.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
 		poweUpAnim2.speed = parameters.child("animations").child("powerUp2").child("speed").attribute("value").as_float() / 16;
-		poweUpAnim2.loop = true;
+		poweUpAnim2.loop = parameters.child("animations").child("powerUp2").child("loop").attribute("value").as_bool();
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("powerUp3").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		poweUpAnim3.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
 		poweUpAnim3.speed = parameters.child("animations").child("powerUp3").child("speed").attribute("value").as_float() / 16;
-		poweUpAnim3.loop = true;
+		poweUpAnim3.loop = parameters.child("animations").child("powerUp3").child("loop").attribute("value").as_bool();
 	}
 	//----------------------Icons----------------------//
 	for (pugi::xml_node node = parameters.child("popUp").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		powerMessage.defaultAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
 		powerMessage.defaultAnim.speed = parameters.child("popUp").child("speed").attribute("value").as_float() / 16;
-		powerMessage.defaultAnim.loop = true;
+		powerMessage.defaultAnim.loop = parameters.child("animations").child("popUp").child("loop").attribute("value").as_bool();
 	}
 	for (pugi::xml_node node = parameters.child("NoSpear").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		noSpearIcon.defaultAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
 		noSpearIcon.defaultAnim.speed = parameters.child("NoSpear").child("speed").attribute("value").as_float() / 16;
-		noSpearIcon.defaultAnim.loop = true;
+		noSpearIcon.defaultAnim.loop = parameters.child("NoSpear").child("loop").attribute("value").as_bool();
 	}
 	for (pugi::xml_node node = parameters.child("animations").child("hurt").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		hurtAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
 		hurtAnim.speed = parameters.child("animations").child("hurt").child("speed").attribute("value").as_float() / 16;
-		hurtAnim.loop = true;
+		hurtAnim.loop = parameters.child("animations").child("hurt").child("loop").attribute("value").as_bool();
 	}
 
 	for (pugi::xml_node node = parameters.child("hurtEffect").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		hurtIcon.defaultAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, false, node.attribute("audio").as_string());
 		hurtIcon.defaultAnim.speed = parameters.child("hurtEffect").child("speed").attribute("value").as_float() / 16;
-		hurtIcon.defaultAnim.loop = false;
+		hurtIcon.defaultAnim.loop = parameters.child("animations").child("speed").child("loop").attribute("value").as_bool();
 	}
 }
 

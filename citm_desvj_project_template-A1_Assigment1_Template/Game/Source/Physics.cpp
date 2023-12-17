@@ -42,10 +42,27 @@ bool Physics::Start()
 	// Set this module as a listener for contacts
 	world->SetContactListener(this);
 
+// Set the filter data for the player's fixture
+	
+	playerFilterData.categoryBits = PLAYER_CATEGORY_BIT;
+	playerFilterData.maskBits = PLAYER_MASK_BITS;
+	playerFilterData.groupIndex = 0;
+
+	// Set the filter data for the enemy's fixture
+	
+	enemyFilterData.categoryBits = ENEMY_CATEGORY_BIT;
+	enemyFilterData.maskBits = ENEMY_MASK_BITS;
+	enemyFilterData.groupIndex = 0;
+
+	// Set the filter data for the ground's fixture
+	groundFilterData.categoryBits = GROUND_CATEGORY_BIT;
+	groundFilterData.maskBits = GROUND_MASK_BITS;
+	groundFilterData.groupIndex = 0;
+
 	return true;
 }
 
-// 
+
 bool Physics::PreUpdate()
 {
 	bool ret = true;
@@ -76,7 +93,7 @@ bool Physics::PreUpdate()
 	return ret;
 }
 
-PhysBody* Physics::CreateRectangle(int x, int y, int width, int height, bodyType type)
+PhysBody* Physics::CreateRectangle(int x, int y, int width, int height, bodyType type, ColliderType fixture)
 {
 	b2BodyDef body;
 
@@ -90,12 +107,29 @@ PhysBody* Physics::CreateRectangle(int x, int y, int width, int height, bodyType
 	b2PolygonShape box;
 	box.SetAsBox(PIXEL_TO_METERS(width) * 0.5f, PIXEL_TO_METERS(height) * 0.5f);
 
-	b2FixtureDef fixture;
-	fixture.shape = &box;
-	fixture.density = 1.0f;
+	b2FixtureDef Fixture;
+	Fixture.shape = &box;
+	Fixture.density = 1.0f;
 	b->ResetMassData();
 
-	b->CreateFixture(&fixture);
+
+	switch (fixture) {
+
+	case(ColliderType::ENEMY):
+		Fixture.filter = enemyFilterData;
+		break;
+	case(ColliderType::PLAYER):
+		Fixture.filter = playerFilterData;
+		break;
+	case(ColliderType::PLATFORM):
+		Fixture.filter = groundFilterData;
+		break;
+	case(ColliderType::ENEMY_ATTACK):
+		Fixture.filter = enemyFilterData;
+		break;
+	}
+
+	b->CreateFixture(&Fixture);
 
 	PhysBody* pbody = new PhysBody();
 	pbody->body = b;
@@ -110,7 +144,7 @@ PhysBody* Physics::CreateRectangle(int x, int y, int width, int height, bodyType
 
 
 
-PhysBody* Physics::CreateCircle(int x, int y, int radious, bodyType type, bool sensor)
+PhysBody* Physics::CreateCircle(int x, int y, int radious, bodyType type, ColliderType fixture, bool sensor)
 {
 	// Create BODY at position x,y
 	b2BodyDef body;
@@ -129,14 +163,31 @@ PhysBody* Physics::CreateCircle(int x, int y, int radious, bodyType type, bool s
 	circle.m_radius = PIXEL_TO_METERS(radious);
 
 	// Create FIXTURE
-	b2FixtureDef fixture;
-	fixture.shape = &circle;
-	fixture.density = 1.0f;
-	fixture.isSensor = sensor;
+	b2FixtureDef Fixture;
+	Fixture.shape = &circle;
+	Fixture.density = 1.0f;
+	Fixture.isSensor = sensor;
 	b->ResetMassData();
 
+
+	switch (fixture) {
+
+	case(ColliderType::ENEMY):
+		Fixture.filter = enemyFilterData;
+		break;
+	case(ColliderType::PLAYER):
+		Fixture.filter = playerFilterData;
+		break;
+	case(ColliderType::PLATFORM):
+		Fixture.filter = groundFilterData;
+		break;
+	case(ColliderType::ENEMY_ATTACK):
+		Fixture.filter = enemyFilterData;
+		break;
+	}
+
 	// Add fixture to the BODY
-	b->CreateFixture(&fixture);
+	b->CreateFixture(&Fixture);
 
 	// Create our custom PhysBody class
 	PhysBody* pbody = new PhysBody();
@@ -152,7 +203,7 @@ PhysBody* Physics::CreateCircle(int x, int y, int radious, bodyType type, bool s
 
 
 
-PhysBody* Physics::CreateRectangleSensor(int x, int y, int width, int height, bodyType type)
+PhysBody* Physics::CreateRectangleSensor(int x, int y, int width, int height, bodyType type, ColliderType fixture)
 {
 	// Create BODY at position x,y
 	b2BodyDef body;
@@ -169,13 +220,30 @@ PhysBody* Physics::CreateRectangleSensor(int x, int y, int width, int height, bo
 	box.SetAsBox(PIXEL_TO_METERS(width) * 0.5f, PIXEL_TO_METERS(height) * 0.5f);
 
 	// Create FIXTURE
-	b2FixtureDef fixture;
-	fixture.shape = &box;
-	fixture.density = 1.0f;
-	fixture.isSensor = true;
+	b2FixtureDef Fixture;
+	Fixture.shape = &box;
+	Fixture.density = 1.0f;
+	Fixture.isSensor = true;
+
+
+	switch (fixture) {
+
+	case(ColliderType::ENEMY):
+		Fixture.filter = enemyFilterData;
+		break;
+	case(ColliderType::PLAYER):
+		Fixture.filter = playerFilterData;
+		break;
+	case(ColliderType::PLATFORM):
+		Fixture.filter = groundFilterData;
+		break;
+	case(ColliderType::ENEMY_ATTACK):
+		Fixture.filter = enemyFilterData;
+		break;
+	}
 
 	// Add fixture to the BODY
-	b->CreateFixture(&fixture);
+	b->CreateFixture(&Fixture);
 
 	// Create our custom PhysBody class
 	PhysBody* pbody = new PhysBody();
@@ -189,7 +257,7 @@ PhysBody* Physics::CreateRectangleSensor(int x, int y, int width, int height, bo
 	return pbody;
 }
 
-PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType type)
+PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType type, ColliderType fixture)
 {
 	// Create BODY at position x,y
 	b2BodyDef body;
@@ -212,11 +280,29 @@ PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType typ
 	shape.CreateLoop(p, size / 2);
 
 	// Create FIXTURE
-	b2FixtureDef fixture;
-	fixture.shape = &shape;
+	b2FixtureDef Fixture;
+	Fixture.shape = &shape;
+
+
+	switch (fixture) {
+
+	case(ColliderType::ENEMY):
+		Fixture.filter = enemyFilterData;
+		break;
+	case(ColliderType::PLAYER):
+		Fixture.filter = playerFilterData;
+		break;
+	case(ColliderType::PLATFORM):
+		Fixture.filter = groundFilterData;
+		break;
+	case(ColliderType::ENEMY_ATTACK):
+		Fixture.filter = enemyFilterData;
+		break;
+	}
 
 	// Add fixture to the BODY
-	b->CreateFixture(&fixture);
+	b->CreateFixture(&Fixture);
+
 
 	// Clean-up temp array
 	delete[] p;

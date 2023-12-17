@@ -16,6 +16,18 @@
 #define DEGTORAD 0.0174532925199432957f
 #define RADTODEG 57.295779513082320876f
 
+// Define category bits for different types of objects
+const uint16_t PLAYER_CATEGORY_BIT = 0x0001;
+const uint16_t ENEMY_CATEGORY_BIT = 0x0002;
+const uint16_t GROUND_CATEGORY_BIT = 0x0004;
+
+// Define mask bits for which they CAN collide with
+const uint16_t PLAYER_MASK_BITS = ENEMY_CATEGORY_BIT | GROUND_CATEGORY_BIT;
+const uint16_t ENEMY_MASK_BITS = PLAYER_CATEGORY_BIT | GROUND_CATEGORY_BIT;
+const uint16_t GROUND_MASK_BITS = PLAYER_CATEGORY_BIT | ENEMY_CATEGORY_BIT | GROUND_CATEGORY_BIT;
+
+
+
 // types of bodies
 enum bodyType {
 	DYNAMIC,
@@ -84,10 +96,12 @@ public:
 	bool CleanUp();
 
 	// Create basic physics objects
-	PhysBody* CreateRectangle(int x, int y, int width, int height, bodyType type);
-	PhysBody* CreateCircle(int x, int y, int radious, bodyType type, bool sensor = false);
-	PhysBody* CreateRectangleSensor(int x, int y, int width, int height, bodyType type);
-	PhysBody* CreateChain(int x, int y, int* points, int size, bodyType type);
+	PhysBody* CreateRectangle(int x, int y, int width, int height, bodyType type, ColliderType fixture);
+	PhysBody* CreateCircle(int x, int y, int radious, bodyType type, ColliderType fixture, bool sensor = false );
+	PhysBody* CreateRectangleSensor(int x, int y, int width, int height, bodyType type, ColliderType fixture);
+	PhysBody* CreateChain(int x, int y, int* points, int size, bodyType type, ColliderType fixture);
+
+
 
 	void DestroyObject(PhysBody* pbody);
 
@@ -97,10 +111,16 @@ public:
 	// Debug mode
 	bool debug;
 
+
 private:
 
 
 
 	// Box2D World
 	b2World* world;
+public:
+
+	b2Filter enemyFilterData;
+	b2Filter playerFilterData;
+	b2Filter groundFilterData;
 };

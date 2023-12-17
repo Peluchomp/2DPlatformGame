@@ -434,7 +434,7 @@ bool Map::LoadObjectGroups(pugi::xml_node mapNode) {
                 x += width / 2;
                 y += height / 2;
 
-                PhysBody* c1 = app->physics->CreateRectangle(x, y, width, height, STATIC);
+                PhysBody* c1 = app->physics->CreateRectangle(x, y, width, height, STATIC, ColliderType::PLATFORM);
                 c1->ctype = ColliderType::INSTAKILL;
             }
         }
@@ -452,7 +452,7 @@ bool Map::LoadObjectGroups(pugi::xml_node mapNode) {
                 x += width / 2;
                 y += height / 2;
 
-                PhysBody* c1 = app->physics->CreateRectangle(x, y, width, height, STATIC);
+                PhysBody* c1 = app->physics->CreateRectangle(x, y, width, height, STATIC, ColliderType::PLATFORM);
                 c1->ctype = ColliderType::PLATFORM;
             }
         }

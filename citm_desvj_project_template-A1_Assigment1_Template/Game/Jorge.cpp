@@ -33,12 +33,12 @@ bool Jorge::Start() {
 
 	texture = app->tex->Load(texturePath);
 
-	Bubble = app->physics->CreateCircle(position.x + 16, position.y + 16,10, bodyType::DYNAMIC);
+	Bubble = app->physics->CreateCircle(position.x + 16, position.y + 16,10, bodyType::DYNAMIC, ColliderType::ENEMY_ATTACK);
 	Bubble->ctype = ColliderType::ENEMY_ATTACK;
 	Bubble->body->SetGravityScale(0);
 	Bubble->body->GetFixtureList()->SetSensor(true);
 
-	pbody = app->physics->CreateCircle(position.x, position.y, 16, bodyType::DYNAMIC);
+	pbody = app->physics->CreateCircle(position.x, position.y, 16, bodyType::DYNAMIC, ColliderType::ENEMY);
 	pbody->ctype = ColliderType::ENEMY;
 	pbody->body->SetGravityScale(0);
 

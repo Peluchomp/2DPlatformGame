@@ -63,17 +63,17 @@ bool Player::Start() {
 	powerMessage.currentAnim = &powerMessage.defaultAnim;
 	noSpearIcon.currentAnim = &noSpearIcon.defaultAnim;
 
-	pbody = app->physics->CreateChain(position.x + 35, position.y, PlayerCoords, 8, bodyType::DYNAMIC);
+	pbody = app->physics->CreateChain(position.x + 35, position.y, PlayerCoords, 8, bodyType::DYNAMIC, ColliderType::PLAYER);
 	pbody->listener = this;
 
 	pbody->ctype = ColliderType::PLAYER;
 
-	attackTrigger = app->physics->CreateRectangleSensor(position.x + 110, position.y + 40, 60, 70, bodyType::DYNAMIC);
+	attackTrigger = app->physics->CreateRectangleSensor(position.x + 110, position.y + 40, 60, 70, bodyType::DYNAMIC, ColliderType::PLAYER);
 	attackTrigger->body->SetGravityScale(0);
 	attackTrigger->listener = this; // CHANGE to enemies
 	attackTrigger->ctype = ColliderType::PLAYER_ATTACK;
 
-	op_attackTrigger = app->physics->CreateRectangleSensor(position.x + 110, position.y + 40, 73, 103, bodyType::DYNAMIC);
+	op_attackTrigger = app->physics->CreateRectangleSensor(position.x + 110, position.y + 40, 73, 103, bodyType::DYNAMIC, ColliderType::PLAYER);
 	op_attackTrigger->body->SetGravityScale(0);
 	op_attackTrigger->listener = this; // CHANGE to enemies
 	op_attackTrigger->ctype = ColliderType::PLAYER_ATTACK;
@@ -303,7 +303,7 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN && fpsCap == true)
 	{
 		app->maxFrameDuration = 1000 / 30;
-		app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
+		//app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
 		fpsCap = false;
 	}
 	else if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN && fpsCap == false)
@@ -409,22 +409,32 @@ bool Player::Update(float dt)
 	//-------------Post update animation blit------------TT
 	currentAnim->Update();
 
+	int alpha = 255;
+	if(iframes)invencibilityCounter++;
+	if (invencibilityCounter > 8) {
+		alpha = 110;
+		if (invencibilityCounter > 16) {
+			invencibilityCounter = 0;
+		}
+	}
+	
+
 	if (myDir == Direction::RIGHT) {
 
 		if (Attacking && power == PowerLvl::OP) { app->render->DrawTexture(texture, position.x - 36 - 30, position.y - 40 - 24, false, &currentAnim->GetCurrentFrame()); }
 
 		else if (powerTransition) { app->render->DrawTexture(texture, position.x - 33, position.y - 45, false, &currentAnim->GetCurrentFrame()); }
 		else if (spawning) { app->render->DrawTexture(texture, position.x, position.y - 100, false, &currentAnim->GetCurrentFrame()); }
-		else if (!isGrounded) { app->render->DrawTexture(texture, position.x - 50, position.y - 40, false, &currentAnim->GetCurrentFrame()); }
-		else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, false, &currentAnim->GetCurrentFrame()); }
+		else if (!isGrounded) { app->render->DrawTexture(texture, position.x - 50, position.y - 40, false, &currentAnim->GetCurrentFrame(), alpha); }
+		else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, false, &currentAnim->GetCurrentFrame(),alpha); }
 	}
 	else {
 
 		if (Attacking && power == PowerLvl::OP) { app->render->DrawTexture(texture, position.x - 36 - 30, position.y - 40 - 24, true, &currentAnim->GetCurrentFrame()); }
 		else if (powerTransition) { app->render->DrawTexture(texture, position.x - 33, position.y - 45, false, &currentAnim->GetCurrentFrame()); }
 		else if (spawning) { app->render->DrawTexture(texture, position.x, position.y - 100, false, &currentAnim->GetCurrentFrame()); }
-		else if (!isGrounded) { app->render->DrawTexture(texture, position.x - 21, position.y - 40, true, &currentAnim->GetCurrentFrame()); }
-		else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, true, &currentAnim->GetCurrentFrame()); }
+		else if (!isGrounded) { app->render->DrawTexture(texture, position.x - 21, position.y - 40, true, &currentAnim->GetCurrentFrame(), alpha); }
+		else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, true, &currentAnim->GetCurrentFrame(), alpha); }
 	}
 
 	if (SpearhasBeenThrown) {
@@ -449,11 +459,11 @@ bool Player::Update(float dt)
 		app->render->DrawTexture(texture, position.x + 28, position.y - 50, false, &noSpearIcon.currentAnim->GetCurrentFrame());
 	}
 	
-	if (hurt) {
+	if (hurt && !hurtIcon.defaultAnim.HasFinished()) {
 		hurtIcon.currentAnim = &hurtIcon.defaultAnim;
 		hurtIcon.currentAnim->Update();
 		hurtIcon.defaultAnim.loop = false;
-		app->render->DrawTexture(hurtEffectText, position.x -121, position.y -170, false, &hurtIcon.currentAnim->GetCurrentFrame());
+		app->render->DrawTexture(hurtEffectText, position.x -121, position.y -170, false, &hurtIcon.currentAnim->GetCurrentFrame(), 100);
 	}
 
 
@@ -1177,6 +1187,15 @@ void Player::StartIFrames() {
 		iframes = true;
 		invicibilityTimer.Start();
 		knockTimer.Start();
+		
+		b2Fixture* playerFixture = pbody->body->GetFixtureList();
+		
+		b2Filter iframePlayerFilter;
+		iframePlayerFilter.categoryBits = PLAYER_CATEGORY_BIT;  
+		iframePlayerFilter.maskBits = GROUND_CATEGORY_BIT;   // when invincible, player can only interact with ground    
+		iframePlayerFilter.groupIndex = 0;
+
+		playerFixture->SetFilterData(iframePlayerFilter);
 	}
 }
 
@@ -1184,6 +1203,16 @@ void Player::ManageInvencibility() {
 
 	if (iframes && invicibilityTimer.ReadMSec() > INVINCIBILITY_MS) {
 		iframes = false;
+		b2Fixture* playerFixture = pbody->body->GetFixtureList();
+
+		b2Filter iframePlayerFilter;
+		iframePlayerFilter.categoryBits = PLAYER_CATEGORY_BIT;
+		iframePlayerFilter.maskBits = GROUND_CATEGORY_BIT|ENEMY_CATEGORY_BIT; // now player will interact with ground and enemies
+		iframePlayerFilter.groupIndex = 0;
+
+		playerFixture->SetFilterData(iframePlayerFilter);
+
+		invencibilityCounter = 0;
 	}
 
 }

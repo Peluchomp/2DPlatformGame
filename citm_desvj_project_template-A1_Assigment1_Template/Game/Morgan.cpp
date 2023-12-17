@@ -41,11 +41,11 @@ bool Morgan::Start() {
 
 	texture = app->tex->Load(texturePath);
 	/*the pathTexture is given with the entity's creation*/
-	pbody = app->physics->CreateCircle(position.x, position.y, 16, bodyType::DYNAMIC);
+	pbody = app->physics->CreateCircle(position.x, position.y, 16, bodyType::DYNAMIC, ColliderType::ENEMY);
 	pbody->ctype = ColliderType::ENEMY;
 	pbody->body->SetGravityScale(1);
 
-	snakeBody = app->physics->CreateRectangleSensor(position.x, position.y, 51, 13, bodyType::DYNAMIC);
+	snakeBody = app->physics->CreateRectangleSensor(position.x, position.y, 51, 13, bodyType::DYNAMIC, ColliderType::ENEMY_ATTACK);
 	snakeBody->ctype = ColliderType::ENEMY_ATTACK;
 	snakeBody->body->SetGravityScale(0);
 	snakeBody->listener = app->scene->player;

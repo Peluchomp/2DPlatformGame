@@ -9,7 +9,7 @@
 #include "../Spear.h"
 #include "Timer.h"
 
-#define INVINCIBILITY_MS 800
+#define INVINCIBILITY_MS 1600
 
 enum PowerLvl {
 	NORMAL,
@@ -60,6 +60,8 @@ public:
 
 	void StartIFrames();
 	void ManageInvencibility();
+
+	
 
 	bool SaveState(pugi::xml_node node);
 	bool LoadState(pugi::xml_node node);
@@ -139,6 +141,7 @@ public:
 	bool hurt = false;
 	Timer knockTimer;
 	Direction knockDir = LEFT;
+	int invencibilityCounter = 0;
 
 
 	int pickCoinFxId;

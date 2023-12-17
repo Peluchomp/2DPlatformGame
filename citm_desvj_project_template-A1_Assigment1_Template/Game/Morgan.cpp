@@ -52,7 +52,7 @@ bool Morgan::Start() {
 
 	LoadAnimations();
 	hp = MORGAN_HP;
-
+	enemyDeathFx = app->scene->enemyDeathEffect;
 
 	return true;
 }
@@ -155,6 +155,8 @@ bool Morgan::Update(float dt)
 
 
 		if (hp <= 0) {
+			app->audio->PlayFx(enemyDeathFx);
+			hp = 100000;
 			for (ListItem<PhysBody*>* corpse = myBodies.start; corpse != NULL; corpse = corpse->next) {
 
 				// Destroy all of the entity's b2bodies

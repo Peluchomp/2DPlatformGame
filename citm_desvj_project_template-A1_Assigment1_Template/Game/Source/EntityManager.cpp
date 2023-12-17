@@ -149,9 +149,9 @@ bool EntityManager::Update(float dt)
 			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
 
 				app->physics->DestroyObject((PhysBody*)corpse->data);
-				pEntity->pendingToDestroy = false;
-				DestroyEntity(pEntity);
 			}
+			pEntity->pendingToDestroy = false;
+			DestroyEntity(pEntity);
 		}
 		if (pEntity->active == false) continue;
 		ret = item->data->Update(dt);

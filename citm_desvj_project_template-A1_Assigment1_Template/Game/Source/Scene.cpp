@@ -94,11 +94,19 @@ bool Scene::Start()
 	const char* tilePath = scene_parameter.child("pathTile").attribute("texturepath").as_string();
 	pathTexture = app->tex->Load(tilePath);
 
+	SpawnGoons(true);
+
+	return true;
+}
+
+void Scene::SpawnGoons(bool first) {
+
 	for (pugi::xml_node itemNode = scene_parameter.child("morgan"); itemNode; itemNode = itemNode.next_sibling("morgan"))
 	{
 		Morgan* item = (Morgan*)app->entityManager->CreateEntity(EntityType::MORGAN);
 		item->parameters = itemNode;
 		item->num = itemNode.attribute("num").as_int();
+		if(!first)item->Start();
 	}
 
 	for (pugi::xml_node itemNode = scene_parameter.child("jorge"); itemNode; itemNode = itemNode.next_sibling("jorge"))
@@ -106,9 +114,9 @@ bool Scene::Start()
 		Jorge* jorge = (Jorge*)app->entityManager->CreateEntity(EntityType::JORGE);
 		jorge->parameters = itemNode;
 		jorge->num = itemNode.attribute("num").as_int();
+		if(!first)jorge->Start();
 	}
 
-	return true;
 }
 
 // Called each loop iteration

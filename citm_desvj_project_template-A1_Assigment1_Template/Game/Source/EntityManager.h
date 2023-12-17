@@ -34,6 +34,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void ReSpawn();
+
 	// Additional methods
 	Entity* CreateEntity(EntityType type);
 

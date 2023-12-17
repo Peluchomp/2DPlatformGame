@@ -153,10 +153,6 @@ bool EntityManager::Update(float dt)
 				DestroyEntity(pEntity);
 			}
 		}
-		if (pEntity->type == EntityType::JORGE) {
-			int u = 9;
-		}
-
 		if (pEntity->active == false) continue;
 		ret = item->data->Update(dt);
 	}
@@ -196,11 +192,11 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 
 		if (pEntity->type == EntityType::ORB) {
 
-			for (pugi::xml_node orbNode = app->scene->scene_parameter.child("orb_spawn"); orbNode; orbNode = orbNode.next_sibling("orb_spawn")) {
+			for (pugi::xml_node orbNode = node.child(pEntity->name.GetString()); orbNode; orbNode = orbNode.next_sibling("orb")) {
 				if (pEntity->num == orbNode.attribute("num").as_int()) {
 					pEntity = app->entityManager->CreateEntity(EntityType::ORB);
-					pEntity->position.x = orbNode.attribute("x").as_int();
-					pEntity->position.y = orbNode.attribute("y").as_int();
+					pEntity->position.x = orbNode.child("position").attribute("x").as_int();
+					pEntity->position.y = orbNode.child("position").attribute("y").as_int();
 					pEntity->num = orbNode.attribute("num").as_int();
 					pEntity->parameters = app->scene->scene_parameter.child("orb");
 
@@ -279,8 +275,43 @@ bool EntityManager::SaveState(pugi::xml_node node) {
 			morganNode.append_attribute("y").set_value(pEntity->position.y);
 
 		}
+		if (pEntity->type == EntityType::ORB) {
+
+			pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
+			morganNode.append_attribute("num").set_value(pEntity->num);
+			morganNode = morganNode.append_child("position");
+			morganNode.append_attribute("x").set_value(pEntity->position.x);
+			morganNode.append_attribute("y").set_value(pEntity->position.y);
+
+		}
 	}
 
 
 	return true;
+}
+
+void EntityManager::ReSpawn() {
+
+	ListItem<Entity*>* item;
+
+	Entity* pEntity = NULL;
+
+	// Delete ALL entities
+	for (item = entities.start; item != NULL; item = item->next)
+	{
+		pEntity = item->data;
+		// Orbs purposely dont respawn after you collect them
+		if ( pEntity->type == EntityType::MORGAN || pEntity->type == EntityType::JORGE) {
+			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
+
+				// Destroy all of the entity's b2bodies
+				app->physics->DestroyObject((PhysBody*)corpse->data);
+			}
+			pEntity->pendingToDestroy = false;
+			DestroyEntity(pEntity);
+		}
+	}
+
+	app->scene->SpawnGoons();
+
 }

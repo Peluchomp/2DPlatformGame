@@ -37,6 +37,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void SpawnGoons(bool first = false);
+
 	Player* player;
 	Orb* orbs[50] = { nullptr };
 

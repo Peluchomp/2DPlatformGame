@@ -109,6 +109,12 @@ bool Player::Update(float dt)
 		spawning = false; /*Skip spawn animation*/
 	}
 
+	if (hp == 0) { 
+		Spawn(0); 
+		
+	
+	
+	}
 
 	if (spawning == false) {
 		// Reference to the player's speed
@@ -559,6 +565,8 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 
 void Player::Spawn(int Level) {
+
+	app->entityManager->ReSpawn();
 	if (Level == 0) {
 		power = PowerLvl::NORMAL;
 		hp = 4;

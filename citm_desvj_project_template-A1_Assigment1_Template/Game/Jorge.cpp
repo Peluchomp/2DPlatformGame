@@ -36,6 +36,8 @@ bool Jorge::Start() {
 	Bubble->ctype = ColliderType::ENEMY_ATTACK;
 	Bubble->body->SetGravityScale(0);
 	Bubble->body->GetFixtureList()->SetSensor(true);
+	b2Vec2 positiondissapera = b2Vec2(100, 100);
+	Bubble->body->SetTransform(positiondissapera, 0);
 
 	pbody = app->physics->CreateCircle(position.x, position.y, 16, bodyType::DYNAMIC, ColliderType::ENEMY);
 	pbody->ctype = ColliderType::ENEMY;
@@ -83,13 +85,14 @@ bool Jorge::Update(float dt)
 
 		const DynArray<iPoint>* path = app->map->pathfinding->GetLastPath();
 		b2Vec2 posi;
-		for (uint i = 0; i < path->Count(); ++i)
-		{
-			iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-			/*app->render->DrawTexture(texture, pos.x, pos.y, false);*/
+		if (app->physics->debug) {
+			for (uint i = 0; i < path->Count(); ++i)
+			{
+				iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+				//app->render->DrawTexture(texture, pos.x, pos.y, false);
 
+			}
 		}
-
 		if (path->Count() > 2 && app->map->pathfinding->CreatePath(enemyPos, playerPos) != -1 && path->Count() < 10) {
 
 			iPoint pos = app->map->MapToWorld(path->At(2)->x, path->At(2)->y);
@@ -125,10 +128,7 @@ bool Jorge::Update(float dt)
 
 					Bubble->body->SetTransform(pbody->body->GetPosition(), 0);
 					Bubble->body->SetLinearVelocity(vel);
-					int bubbleX; int bubbleY;
-					Bubble->GetPosition(bubbleX, bubbleY);
-					SDL_Rect bbRect = { 1026, 130, 15, 15 };
-					app->render->DrawTexture(texture, bubbleX, bubbleY, false, &bbRect); /*not sure where to draw the bubble*/
+				
 					timer = 0;
 				}
 				pbody->body->SetLinearVelocity(b2Vec2(0, 0));
@@ -152,16 +152,35 @@ bool Jorge::Update(float dt)
 			hp--;
 	}
 
+	if (app->scene->player->mySpear->pbody->Contains(position.x, position.y) || app->scene->player->mySpear->pbody->Contains(position.x + 32, position.y) || app->scene->player->mySpear->pbody->Contains(position.x, position.y + 32) || app->scene->player->mySpear->pbody->Contains(position.x + 32, position.y + 32)) {
+	
+			hp--;
+	}
+
+
 	if (app->scene->player->attackTrigger->Contains(fposition.x, fposition.y) || app->scene->player->attackTrigger->Contains(fposition.x + 16, fposition.y) || app->scene->player->attackTrigger->Contains(fposition.x, fposition.y + 16) || app->scene->player->attackTrigger->Contains(fposition.x + 16, fposition.y + 16)) {
 		if (app->scene->player->Attacking == true) 
 		{
 			b2Vec2 positiondissapera = b2Vec2(100, 100);
 			Bubble->body->SetTransform(positiondissapera, 0);
+			Bubble->body->SetLinearVelocity(b2Vec2(0,0));
 		}
 			
 	}
 
+	if (app->scene->player->mySpear->pbody->Contains(fposition.x, fposition.y) || app->scene->player->mySpear->pbody->Contains(fposition.x + 16, fposition.y) || app->scene->player->mySpear->pbody->Contains(fposition.x, fposition.y + 16) || app->scene->player->mySpear->pbody->Contains(fposition.x + 16, fposition.y + 16)) {
+		
+			b2Vec2 positiondissapera = b2Vec2(100, 100);
+			Bubble->body->SetTransform(positiondissapera, 0);
+			Bubble->body->SetLinearVelocity(b2Vec2(0, 0));
+		
 
+	}
+
+	int bubbleX; int bubbleY;
+	Bubble->GetPosition(bubbleX, bubbleY);
+	SDL_Rect bbRect = { 1026, 130, 15, 15 };
+	app->render->DrawTexture(texture, bubbleX, bubbleY, false, &bbRect); /*not sure where to draw the bubble*/
 
 	if (hp <= 0) {
 		for (ListItem<PhysBody*>* corpse = myBodies.start; corpse != NULL; corpse = corpse->next) {

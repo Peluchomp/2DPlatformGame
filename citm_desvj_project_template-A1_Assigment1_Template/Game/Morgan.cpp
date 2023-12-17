@@ -36,7 +36,7 @@ bool Morgan::Start() {
 	position.y = parameters.child("position").attribute("y").as_int();
 
 	texture = app->entityManager->enemy_tex; // previously loaded from the config by the entity manager
-	
+
 	/*the pathTexture is given with the entity's creation*/
 	pbody = app->physics->CreateCircle(position.x, position.y, 16, bodyType::DYNAMIC, ColliderType::ENEMY);
 	pbody->ctype = ColliderType::ENEMY;
@@ -66,7 +66,7 @@ bool Morgan::Update(float dt)
 		}
 		else if (pbody->body->GetLinearVelocity().x < 0) {
 			myDir = Direction::LEFT;
-			
+
 		}
 
 		// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
@@ -79,40 +79,57 @@ bool Morgan::Update(float dt)
 		iPoint enemyPos = app->map->WorldToMap(position.x, position.y);
 		iPoint playerPos = app->map->WorldToMap(app->scene->player->position.x, app->scene->player->position.y);
 
-		app->map->pathfinding->CreatePath(enemyPos, playerPos);
+		if (position.DistanceTo(app->scene->player->position) < 500) {
+			app->map->pathfinding->CreatePath(enemyPos, playerPos);
 
-		const DynArray<iPoint>* path = app->map->pathfinding->GetLastPath();
+			const DynArray<iPoint>* path = app->map->pathfinding->GetLastPath();
 
-		for (uint i = 0; i < path->Count(); ++i)
-		{
-			iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-			if(app->physics->debug)app->render->DrawTexture(pathTexture, pos.x, pos.y, false);
-		}
-
-		if (path->Count() > 1 && app->map->pathfinding->CreatePath(enemyPos, playerPos) != -1) {
-			iPoint pos = app->map->MapToWorld(path->At(1)->x, path->At(1)->y);
-
-
-			if (enemyPos.x - playerPos.x < 0 && abs(enemyPos.x - playerPos.x) > 2)
-				pbody->body->SetLinearVelocity(b2Vec2(1, 9.8f));
-			else if (abs(enemyPos.x - playerPos.x) > 2)
-				pbody->body->SetLinearVelocity(b2Vec2(-1, 9.8f));
-			else if (abs(enemyPos.x - playerPos.x) < 2) {
-
-				//aqui codigo de atacar
-				currentAnimation = &attacking;
-				
+			if (app->physics->debug) {
+				for (uint i = 0; i < path->Count(); ++i)
+				{
+					iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+					app->render->DrawTexture(pathTexture, pos.x, pos.y, false);
+				}
 
 			}
-			else { 
-				currentAnimation = &walking; 
-				snakeBody->active = false;
-			
+		
+			if (path->Count() > 1 && app->map->pathfinding->CreatePath(enemyPos, playerPos) != -1 && path->Count() < 8) {
+				iPoint pos = app->map->MapToWorld(path->At(1)->x, path->At(1)->y);
+
+
+				if (enemyPos.x - playerPos.x < 0 && abs(enemyPos.x - playerPos.x) > 2)
+					pbody->body->SetLinearVelocity(b2Vec2(1, 9.8f));
+				else if (abs(enemyPos.x - playerPos.x) > 2)
+					pbody->body->SetLinearVelocity(b2Vec2(-1, 9.8f));
+				else if (abs(enemyPos.x - playerPos.x) < 2) {
+
+					//aqui codigo de atacar
+					currentAnimation = &attacking;
+
+
+				}
+				else {
+					currentAnimation = &walking;
+					snakeBody->active = false;
+
+				}
+
+
+				timer = 0;
+			}
+			else {
+				pbody->body->SetLinearVelocity(b2Vec2(0, 9.8f));
+				pbody->body->SetLinearDamping(0);
 			}
 
+			if (app->map->pathfinding->CreatePath(enemyPos, playerPos) == -1) {
 
-			timer = 0;
+				pbody->body->SetLinearVelocity(b2Vec2(0, 9.8f));
+				pbody->body->SetLinearDamping(0);
+			}
 		}
+
+
 		if (currentAnimation == &attacking) {
 			HitBoxManagement();
 
@@ -131,6 +148,11 @@ bool Morgan::Update(float dt)
 			if (app->scene->player->Attacking == true)
 				hp--;
 		}
+		if (app->scene->player->mySpear->pbody->Contains(position.x, position.y) || app->scene->player->mySpear->pbody->Contains(position.x + 32, position.y) || app->scene->player->mySpear->pbody->Contains(position.x, position.y + 32) || app->scene->player->mySpear->pbody->Contains(position.x + 32, position.y + 32)) {
+
+			hp--;
+		}
+
 
 		if (hp <= 0) {
 			for (ListItem<PhysBody*>* corpse = myBodies.start; corpse != NULL; corpse = corpse->next) {
@@ -142,11 +164,7 @@ bool Morgan::Update(float dt)
 			app->entityManager->DestroyEntity(this);
 		}
 
-		if (app->map->pathfinding->CreatePath(enemyPos, playerPos) == -1) {
 
-			pbody->body->SetLinearVelocity(b2Vec2(0, 9.8f));
-			pbody->body->SetLinearDamping(0);
-		}
 
 		position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x);
 		position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y);
@@ -155,8 +173,8 @@ bool Morgan::Update(float dt)
 
 
 		currentAnimation->Update();
-		if (myDir == Direction::RIGHT) { app->render->DrawTexture(texture, position.x -20 , position.y - 60, true, &currentAnimation->GetCurrentFrame()); }
-		else if (myDir == Direction::LEFT ){ app->render->DrawTexture(texture, position.x - 80, position.y - 60, false, &currentAnimation->GetCurrentFrame()); }
+		if (myDir == Direction::RIGHT) { app->render->DrawTexture(texture, position.x - 20, position.y - 60, true, &currentAnimation->GetCurrentFrame()); }
+		else if (myDir == Direction::LEFT) { app->render->DrawTexture(texture, position.x - 80, position.y - 60, false, &currentAnimation->GetCurrentFrame()); }
 
 		return true;
 	}
@@ -184,9 +202,9 @@ void Morgan::LoadAnimations() {
 
 	}
 
-		   attacking.speed = 0.18016f / 16;
+	attacking.speed = 0.18016f / 16;
 
-		  
+
 	currentAnimation = &walking;
 
 }
@@ -195,16 +213,16 @@ void Morgan::HitBoxManagement() {
 
 	if (currentAnimation == &attacking) {
 		snakeBody->active = true;
-		    SDL_Rect deactive1 = { 1   ,80, 99 ,78 };
-			SDL_Rect deactive2 = { 101 ,80 ,99 ,78 };
-			SDL_Rect deactive3 = { 201 ,80 ,99 ,78 };
-			SDL_Rect deactive4 = { 301 ,80 ,99 ,78 };
+		SDL_Rect deactive1 = { 1   ,80, 99 ,78 };
+		SDL_Rect deactive2 = { 101 ,80 ,99 ,78 };
+		SDL_Rect deactive3 = { 201 ,80 ,99 ,78 };
+		SDL_Rect deactive4 = { 301 ,80 ,99 ,78 };
 
-			if (SameRectM(deactive1, currentAnimation->GetCurrentFrame()) || SameRectM(deactive2, currentAnimation->GetCurrentFrame()) || SameRectM(deactive3, currentAnimation->GetCurrentFrame()) || SameRectM(deactive4, currentAnimation->GetCurrentFrame())) {
+		if (SameRectM(deactive1, currentAnimation->GetCurrentFrame()) || SameRectM(deactive2, currentAnimation->GetCurrentFrame()) || SameRectM(deactive3, currentAnimation->GetCurrentFrame()) || SameRectM(deactive4, currentAnimation->GetCurrentFrame())) {
 
-				snakeBody->body->SetTransform(pbody->body->GetPosition() + b2Vec2(10000, 10000), 0.0f);
+			snakeBody->body->SetTransform(pbody->body->GetPosition() + b2Vec2(10000, 10000), 0.0f);
 
-			}
+		}
 
 
 	}

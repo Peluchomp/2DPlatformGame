@@ -106,7 +106,7 @@ void Scene::SpawnGoons(bool first) {
 		Morgan* item = (Morgan*)app->entityManager->CreateEntity(EntityType::MORGAN);
 		item->parameters = itemNode;
 		item->num = itemNode.attribute("num").as_int();
-		if(!first)item->Start();
+		if (!first)item->Start();
 	}
 
 	for (pugi::xml_node itemNode = scene_parameter.child("jorge"); itemNode; itemNode = itemNode.next_sibling("jorge"))
@@ -114,7 +114,7 @@ void Scene::SpawnGoons(bool first) {
 		Jorge* jorge = (Jorge*)app->entityManager->CreateEntity(EntityType::JORGE);
 		jorge->parameters = itemNode;
 		jorge->num = itemNode.attribute("num").as_int();
-		if(!first)jorge->Start();
+		if (!first)jorge->Start();
 	}
 
 }
@@ -173,13 +173,14 @@ bool Scene::Update(float dt)
 	app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
 	//app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
 	if (app->render->camera.y < 1000)
-	app->render->camera.y = -app->scene->player->position.y + app->render->camera.h / 2 + 50;
+		app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
 	if (app->render->camera.x > 0) app->render->camera.x = 0;
 	if (app->render->camera.y > 0) app->render->camera.y = 0;
-	/*if (app->render->camera.x < -app->map->mapData.width * app->map->mapData.tileWidth + app->render->camera.w)
-		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;*/
-	if (app->render->camera.y < -app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h)
-		app->render->camera.y = (-app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h) * 2;
+	 if (app->render->camera.x < -app->map->mapData.width && app->map->mapData.tileWidth + app->render->camera.w)
+		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512; 
+		if (app->render->camera.y < -app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h - 175)
+			app->render->camera.y = (-app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h - 175);
+
 
 	/**2 - 3 + app->win->screenSurface->w / 2;*/
 
@@ -278,7 +279,7 @@ bool Scene::LoadState(pugi::xml_node node) {
 		player->power = PowerLvl::OP;
 		break;
 	}
-	
+
 
 	return true;
 }
@@ -298,7 +299,7 @@ bool Scene::SaveState(pugi::xml_node node) {
 
 
 
-	
+
 
 	return true;
 }

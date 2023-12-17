@@ -78,41 +78,50 @@ bool Morgan::Update(float dt)
 
 		iPoint enemyPos = app->map->WorldToMap(position.x, position.y);
 		iPoint playerPos = app->map->WorldToMap(app->scene->player->position.x, app->scene->player->position.y);
+		
+		if (position.DistanceTo(app->scene->player->position) < 500) {
+			app->map->pathfinding->CreatePath(enemyPos, playerPos);
 
-		app->map->pathfinding->CreatePath(enemyPos, playerPos);
+			const DynArray<iPoint>* path = app->map->pathfinding->GetLastPath();
 
-		const DynArray<iPoint>* path = app->map->pathfinding->GetLastPath();
-
-		for (uint i = 0; i < path->Count(); ++i)
-		{
-			iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-			app->render->DrawTexture(pathTexture, pos.x, pos.y, false);
-		}
-
-		if (path->Count() > 1 && app->map->pathfinding->CreatePath(enemyPos, playerPos) != -1) {
-			iPoint pos = app->map->MapToWorld(path->At(1)->x, path->At(1)->y);
-
-
-			if (enemyPos.x - playerPos.x < 0 && abs(enemyPos.x - playerPos.x) > 2)
-				pbody->body->SetLinearVelocity(b2Vec2(1, 9.8f));
-			else if (abs(enemyPos.x - playerPos.x) > 2)
-				pbody->body->SetLinearVelocity(b2Vec2(-1, 9.8f));
-			else if (abs(enemyPos.x - playerPos.x) < 2) {
-
-				//aqui codigo de atacar
-				currentAnimation = &attacking;
-				
-
-			}
-			else { 
-				currentAnimation = &walking; 
-				snakeBody->active = false;
-			
+			for (uint i = 0; i < path->Count(); ++i)
+			{
+				iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+				app->render->DrawTexture(pathTexture, pos.x, pos.y, false);
 			}
 
+			if (path->Count() > 1 && app->map->pathfinding->CreatePath(enemyPos, playerPos) != -1) {
+				iPoint pos = app->map->MapToWorld(path->At(1)->x, path->At(1)->y);
 
-			timer = 0;
+
+				if (enemyPos.x - playerPos.x < 0 && abs(enemyPos.x - playerPos.x) > 2)
+					pbody->body->SetLinearVelocity(b2Vec2(1, 9.8f));
+				else if (abs(enemyPos.x - playerPos.x) > 2)
+					pbody->body->SetLinearVelocity(b2Vec2(-1, 9.8f));
+				else if (abs(enemyPos.x - playerPos.x) < 2) {
+
+					//aqui codigo de atacar
+					currentAnimation = &attacking;
+
+
+				}
+				else {
+					currentAnimation = &walking;
+					snakeBody->active = false;
+
+				}
+
+
+				timer = 0;
+			}
+			if (app->map->pathfinding->CreatePath(enemyPos, playerPos) == -1) {
+
+				pbody->body->SetLinearVelocity(b2Vec2(0, 9.8f));
+				pbody->body->SetLinearDamping(0);
+			}
 		}
+
+	
 		if (currentAnimation == &attacking) {
 			HitBoxManagement();
 
@@ -142,11 +151,7 @@ bool Morgan::Update(float dt)
 			app->entityManager->DestroyEntity(this);
 		}
 
-		if (app->map->pathfinding->CreatePath(enemyPos, playerPos) == -1) {
-
-			pbody->body->SetLinearVelocity(b2Vec2(0, 9.8f));
-			pbody->body->SetLinearDamping(0);
-		}
+	
 
 		position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x);
 		position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y);

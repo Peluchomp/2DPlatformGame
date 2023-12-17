@@ -9,6 +9,12 @@
 	<fps value ="60"/>
   </renderer>
 
+	<entitymanager>
+
+		<enemyTexture path="Assets/Textures/Morgan.png" />
+		
+	</entitymanager>
+	
   <window>
     <resolution width="1024" height="768" scale="2"/>
     <fullscreen value="false"/>
@@ -31,6 +37,7 @@
 	  <pathTile  texturepath ="Assets/Textures/markedTile.png" />
 
 	  <morgan  num="13"  texturepath="Assets/Textures/Morgan.png">
+		  <position x="0" y="0"/>
 	    <animations>
 			<walking>
 	             <frame x="1   " y="   1" w="99" h="78" />
@@ -45,15 +52,26 @@
 	             <frame x="901 " y=" 1" w="99" h="78" />
 	             <frame x="1001" y="1" w="99" h="78" />
 	             <frame x="1101" y="1" w="99" h="78" />
-				<speed value="0.06" />
+				<speed value="0.15" />
 			</walking>
+			<attacking>
+	             <frame x="1   " y=" 80" w="99" h="78" />
+	             <frame x="101 " y=" 80" w="99" h="78" />
+	             <frame x="201 " y=" 80" w="99" h="78" />
+	             <frame x="301 " y=" 80" w="99" h="78" />
+	             <frame x="401 " y=" 80" w="99" h="78" />
+	             <frame x="501 " y=" 80" w="99" h="78" />
+	             <frame x="601 " y=" 80" w="99" h="78" />
+	             <frame x="701 " y=" 80" w="99" h="78" />
+				<speed value="0.15" />
+			</attacking>
 	   </animations>
 	  </morgan>
 	  
 	  
 	  
-	<jorge num= "14" x= "200" y ="200"  texturepath="Assets/Textures/Morgan.png">
-
+	<jorge num= "14"  texturepath="Assets/Textures/Morgan.png">
+          <position x="500" y="100"/>
 		<swimming>
 			<frame x="801" y="80 " w=" 73" h=" 48" />
 			<frame x="876" y="80 " w=" 73" h=" 48" />

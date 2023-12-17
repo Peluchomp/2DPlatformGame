@@ -49,7 +49,7 @@ bool Scene::Awake(pugi::xml_node& config)
 	}
 
 	//--------Spawn all Orbs----------//
-	/*for (pugi::xml_node orbNode = config.child("orb_spawn"); orbNode; orbNode = orbNode.next_sibling("orb_spawn")) {
+	for (pugi::xml_node orbNode = config.child("orb_spawn"); orbNode; orbNode = orbNode.next_sibling("orb_spawn")) {
 		Orb* orb = (Orb*)app->entityManager->CreateEntity(EntityType::ORB);
 		orb->position.x = orbNode.attribute("x").as_int();
 		orb->position.y = orbNode.attribute("y").as_int();
@@ -58,7 +58,7 @@ bool Scene::Awake(pugi::xml_node& config)
 
 		
 
-	}*/
+	}
 
 	return ret;
 }
@@ -253,14 +253,14 @@ bool Scene::CleanUp()
 
 bool Scene::LoadState(pugi::xml_node node) {
 
-	player->position.x = node.child("position").attribute("x").as_int();
-	player->position.y = node.child("position").attribute("y").as_int();
+	player->position.x = node.child(player->name.GetString()).child("position").attribute("x").as_int();
+	player->position.y = node.child(player->name.GetString()).child("position").attribute("y").as_int();
+	player->hp = node.child(player->name.GetString()).attribute("HP").as_int();
+	player->pbody->SetPos(PIXEL_TO_METERS(node.child("player").child("position").attribute("x").as_int()), PIXEL_TO_METERS(node.child("player").child("position").attribute("y").as_int()));
 
-	player->pbody->SetPos(PIXEL_TO_METERS(node.child("position").attribute("x").as_int()), PIXEL_TO_METERS(node.child("position").attribute("y").as_int()));
 
-
-	player->orbs = node.attribute("orbs").as_int();
-	int level = node.attribute("PowerLvl").as_int();
+	player->orbs = node.child("player").attribute("orbs").as_int();
+	int level = node.child("player").attribute("PowerLvl").as_int();
 	switch (level) {
 	case(0):
 		player->power = PowerLvl::NORMAL;
@@ -281,12 +281,18 @@ bool Scene::LoadState(pugi::xml_node node) {
 // using append_child and append_attribute
 bool Scene::SaveState(pugi::xml_node node) {
 
-	pugi::xml_node Node = node.append_child("position");
+	pugi::xml_node Node = node.append_child(player->name.GetString());
+
+	Node.append_attribute("orbs").set_value(player->orbs);
+	Node.append_attribute("PowerLvl").set_value(player->power);
+	Node.append_attribute("HP").set_value(player->hp);
+	Node = Node.append_child("position");
 	Node.append_attribute("x").set_value(player->position.x);
 	Node.append_attribute("y").set_value(player->position.y);
 
-	node.append_attribute("orbs").set_value(player->orbs);
-	node.append_attribute("PowerLvl").set_value(player->power);
+
+
+	
 
 	return true;
 }

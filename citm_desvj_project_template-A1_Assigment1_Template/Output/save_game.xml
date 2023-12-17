@@ -5,13 +5,22 @@
 	<textures />
 	<audio />
 	<:anonymous />
-	<scene orbs="0" PowerLvl="0">
-		<position x="340" y="240" />
+	<scene>
+		<player orbs="4" PowerLvl="0" HP="4">
+			<position x="668" y="240" />
+		</player>
 	</scene>
 	<:anonymous />
-	<entitymanager />
+	<entitymanager>
+		<morgan HP="3" num="13">
+			<position x="600" y="423" />
+		</morgan>
+		<jorge HP="2" num="14">
+			<position x="376" y="117" />
+		</jorge>
+	</entitymanager>
 	<moduleEnemies />
 	<renderer>
-		<camera x="-164" y="0" />
+		<camera x="-824" y="0" />
 	</renderer>
 </game_state>

@@ -27,11 +27,10 @@ bool Jorge::Awake() {
 bool Jorge::Start() {
 
 	//initilize textures
-	position.x = parameters.attribute("x").as_int();
-	position.y = parameters.attribute("y").as_int();
-	texturePath = parameters.attribute("texturepath").as_string();
-
-	texture = app->tex->Load(texturePath);
+	position.x = parameters.child("position").attribute("x").as_int();
+	position.y = parameters.child("position").attribute("y").as_int();
+	
+	texture = app->entityManager->enemy_tex;
 
 	Bubble = app->physics->CreateCircle(position.x + 16, position.y + 16,10, bodyType::DYNAMIC, ColliderType::ENEMY_ATTACK);
 	Bubble->ctype = ColliderType::ENEMY_ATTACK;
@@ -45,19 +44,21 @@ bool Jorge::Start() {
 	myBodies.Add(Bubble);
 	myBodies.Add(pbody);
 
-	for (pugi::xml_node node = parameters.child("swimming").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+	pugi::xml_node myNode = app->scene->scene_parameter.child(this->name.GetString());
+	for (pugi::xml_node node = myNode.child("swimming").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		swimming.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
 		swimming.speed = parameters.child("swimming").child("speed").attribute("value").as_float() / 16;
 	
 	}
-	for (pugi::xml_node node = parameters.child("attacking").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+	for (pugi::xml_node node = myNode.child("attacking").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		attacking.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
 		attacking.speed = parameters.child("attacking").child("speed").attribute("value").as_float() / 16;
 		attacking.loop = false;
 	}
 	currentAnimation = &swimming;
+	hp = JORGE_HP;
 
 	return true;
 }
@@ -156,7 +157,11 @@ bool Jorge::Update(float dt)
 
 
 	if (hp <= 0) {
-		app->physics->DestroyObject((PhysBody*)pbody);
+		for (ListItem<PhysBody*>* corpse = myBodies.start; corpse != NULL; corpse = corpse->next) {
+
+			// Destroy all of the entity's b2bodies
+			app->physics->DestroyObject((PhysBody*)corpse->data);
+		}
 		pendingToDestroy = false;
 		app->entityManager->DestroyEntity(this);
 	}

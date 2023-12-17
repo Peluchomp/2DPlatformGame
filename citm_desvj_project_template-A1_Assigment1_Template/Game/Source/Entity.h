@@ -97,7 +97,7 @@ public:
 	// want our Entity class, maybe it's not renderable...
 	iPoint position;
 	bool renderable = true;
-
+	int hp =1;
 	bool pendingToDestroy = false;
 
 	SDL_Texture* pathTexture = nullptr;

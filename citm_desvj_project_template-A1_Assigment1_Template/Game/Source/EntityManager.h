@@ -48,6 +48,9 @@ public:
 
 public:
 
+	SDL_Texture* enemy_tex = nullptr;
+	pugi::xml_node myNode;
+
 	List<Entity*> entities;
 
 	List<Entity*> savedEntities;

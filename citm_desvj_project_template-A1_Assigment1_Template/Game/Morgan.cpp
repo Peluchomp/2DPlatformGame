@@ -19,9 +19,6 @@ Morgan::~Morgan() {}
 bool Morgan::Awake() {
 
 	// the awake is only called for entities that are awaken with the manager
-
-
-
 	return true;
 }
 
@@ -35,11 +32,11 @@ bool SameRectM(SDL_Rect r1, SDL_Rect r2) {
 bool Morgan::Start() {
 
 	//initilize textures
-	position.x = parameters.attribute("x").as_int();
-	position.y = parameters.attribute("y").as_int();
-	texturePath = parameters.attribute("texturepath").as_string();
+	position.x = parameters.child("position").attribute("x").as_int();
+	position.y = parameters.child("position").attribute("y").as_int();
 
-	texture = app->tex->Load(texturePath);
+	texture = app->entityManager->enemy_tex; // previously loaded from the config by the entity manager
+	
 	/*the pathTexture is given with the entity's creation*/
 	pbody = app->physics->CreateCircle(position.x, position.y, 16, bodyType::DYNAMIC, ColliderType::ENEMY);
 	pbody->ctype = ColliderType::ENEMY;
@@ -54,6 +51,7 @@ bool Morgan::Start() {
 	myBodies.Add(snakeBody);
 
 	LoadAnimations();
+	hp = MORGAN_HP;
 
 
 	return true;
@@ -135,7 +133,11 @@ bool Morgan::Update(float dt)
 		}
 
 		if (hp <= 0) {
-			app->physics->DestroyObject((PhysBody*)pbody);
+			for (ListItem<PhysBody*>* corpse = myBodies.start; corpse != NULL; corpse = corpse->next) {
+
+				// Destroy all of the entity's b2bodies
+				app->physics->DestroyObject((PhysBody*)corpse->data);
+			}
 			pendingToDestroy = false;
 			app->entityManager->DestroyEntity(this);
 		}
@@ -167,35 +169,21 @@ bool Morgan::CleanUp()
 
 void Morgan::LoadAnimations() {
 
-	for (pugi::xml_node node = parameters.child("animations").child("walking").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+	pugi::xml_node myNode = app->scene->scene_parameter.child(this->name.GetString());
+
+	for (pugi::xml_node node = myNode.child("animations").child("walking").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		walking.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-		walking.speed = parameters.child("animations").child("walking").child("speed").attribute("value").as_float() / 16;
-		//idle.loop = parameters.child("animations").child("idle").child("loop").attribute("value").as_bool();
+		walking.speed = myNode.child("animations").child("walking").child("speed").attribute("value").as_float() / 16;
+
+	}
+	for (pugi::xml_node node = myNode.child("animations").child("attacking").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		attacking.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		attacking.speed = myNode.child("animations").child("attacking").child("speed").attribute("value").as_float() / 16;
+
 	}
 
-           walking.PushBack({ 1   ,1, 99 ,78 }) ;
-		   walking.PushBack({ 101 ,1 ,99 ,78})	;
-		   walking.PushBack({ 201 ,1 ,99 ,78})	;
-		   walking.PushBack({ 301 ,1 ,99 ,78})	;
-		   walking.PushBack({ 401 ,1 ,99 ,78})	;
-		   walking.PushBack({ 501 ,1 ,99 ,78})	;
-		   walking.PushBack({ 601 ,1 ,99 ,78})	;
-		   walking.PushBack({ 701 ,1 ,99 ,78})	;
-		   walking.PushBack({ 801 ,1 ,99 ,78})	;
-		   walking.PushBack({ 901 ,1 ,99 ,78})	;
-		   walking.PushBack({ 1001,1 ,99 ,78})	;
-		   walking.PushBack({ 1101,1 ,99 ,78})	;
-		   walking.speed = 0.15f / 16;
-
-		   attacking.PushBack({ 1   ,80, 99 ,78 });
-		   attacking.PushBack({ 101 ,80 ,99 ,78 });
-		   attacking.PushBack({ 201 ,80 ,99 ,78 });
-		   attacking.PushBack({ 301 ,80 ,99 ,78 });
-		   attacking.PushBack({ 401 ,80 ,99 ,78 });
-		   attacking.PushBack({ 501 ,80 ,99 ,78 });
-		   attacking.PushBack({ 601 ,80 ,99 ,78 });
-		   attacking.PushBack({ 701 ,80 ,99 ,78 });
 		   attacking.speed = 0.18016f / 16;
 
 		  

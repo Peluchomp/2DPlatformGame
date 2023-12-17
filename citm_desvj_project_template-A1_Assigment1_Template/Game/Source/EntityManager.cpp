@@ -25,7 +25,7 @@ bool EntityManager::Awake(pugi::xml_node& config)
 	LOG("Loading Entity Manager");
 	bool ret = true;
 
-
+	myNode = config;
 
 	//Iterates over the entities and calls the Awake
 	ListItem<Entity*>* item;
@@ -46,6 +46,9 @@ bool EntityManager::Awake(pugi::xml_node& config)
 bool EntityManager::Start() {
 
 	bool ret = true;
+
+	const char* enemyTexPath = myNode.child("enemyTexture").attribute("path").as_string();
+	enemy_tex = app->tex->Load(enemyTexPath);
 
 	//Iterates over the entities and calls Start
 	ListItem<Entity*>* item;
@@ -175,11 +178,12 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 		pEntity = item->data;
 		if (pEntity->type == EntityType::ORB || pEntity->type == EntityType::MORGAN || pEntity->type == EntityType::JORGE) {
 			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
-
+				
+				// Destroy all of the entity's b2bodies
 				app->physics->DestroyObject((PhysBody*)corpse->data);
-				pEntity->pendingToDestroy = false;
-				DestroyEntity(pEntity);
 			}
+			pEntity->pendingToDestroy = false;
+			DestroyEntity(pEntity);
 		}
 	}
 
@@ -200,35 +204,34 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 					pEntity->num = orbNode.attribute("num").as_int();
 					pEntity->parameters = app->scene->scene_parameter.child("orb");
 
-					int p;
 				}
 			}
 		}
 		if (pEntity->type == EntityType::JORGE) {
 
-			for (pugi::xml_node orbNode = app->scene->scene_parameter.child("jorge"); orbNode; orbNode = orbNode.next_sibling("jorge")) {
+			for (pugi::xml_node orbNode = node.child("jorge"); orbNode; orbNode = orbNode.next_sibling("jorge")) {
 				if (pEntity->num == orbNode.attribute("num").as_int()) {
 					pEntity = app->entityManager->CreateEntity(EntityType::JORGE);
 					pEntity->position.x = orbNode.attribute("x").as_int();
 					pEntity->position.y = orbNode.attribute("y").as_int();
 					pEntity->num = orbNode.attribute("num").as_int();
-					pEntity->parameters = app->scene->scene_parameter.child("jorge");
+					pEntity->parameters = orbNode;
 					pEntity->Start();
-					int p;
+		
 				}
 			}
 		}
 		else if (pEntity->type == EntityType::MORGAN) {
 
-			for (pugi::xml_node orbNode = app->scene->scene_parameter.child("morgan"); orbNode; orbNode = orbNode.next_sibling("morgan")) {
+			for (pugi::xml_node orbNode = node.child("morgan"); orbNode; orbNode = orbNode.next_sibling("morgan")) {
 				if (pEntity->num == orbNode.attribute("num").as_int()) {
 					pEntity = app->entityManager->CreateEntity(EntityType::MORGAN);
 					pEntity->position.x = orbNode.attribute("x").as_int(); // these should be read from the savegame.xml
 					pEntity->position.y = orbNode.attribute("y").as_int();
 					pEntity->num = orbNode.attribute("num").as_int();
-					pEntity->parameters = app->scene->scene_parameter.child("morgan");
+					pEntity->parameters = orbNode;
 					pEntity->Start();
-					int p = 0;
+
 				}
 			}
 		}
@@ -245,6 +248,39 @@ bool EntityManager::SaveState(pugi::xml_node node) {
 
 
 	savedEntities = entities;
+
+	ListItem<Entity*>* item;
+
+	bool ret = true;
+
+	Entity* pEntity = NULL;
+
+
+	for (item = entities.start; item != NULL && ret == true; item = item->next)
+	{
+		pEntity = item->data;
+		if (pEntity->type == EntityType::MORGAN) {
+
+			pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
+			morganNode.append_attribute("HP").set_value(pEntity->hp);
+			morganNode.append_attribute("num").set_value(pEntity->num);
+			morganNode = morganNode.append_child("position");
+			morganNode.append_attribute("x").set_value(pEntity->position.x);
+			morganNode.append_attribute("y").set_value(pEntity->position.y);
+
+		}
+		if (pEntity->type == EntityType::JORGE) {
+
+			pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
+			morganNode.append_attribute("HP").set_value(pEntity->hp);
+			morganNode.append_attribute("num").set_value(pEntity->num);
+			morganNode = morganNode.append_child("position");
+			morganNode.append_attribute("x").set_value(pEntity->position.x);
+			morganNode.append_attribute("y").set_value(pEntity->position.y);
+
+		}
+	}
+
 
 	return true;
 }

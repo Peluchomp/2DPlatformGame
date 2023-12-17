@@ -9,6 +9,8 @@
 
 struct SDL_Texture;
 
+#define MORGAN_HP 3
+
 class Morgan : public Entity
 {
 public:
@@ -55,7 +57,7 @@ private:
 	Animation walking;
 	Animation attacking;
 
-	int hp = 2;
+
 	float timer;
 	SDL_Texture* texture;
 	SDL_Texture* texture2;

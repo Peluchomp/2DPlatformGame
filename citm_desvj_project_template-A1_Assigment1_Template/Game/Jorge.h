@@ -9,6 +9,8 @@
 
 struct SDL_Texture;
 
+#define JORGE_HP 2
+
 class Jorge : public Entity
 {
 public:
@@ -54,7 +56,7 @@ private:
 
 
 	PhysBody* Bubble;
-	int hp = 2;
+	
 	float timer;
 	SDL_Texture* texture;
 	SDL_Texture* texture2;

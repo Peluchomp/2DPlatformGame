@@ -88,7 +88,7 @@ bool Player::Start() {
 	currentSpawnAnim = &epicSpawn;
 	//idleState = true;
 	mySpear->currentAnim = &mySpear->form1Anim;
-
+	hp = 4;
 
 	return true;
 }
@@ -103,6 +103,9 @@ bool Player::Update(float dt)
 		idleState = true;
 		quickSpawn.Reset();
 		currentSpawnAnim = &quickSpawn;
+	}
+	if (spawning && app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
+		spawning = false; /*Skip spawn animation*/
 	}
 
 
@@ -372,7 +375,7 @@ bool Player::Update(float dt)
 	// ---------------Orb stuf----------------//
 	orbMeter = { 25 - (app->render->camera.x / 2), 20, orbs * 10, 15 };
 	app->render->DrawRectangle(orbMeter, 50, 0, 140, 255);
-	if (orbs > 10) {
+	if (orbs > 9) {
 		orbs = 0;
 		myThunder = (Thunder*)app->entityManager->CreateEntity(EntityType::THUNDER);
 		myThunder->parameters = app->scene->scene_parameter.child("thunder");
@@ -557,7 +560,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 void Player::Spawn(int Level) {
 	if (Level == 0) {
 		power = PowerLvl::NORMAL;
-
+		hp = 4;
 		spawning = true;
 		spawnFire.loopCount = 2;
 		float x = position.x = parameters.attribute("x").as_float();

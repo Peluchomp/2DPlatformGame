@@ -134,7 +134,6 @@ public:
 
 
 	//----HP stuff----//
-	int hp = 4;
 	bool iframes = false;
 	bool dead = false;
 	Timer invicibilityTimer;

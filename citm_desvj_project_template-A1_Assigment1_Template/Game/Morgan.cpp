@@ -50,6 +50,9 @@ bool Morgan::Start() {
 	snakeBody->body->SetGravityScale(0);
 	snakeBody->listener = app->scene->player;
 
+	myBodies.Add(pbody);
+	myBodies.Add(snakeBody);
+
 	LoadAnimations();
 
 

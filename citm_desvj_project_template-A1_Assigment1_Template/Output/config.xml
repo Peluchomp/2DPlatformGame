@@ -30,7 +30,7 @@
   <scene>
 	  <pathTile  texturepath ="Assets/Textures/markedTile.png" />
 
-	  <morgan    texturepath="Assets/Textures/Morgan.png">
+	  <morgan  num="13"  texturepath="Assets/Textures/Morgan.png">
 	    <animations>
 			<walking>
 	             <frame x="1   " y="   1" w="99" h="78" />
@@ -52,7 +52,7 @@
 	  
 	  
 	  
-	<jorge x= "200" y ="200"  texturepath="Assets/Textures/Morgan.png">
+	<jorge num= "14" x= "200" y ="200"  texturepath="Assets/Textures/Morgan.png">
 
 		<swimming>
 			<frame x="801" y="80 " w=" 73" h=" 48" />
@@ -72,6 +72,7 @@
 
 
 	</jorge>
+	  
 	  <orb texturepath ="Assets/Textures/orbSheet.png" >
 		  <frame x="1" y="1" w="38" h="38" />
 		  <frame x="41" y="1" w="38" h="38" />
@@ -159,8 +160,8 @@
 
 		  <hurtEffect texturepath = "Assets/Textures/hurtEffect.png" >
 
-			  <frame x="1" y="1" w="328" h="358" />
-			  <frame x="331" y="1" w="328" h="358" />
+			  <frame x="1" y="1" w="328" h="358"  audio ="Assets/Audio/Fx/hurt3.wav"/>
+			  <frame x="331" y="1" w="328" h="358"/>
 			  <frame x="661" y="1" w="328" h="358" />
 			  <frame x="991" y="1" w="328" h="358" />
 			  <speed value="0.1" />

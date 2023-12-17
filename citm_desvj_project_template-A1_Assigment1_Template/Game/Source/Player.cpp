@@ -756,7 +756,7 @@ void Player::LoadAnimations() {
 
 	for (pugi::xml_node node = parameters.child("hurtEffect").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
-		hurtIcon.defaultAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		hurtIcon.defaultAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, false, node.attribute("audio").as_string());
 		hurtIcon.defaultAnim.speed = parameters.child("hurtEffect").child("speed").attribute("value").as_float() / 16;
 		hurtIcon.defaultAnim.loop = false;
 	}

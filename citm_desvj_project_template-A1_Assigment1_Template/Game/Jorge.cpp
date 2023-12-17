@@ -42,6 +42,9 @@ bool Jorge::Start() {
 	pbody->ctype = ColliderType::ENEMY;
 	pbody->body->SetGravityScale(0);
 
+	myBodies.Add(Bubble);
+	myBodies.Add(pbody);
+
 	for (pugi::xml_node node = parameters.child("swimming").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		swimming.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });

@@ -150,6 +150,9 @@ bool EntityManager::Update(float dt)
 				DestroyEntity(pEntity);
 			}
 		}
+		if (pEntity->type == EntityType::JORGE) {
+			int u = 9;
+		}
 
 		if (pEntity->active == false) continue;
 		ret = item->data->Update(dt);
@@ -170,7 +173,7 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 	for (item = entities.start; item != NULL && ret == true; item = item->next)
 	{
 		pEntity = item->data;
-		if (pEntity->type == EntityType::ORB) {
+		if (pEntity->type == EntityType::ORB || pEntity->type == EntityType::MORGAN || pEntity->type == EntityType::JORGE) {
 			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
 
 				app->physics->DestroyObject((PhysBody*)corpse->data);
@@ -178,6 +181,58 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 				DestroyEntity(pEntity);
 			}
 		}
+	}
+
+    pEntity = NULL;
+
+	// Spawn saved entities
+	for (item = app->entityManager->savedEntities.start; item != NULL && ret == true; item = item->next)
+	{
+		pEntity = item->data;
+
+		if (pEntity->type == EntityType::ORB) {
+
+			for (pugi::xml_node orbNode = app->scene->scene_parameter.child("orb_spawn"); orbNode; orbNode = orbNode.next_sibling("orb_spawn")) {
+				if (pEntity->num == orbNode.attribute("num").as_int()) {
+					pEntity = app->entityManager->CreateEntity(EntityType::ORB);
+					pEntity->position.x = orbNode.attribute("x").as_int();
+					pEntity->position.y = orbNode.attribute("y").as_int();
+					pEntity->num = orbNode.attribute("num").as_int();
+					pEntity->parameters = app->scene->scene_parameter.child("orb");
+
+					int p;
+				}
+			}
+		}
+		if (pEntity->type == EntityType::JORGE) {
+
+			for (pugi::xml_node orbNode = app->scene->scene_parameter.child("jorge"); orbNode; orbNode = orbNode.next_sibling("jorge")) {
+				if (pEntity->num == orbNode.attribute("num").as_int()) {
+					pEntity = app->entityManager->CreateEntity(EntityType::JORGE);
+					pEntity->position.x = orbNode.attribute("x").as_int();
+					pEntity->position.y = orbNode.attribute("y").as_int();
+					pEntity->num = orbNode.attribute("num").as_int();
+					pEntity->parameters = app->scene->scene_parameter.child("jorge");
+					pEntity->Start();
+					int p;
+				}
+			}
+		}
+		else if (pEntity->type == EntityType::MORGAN) {
+
+			for (pugi::xml_node orbNode = app->scene->scene_parameter.child("morgan"); orbNode; orbNode = orbNode.next_sibling("morgan")) {
+				if (pEntity->num == orbNode.attribute("num").as_int()) {
+					pEntity = app->entityManager->CreateEntity(EntityType::MORGAN);
+					pEntity->position.x = orbNode.attribute("x").as_int(); // these should be read from the savegame.xml
+					pEntity->position.y = orbNode.attribute("y").as_int();
+					pEntity->num = orbNode.attribute("num").as_int();
+					pEntity->parameters = app->scene->scene_parameter.child("morgan");
+					pEntity->Start();
+					int p = 0;
+				}
+			}
+		}
+
 	}
 	// entities.Clear(); this removes them from the list, it doesnt delete them
 

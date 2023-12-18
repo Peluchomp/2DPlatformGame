@@ -316,7 +316,7 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN && fpsCap == true)
 	{
 		app->maxFrameDuration = 1000 / 30;
-		//app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
+		
 		fpsCap = false;
 	}
 	else if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN && fpsCap == false)
@@ -379,12 +379,15 @@ bool Player::Update(float dt)
 	}
 
 	//----------------Health Bar----------------//
-	healthBar = { 25 - (app->render->camera.x / 2), 42, hp * 20, 15 };
+	healthBar = { 25 - (app->render->camera.x / 2), 42 - (app->render->camera.y / 2), hp * 20, 15 };
+	app->render->DrawRectangle(SDL_Rect{ 25 - (app->render->camera.x / 2), 42 - (app->render->camera.y / 2), 80,15 }, 78, 0, 0, 255);
 	app->render->DrawRectangle(healthBar, 27, 210, 152, 255);
+	
 
 	// ---------------Orb stuf----------------//
-	orbMeter = { 25 - (app->render->camera.x / 2), 20, orbs * 10, 15 };
-	app->render->DrawRectangle(orbMeter, 50, 0, 140, 255);
+	orbMeter = { 25 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), orbs * 10, 15 };
+	app->render->DrawRectangle(SDL_Rect{ 25 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), 100,15 }, 50, 0, 140, 255);
+	app->render->DrawRectangle(orbMeter, 130, 238 ,255, 255);
 	if (orbs > 9) {
 		orbs = 0;
 		myThunder = (Thunder*)app->entityManager->CreateEntity(EntityType::THUNDER);
@@ -422,6 +425,7 @@ bool Player::Update(float dt)
 	//-------------Post update animation blit------------TT
 	currentAnim->Update();
 
+	// Blink opacity to signify invencibility frames
 	int alpha = 255;
 	if(iframes)invencibilityCounter++;
 	if (invencibilityCounter > 8) {
@@ -499,20 +503,24 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		switch (physB->ctype)
 		{
 		case ColliderType::ENEMY:
-			LOG("Collision ENEMY");
-			hurtIcon.defaultAnim.Reset();
-			hp--;
-			hurt = true;
-			int _enemyX; int _enemyY;
-			physB->GetPosition(_enemyX, _enemyY);
-			if (_enemyX + 30 < position.x) {
-				knockDir = Direction::RIGHT;
+			if (physA->ctype == ColliderType::PLAYER) {
+				LOG("Collision ENEMY");
+				hurtIcon.defaultAnim.Reset();
+				hp--;
+				hurt = true;
+				int _enemyX; int _enemyY;
+				physB->GetPosition(_enemyX, _enemyY);
+				if (_enemyX + 30 < position.x) {
+					knockDir = Direction::RIGHT;
+				}
+				else {
+					knockDir = Direction::LEFT;
+				}
+				StartIFrames();
 			}
-			else {
-				knockDir = Direction::LEFT;
+			else if (physA->ctype == ColliderType::PLAYER_ATTACK) {
+				physA->listener->hp--;
 			}
-			StartIFrames();
-
 			break;
 		case ColliderType::ENEMY_ATTACK:
 			LOG("Collision ENEMY ATTACK");

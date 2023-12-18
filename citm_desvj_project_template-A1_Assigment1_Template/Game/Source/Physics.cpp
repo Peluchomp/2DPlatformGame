@@ -59,6 +59,8 @@ bool Physics::Start()
 	groundFilterData.maskBits = GROUND_MASK_BITS;
 	groundFilterData.groupIndex = 0;
 
+	debug = false;
+
 	return true;
 }
 

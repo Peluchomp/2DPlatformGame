@@ -261,13 +261,7 @@ bool Map::Load(SString mapFileName)
         }
 
 
-        // L07 DONE 3: Create colliders      
-        // L07 DONE 7: Assign collider type
-        // Later you can create a function here to load and create the colliders from the map
-
-        // CALL TO CREATE COLLIDERS FROM MAP
-
-          // L05: DONE 5: LOG all the data loaded iterate all tilesetsand LOG everything
+        
         if (ret == true)
         {
             LOG("Successfully parsed map XML file :%s", mapFileName.GetString());

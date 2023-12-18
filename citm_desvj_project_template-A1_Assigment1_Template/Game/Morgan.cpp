@@ -46,6 +46,7 @@ bool Morgan::Start() {
 	snakeBody->ctype = ColliderType::ENEMY_ATTACK;
 	snakeBody->body->SetGravityScale(0);
 	snakeBody->listener = app->scene->player;
+	snakeBody->active = false;
 
 	myBodies.Add(pbody);
 	myBodies.Add(snakeBody);
@@ -88,7 +89,7 @@ bool Morgan::Update(float dt)
 				for (uint i = 0; i < path->Count(); ++i)
 				{
 					iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-					app->render->DrawTexture(pathTexture, pos.x, pos.y, false);
+					if(app->physics->debug) app->render->DrawTexture(pathTexture, pos.x, pos.y, false);
 				}
 
 			}
@@ -143,6 +144,7 @@ bool Morgan::Update(float dt)
 				snakeBody->body->SetTransform(pbody->body->GetPosition() + b2Vec2(-0.7f, -0.5f), 0.0f);
 			}
 		}
+		else { snakeBody->active = false; }
 
 		if (app->scene->player->attackTrigger->Contains(position.x, position.y) || app->scene->player->attackTrigger->Contains(position.x + 32, position.y) || app->scene->player->attackTrigger->Contains(position.x, position.y + 32) || app->scene->player->attackTrigger->Contains(position.x + 32, position.y + 32)) {
 			if (app->scene->player->Attacking == true)

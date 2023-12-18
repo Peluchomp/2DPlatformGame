@@ -147,6 +147,12 @@ bool Morgan::Update(float dt)
 			if (app->scene->player->Attacking == true)
 				hp--;
 		}
+		if (app->scene->player->op_attackTrigger->Contains(position.x, position.y) || app->scene->player->op_attackTrigger->Contains(position.x + 32, position.y) || app->scene->player->op_attackTrigger->Contains(position.x, position.y + 32) || app->scene->player->op_attackTrigger->Contains(position.x + 32, position.y + 32)) {
+			if (app->scene->player->Attacking == true)
+				hp--;
+		}
+
+
 		if (app->scene->player->mySpear->pbody->Contains(position.x, position.y) || app->scene->player->mySpear->pbody->Contains(position.x + 32, position.y) || app->scene->player->mySpear->pbody->Contains(position.x, position.y + 32) || app->scene->player->mySpear->pbody->Contains(position.x + 32, position.y + 32)) {
 
 			hp--;

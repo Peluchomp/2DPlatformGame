@@ -31,9 +31,6 @@ bool SameRectM(SDL_Rect r1, SDL_Rect r2) {
 
 bool Morgan::Start() {
 
-	//initilize textures
-	position.x = parameters.child("position").attribute("x").as_int();
-	position.y = parameters.child("position").attribute("y").as_int();
 
 	texture = app->entityManager->enemy_tex; // previously loaded from the config by the entity manager
 

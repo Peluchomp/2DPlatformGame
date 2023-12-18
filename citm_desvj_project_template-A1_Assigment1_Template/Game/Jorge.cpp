@@ -26,9 +26,6 @@ bool Jorge::Awake() {
 
 bool Jorge::Start() {
 
-	//initilize textures
-	position.x = parameters.child("position").attribute("x").as_int();
-	position.y = parameters.child("position").attribute("y").as_int();
 	
 	texture = app->entityManager->enemy_tex;
 

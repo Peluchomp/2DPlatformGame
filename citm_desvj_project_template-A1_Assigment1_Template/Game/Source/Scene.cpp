@@ -102,6 +102,8 @@ void Scene::SpawnGoons(bool first) {
 		Morgan* item = (Morgan*)app->entityManager->CreateEntity(EntityType::MORGAN);
 		item->parameters = itemNode;
 		item->num = itemNode.attribute("num").as_int();
+		item->position.x = itemNode.child("position").attribute("x").as_int() * 40;
+		item->position.y = itemNode.child("position").attribute("y").as_int() * 40;
 		if (!first)item->Start();
 	}
 
@@ -110,6 +112,8 @@ void Scene::SpawnGoons(bool first) {
 		Jorge* jorge = (Jorge*)app->entityManager->CreateEntity(EntityType::JORGE);
 		jorge->parameters = itemNode;
 		jorge->num = itemNode.attribute("num").as_int();
+		jorge->position.x = itemNode.child("position").attribute("x").as_int() * 40;
+		jorge->position.y = itemNode.child("position").attribute("y").as_int() * 40;
 		if (!first)jorge->Start();
 	}
 

@@ -208,8 +208,8 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 			for (pugi::xml_node orbNode = node.child("jorge"); orbNode; orbNode = orbNode.next_sibling("jorge")) {
 				if (pEntity->num == orbNode.attribute("num").as_int()) {
 					pEntity = app->entityManager->CreateEntity(EntityType::JORGE);
-					pEntity->position.x = orbNode.attribute("x").as_int();
-					pEntity->position.y = orbNode.attribute("y").as_int();
+					pEntity->position.x = orbNode.child("position").attribute("x").as_int();
+					pEntity->position.y = orbNode.child("position").attribute("y").as_int();
 					pEntity->num = orbNode.attribute("num").as_int();
 					pEntity->parameters = orbNode;
 					pEntity->Start();
@@ -222,8 +222,8 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 			for (pugi::xml_node orbNode = node.child("morgan"); orbNode; orbNode = orbNode.next_sibling("morgan")) {
 				if (pEntity->num == orbNode.attribute("num").as_int()) {
 					pEntity = app->entityManager->CreateEntity(EntityType::MORGAN);
-					pEntity->position.x = orbNode.attribute("x").as_int(); 
-					pEntity->position.y = orbNode.attribute("y").as_int();
+					pEntity->position.x = orbNode.child("position").attribute("x").as_int();
+					pEntity->position.y = orbNode.child("position").attribute("y").as_int();
 					pEntity->num = orbNode.attribute("num").as_int();
 					pEntity->parameters = orbNode;
 					pEntity->Start();

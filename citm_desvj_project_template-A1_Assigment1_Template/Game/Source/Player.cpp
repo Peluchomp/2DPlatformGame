@@ -264,8 +264,9 @@ bool Player::Update(float dt)
 	delta_x = position.x - mousex / 2;
 	delta_y = position.y - mousey / 2 - 40;
 
-	app->render->DrawCircle(position.x, position.y, 30, 255, 45, 100, 255);
-	app->render->DrawCircle(delta_x, delta_y, 30, 255, 45, 100, 255);
+	//draw position.x/y
+	//app->render->DrawCircle(position.x, position.y, 30, 255, 45, 100, 255);
+	//app->render->DrawCircle(delta_x, delta_y, 30, 255, 45, 100, 255);
 
 	angle_deg = (atan2(delta_y, delta_x) * 180.0000) / 3.1416;
 
@@ -569,6 +570,17 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 void Player::Spawn(int Level) {
 
 	app->entityManager->ReSpawn();
+
+	if (mySpear->isPicked == false && mySpear->isSticked == true) {
+
+		b2Vec2 positiondissapera = b2Vec2(-100, -100);
+		b2Vec2 positionPlayer = b2Vec2(0, 0);
+		mySpear->pbody->body->SetTransform(positionPlayer, 0);
+		mySpear->ThePlatform->body->SetTransform(positiondissapera, 0);
+		mySpear->daPlatform = true;
+		mySpear->isSticked = false;
+	}
+
 	if (Level == 0) {
 		power = PowerLvl::NORMAL;
 		hp = 4;

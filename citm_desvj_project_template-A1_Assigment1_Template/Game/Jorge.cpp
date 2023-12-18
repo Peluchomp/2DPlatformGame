@@ -95,7 +95,7 @@ bool Jorge::Update(float dt)
 
 			}
 		}
-		if (path->Count() > 2 && app->map->pathfinding->CreatePath(enemyPos, playerPos) != -1 && path->Count() < 10) {
+		if (path->Count() > 2 && app->map->pathfinding->CreatePath(enemyPos, playerPos) != -1 && path->Count() < 15) {
 
 			iPoint pos = app->map->MapToWorld(path->At(2)->x, path->At(2)->y);
 

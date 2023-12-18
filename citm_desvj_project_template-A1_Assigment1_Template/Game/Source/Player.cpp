@@ -225,10 +225,28 @@ bool Player::Update(float dt)
 		{
 			if (godMode == true)
 			{
+				b2Fixture* playerFixture = pbody->body->GetFixtureList();
+
+				b2Filter iframePlayerFilter;
+				iframePlayerFilter.categoryBits = PLAYER_CATEGORY_BIT;
+				iframePlayerFilter.maskBits = GROUND_CATEGORY_BIT | ENEMY_CATEGORY_BIT; // now player will interact with ground and enemies
+				iframePlayerFilter.groupIndex = 0;
+
+				playerFixture->SetFilterData(iframePlayerFilter);
+
+				invencibilityCounter = 0;
+
 				godMode = false;
 			}
 			else
 			{
+				b2Fixture* playerFixture = pbody->body->GetFixtureList();
+
+				b2Filter iframePlayerFilter;
+				iframePlayerFilter.categoryBits = PLAYER_CATEGORY_BIT;
+				iframePlayerFilter.maskBits = GROUND_CATEGORY_BIT;   // when invincible, player can only interact with ground    
+				iframePlayerFilter.groupIndex = 0;
+				playerFixture->SetFilterData(iframePlayerFilter);
 				godMode = true;
 			}
 

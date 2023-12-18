@@ -441,6 +441,13 @@
 	  <orb_spawn num="10"  x="2431" y="333" />
 	  <orb_spawn num="11"  x="3447" y="317" />
 	  <orb_spawn num="12"  x="3711" y="108" />
+	  <orb_spawn num="29"  x="4849" y="408" />
+	  <orb_spawn num="30"  x="5769" y="273" />
+	  <orb_spawn num="31"  x="5933" y="272" />
+	  <orb_spawn num="32"  x="6743" y="489" />
+	  <orb_spawn num="34"  x="7506" y="443" />
+	  <orb_spawn num="35"  x="7525" y="438" />
+	  <orb_spawn num="36"  x="7516" y="452" />
 
 	  <thunder texturepath ="Assets/Textures/thunder-Sheet.png" >
 		  <frame x="1" y="1" w="138" h="344" />

@@ -38,39 +38,9 @@
 	  <enemyEffect  audiopath ="Assets/Audio/Fx/enemy_wounded.wav"  />
 	  <winEffect audiopath = "Assets/Audio/Fx/endLevel.wav"/>
 
-	  <morgan  num="13"  texturepath="Assets/Textures/Morgan.png">
-		  <position x="0" y="0"/>
-	    <animations>
-			<walking>
-	             <frame x="1   " y="   1" w="99" h="78" />
-	             <frame x="101 " y=" 1" w="99" h="78" />
-	             <frame x="201 " y=" 1" w="99" h="78" />
-	             <frame x="301 " y=" 1" w="99" h="78" />
-	             <frame x="401 " y=" 1" w="99" h="78" />
-	             <frame x="501 " y=" 1" w="99" h="78" />
-	             <frame x="601 " y=" 1" w="99" h="78" />
-	             <frame x="701 " y=" 1" w="99" h="78" />
-	             <frame x="801 " y=" 1" w="99" h="78" />
-	             <frame x="901 " y=" 1" w="99" h="78" />
-	             <frame x="1001" y="1" w="99" h="78" />
-	             <frame x="1101" y="1" w="99" h="78" />
-				<speed value="0.15" />
-			</walking>
-			<attacking>
-	             <frame x="1   " y=" 80" w="99" h="78" />
-	             <frame x="101 " y=" 80" w="99" h="78" />
-	             <frame x="201 " y=" 80" w="99" h="78" />
-	             <frame x="301 " y=" 80" w="99" h="78" />
-	             <frame x="401 " y=" 80" w="99" h="78" />
-	             <frame x="501 " y=" 80" w="99" h="78" />
-	             <frame x="601 " y=" 80" w="99" h="78" />
-	             <frame x="701 " y=" 80" w="99" h="78" />
-				<speed value="0.15" />
-			</attacking>
-	   </animations>
-	  </morgan>
+
 	  <morgan  num="15"  texturepath="Assets/Textures/Morgan.png">
-		  <position x="1000" y="0"/>
+		  <position x="23" y="6"/>
 		  <animations>
 			  <walking>
 				  <frame x="1   " y="   1" w="99" h="78" />
@@ -100,29 +70,357 @@
 			  </attacking>
 		  </animations>
 	  </morgan>
-	  
-	  
-	<jorge num= "14"  texturepath="Assets/Textures/Morgan.png">
-          <position x="500" y="100"/>
-		<swimming>
-			<frame x="801" y="80 " w=" 73" h=" 48" />
-			<frame x="876" y="80 " w=" 73" h=" 48" />
-			<speed value ="0.04" />
-		</swimming>
-		<attacking>
-			<frame x="951" y="80 " w=" 73" h=" 48" />
-			<frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
-			<frame x="1101" y="80 " w=" 73" h=" 48" />
-			<frame x="801" y="129 " w=" 73" h=" 48" />
-			<frame x="876" y="129 " w=" 73" h=" 48" />
-	
-			<speed value ="0.07" />
-			
-		</attacking>
+
+    <morgan  num="18"  texturepath="Assets/Textures/Morgan.png">
+      <position x="74" y="6"/>
+      <animations>
+        <walking>
+          <frame x="1   " y="   1" w="99" h="78" />
+          <frame x="101 " y=" 1" w="99" h="78" />
+          <frame x="201 " y=" 1" w="99" h="78" />
+          <frame x="301 " y=" 1" w="99" h="78" />
+          <frame x="401 " y=" 1" w="99" h="78" />
+          <frame x="501 " y=" 1" w="99" h="78" />
+          <frame x="601 " y=" 1" w="99" h="78" />
+          <frame x="701 " y=" 1" w="99" h="78" />
+          <frame x="801 " y=" 1" w="99" h="78" />
+          <frame x="901 " y=" 1" w="99" h="78" />
+          <frame x="1001" y="1" w="99" h="78" />
+          <frame x="1101" y="1" w="99" h="78" />
+          <speed value="0.15" />
+        </walking>
+        <attacking>
+          <frame x="1   " y=" 80" w="99" h="78" />
+          <frame x="101 " y=" 80" w="99" h="78" />
+          <frame x="201 " y=" 80" w="99" h="78" />
+          <frame x="301 " y=" 80" w="99" h="78" />
+          <frame x="401 " y=" 80" w="99" h="78" />
+          <frame x="501 " y=" 80" w="99" h="78" />
+          <frame x="601 " y=" 80" w="99" h="78" />
+          <frame x="701 " y=" 80" w="99" h="78" />
+          <speed value="0.15" />
+        </attacking>
+      </animations>
+    </morgan>
+
+    <morgan  num="19"  texturepath="Assets/Textures/Morgan.png">
+      <position x="80" y="6"/>
+      <animations>
+        <walking>
+          <frame x="1   " y="   1" w="99" h="78" />
+          <frame x="101 " y=" 1" w="99" h="78" />
+          <frame x="201 " y=" 1" w="99" h="78" />
+          <frame x="301 " y=" 1" w="99" h="78" />
+          <frame x="401 " y=" 1" w="99" h="78" />
+          <frame x="501 " y=" 1" w="99" h="78" />
+          <frame x="601 " y=" 1" w="99" h="78" />
+          <frame x="701 " y=" 1" w="99" h="78" />
+          <frame x="801 " y=" 1" w="99" h="78" />
+          <frame x="901 " y=" 1" w="99" h="78" />
+          <frame x="1001" y="1" w="99" h="78" />
+          <frame x="1101" y="1" w="99" h="78" />
+          <speed value="0.15" />
+        </walking>
+        <attacking>
+          <frame x="1   " y=" 80" w="99" h="78" />
+          <frame x="101 " y=" 80" w="99" h="78" />
+          <frame x="201 " y=" 80" w="99" h="78" />
+          <frame x="301 " y=" 80" w="99" h="78" />
+          <frame x="401 " y=" 80" w="99" h="78" />
+          <frame x="501 " y=" 80" w="99" h="78" />
+          <frame x="601 " y=" 80" w="99" h="78" />
+          <frame x="701 " y=" 80" w="99" h="78" />
+          <speed value="0.15" />
+        </attacking>
+      </animations>
+    </morgan>
+
+    <morgan  num="23"  texturepath="Assets/Textures/Morgan.png">
+      <position x="137" y="11"/>
+      <animations>
+        <walking>
+          <frame x="1   " y="   1" w="99" h="78" />
+          <frame x="101 " y=" 1" w="99" h="78" />
+          <frame x="201 " y=" 1" w="99" h="78" />
+          <frame x="301 " y=" 1" w="99" h="78" />
+          <frame x="401 " y=" 1" w="99" h="78" />
+          <frame x="501 " y=" 1" w="99" h="78" />
+          <frame x="601 " y=" 1" w="99" h="78" />
+          <frame x="701 " y=" 1" w="99" h="78" />
+          <frame x="801 " y=" 1" w="99" h="78" />
+          <frame x="901 " y=" 1" w="99" h="78" />
+          <frame x="1001" y="1" w="99" h="78" />
+          <frame x="1101" y="1" w="99" h="78" />
+          <speed value="0.15" />
+        </walking>
+        <attacking>
+          <frame x="1   " y=" 80" w="99" h="78" />
+          <frame x="101 " y=" 80" w="99" h="78" />
+          <frame x="201 " y=" 80" w="99" h="78" />
+          <frame x="301 " y=" 80" w="99" h="78" />
+          <frame x="401 " y=" 80" w="99" h="78" />
+          <frame x="501 " y=" 80" w="99" h="78" />
+          <frame x="601 " y=" 80" w="99" h="78" />
+          <frame x="701 " y=" 80" w="99" h="78" />
+          <speed value="0.15" />
+        </attacking>
+      </animations>
+    </morgan>
+
+    <morgan  num="24"  texturepath="Assets/Textures/Morgan.png">
+      <position x="142" y="11"/>
+      <animations>
+        <walking>
+          <frame x="1   " y="   1" w="99" h="78" />
+          <frame x="101 " y=" 1" w="99" h="78" />
+          <frame x="201 " y=" 1" w="99" h="78" />
+          <frame x="301 " y=" 1" w="99" h="78" />
+          <frame x="401 " y=" 1" w="99" h="78" />
+          <frame x="501 " y=" 1" w="99" h="78" />
+          <frame x="601 " y=" 1" w="99" h="78" />
+          <frame x="701 " y=" 1" w="99" h="78" />
+          <frame x="801 " y=" 1" w="99" h="78" />
+          <frame x="901 " y=" 1" w="99" h="78" />
+          <frame x="1001" y="1" w="99" h="78" />
+          <frame x="1101" y="1" w="99" h="78" />
+          <speed value="0.15" />
+        </walking>
+        <attacking>
+          <frame x="1   " y=" 80" w="99" h="78" />
+          <frame x="101 " y=" 80" w="99" h="78" />
+          <frame x="201 " y=" 80" w="99" h="78" />
+          <frame x="301 " y=" 80" w="99" h="78" />
+          <frame x="401 " y=" 80" w="99" h="78" />
+          <frame x="501 " y=" 80" w="99" h="78" />
+          <frame x="601 " y=" 80" w="99" h="78" />
+          <frame x="701 " y=" 80" w="99" h="78" />
+          <speed value="0.15" />
+        </attacking>
+      </animations>
+    </morgan>
+
+    <morgan  num="25"  texturepath="Assets/Textures/Morgan.png">
+      <position x="137" y="5"/>
+      <animations>
+        <walking>
+          <frame x="1   " y="   1" w="99" h="78" />
+          <frame x="101 " y=" 1" w="99" h="78" />
+          <frame x="201 " y=" 1" w="99" h="78" />
+          <frame x="301 " y=" 1" w="99" h="78" />
+          <frame x="401 " y=" 1" w="99" h="78" />
+          <frame x="501 " y=" 1" w="99" h="78" />
+          <frame x="601 " y=" 1" w="99" h="78" />
+          <frame x="701 " y=" 1" w="99" h="78" />
+          <frame x="801 " y=" 1" w="99" h="78" />
+          <frame x="901 " y=" 1" w="99" h="78" />
+          <frame x="1001" y="1" w="99" h="78" />
+          <frame x="1101" y="1" w="99" h="78" />
+          <speed value="0.15" />
+        </walking>
+        <attacking>
+          <frame x="1   " y=" 80" w="99" h="78" />
+          <frame x="101 " y=" 80" w="99" h="78" />
+          <frame x="201 " y=" 80" w="99" h="78" />
+          <frame x="301 " y=" 80" w="99" h="78" />
+          <frame x="401 " y=" 80" w="99" h="78" />
+          <frame x="501 " y=" 80" w="99" h="78" />
+          <frame x="601 " y=" 80" w="99" h="78" />
+          <frame x="701 " y=" 80" w="99" h="78" />
+          <speed value="0.15" />
+        </attacking>
+      </animations>
+    </morgan>
+
+    <morgan  num="27"  texturepath="Assets/Textures/Morgan.png">
+      <position x="189" y="6"/>
+      <animations>
+        <walking>
+          <frame x="1   " y="   1" w="99" h="78" />
+          <frame x="101 " y=" 1" w="99" h="78" />
+          <frame x="201 " y=" 1" w="99" h="78" />
+          <frame x="301 " y=" 1" w="99" h="78" />
+          <frame x="401 " y=" 1" w="99" h="78" />
+          <frame x="501 " y=" 1" w="99" h="78" />
+          <frame x="601 " y=" 1" w="99" h="78" />
+          <frame x="701 " y=" 1" w="99" h="78" />
+          <frame x="801 " y=" 1" w="99" h="78" />
+          <frame x="901 " y=" 1" w="99" h="78" />
+          <frame x="1001" y="1" w="99" h="78" />
+          <frame x="1101" y="1" w="99" h="78" />
+          <speed value="0.15" />
+        </walking>
+        <attacking>
+          <frame x="1   " y=" 80" w="99" h="78" />
+          <frame x="101 " y=" 80" w="99" h="78" />
+          <frame x="201 " y=" 80" w="99" h="78" />
+          <frame x="301 " y=" 80" w="99" h="78" />
+          <frame x="401 " y=" 80" w="99" h="78" />
+          <frame x="501 " y=" 80" w="99" h="78" />
+          <frame x="601 " y=" 80" w="99" h="78" />
+          <frame x="701 " y=" 80" w="99" h="78" />
+          <speed value="0.15" />
+        </attacking>
+      </animations>
+    </morgan>
+
+    <morgan  num="28"  texturepath="Assets/Textures/Morgan.png">
+      <position x="188" y="6"/>
+      <animations>
+        <walking>
+          <frame x="1   " y="   1" w="99" h="78" />
+          <frame x="101 " y=" 1" w="99" h="78" />
+          <frame x="201 " y=" 1" w="99" h="78" />
+          <frame x="301 " y=" 1" w="99" h="78" />
+          <frame x="401 " y=" 1" w="99" h="78" />
+          <frame x="501 " y=" 1" w="99" h="78" />
+          <frame x="601 " y=" 1" w="99" h="78" />
+          <frame x="701 " y=" 1" w="99" h="78" />
+          <frame x="801 " y=" 1" w="99" h="78" />
+          <frame x="901 " y=" 1" w="99" h="78" />
+          <frame x="1001" y="1" w="99" h="78" />
+          <frame x="1101" y="1" w="99" h="78" />
+          <speed value="0.15" />
+        </walking>
+        <attacking>
+          <frame x="1   " y=" 80" w="99" h="78" />
+          <frame x="101 " y=" 80" w="99" h="78" />
+          <frame x="201 " y=" 80" w="99" h="78" />
+          <frame x="301 " y=" 80" w="99" h="78" />
+          <frame x="401 " y=" 80" w="99" h="78" />
+          <frame x="501 " y=" 80" w="99" h="78" />
+          <frame x="601 " y=" 80" w="99" h="78" />
+          <frame x="701 " y=" 80" w="99" h="78" />
+          <speed value="0.15" />
+        </attacking>
+      </animations>
+    </morgan>
+    
+    <jorge num= "16"  texturepath="Assets/Textures/Morgan.png">
+      <position x="37" y="3"/>
+      <swimming>
+        <frame x="801" y="80 " w=" 73" h=" 48" />
+        <frame x="876" y="80 " w=" 73" h=" 48" />
+        <speed value ="0.04" />
+      </swimming>
+      <attacking>
+        <frame x="951" y="80 " w=" 73" h=" 48" />
+        <frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
+        <frame x="1101" y="80 " w=" 73" h=" 48" />
+        <frame x="801" y="129 " w=" 73" h=" 48" />
+        <frame x="876" y="129 " w=" 73" h=" 48" />
+
+        <speed value ="0.07" />
+
+      </attacking>
 
 
-	</jorge>
-	  
+    </jorge>
+
+    <jorge num= "17"  texturepath="Assets/Textures/Morgan.png">
+      <position x="57" y="3"/>
+      <swimming>
+        <frame x="801" y="80 " w=" 73" h=" 48" />
+        <frame x="876" y="80 " w=" 73" h=" 48" />
+        <speed value ="0.04" />
+      </swimming>
+      <attacking>
+        <frame x="951" y="80 " w=" 73" h=" 48" />
+        <frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
+        <frame x="1101" y="80 " w=" 73" h=" 48" />
+        <frame x="801" y="129 " w=" 73" h=" 48" />
+        <frame x="876" y="129 " w=" 73" h=" 48" />
+
+        <speed value ="0.07" />
+
+      </attacking>
+
+
+    </jorge>
+
+    <jorge num= "20"  texturepath="Assets/Textures/Morgan.png">
+      <position x="101" y="6"/>
+      <swimming>
+        <frame x="801" y="80 " w=" 73" h=" 48" />
+        <frame x="876" y="80 " w=" 73" h=" 48" />
+        <speed value ="0.04" />
+      </swimming>
+      <attacking>
+        <frame x="951" y="80 " w=" 73" h=" 48" />
+        <frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
+        <frame x="1101" y="80 " w=" 73" h=" 48" />
+        <frame x="801" y="129 " w=" 73" h=" 48" />
+        <frame x="876" y="129 " w=" 73" h=" 48" />
+
+        <speed value ="0.07" />
+
+      </attacking>
+
+
+    </jorge>
+
+    <jorge num= "21"  texturepath="Assets/Textures/Morgan.png">
+      <position x="121" y="3"/>
+      <swimming>
+        <frame x="801" y="80 " w=" 73" h=" 48" />
+        <frame x="876" y="80 " w=" 73" h=" 48" />
+        <speed value ="0.04" />
+      </swimming>
+      <attacking>
+        <frame x="951" y="80 " w=" 73" h=" 48" />
+        <frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
+        <frame x="1101" y="80 " w=" 73" h=" 48" />
+        <frame x="801" y="129 " w=" 73" h=" 48" />
+        <frame x="876" y="129 " w=" 73" h=" 48" />
+
+        <speed value ="0.07" />
+
+      </attacking>
+
+
+    </jorge>
+
+    <jorge num= "22"  texturepath="Assets/Textures/Morgan.png">
+      <position x="124" y="6"/>
+      <swimming>
+        <frame x="801" y="80 " w=" 73" h=" 48" />
+        <frame x="876" y="80 " w=" 73" h=" 48" />
+        <speed value ="0.04" />
+      </swimming>
+      <attacking>
+        <frame x="951" y="80 " w=" 73" h=" 48" />
+        <frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
+        <frame x="1101" y="80 " w=" 73" h=" 48" />
+        <frame x="801" y="129 " w=" 73" h=" 48" />
+        <frame x="876" y="129 " w=" 73" h=" 48" />
+
+        <speed value ="0.07" />
+
+      </attacking>
+
+
+    </jorge>
+
+    <jorge num= "26"  texturepath="Assets/Textures/Morgan.png">
+      <position x="165" y="6"/>
+      <swimming>
+        <frame x="801" y="80 " w=" 73" h=" 48" />
+        <frame x="876" y="80 " w=" 73" h=" 48" />
+        <speed value ="0.04" />
+      </swimming>
+      <attacking>
+        <frame x="951" y="80 " w=" 73" h=" 48" />
+        <frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
+        <frame x="1101" y="80 " w=" 73" h=" 48" />
+        <frame x="801" y="129 " w=" 73" h=" 48" />
+        <frame x="876" y="129 " w=" 73" h=" 48" />
+
+        <speed value ="0.07" />
+
+      </attacking>
+
+
+    </jorge>
+    
 	  <orb texturepath ="Assets/Textures/orbSheet.png" >
 		  <frame x="1" y="1" w="38" h="38" />
 		  <frame x="41" y="1" w="38" h="38" />

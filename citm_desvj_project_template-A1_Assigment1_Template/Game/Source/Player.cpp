@@ -8,7 +8,7 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
-#include "External/SDL2_ttf-2.20.2/include/SDL_ttf.h"
+
 
 #define IDLE_SECS 5;
 

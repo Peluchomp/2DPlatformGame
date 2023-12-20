@@ -1,5 +1,5 @@
 #include "App.h"
-
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 #include "Defs.h"
 #include "Log.h"
 

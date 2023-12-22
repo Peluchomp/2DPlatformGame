@@ -102,6 +102,7 @@ public:
 	PhysBody* CreateChain(int x, int y, int* points, int size, bodyType type, ColliderType fixture);
 
 
+	void DestroyPlatforms();
 
 	void DestroyObject(PhysBody* pbody);
 

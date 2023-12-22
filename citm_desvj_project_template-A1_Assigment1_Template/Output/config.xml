@@ -822,7 +822,8 @@
 				
 			
 		
-	  <map path="Assets/Maps/" name="Level0.tmx"/>
+	  <map path="Assets/Maps/" name="Level0.tmx" />
+	  <map path="Assets/Maps/" name="Level1.tmx" />
 	  <spear x= "0" y ="0"  texturepath="Assets/Textures/spears.png">
 		  <forms>
 			  <form1 x = "15" y = "4" h = "65" w = "19" />

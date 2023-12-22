@@ -113,9 +113,10 @@ bool Player::Update(float dt)
 	if (hp == 0) { 
 		Spawn(0); 
 	}
-	if (position.x > 7720) /*Victory condition*/ {
+	if (position.x > 200) /*Victory condition*/ {
 		Spawn(0);
 		app->audio->PlayFx(winEffext);
+		app->physics->DestroyPlatforms();
 	}
 
 	if (spawning == false) {

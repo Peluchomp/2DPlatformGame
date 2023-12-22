@@ -62,6 +62,8 @@ bool Map::Update(float dt)
     ListItem<MapLayer*>* mapLayerItem;
     mapLayerItem = mapData.layers.start;
 
+   
+
     while (mapLayerItem != NULL) {
 
         if (mapLayerItem->data->properties.GetProperty("Draw") != NULL && mapLayerItem->data->properties.GetProperty("Draw")->value) {

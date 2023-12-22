@@ -513,6 +513,24 @@ int PhysBody::RayCast(int x1, int y1, int x2, int y2, float& normal_x, float& no
 	return ret;
 }
 
+void Physics::DestroyPlatforms() {
+
+	ListItem<PhysBody*>* item;
+	item = physBodies.start;
+
+	while (item) {
+
+		if (item->data->ctype == ColliderType::PLATFORM) {
+			DestroyObject(item->data);
+
+			
+		}
+		item = item->next;
+	}
+
+
+}
+
 void Physics::DestroyObject(PhysBody* pbody) {
 
 	world->DestroyBody(pbody->body);

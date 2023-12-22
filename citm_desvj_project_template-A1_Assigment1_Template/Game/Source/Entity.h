@@ -87,7 +87,7 @@ public:
 
 public:
 
-	Direction myDir;
+	Direction myDir = Direction::LEFT;
 	SString name;
 	EntityType type;
 	bool active = true;

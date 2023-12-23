@@ -23,44 +23,78 @@ Scene::~Scene()
 // Called before render is available
 bool Scene::Awake(pugi::xml_node& config)
 {
+	if (player == nullptr) {
+
+		LOG("Loading Scene");
+		bool ret = true;
+		app->map->name = config.child("map").attribute("name").as_string();
+		app->map->path = config.child("map").attribute("path").as_string();
+
+		scene_parameter = config;
+
+		// iterate all objects in the scene
+		// Check https://pugixml.org/docs/quickstart.html#access
 
 
-	LOG("Loading Scene");
-	bool ret = true;
-	app->map->name = config.child("map").attribute("name").as_string();
-	app->map->path = config.child("map").attribute("path").as_string();
 
-	scene_parameter = config;
+		if (config.child("player")) {
+			player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
+			player->parameters = config.child("player");
+		}
 
-	// iterate all objects in the scene
-	// Check https://pugixml.org/docs/quickstart.html#access
+		const char* musicPath = config.child("level0_music").attribute("path").as_string();
+		if (musicPath != nullptr) { app->audio->PlayMusic(musicPath); }
 
+		if (config.child("spear")) {
+			player->mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
+			player->mySpear->parameters = config.child("spear");
+		}
 
+		//--------Spawn all Orbs----------//
+		for (pugi::xml_node orbNode = config.child("orb_spawn"); orbNode; orbNode = orbNode.next_sibling("orb_spawn")) {
+			Orb* orb = (Orb*)app->entityManager->CreateEntity(EntityType::ORB);
+			orb->position.x = orbNode.attribute("x").as_int();
+			orb->position.y = orbNode.attribute("y").as_int();
+			orb->num = orbNode.attribute("num").as_int();
+			orb->parameters = scene_parameter.child("orb");
 
-	if (config.child("player")) {
-		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
-		player->parameters = config.child("player");
+		}
+
+		return ret;
 	}
+	else /*Level 2*/ {
+		currentLvl++;
+		LOG("Loading Scene");
+		bool ret = true;
+		app->map->name = config.child("map1").attribute("name").as_string();
+		app->map->path = config.child("map1").attribute("path").as_string();
 
-	const char* musicPath = config.child("level0_music").attribute("path").as_string();
-	if (musicPath != nullptr) { app->audio->PlayMusic(musicPath); }
+		scene_parameter = config;
 
-	if (config.child("spear")) {
-		player->mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
-		player->mySpear->parameters = config.child("spear");
+		// iterate all objects in the scene
+		// Check https://pugixml.org/docs/quickstart.html#access
+
+		const char* musicPath = config.child("level0_music").attribute("path").as_string();
+		if (musicPath != nullptr) { app->audio->PlayMusic(musicPath); }
+
+		/*if (config.child("spear")) {
+			player->mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
+			player->mySpear->parameters = config.child("spear");
+		}*/
+
+		//--------Spawn all Orbs----------//
+		for (pugi::xml_node orbNode = config.child("orb_spawn"); orbNode; orbNode = orbNode.next_sibling("orb_spawn")) {
+			Orb* orb = (Orb*)app->entityManager->CreateEntity(EntityType::ORB);
+			orb->position.x = orbNode.attribute("x").as_int();
+			orb->position.y = orbNode.attribute("y").as_int();
+			orb->num = orbNode.attribute("num").as_int();
+			orb->parameters = scene_parameter.child("orb");
+
+		}
+
+		return ret;
+
 	}
-
-	//--------Spawn all Orbs----------//
-	for (pugi::xml_node orbNode = config.child("orb_spawn"); orbNode; orbNode = orbNode.next_sibling("orb_spawn")) {
-		Orb* orb = (Orb*)app->entityManager->CreateEntity(EntityType::ORB);
-		orb->position.x = orbNode.attribute("x").as_int();
-		orb->position.y = orbNode.attribute("y").as_int();
-		orb->num = orbNode.attribute("num").as_int();
-		orb->parameters = scene_parameter.child("orb");
-
-	}
-
-	return ret;
 }
 
 // Called before the first frame
@@ -173,16 +207,20 @@ bool Scene::Update(float dt)
 	}
 
 	app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
-	//app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
-	if (app->render->camera.y < 1000)
-		app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
 	if (app->render->camera.x > 0) app->render->camera.x = 0;
-	if (app->render->camera.y > 0) app->render->camera.y = 0;
-	 if (app->render->camera.x < -app->map->mapData.width && app->map->mapData.tileWidth + app->render->camera.w)
-		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512; 
-		if (app->render->camera.y < -app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h - 175)
-			app->render->camera.y = (-app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h - 175);
+	if (app->render->camera.x < -app->map->mapData.width && app->map->mapData.tileWidth + app->render->camera.w)
+		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
 
+	if (currentLvl == 0) {
+		app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
+		if (app->render->camera.y < 1000)
+			app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
+			if (app->render->camera.y > 0) app->render->camera.y = 0;
+
+				if (app->render->camera.y < -app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h - 175)
+					app->render->camera.y = (-app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h - 175);
+
+	}
 
 	/**2 - 3 + app->win->screenSurface->w / 2;*/
 

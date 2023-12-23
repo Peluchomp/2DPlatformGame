@@ -287,11 +287,11 @@ bool Map::Load(SString mapFileName)
             ListItem<MapLayer*>* mapLayer;
             mapLayer = mapData.layers.start;
 
-            while (mapLayer != NULL) {
+            /*while (mapLayer != NULL) {
                 LOG("id : %d name : %s", mapLayer->data->id, mapLayer->data->name.GetString());
                 LOG("Layer width : %d Layer height : %d", mapLayer->data->width, mapLayer->data->height);
                 mapLayer = mapLayer->next;
-            }
+            }*/
         }
 
         // Find the navigation layer

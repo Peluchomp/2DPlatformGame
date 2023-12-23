@@ -113,10 +113,9 @@ bool Player::Update(float dt)
 	if (hp == 0) { 
 		Spawn(0); 
 	}
-	if (position.x > 200) /*Victory condition*/ {
-		Spawn(0);
-		app->audio->PlayFx(winEffext);
-		app->physics->DestroyPlatforms();
+	if (position.x > 7000 || app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) /*Victory condition*/ {
+		Spawn(1);
+		
 	}
 
 	if (spawning == false) {
@@ -180,7 +179,7 @@ bool Player::Update(float dt)
 			isJumping = true;
 			Jump.Reset();
 			currentAnim = &Jump;
-			gravity = -17;
+			gravity = -21;
 		}
 
 		if (gravity >= 0.3f * dt && isJumping == true)
@@ -502,7 +501,7 @@ bool Player::Update(float dt)
 		app->render->DrawTexture(hurtEffectText, position.x -121, position.y -170, false, &hurtIcon.currentAnim->GetCurrentFrame(), 100);
 	}
 
-
+	app->render->camera.y;
 
 	return true;
 }
@@ -626,6 +625,35 @@ void Player::Spawn(int Level) {
 
 		orbs = 0;
 	}
+	if (Level == 1) {
+		power = PowerLvl::NORMAL;
+		hp = 4;
+		spawning = true;
+		spawnFire.loopCount = 2;
+		float x = position.x = 2*40;
+		float y = position.y = 79*40;
+		app->render->camera.y = 0;
+		x = PIXEL_TO_METERS(x); y = PIXEL_TO_METERS(y);
+
+		b2Vec2 startPos = { x,y };
+		pbody->body->SetTransform(startPos, pbody->body->GetAngle());
+
+		pbody->body->SetLinearVelocity(b2Vec2(0, 0));
+		pbody->body->SetAngularVelocity(0.0f);
+		movementx = 0;
+
+		orbs = 0;
+	}
+	app->audio->PlayFx(winEffext);
+	app->physics->DestroyPlatforms();
+	app->entityManager->DestroyAll();
+
+	app->map->CleanUp();
+	app->scene->Awake(app->scene->scene_parameter);
+	app->map->mapData.layers.Clear();
+	app->map->Start();
+
+	app->render->camera.y = -5832;
 }
 
 // The player attributes are saved and loaded from scene

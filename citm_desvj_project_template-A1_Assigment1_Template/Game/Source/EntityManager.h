@@ -36,6 +36,8 @@ public:
 
 	void ReSpawn();
 
+	void DestroyAll();
+
 	// Additional methods
 	Entity* CreateEntity(EntityType type);
 

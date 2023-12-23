@@ -520,7 +520,7 @@ void Physics::DestroyPlatforms() {
 
 	while (item) {
 
-		if (item->data->ctype == ColliderType::PLATFORM) {
+		if (item->data->ctype == ColliderType::PLATFORM || item->data->ctype == ColliderType::INSTAKILL) {
 			DestroyObject(item->data);
 
 			

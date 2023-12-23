@@ -168,20 +168,7 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 
 	Entity* pEntity = NULL;
 
-	// Delete ALL entities
-	for (item = entities.start; item != NULL && ret == true; item = item->next)
-	{
-		pEntity = item->data;
-		if (pEntity->type == EntityType::ORB || pEntity->type == EntityType::MORGAN || pEntity->type == EntityType::JORGE) {
-			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
-				
-				// Destroy all of the entity's b2bodies
-				app->physics->DestroyObject((PhysBody*)corpse->data);
-			}
-			pEntity->pendingToDestroy = false;
-			DestroyEntity(pEntity);
-		}
-	}
+	DestroyAll(); /*Destroy all entities*/
 
     pEntity = NULL;
 
@@ -313,5 +300,30 @@ void EntityManager::ReSpawn() {
 	}
 
 	app->scene->SpawnGoons();
+
+}
+
+void EntityManager::DestroyAll() {
+
+	ListItem<Entity*>* item;
+
+	bool ret = true;
+
+	Entity* pEntity = NULL;
+
+	// Delete ALL entities
+	for (item = entities.start; item != NULL && ret == true; item = item->next)
+	{
+		pEntity = item->data;
+		if (pEntity->type == EntityType::ORB || pEntity->type == EntityType::MORGAN || pEntity->type == EntityType::JORGE) {
+			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
+
+				// Destroy all of the entity's b2bodies
+				app->physics->DestroyObject((PhysBody*)corpse->data);
+			}
+			pEntity->pendingToDestroy = false;
+			DestroyEntity(pEntity);
+		}
+	}
 
 }

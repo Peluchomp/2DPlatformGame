@@ -206,15 +206,29 @@ bool Scene::Update(float dt)
 		//app->render->camera.y = -player->position.y +app->win->screenSurface->h/2-143;
 	}
 
-	app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
+	/*app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
 	if (app->render->camera.x > 0) app->render->camera.x = 0;
 	if (app->render->camera.x < -app->map->mapData.width && app->map->mapData.tileWidth + app->render->camera.w)
 		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
+	app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
+	if (app->render->camera.y < 1000)
+		app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
+*/
+
+
+	app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
+	app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
+	if (app->render->camera.y < 1000)
+		app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
+
+	
+		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512; 
+		if (app->render->camera.x > 0) {
+			app->render->camera.x = 0;
+		}
 
 	if (currentLvl == 0) {
-		app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
-		if (app->render->camera.y < 1000)
-			app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
+		
 			if (app->render->camera.y > 0) app->render->camera.y = 0;
 
 				if (app->render->camera.y < -app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h - 175)

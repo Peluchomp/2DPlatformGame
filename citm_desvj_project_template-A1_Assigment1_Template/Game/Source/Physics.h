@@ -109,6 +109,7 @@ public:
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
 
+	virtual void EndContact(b2Contact* contact);
 	// Debug mode
 	bool debug;
 

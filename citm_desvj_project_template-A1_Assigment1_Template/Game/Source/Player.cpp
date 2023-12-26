@@ -592,6 +592,10 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 }
 
+void Player::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
+{
+	isTouching += 1;
+}
 
 void Player::Spawn(int Level) {
 

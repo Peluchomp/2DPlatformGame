@@ -84,7 +84,9 @@ public:
 	virtual void OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	};
+	virtual void OnCollisionEnd(PhysBody* physA, PhysBody* physB) {
 
+	};
 public:
 
 	Direction myDir = Direction::LEFT;

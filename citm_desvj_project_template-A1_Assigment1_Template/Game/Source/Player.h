@@ -49,6 +49,7 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
+	void OnCollisionEnd(PhysBody* physA, PhysBody* physB);
 
 	void Spawn(int Level);
 
@@ -68,6 +69,7 @@ public:
 
 public:
 	float speed = 0.2f;
+	float isTouching;
 	const char* texturePath;
 	SDL_Texture* texture = NULL;
 	PhysBody* pbody;

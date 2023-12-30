@@ -565,6 +565,15 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			Fall.Reset();
 			isGrounded = true;
 
+			if (physB->myEntity != nullptr && physB->myEntity->type == EntityType::CHANDELIER) {
+
+				physB->myEntity->PlayerStandingOnME();
+			}
+			else if (physA->myEntity != nullptr && physA->myEntity->type == EntityType::CHANDELIER) {
+
+				physA->myEntity->PlayerStandingOnME();
+			}
+
 			LOG("Collision PLATFORM");
 			break;
 		case ColliderType::SPEAR:
@@ -586,6 +595,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			app->audio->PlayFx(orbEffect);
 			physB->listener->pendingToDestroy = true;
 			break;
+			
 
 		}
 	}

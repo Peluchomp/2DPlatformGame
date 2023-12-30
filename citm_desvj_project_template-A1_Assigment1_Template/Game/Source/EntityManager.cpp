@@ -7,6 +7,7 @@
 #include "../Orb.h"
 #include "../Jorge.h"
 #include "../Morgan.h"
+#include "../Chandelier.h"
 #include "Defs.h"
 #include "Log.h"
 
@@ -109,6 +110,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	case EntityType::JORGE:
 		entity = new Jorge();
 		break;
+	case EntityType::CHANDELIER:
+		entity = new Chandelier();
+		break;
 	default:
 		break;
 	}
@@ -144,7 +148,27 @@ bool EntityManager::Update(float dt)
 	{
 		pEntity = item->data;
 
-		if (pEntity->pendingToDestroy) {
+		if (pEntity->pendingToDestroy && pEntity->type != EntityType::CHANDELIER) {
+
+			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
+
+				app->physics->DestroyObject((PhysBody*)corpse->data);
+			}
+			pEntity->pendingToDestroy = false;
+			DestroyEntity(pEntity);
+		}
+		else if (pEntity->pendingToDestroy && pEntity->type == EntityType::CHANDELIER) {
+
+			for (pugi::xml_node orbNode = app->scene->scene_parameter.child("chandelure"); orbNode; orbNode = orbNode.next_sibling("chandelure")) {
+				Chandelier* orb = (Chandelier*)app->entityManager->CreateEntity(EntityType::CHANDELIER);
+				orb->position.x = orbNode.attribute("x").as_int();
+				orb->position.y = orbNode.attribute("y").as_int();
+				orb->num = orbNode.attribute("num").as_int();
+				orb->parameters = app->scene->scene_parameter.child("chandelier");
+				orb->Awake();
+				orb->Start();
+
+			}
 
 			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
 

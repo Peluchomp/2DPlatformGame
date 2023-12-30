@@ -66,7 +66,13 @@ bool Map::Update(float dt)
 
     while (mapLayerItem != NULL) {
 
-        if (mapLayerItem->data->properties.GetProperty("Draw") != NULL && mapLayerItem->data->properties.GetProperty("Draw")->value) {
+        if (mapLayerItem->data->properties.GetProperty("Draw") != NULL && mapLayerItem->data->properties.GetProperty("Front") == NULL && mapLayerItem->data->properties.GetProperty("Draw")->value) {
+
+            bool parallax = false;
+            if (mapLayerItem->data->properties.GetProperty("Parallax") != NULL) { parallax = true; }
+
+
+           
 
             for (int x = 0; x < mapLayerItem->data->width; x++)
             {
@@ -78,10 +84,18 @@ bool Map::Update(float dt)
                     SDL_Rect r = tileset->GetTileRect(gid);
                     iPoint pos = MapToWorld(x, y);
 
-                    app->render->DrawTexture(tileset->texture,
-                        pos.x,
-                        pos.y, false,
-                        &r);
+                    if (parallax) {
+                        app->render->DrawTexture(tileset->texture,
+                            pos.x,
+                            pos.y, false,
+                            &r,255, 0.84f);
+                    }
+                    else {
+                        app->render->DrawTexture(tileset->texture,
+                            pos.x,
+                            pos.y, false,
+                            &r);
+                    }
                 }
             }
             
@@ -479,4 +493,49 @@ void Map::CreateNavigationMap(int& width, int& height, uchar** buffer) const
 
 }
 
+bool Map::PostUpdate() {
+    ListItem<MapLayer*>* mapLayerItem;
+    mapLayerItem = mapData.layers.start;
 
+
+
+    while (mapLayerItem != NULL) {
+
+        if ( mapLayerItem->data->properties.GetProperty("Front") != NULL && mapLayerItem->data->properties.GetProperty("Draw")->value) {
+
+            bool parallax = false;
+            if (mapLayerItem->data->properties.GetProperty("Parallax") != NULL) { parallax = true; }
+
+            for (int x = 0; x < mapLayerItem->data->width; x++)
+            {
+                for (int y = 0; y < mapLayerItem->data->height; y++)
+                {
+                    int gid = mapLayerItem->data->Get(x, y);
+                    TileSet* tileset = GetTilesetFromTileId(gid);
+
+                    SDL_Rect r = tileset->GetTileRect(gid);
+                    iPoint pos = MapToWorld(x, y);
+
+                    if(!parallax) app->render->DrawTexture(tileset->texture,
+                        pos.x,
+                        pos.y, false,
+                        &r);
+
+                    else {
+                        app->render->DrawTexture(tileset->texture,
+                            pos.x,
+                            pos.y, false,
+                            &r, 255, 1.08f);
+                    }
+                }
+            }
+
+
+
+        }
+        mapLayerItem = mapLayerItem->next;
+
+    }
+
+    return true;
+}

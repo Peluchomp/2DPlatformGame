@@ -160,13 +160,15 @@ bool EntityManager::Update(float dt)
 		else if (pEntity->pendingToDestroy && pEntity->type == EntityType::CHANDELIER) {
 
 			for (pugi::xml_node orbNode = app->scene->scene_parameter.child("chandelure"); orbNode; orbNode = orbNode.next_sibling("chandelure")) {
-				Chandelier* orb = (Chandelier*)app->entityManager->CreateEntity(EntityType::CHANDELIER);
-				orb->position.x = orbNode.attribute("x").as_int();
-				orb->position.y = orbNode.attribute("y").as_int();
-				orb->num = orbNode.attribute("num").as_int();
-				orb->parameters = app->scene->scene_parameter.child("chandelier");
-				orb->Awake();
-				orb->Start();
+				if (pEntity->num == orbNode.attribute("num").as_int()) {
+					Chandelier* orb = (Chandelier*)app->entityManager->CreateEntity(EntityType::CHANDELIER);
+					orb->position.x = orbNode.attribute("x").as_int();
+					orb->position.y = orbNode.attribute("y").as_int();
+					orb->num = orbNode.attribute("num").as_int();
+					orb->parameters = app->scene->scene_parameter.child("chandelier");
+					orb->Awake();
+					orb->Start();
+				}
 
 			}
 

@@ -99,7 +99,7 @@ bool Scene::Awake(pugi::xml_node& config)
 				orb->position.x = orbNode.attribute("x").as_int();
 				orb->position.y = orbNode.attribute("y").as_int();
 				orb->num = orbNode.attribute("num").as_int();
-				orb->parameters = scene_parameter.child("chandelier");
+				orb->parameters = orbNode;
 				orb->Awake();
 				orb->Start();
 

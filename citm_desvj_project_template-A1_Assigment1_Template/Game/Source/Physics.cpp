@@ -56,8 +56,17 @@ bool Physics::Start()
 
 	// Set the filter data for the ground's fixture
 	groundFilterData.categoryBits = GROUND_CATEGORY_BIT;
-	groundFilterData.maskBits = GROUND_MASK_BITS;
+	groundFilterData.maskBits = GROUND_MASK_BITS | PHYSIC_MASK_BITS | Float_PLAT_MASK_BIT;
 	groundFilterData.groupIndex = 0;
+
+	physicFilterData.categoryBits = PHYSIC_CATEGORY_BIT;
+	physicFilterData.maskBits = PHYSIC_MASK_BITS;
+	physicFilterData.groupIndex = 0;
+
+
+	//floatPlatformFilterData.categoryBits = Float_PLAT_CATEGORY_BIT;
+	//floatPlatformFilterData.maskBits = Float_PLAT_MASK_BIT |  GROUND_MASK_BITS;
+	//floatPlatformFilterData.groupIndex = 0;
 
 	debug = false;
 
@@ -109,7 +118,7 @@ PhysBody* Physics::CreateRectangle(int x, int y, int width, int height, bodyType
 	if (type == KINEMATIC) body.type = b2_kinematicBody;
 
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
-	body.fixedRotation = true;
+	//body.fixedRotation = true;
 
 	b2Body* b = world->CreateBody(&body);
 	b2PolygonShape box;
@@ -136,6 +145,12 @@ PhysBody* Physics::CreateRectangle(int x, int y, int width, int height, bodyType
 		break;
 	case(ColliderType::ENEMY_ATTACK):
 		Fixture.filter = enemyFilterData;
+		break;
+	case(ColliderType::PHYSIC_OBJ):
+		Fixture.filter = physicFilterData;
+		break;
+	case(ColliderType::UNKNOWN):
+		Fixture.filter = floatPlatformFilterData;
 		break;
 	}
 
@@ -194,6 +209,9 @@ PhysBody* Physics::CreateCircle(int x, int y, int radious, bodyType type, Collid
 	case(ColliderType::ENEMY_ATTACK):
 		Fixture.filter = enemyFilterData;
 		break;
+	case(ColliderType::PHYSIC_OBJ):
+		Fixture.filter = physicFilterData;
+		break;
 	}
 
 	// Add fixture to the BODY
@@ -250,6 +268,9 @@ PhysBody* Physics::CreateRectangleSensor(int x, int y, int width, int height, bo
 	case(ColliderType::ENEMY_ATTACK):
 		Fixture.filter = enemyFilterData;
 		break;
+	case(ColliderType::PHYSIC_OBJ):
+		Fixture.filter = physicFilterData;
+		break;
 	}
 
 	// Add fixture to the BODY
@@ -301,12 +322,16 @@ PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType typ
 		break;
 	case(ColliderType::PLAYER):
 		Fixture.filter = playerFilterData;
+		Fixture.density = 0.001f;
 		break;
 	case(ColliderType::PLATFORM):
 		Fixture.filter = groundFilterData;
 		break;
 	case(ColliderType::ENEMY_ATTACK):
 		Fixture.filter = enemyFilterData;
+		break;
+	case(ColliderType::PHYSIC_OBJ):
+		Fixture.filter = physicFilterData;
 		break;
 	}
 
@@ -373,7 +398,7 @@ bool Physics::PostUpdate()
 								v = b->GetWorldPoint(polygonShape->GetVertex(i));
 								if (i > 0)
 									app->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), 255, 255, 100);
-
+								//p->data->collider = { METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y) };
 								prev = v;
 							}
 
@@ -426,6 +451,27 @@ bool Physics::PostUpdate()
 
 
 	return ret;
+}
+
+b2RevoluteJoint* Physics::CreateRevolutionJoint(PhysBody* staticBody, PhysBody* moveableBody) {
+
+	b2RevoluteJointDef revoluteJointDef;
+	revoluteJointDef.bodyA = staticBody->body;
+	revoluteJointDef.bodyB = moveableBody->body;
+	revoluteJointDef.localAnchorA.Set(0.0f, 0.0f); // Anchor point on static body (in local coordinates)
+	revoluteJointDef.localAnchorB.Set(0.0f, -3.0f); // Anchor point on movable body (in local coordinates)
+	revoluteJointDef.enableLimit = true; // Set to true if you want to limit the rotation range
+	revoluteJointDef.enableMotor = true; // Set to true to enable the joint motor
+	revoluteJointDef.motorSpeed = 12; // Set motor speed (adjust as needed)
+	revoluteJointDef.maxMotorTorque = 100; // Set maximum motor torque (adjust as needed)
+	revoluteJointDef.lowerAngle =  -(M_PI/5)/* Set lower angle limit if enableLimit is true */;
+	revoluteJointDef.upperAngle = + M_PI/5/* Set upper angle limit if enableLimit is true */;
+
+	// Create the revolute joint
+	b2RevoluteJoint* revoluteJoint = (b2RevoluteJoint*)world->CreateJoint(&revoluteJointDef);
+
+	return revoluteJoint;
+	
 }
 
 // Called before quitting

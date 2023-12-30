@@ -18,15 +18,17 @@
 
 // Define category bits for different types of objects
 const uint16_t PLAYER_CATEGORY_BIT = 0x0001;
-const uint16_t ENEMY_CATEGORY_BIT = 0x0002;
+const uint16_t ENEMY_CATEGORY_BIT = 0x0009;
 const uint16_t GROUND_CATEGORY_BIT = 0x0004;
+const uint16_t PHYSIC_CATEGORY_BIT = 0x0008;
+const uint16_t Float_PLAT_CATEGORY_BIT = 0x0002;
 
 // Define mask bits for which they CAN collide with
-const uint16_t PLAYER_MASK_BITS = ENEMY_CATEGORY_BIT | GROUND_CATEGORY_BIT;
+const uint16_t PLAYER_MASK_BITS = ENEMY_CATEGORY_BIT | GROUND_CATEGORY_BIT |Float_PLAT_CATEGORY_BIT ;
 const uint16_t ENEMY_MASK_BITS = PLAYER_CATEGORY_BIT | GROUND_CATEGORY_BIT;
 const uint16_t GROUND_MASK_BITS = PLAYER_CATEGORY_BIT | ENEMY_CATEGORY_BIT | GROUND_CATEGORY_BIT;
-
-
+const uint16_t PHYSIC_MASK_BITS = PHYSIC_CATEGORY_BIT |PLAYER_CATEGORY_BIT; // ghost bodies only used for physics //
+const uint16_t Float_PLAT_MASK_BIT = PLAYER_CATEGORY_BIT | GROUND_CATEGORY_BIT;
 
 // types of bodies
 enum bodyType {
@@ -38,6 +40,7 @@ enum bodyType {
 enum class ColliderType {
 	PLAYER,
 	ENEMY,
+	PHYSIC_OBJ,
 	PLATFORM,
 	SPEAR,
 	UNKNOWN,
@@ -61,6 +64,28 @@ public:
 	float GetRotation() const;
 	bool Contains(int x, int y) const;
 	int RayCast(int x1, int y1, int x2, int y2, float& normal_x, float& normal_y) const;
+
+	SDL_Rect collider;
+
+	bool Intersects(SDL_Rect* r) const
+	{
+
+		if (r != nullptr && &collider != nullptr) {
+			if (collider.w != 0 && collider.h != 0 && r->w != 0 && r->h != 0) {
+				// returns true if there has been an intersection
+				return (collider.x < r->x + r->w &&
+					collider.x + collider.w > r->x &&
+					collider.y < r->y + r->h &&
+					collider.h + collider.y > r->y);
+			}
+		}
+
+
+		else {
+			return false;
+		}
+	}
+	
 
 	void SetPos(int x, int y) {
 		b2Vec2 pos(x, y);
@@ -104,6 +129,7 @@ public:
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height, bodyType type, ColliderType fixture);
 	PhysBody* CreateChain(int x, int y, int* points, int size, bodyType type, ColliderType fixture);
 
+	b2RevoluteJoint* CreateRevolutionJoint(PhysBody* staticBody, PhysBody* moveableBody);
 
 	void DestroyPlatforms();
 
@@ -117,7 +143,7 @@ public:
 	bool debug;
 
 
-private:
+public:
 
 
 
@@ -128,4 +154,6 @@ public:
 	b2Filter enemyFilterData;
 	b2Filter playerFilterData;
 	b2Filter groundFilterData;
+	b2Filter physicFilterData;
+	b2Filter floatPlatformFilterData;
 };

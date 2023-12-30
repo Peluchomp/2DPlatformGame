@@ -92,6 +92,29 @@ bool Player::Start() {
 	mySpear->currentAnim = &mySpear->form1Anim;
 	hp = 4;
 
+	SDL_Rect playerRect;
+
+	// Find the minimum and maximum x and y values
+	int minX = PlayerCoords[0];
+	int maxX = PlayerCoords[0];
+	int minY = PlayerCoords[1];
+	int maxY = PlayerCoords[1];
+
+	for (int i = 2; i < 8; i += 2) {
+		if (PlayerCoords[i] < minX) minX = PlayerCoords[i];
+		if (PlayerCoords[i] > maxX) maxX = PlayerCoords[i];
+		if (PlayerCoords[i + 1] < minY) minY = PlayerCoords[i + 1];
+		if (PlayerCoords[i + 1] > maxY) maxY = PlayerCoords[i + 1];
+	}
+
+	// Set SDL_Rect properties based on the calculated values
+	playerRect.x = minX;
+	playerRect.y = minY;
+	playerRect.w = maxX - minX;
+	playerRect.h = maxY - minY;
+
+	pbody->collider = playerRect;
+
 	return true;
 }
 
@@ -500,6 +523,10 @@ bool Player::Update(float dt)
 		hurtIcon.defaultAnim.loop = false;
 		app->render->DrawTexture(hurtEffectText, position.x -121, position.y -170, false, &hurtIcon.currentAnim->GetCurrentFrame(), 100);
 	}
+	pbody->collider.x = position.x + pbody->collider.w +8;
+	pbody->collider.y = position.y - pbody->collider.h/2 +5;
+
+	if (app->physics->debug) app->render->DrawRectangle(pbody->collider, 200, 020, 200, 255, true);
 
 	app->render->camera.y;
 

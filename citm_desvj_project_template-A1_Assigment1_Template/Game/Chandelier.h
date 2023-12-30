@@ -9,6 +9,19 @@
 
 struct SDL_Texture;
 
+class Chain {
+
+public:
+
+	SDL_Texture* texture = nullptr;
+
+
+
+
+
+
+};
+
 class Chandelier : public Entity
 {
 public:
@@ -36,8 +49,19 @@ public:
 
 	SDL_Texture* texture = nullptr;
 
+	PhysBody* jointBody;
+	b2RevoluteJoint* revol;
+
+	Timer revolTimer;
+
 	PhysBody* _body;
 	PhysBody* plat_body;
+	PhysBody* plat_sensor;
+
+	bool destroyedJoint = false;
+	bool destroying = false;
+
+	Direction startingDir;
 
 	PhysBody* damage_body;
 

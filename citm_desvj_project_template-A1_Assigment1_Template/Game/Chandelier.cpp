@@ -46,6 +46,8 @@ bool Chandelier::Awake() {
 	toDestroy = false;
 	touched = false;
 
+	num = 37;
+
 	return true;
 }
 

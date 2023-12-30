@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Physics.h"
 #include "Defs.h"
+#include "../Chandelier.h"
 #include "Log.h"
 
 Scene::Scene() : Module()
@@ -94,7 +95,7 @@ bool Scene::Awake(pugi::xml_node& config)
 
 		if (currentLvl == 1) {
 			for (pugi::xml_node orbNode = config.child("chandelure"); orbNode; orbNode = orbNode.next_sibling("chandelure")) {
-				Orb* orb = (Orb*)app->entityManager->CreateEntity(EntityType::CHANDELIER);
+				Chandelier* orb = (Chandelier*)app->entityManager->CreateEntity(EntityType::CHANDELIER);
 				orb->position.x = orbNode.attribute("x").as_int();
 				orb->position.y = orbNode.attribute("y").as_int();
 				orb->num = orbNode.attribute("num").as_int();

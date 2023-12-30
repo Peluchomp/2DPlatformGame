@@ -159,10 +159,16 @@ bool EntityManager::Update(float dt)
 		}
 		else if (pEntity->pendingToDestroy && pEntity->type == EntityType::CHANDELIER) {
 
-			Entity* chand = new Chandelier(pEntity->ogPos);
-			chand->Awake();
-			chand->Start();
-			entities.Add(chand);
+			for (pugi::xml_node orbNode = app->scene->scene_parameter.child("chandelure"); orbNode; orbNode = orbNode.next_sibling("chandelure")) {
+				Chandelier* orb = (Chandelier*)app->entityManager->CreateEntity(EntityType::CHANDELIER);
+				orb->position.x = orbNode.attribute("x").as_int();
+				orb->position.y = orbNode.attribute("y").as_int();
+				orb->num = orbNode.attribute("num").as_int();
+				orb->parameters = app->scene->scene_parameter.child("chandelier");
+				orb->Awake();
+				orb->Start();
+
+			}
 
 			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
 

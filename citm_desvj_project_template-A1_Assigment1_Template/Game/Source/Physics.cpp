@@ -83,6 +83,11 @@ bool Physics::PreUpdate()
 			// If so, we call the OnCollision listener function (only of the sensor), passing as inputs our custom PhysBody classes
 			PhysBody* pb1 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
 			PhysBody* pb2 = (PhysBody*)c->GetFixtureB()->GetBody()->GetUserData();
+
+			if (pb1->pendingtoDestroy) {
+				DestroyObject(pb1);
+			}
+
 			if (pb1->ctype == ColliderType::PLAYER && pb2->ctype == ColliderType::ENEMY_ATTACK || pb1->ctype == ColliderType::ENEMY_ATTACK && pb2->ctype == ColliderType::PLAYER) {
 				LOG("Here");
 			}
@@ -95,7 +100,7 @@ bool Physics::PreUpdate()
 	return ret;
 }
 
-PhysBody* Physics::CreateRectangle(int x, int y, int width, int height, bodyType type, ColliderType fixture)
+PhysBody* Physics::CreateRectangle(int x, int y, int width, int height, bodyType type, ColliderType fixture, float density)
 {
 	b2BodyDef body;
 
@@ -104,14 +109,17 @@ PhysBody* Physics::CreateRectangle(int x, int y, int width, int height, bodyType
 	if (type == KINEMATIC) body.type = b2_kinematicBody;
 
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
+	body.fixedRotation = true;
 
 	b2Body* b = world->CreateBody(&body);
 	b2PolygonShape box;
 	box.SetAsBox(PIXEL_TO_METERS(width) * 0.5f, PIXEL_TO_METERS(height) * 0.5f);
 
 	b2FixtureDef Fixture;
+
+	
 	Fixture.shape = &box;
-	Fixture.density = 1.0f;
+	Fixture.density = density;
 	b->ResetMassData();
 
 

@@ -40,6 +40,9 @@
     <ClCompile Include="Morgan.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Chandelier.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -106,6 +109,9 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="Morgan.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Chandelier.h">
       <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>

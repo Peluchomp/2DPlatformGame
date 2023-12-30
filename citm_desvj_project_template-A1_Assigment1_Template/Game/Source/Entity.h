@@ -22,6 +22,7 @@ enum class EntityType
 	ORB,
 	THUNDER,
 	JORGE,
+	CHANDELIER,
 	UNKNOWN
 };
 
@@ -32,6 +33,8 @@ class Entity
 public:
 
 	Entity(EntityType type) : type(type), active(true) {}
+
+	Entity() {};
 
 	virtual bool Awake()
 	{
@@ -81,6 +84,10 @@ public:
 		}
 	}
 
+	virtual void PlayerStandingOnME() {
+
+	}
+
 	virtual void OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	};
@@ -103,6 +110,9 @@ public:
 	SDL_Texture* pathTexture = nullptr;
 
 	int num = -1;
+
+	iPoint ogPos;
+
 
 	List<PhysBody*> myBodies;
 };

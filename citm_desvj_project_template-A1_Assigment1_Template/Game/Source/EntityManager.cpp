@@ -7,6 +7,7 @@
 #include "../Orb.h"
 #include "../Jorge.h"
 #include "../Morgan.h"
+#include "../Chandelier.h"
 #include "Defs.h"
 #include "Log.h"
 
@@ -109,6 +110,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	case EntityType::JORGE:
 		entity = new Jorge();
 		break;
+	case EntityType::CHANDELIER:
+		entity = new Chandelier();
+		break;
 	default:
 		break;
 	}
@@ -144,7 +148,21 @@ bool EntityManager::Update(float dt)
 	{
 		pEntity = item->data;
 
-		if (pEntity->pendingToDestroy) {
+		if (pEntity->pendingToDestroy && pEntity->type != EntityType::CHANDELIER) {
+
+			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
+
+				app->physics->DestroyObject((PhysBody*)corpse->data);
+			}
+			pEntity->pendingToDestroy = false;
+			DestroyEntity(pEntity);
+		}
+		else if (pEntity->pendingToDestroy && pEntity->type == EntityType::CHANDELIER) {
+
+			Entity* chand = new Chandelier(pEntity->ogPos);
+			chand->Awake();
+			chand->Start();
+			entities.Add(chand);
 
 			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
 

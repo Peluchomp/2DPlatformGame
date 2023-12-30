@@ -70,11 +70,14 @@ public:
 public:
 	bool active = true;
 
+	bool pendingtoDestroy = false;
+
 	int width, height;
 	b2Body* body;
 	Entity* listener;
 	ColliderType ctype;
 
+	Entity* myEntity;
 
 };
 
@@ -96,7 +99,7 @@ public:
 	bool CleanUp();
 
 	// Create basic physics objects
-	PhysBody* CreateRectangle(int x, int y, int width, int height, bodyType type, ColliderType fixture);
+	PhysBody* CreateRectangle(int x, int y, int width, int height, bodyType type, ColliderType fixture, float density = 1.0f);
 	PhysBody* CreateCircle(int x, int y, int radious, bodyType type, ColliderType fixture, bool sensor = false );
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height, bodyType type, ColliderType fixture);
 	PhysBody* CreateChain(int x, int y, int* points, int size, bodyType type, ColliderType fixture);

@@ -95,6 +95,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Chandelier.cpp" />
     <ClCompile Include="Jorge.cpp" />
     <ClCompile Include="ModuleEnemies.cpp" />
     <ClCompile Include="Morgan.cpp" />
@@ -117,6 +118,7 @@
     <ClCompile Include="Spear.cpp" />
     <ClCompile Include="Thunder.cpp" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Chandelier.h" />
     <ClInclude Include="Jorge.h" />
     <ClInclude Include="ModuleEnemies.h" />
     <ClInclude Include="Morgan.h" />

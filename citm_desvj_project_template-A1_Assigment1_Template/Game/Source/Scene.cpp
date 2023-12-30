@@ -92,6 +92,20 @@ bool Scene::Awake(pugi::xml_node& config)
 
 		}
 
+		if (currentLvl == 1) {
+			for (pugi::xml_node orbNode = config.child("chandelure"); orbNode; orbNode = orbNode.next_sibling("chandelure")) {
+				Orb* orb = (Orb*)app->entityManager->CreateEntity(EntityType::CHANDELIER);
+				orb->position.x = orbNode.attribute("x").as_int();
+				orb->position.y = orbNode.attribute("y").as_int();
+				orb->num = orbNode.attribute("num").as_int();
+				orb->parameters = scene_parameter.child("chandelier");
+				orb->Awake();
+				orb->Start();
+
+			}
+		}
+
+
 		return ret;
 
 	}

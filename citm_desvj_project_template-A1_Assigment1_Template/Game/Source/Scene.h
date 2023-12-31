@@ -54,6 +54,8 @@ private:
 	SDL_Texture* mouseTileTex;
 	SDL_Texture* img;
 
+	// Entity Textures
+
 	int currentLvl = 0;
 
 	float textPosX, textPosY = 0;

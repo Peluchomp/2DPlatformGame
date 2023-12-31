@@ -50,6 +50,7 @@ bool EntityManager::Start() {
 
 	const char* enemyTexPath = myNode.child("enemyTexture").attribute("path").as_string();
 	enemy_tex = app->tex->Load(enemyTexPath);
+	chandelier_tex = app->tex->Load(myNode.child("chandelier").attribute("path").as_string());
 
 	//Iterates over the entities and calls Start
 	ListItem<Entity*>* item;
@@ -165,7 +166,7 @@ bool EntityManager::Update(float dt)
 					orb->position.x = orbNode.attribute("x").as_int();
 					orb->position.y = orbNode.attribute("y").as_int();
 					orb->num = orbNode.attribute("num").as_int();
-					orb->parameters = app->scene->scene_parameter.child("chandelier");
+					orb->parameters = orbNode;
 					orb->Awake();
 					orb->Start();
 				}

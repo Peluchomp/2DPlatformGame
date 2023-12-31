@@ -9,17 +9,9 @@
 
 struct SDL_Texture;
 
-class Chain {
-
-public:
-
-	SDL_Texture* texture = nullptr;
-
-
-
-
-
-
+enum ChandelierType {
+	PENDULUM,
+	STATIONARY
 };
 
 class Chandelier : public Entity
@@ -46,11 +38,14 @@ public:
 
 	Animation* currentAnimation;
 	Animation defaultAnim;
+	Animation stationaryAnim;
 
 	SDL_Texture* texture = nullptr;
 
 	PhysBody* jointBody;
 	b2RevoluteJoint* revol;
+
+	ChandelierType myType;
 
 	Timer revolTimer;
 
@@ -64,6 +59,9 @@ public:
 	Direction startingDir;
 
 	PhysBody* damage_body;
+
+	SDL_Rect _chain1 = { 361, 2,7,7 };
+	SDL_Rect _chain2 = { 361, 13,7,7 };
 
 	bool awake = false;
 

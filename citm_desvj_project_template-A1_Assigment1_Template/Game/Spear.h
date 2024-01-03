@@ -38,10 +38,11 @@ public:
 	bool started = true;
 	PhysBody* pbody;
 	PhysBody* ThePlatform;
+	PhysBody* ThePlatformLong;
 	bool platform = false;
 	bool daPlatform = false;
 	bool isThrown = false;
-
+	bool spearUpgrade = false;
 	float spearekis;
 	float spearyi;
 	SDL_Texture* texture;

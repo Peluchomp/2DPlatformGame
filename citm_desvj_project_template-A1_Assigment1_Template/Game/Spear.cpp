@@ -21,7 +21,7 @@ bool Spear::Awake() {
 	texturePath = parameters.attribute("texturepath").as_string();
 
 	form1Anim.PushBack({ parameters.child("forms").child("form1").attribute("x").as_int(), parameters.child("forms").child("form1").attribute("y").as_int() ,parameters.child("forms").child("form1").attribute("h").as_int() ,parameters.child("forms").child("form1").attribute("w").as_int() });
-
+	form3Anim.PushBack({parameters.child("forms").child("form3").attribute("x").as_int(), parameters.child("forms").child("form3").attribute("y").as_int(), parameters.child("forms").child("form3").attribute("h").as_int(), parameters.child("forms").child("form3").attribute("w").as_int()});
 	return true;
 }
 
@@ -37,7 +37,6 @@ bool Spear::Start() {
 	pbody->listener = this;
 	ThePlatform = app->physics->CreateRectangle(positiondissapera.x + 16, positiondissapera.y + 16, 40, 16, bodyType::STATIC, ColliderType::PLATFORM);
 	ThePlatform->ctype = ColliderType::PLATFORM;
-
 
 
 	
@@ -119,22 +118,38 @@ bool Spear::Update(float dt)
 	{
 		b2Vec2 positiondissapera = b2Vec2(-100,-100);
 		ThePlatform->body->SetTransform(pbody->body->GetPosition(),0);
-		
+	
+
 		pbody->body->SetTransform(positiondissapera, angle + 270);
 		isSticked = true;
 		platform = false;
 
 	}
 
+	if (app->scene->player->power == PowerLvl::OP && spearUpgrade == false) 
+	{
+		b2Vec2 positiondissapera2 = b2Vec2(-240, -200);
+		ThePlatform->body->SetTransform(positiondissapera2,0);
+		b2Vec2 positiondissapera = b2Vec2(-120, -100);
+		ThePlatform = app->physics->CreateRectangle(positiondissapera.x + 24, positiondissapera.y + 45, 60, 16, bodyType::STATIC, ColliderType::PLATFORM);
+		ThePlatform->ctype = ColliderType::PLATFORM;
+		spearUpgrade = true;
+	}
+
+
 	if (position.DistanceTo(app->scene->player->position) <= 5 && daPlatform == true /*app->scene->player->position.x - position.x == 0 && app->scene->player->position.y - position.y == 0 && daPlatform == true*/)
 	{
  		isPicked = true;
 		b2Vec2 positiondissapera = b2Vec2(-100, -100);
 		pbody->body->SetTransform(positiondissapera, angle + 270);
+
 		daPlatform = false;
 	}
-	
+	if (app->scene->player->power != PowerLvl::OP)
 	app->render->DrawTexture(texture, METERS_TO_PIXELS(ThePlatform->body->GetPosition().x-30), METERS_TO_PIXELS(ThePlatform->body->GetPosition().y -8), false,&form1Anim.GetCurrentFrame());
+	else 
+	app->render->DrawTexture(texture, METERS_TO_PIXELS(ThePlatform->body->GetPosition().x - 43), METERS_TO_PIXELS(ThePlatform->body->GetPosition().y - 8), false, &form3Anim.GetCurrentFrame());
+	//app->render->DrawTexture(texture, METERS_TO_PIXELS(ThePlatformLong->body->GetPosition().x - 30), METERS_TO_PIXELS(ThePlatformLong->body->GetPosition().y - 8), false, &form3Anim.GetCurrentFrame());
 	//app->render->DrawTexture(texture, position.x, position.y, false, 0,0,angle);
 
 	return true;

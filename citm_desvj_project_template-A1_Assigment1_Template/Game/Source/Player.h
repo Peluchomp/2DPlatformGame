@@ -174,6 +174,8 @@ public:
 	bool _noSpearIcon;
 	Timer spear_icon_timer;
 
+	bool newLevel = false;
+
 	//-------Audio effects--------//
 
 	uint orbEffect;

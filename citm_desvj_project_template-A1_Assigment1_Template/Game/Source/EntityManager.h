@@ -54,6 +54,8 @@ public:
 
 	SDL_Texture* enemy_tex = nullptr;
 	SDL_Texture* chandelier_tex = nullptr;
+	SDL_Texture* angel_tex = nullptr;
+
 	pugi::xml_node myNode;
 
 	List<Entity*> entities;

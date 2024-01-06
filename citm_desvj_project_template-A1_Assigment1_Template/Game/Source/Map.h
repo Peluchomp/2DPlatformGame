@@ -175,6 +175,7 @@ public:
 
 private:
 
+	bool firstLoad = false;
 	bool mapLoaded;
 	MapLayer* navigationLayer;
 	int blockedGid = 17; //!!!! make sure that you assign blockedGid according to your map

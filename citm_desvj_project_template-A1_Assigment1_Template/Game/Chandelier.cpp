@@ -89,7 +89,7 @@ bool Chandelier::Start() {
 	//initilize textures
 	texture = app->entityManager->chandelier_tex;
 	
-
+	// CHANGE
 	defaultAnim.PushBack({ 1,1,118,78 });
 	defaultAnim.PushBack({ 121,1,118,78 });
 	defaultAnim.PushBack({ 241,1,118,78 });

@@ -7,6 +7,7 @@
 #include "../Spear.h"
 #include "../Orb.h"
 #include "../Jorge.h"
+#include "../MegaMorgan.h"
 
 struct SDL_Texture;
 
@@ -65,6 +66,7 @@ private:
 
 public:
 
+	int currentLevel = 0;
 	uint enemyDeathEffect;
 
 };

@@ -8,6 +8,8 @@
 #include "../Jorge.h"
 #include "../Morgan.h"
 #include "../Chandelier.h"
+#include "../Angel.h"
+#include "../MegaMorgan.h"
 #include "Defs.h"
 #include "Log.h"
 
@@ -51,6 +53,8 @@ bool EntityManager::Start() {
 	const char* enemyTexPath = myNode.child("enemyTexture").attribute("path").as_string();
 	enemy_tex = app->tex->Load(enemyTexPath);
 	chandelier_tex = app->tex->Load(myNode.child("chandelier").attribute("path").as_string());
+
+	angel_tex = app->tex->Load("Assets/Textures/angelGuard.png");
 
 	//Iterates over the entities and calls Start
 	ListItem<Entity*>* item;
@@ -114,9 +118,20 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	case EntityType::CHANDELIER:
 		entity = new Chandelier();
 		break;
+
+	case EntityType::ANGEL:
+		entity = new Angel();
+		
+		break;
+	case EntityType::MEGA_MORGAN:
+		entity = new MegaMorgan();
+		break;
 	default:
 		break;
 	}
+
+	
+
 
 	entities.Add(entity);
 	entity->pathTexture = app->scene->pathTexture;
@@ -145,7 +160,7 @@ bool EntityManager::Update(float dt)
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
 
-	for (item = entities.start; item != NULL && ret == true; item = item->next)
+	for (item = entities.end; item != NULL && ret == true; item = item->prev)
 	{
 		pEntity = item->data;
 

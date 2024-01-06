@@ -18,11 +18,13 @@ enum class EntityType
 {
 	PLAYER,
 	MORGAN,
+	MEGA_MORGAN,
 	SPEAR,
 	ORB,
 	THUNDER,
 	JORGE,
 	CHANDELIER,
+	ANGEL,
 	UNKNOWN
 };
 

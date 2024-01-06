@@ -38,8 +38,89 @@
 	  <pathTile  texturepath ="Assets/Textures/markedTile.png" />
 	  <enemyEffect  audiopath ="Assets/Audio/Fx/enemy_wounded.wav"  />
 	  <winEffect audiopath = "Assets/Audio/Fx/endLevel.wav"/>
-	  
-	 
+
+	  <level1_spawns>
+
+		  <mega_morgan>
+			  <position x="9" y="74"/>
+		  </mega_morgan>
+		  <mega_morgan>
+			  <position x="10" y="66"/>
+		  </mega_morgan>
+		  
+	  </level1_spawns>
+
+	  <angel>
+		  <animations>
+			  <attacking>
+				  <frame x="2" y="2" w="636" h="571" />
+				  <frame x="644" y="2" w="636" h="571" />
+				  <frame x="1286" y="2" w="636" h="571" />
+				  <frame x="1928" y="2" w="636" h="571" />
+				  <frame x="2570" y="2" w="636" h="571" />
+				  <frame x="3212" y="2" w="636" h="571" />
+				  <frame x="3854" y="2" w="636" h="571" />
+				  <frame x="4496" y="2" w="636" h="571" />
+				  <frame x="5138" y="2" w="636" h="571" />
+				  <frame x="5780" y="2" w="636" h="571" />
+				  <speed value="0.2" />
+				  <loop value="false" />
+			  </attacking>
+
+			  <rising>
+				  <frame x="5780" y="2" w="636" h="571" />
+				  <frame x="5138" y="2" w="636" h="571" />
+				  <frame x="4496" y="2" w="636" h="571" />
+				  <frame x="3854" y="2" w="636" h="571" />
+				  <frame x="3212" y="2" w="636" h="571" />
+				  <frame x="2" y="2" w="636" h="571" />
+				  <speed value="0.1" />
+				  <loop value="false" />
+			  </rising>
+
+			  <stationary>
+				  <frame x =" 2" y ="2" w="636" z ="571"/>
+				  
+			  </stationary>
+			  
+			  
+		  </animations>
+		  
+		  
+		  
+	  </angel>
+
+	  <mega_morgan>
+		  <animations>
+			  <walking>
+				  <frame x="1" y="  179" w="99" h="78" />
+				  <frame x="101" y="179" w="99" h="78" />
+				  <frame x="201" y="179" w="99" h="78" />
+				  <frame x="301" y="179" w="99" h="78" />
+				  <frame x="401" y="179" w="99" h="78" />
+				  <frame x="501" y="179" w="99" h="78" />
+				  <frame x="601" y="179" w="99" h="78" />
+				  <frame x="701" y="179" w="99" h="78" />
+				  <frame x="801" y="179" w="99" h="78" />
+				  <frame x="901" y="179" w="99" h="78" />
+				  <frame x="1001" y="179" w="99" h="78" />
+				  <frame x="1101" y="179" w="99" h="78" />
+				  <speed value="0.15" />
+			  </walking>
+
+			  <attacking>
+				  <frame x="1" y="259" w="99" h="78" />
+				  <frame x="101" y="259" w="99" h="78" />
+				  <frame x="201" y="259" w="99" h="78" />
+				  <frame x="301" y="259" w="99" h="78" />
+				  <frame x="401" y="259" w="99" h="78" />
+				  <frame x="501" y="259" w="99" h="78" />
+				  <frame x="601" y="259" w="99" h="78" />
+				  <frame x="701" y="259" w="99" h="78" />
+				  <speed value="0.15" />
+			  </attacking>
+		  </animations>
+	  </mega_morgan>
 
 
 	  <morgan  num="15"  texturepath="Assets/Textures/Morgan.png">

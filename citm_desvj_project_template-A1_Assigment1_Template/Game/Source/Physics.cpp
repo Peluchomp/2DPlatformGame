@@ -453,13 +453,13 @@ bool Physics::PostUpdate()
 	return ret;
 }
 
-b2RevoluteJoint* Physics::CreateRevolutionJoint(PhysBody* staticBody, PhysBody* moveableBody) {
+b2RevoluteJoint* Physics::CreateRevolutionJoint(PhysBody* staticBody, PhysBody* moveableBody, float distance) {
 
 	b2RevoluteJointDef revoluteJointDef;
 	revoluteJointDef.bodyA = staticBody->body;
 	revoluteJointDef.bodyB = moveableBody->body;
 	revoluteJointDef.localAnchorA.Set(0.0f, 0.0f); // Anchor point on static body (in local coordinates)
-	revoluteJointDef.localAnchorB.Set(0.0f, -3.0f); // Anchor point on movable body (in local coordinates)
+	revoluteJointDef.localAnchorB.Set(0.0f, distance); // Anchor point on movable body (in local coordinates)
 	revoluteJointDef.enableLimit = true; // Set to true if you want to limit the rotation range
 	revoluteJointDef.enableMotor = true; // Set to true to enable the joint motor
 	revoluteJointDef.motorSpeed = 12; // Set motor speed (adjust as needed)
@@ -586,7 +586,7 @@ void Physics::DestroyPlatforms() {
 
 	while (item) {
 
-		if (item->data->ctype == ColliderType::PLATFORM || item->data->ctype == ColliderType::INSTAKILL) {
+		if (item->data->ctype == ColliderType::PLATFORM || item->data->ctype == ColliderType::INSTAKILL && (item->data->myEntity != nullptr && item->data->myEntity->type != EntityType::SPEAR)) {
 			DestroyObject(item->data);
 
 			

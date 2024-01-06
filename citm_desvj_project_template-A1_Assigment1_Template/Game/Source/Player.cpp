@@ -120,6 +120,9 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+	
+
+
 	ManageInvencibility(); /*Check if ifrmaes are still active*/
 
 	if (currentSpawnAnim->HasFinished()) {
@@ -202,7 +205,7 @@ bool Player::Update(float dt)
 			isJumping = true;
 			Jump.Reset();
 			currentAnim = &Jump;
-			gravity = -21;
+			gravity = -17;
 		}
 
 		if (gravity >= 0.3f * dt && isJumping == true)
@@ -667,6 +670,7 @@ void Player::Spawn(int Level) {
 		orbs = 0;
 	}
 	if (Level == 1) {
+		app->scene->currentLevel = 1;
 		power = PowerLvl::NORMAL;
 		hp = 4;
 		spawning = true;
@@ -688,7 +692,15 @@ void Player::Spawn(int Level) {
 	app->audio->PlayFx(winEffext);
 	app->physics->DestroyPlatforms();
 	app->entityManager->DestroyAll();
+	mySpear->pendingToDestroy = true;
+	/*if (app->scene->scene_parameter.child("spear")) {
+		mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
+		mySpear->parameters = app->scene->scene_parameter.child("spear");
+		mySpear->Awake();
+		mySpear->Start();
 
+	}*/
+	newLevel = true;
 	app->map->CleanUp();
 	app->scene->Awake(app->scene->scene_parameter);
 	app->map->mapData.layers.Clear();
@@ -883,6 +895,7 @@ void Player::LoadAnimations() {
 }
 
 
+// This function changes the offsets of the attack sensor depending on animation, stage of the animation or current power lvl
 void Player::AttackHitBoxManagement() {
 
 

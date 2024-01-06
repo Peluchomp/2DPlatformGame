@@ -11,6 +11,7 @@
 #include "Defs.h"
 #include "../Chandelier.h"
 #include "Log.h"
+#include "../MegaMorgan.h"
 
 Scene::Scene() : Module()
 {
@@ -106,7 +107,7 @@ bool Scene::Awake(pugi::xml_node& config)
 			}
 		}
 
-
+		SpawnGoons();
 		return ret;
 
 	}
@@ -141,31 +142,67 @@ bool Scene::Start()
 	const char* tilePath = scene_parameter.child("pathTile").attribute("texturepath").as_string();
 	pathTexture = app->tex->Load(tilePath);
 
-	SpawnGoons(true);
+	SpawnGoons(true  );
 
 	return true;
 }
 
 void Scene::SpawnGoons(bool first) {
 
-	for (pugi::xml_node itemNode = scene_parameter.child("morgan"); itemNode; itemNode = itemNode.next_sibling("morgan"))
-	{
-		Morgan* item = (Morgan*)app->entityManager->CreateEntity(EntityType::MORGAN);
-		item->parameters = itemNode;
-		item->num = itemNode.attribute("num").as_int();
-		item->position.x = itemNode.child("position").attribute("x").as_int() * 40;
-		item->position.y = itemNode.child("position").attribute("y").as_int() * 40;
-		if (!first)item->Start();
-	}
+	if (currentLevel == 0) {
+		for (pugi::xml_node itemNode = scene_parameter.child("morgan"); itemNode; itemNode = itemNode.next_sibling("morgan"))
+		{
+			Morgan* item = (Morgan*)app->entityManager->CreateEntity(EntityType::MORGAN);
+			item->parameters = itemNode;
+			item->num = itemNode.attribute("num").as_int();
+			item->position.x = itemNode.child("position").attribute("x").as_int() * 40;
+			item->position.y = itemNode.child("position").attribute("y").as_int() * 40;
+			if (!first)item->Start();
+		}
 
-	for (pugi::xml_node itemNode = scene_parameter.child("jorge"); itemNode; itemNode = itemNode.next_sibling("jorge"))
-	{
-		Jorge* jorge = (Jorge*)app->entityManager->CreateEntity(EntityType::JORGE);
-		jorge->parameters = itemNode;
-		jorge->num = itemNode.attribute("num").as_int();
-		jorge->position.x = itemNode.child("position").attribute("x").as_int() * 40;
-		jorge->position.y = itemNode.child("position").attribute("y").as_int() * 40;
-		if (!first)jorge->Start();
+		for (pugi::xml_node itemNode = scene_parameter.child("jorge"); itemNode; itemNode = itemNode.next_sibling("jorge"))
+		{
+			Jorge* jorge = (Jorge*)app->entityManager->CreateEntity(EntityType::JORGE);
+			jorge->parameters = itemNode;
+			jorge->num = itemNode.attribute("num").as_int();
+			jorge->position.x = itemNode.child("position").attribute("x").as_int() * 40;
+			jorge->position.y = itemNode.child("position").attribute("y").as_int() * 40;
+			if (!first)jorge->Start();
+		}
+	}
+	else {
+		pugi::xml_node level1Node = scene_parameter.child("level1_spawns");
+
+		for (pugi::xml_node itemNode = level1Node.child("morgan"); itemNode; itemNode = itemNode.next_sibling("morgan"))
+		{
+			Morgan* item = (Morgan*)app->entityManager->CreateEntity(EntityType::MORGAN);
+			item->parameters = itemNode;
+			item->num = itemNode.attribute("num").as_int();
+			item->position.x = itemNode.child("position").attribute("x").as_int() * 40;
+			item->position.y = itemNode.child("position").attribute("y").as_int() * 40;
+			if (!first)item->Start();
+		}
+
+		for (pugi::xml_node itemNode = level1Node.child("mega_morgan"); itemNode; itemNode = itemNode.next_sibling("mega_morgan"))
+		{
+			MegaMorgan* item = (MegaMorgan*)app->entityManager->CreateEntity(EntityType::MEGA_MORGAN);
+			item->parameters = itemNode;
+			item->num = itemNode.attribute("num").as_int();
+			item->position.x = itemNode.child("position").attribute("x").as_int() * 40;
+			item->position.y = itemNode.child("position").attribute("y").as_int() * 40;
+			if (!first)item->Start();
+		}
+
+		for (pugi::xml_node itemNode = level1Node.child("jorge"); itemNode; itemNode = itemNode.next_sibling("jorge"))
+		{
+			Jorge* jorge = (Jorge*)app->entityManager->CreateEntity(EntityType::JORGE);
+			jorge->parameters = itemNode;
+			jorge->num = itemNode.attribute("num").as_int();
+			jorge->position.x = itemNode.child("position").attribute("x").as_int() * 40;
+			jorge->position.y = itemNode.child("position").attribute("y").as_int() * 40;
+			if (!first)jorge->Start();
+		}
+
 	}
 
 }

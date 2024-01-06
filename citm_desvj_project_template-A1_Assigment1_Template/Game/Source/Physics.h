@@ -26,7 +26,7 @@ const uint16_t Float_PLAT_CATEGORY_BIT = 0x0002;
 // Define mask bits for which they CAN collide with
 const uint16_t PLAYER_MASK_BITS = ENEMY_CATEGORY_BIT | GROUND_CATEGORY_BIT |Float_PLAT_CATEGORY_BIT ;
 const uint16_t ENEMY_MASK_BITS = PLAYER_CATEGORY_BIT | GROUND_CATEGORY_BIT;
-const uint16_t GROUND_MASK_BITS = PLAYER_CATEGORY_BIT | ENEMY_CATEGORY_BIT | GROUND_CATEGORY_BIT;
+const uint16_t GROUND_MASK_BITS = PLAYER_CATEGORY_BIT | ENEMY_CATEGORY_BIT ;
 const uint16_t PHYSIC_MASK_BITS = PHYSIC_CATEGORY_BIT |PLAYER_CATEGORY_BIT; // ghost bodies only used for physics //
 const uint16_t Float_PLAT_MASK_BIT = PLAYER_CATEGORY_BIT | GROUND_CATEGORY_BIT;
 
@@ -129,7 +129,7 @@ public:
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height, bodyType type, ColliderType fixture);
 	PhysBody* CreateChain(int x, int y, int* points, int size, bodyType type, ColliderType fixture);
 
-	b2RevoluteJoint* CreateRevolutionJoint(PhysBody* staticBody, PhysBody* moveableBody);
+	b2RevoluteJoint* CreateRevolutionJoint(PhysBody* staticBody, PhysBody* moveableBody, float distance =-3.0f);
 
 	void DestroyPlatforms();
 

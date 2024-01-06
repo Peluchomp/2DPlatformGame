@@ -4,7 +4,7 @@
 #include "Textures.h"
 #include "Map.h"
 #include "Physics.h"
-
+#include "../Morgan.h"
 #include "Defs.h"
 #include "Log.h"
 
@@ -102,6 +102,30 @@ bool Map::Update(float dt)
 
 
         }
+
+        else if (!firstLoad && mapLayerItem->data->properties.GetProperty("Angelical") != NULL) {
+
+            for (int x = 0; x < mapLayerItem->data->width; x++)
+            {
+                for (int y = 0; y < mapLayerItem->data->height; y++)
+                {
+                    int gid = mapLayerItem->data->Get(x, y);
+
+                    if (gid == 1252) {
+                        Entity* ye = app->entityManager->CreateEntity(EntityType::ANGEL);
+                        ye->Awake();
+                        ye->position.x =( x * 40) -300;
+                        ye->position.y = y * 40;
+                        ye->Start();
+
+
+                    }
+                }
+            }
+            firstLoad = true;
+
+        }
+        
         mapLayerItem = mapLayerItem->next;
 
     }
@@ -247,6 +271,8 @@ bool Map::Load(SString mapFileName)
 
         }
 
+
+
         // L06: DONE 3: Iterate all layers in the TMX and load each of them
         for (pugi::xml_node layerNode = mapFileXML.child("map").child("layer"); layerNode != NULL; layerNode = layerNode.next_sibling("layer")) {
 
@@ -274,6 +300,9 @@ bool Map::Load(SString mapFileName)
 
             //add the layer to the map
             mapData.layers.Add(mapLayer);
+
+
+
         }
 
 
@@ -396,6 +425,35 @@ bool Map::LoadObjectGroups(pugi::xml_node mapNode) {
             }
         }
     }
+
+  /*  for (pugi::xml_node angelNode = mapNode.child("layer"); angelNode; angelNode = angelNode.next_sibling("layer")) {
+
+        if (angelNode.attribute("name").as_string() == "angelStatues") {
+
+            
+                for (int x = 0; x < mapLayerItem->data->width; x++)
+                {
+                    for (int y = 0; y < mapLayerItem->data->height; y++)
+                    {
+                        int gid = mapLayerItem->data->Get(x, y);
+
+                        if (gid == 929) {
+                            Entity* ye = app->entityManager->CreateEntity(EntityType::ANGEL);
+                            ye->Awake();
+                            ye->position.x = x * 40;
+                            ye->position.y = y * 40;
+                            ye->Start();
+
+
+                        }
+                    }
+                }
+            
+        }
+
+        }
+
+    }*/
 
     return ret;
 }

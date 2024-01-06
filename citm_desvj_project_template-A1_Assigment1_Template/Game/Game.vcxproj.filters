@@ -43,6 +43,12 @@
     <ClCompile Include="Chandelier.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Angel.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="MegaMorgan.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -112,6 +118,12 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="Chandelier.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Angel.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="MegaMorgan.h">
       <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>

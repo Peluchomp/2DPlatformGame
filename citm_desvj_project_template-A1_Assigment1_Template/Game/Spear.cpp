@@ -54,7 +54,7 @@ bool Spear::PreUpdate(float dt)
 bool Spear::Update(float dt)
 {
 	
-	b2Vec2 vel;
+		b2Vec2 vel;
 
 	pbody->body->SetTransform(pbody->body->GetPosition(), angle);
 	if (started == false) 

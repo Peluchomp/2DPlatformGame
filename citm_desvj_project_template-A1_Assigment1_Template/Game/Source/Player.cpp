@@ -225,16 +225,22 @@ bool Player::Update(float dt)
 
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !(Attacking)) /*Ypu can move as long as youre not attacking on the ground*/ {
+		
+			if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !(Attacking)) /*Ypu can move as long as youre not attacking on the ground*/ {
 
-			IdleTimer.Start();
-			if (isGrounded) {
-				currentAnim = &longRun;
+				IdleTimer.Start();
+				if (isGrounded) {
+					currentAnim = &longRun;
+				}
+
+				myDir = Direction::RIGHT;
+				movementx = speed * dt;
+
+				if (godMode == true) {
+					movementx = speed * dt * 9;
+				}
 			}
-
-			myDir = Direction::RIGHT;
-			movementx = speed * dt;
-		}
+			
 		//--------------Attacking Logic-----------------//
 
 		if (mySpear->isPicked)/*Can only attack if currently has the Spear*/ {
@@ -670,13 +676,35 @@ void Player::Spawn(int Level) {
 		orbs = 0;
 	}
 	if (Level == 1) {
+		float x = position.x = 2 * 40;
+		float y = position.y = 79 * 40;
+
+		if (mySpear->isPicked == false && mySpear->isSticked == false) {
+
+			b2Vec2 positiondissapera = b2Vec2(-100, -100);
+			b2Vec2 positionPlayer = b2Vec2(x, y);
+			mySpear->pbody->body->SetTransform(positionPlayer, 0);
+			mySpear->ThePlatform->body->SetTransform(positiondissapera, 0);
+			mySpear->daPlatform = true;
+			mySpear->isSticked = false;
+		}
+
+		if (mySpear->isPicked == false && mySpear->isSticked == true) {
+
+			b2Vec2 positiondissapera = b2Vec2(-100, -100);
+			b2Vec2 positionPlayer = b2Vec2(x, y);
+			mySpear->pbody->body->SetTransform(positionPlayer, 0);
+			mySpear->ThePlatform->body->SetTransform(positiondissapera, 0);
+			mySpear->daPlatform = true;
+			mySpear->isSticked = false;
+		}
+
 		app->scene->currentLevel = 1;
 		power = PowerLvl::NORMAL;
 		hp = 4;
 		spawning = true;
 		spawnFire.loopCount = 2;
-		float x = position.x = 2*40;
-		float y = position.y = 79*40;
+		
 		app->render->camera.y = 0;
 		x = PIXEL_TO_METERS(x); y = PIXEL_TO_METERS(y);
 
@@ -692,7 +720,7 @@ void Player::Spawn(int Level) {
 	app->audio->PlayFx(winEffext);
 	app->physics->DestroyPlatforms();
 	app->entityManager->DestroyAll();
-	mySpear->pendingToDestroy = true;
+	mySpear->pendingToDestroy = false;
 	/*if (app->scene->scene_parameter.child("spear")) {
 		mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
 		mySpear->parameters = app->scene->scene_parameter.child("spear");

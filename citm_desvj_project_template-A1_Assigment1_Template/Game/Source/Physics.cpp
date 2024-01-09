@@ -586,7 +586,7 @@ void Physics::DestroyPlatforms() {
 
 	while (item) {
 
-		if (item->data->ctype == ColliderType::PLATFORM || item->data->ctype == ColliderType::INSTAKILL && (item->data->myEntity != nullptr && item->data->myEntity->type != EntityType::SPEAR)) {
+		if ((item->data->ctype == ColliderType::PLATFORM || item->data->ctype == ColliderType::INSTAKILL) && (item->data->myEntity != nullptr && item->data->myEntity->type != EntityType::SPEAR)) {
 			DestroyObject(item->data);
 
 			

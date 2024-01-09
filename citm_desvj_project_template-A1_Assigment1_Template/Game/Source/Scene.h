@@ -57,7 +57,7 @@ private:
 
 	// Entity Textures
 
-	int currentLvl = 0;
+	
 
 	float textPosX, textPosY = 0;
 	uint texW, texH;
@@ -65,7 +65,7 @@ private:
 	bool isInDebugMode;
 
 public:
-
+	int currentLvl = 0;
 	int currentLevel = 0;
 	uint enemyDeathEffect;
 

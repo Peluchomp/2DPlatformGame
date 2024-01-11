@@ -49,6 +49,9 @@
     <ClCompile Include="MegaMorgan.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Checkpoint.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -124,6 +127,9 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="MegaMorgan.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Checkpoint.h">
       <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>

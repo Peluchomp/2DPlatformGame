@@ -631,7 +631,13 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			app->audio->PlayFx(orbEffect);
 			physB->listener->pendingToDestroy = true;
 			break;
+		case ColliderType::CHECKPOINT:
+			b2Vec2 checkpointPos = physB->body->GetPosition();
 			
+			checkpointX	= checkpointPos.x;
+			checkpointY = checkpointPos.y;
+			
+			break;
 
 		}
 	}
@@ -662,10 +668,14 @@ void Player::Spawn(int Level) {
 		hp = 4;
 		spawning = true;
 		spawnFire.loopCount = 2;
-		float x = position.x = parameters.attribute("x").as_float();
+		//para checkear si funciona los checkpoints
+	/*	float x = position.x = parameters.attribute("x").as_float();
 		float y = position.y = parameters.attribute("y").as_float();
-		x = PIXEL_TO_METERS(x); y = PIXEL_TO_METERS(y);
-
+		x = PIXEL_TO_METERS(x); y = PIXEL_TO_METERS(y);*/
+		float x = position.x = checkpointX;
+		float y = position.y = checkpointY;
+	
+		
 		b2Vec2 startPos = { x,y };
 		pbody->body->SetTransform(startPos, pbody->body->GetAngle());
 

@@ -10,6 +10,7 @@
 #include "../Chandelier.h"
 #include "../Angel.h"
 #include "../MegaMorgan.h"
+#include "../Checkpoint.h"
 #include "Defs.h"
 #include "Log.h"
 
@@ -118,13 +119,14 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	case EntityType::CHANDELIER:
 		entity = new Chandelier();
 		break;
-
 	case EntityType::ANGEL:
 		entity = new Angel();
-		
 		break;
 	case EntityType::MEGA_MORGAN:
 		entity = new MegaMorgan();
+		break;
+	case EntityType::CHECKPOINT:
+		entity = new Checkpoint();
 		break;
 	default:
 		break;

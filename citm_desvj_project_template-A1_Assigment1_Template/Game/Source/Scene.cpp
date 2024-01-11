@@ -12,6 +12,7 @@
 #include "../Chandelier.h"
 #include "Log.h"
 #include "../MegaMorgan.h"
+#include "../Checkpoint.h"
 
 Scene::Scene() : Module()
 {
@@ -59,6 +60,15 @@ bool Scene::Awake(pugi::xml_node& config)
 			orb->position.y = orbNode.attribute("y").as_int();
 			orb->num = orbNode.attribute("num").as_int();
 			orb->parameters = scene_parameter.child("orb");
+
+		}
+
+		for (pugi::xml_node checkpointNode = config.child("checkpoint_spawn"); checkpointNode; checkpointNode = checkpointNode.next_sibling("checkpoint_spawn")) {
+			Checkpoint* checkpoint = (Checkpoint*)app->entityManager->CreateEntity(EntityType::CHECKPOINT);
+			checkpoint ->position.x = checkpointNode.attribute("x").as_int();
+			checkpoint ->position.y = checkpointNode.attribute("y").as_int();
+			checkpoint ->num = checkpointNode.attribute("num").as_int();
+			checkpoint ->parameters = scene_parameter.child("checkpoint");
 
 		}
 

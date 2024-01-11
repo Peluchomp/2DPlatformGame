@@ -97,6 +97,7 @@
   <ItemGroup>
     <ClCompile Include="Angel.cpp" />
     <ClCompile Include="Chandelier.cpp" />
+    <ClCompile Include="Checkpoint.cpp" />
     <ClCompile Include="Jorge.cpp" />
     <ClCompile Include="MegaMorgan.cpp" />
     <ClCompile Include="ModuleEnemies.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="Angel.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Chandelier.h" />
+    <ClInclude Include="Checkpoint.h" />
     <ClInclude Include="Jorge.h" />
     <ClInclude Include="MegaMorgan.h" />
     <ClInclude Include="ModuleEnemies.h" />

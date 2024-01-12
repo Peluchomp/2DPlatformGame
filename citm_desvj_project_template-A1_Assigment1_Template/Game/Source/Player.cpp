@@ -120,8 +120,11 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+	int X, Y;
 	
-
+	mySpear->pbody->GetPosition(X, Y);
+	mySpear->pbody->collider = SDL_Rect{ X,Y, 40,16 };
+	app->render->DrawRectangle(mySpear->pbody->collider, 20, 2, 8, 200, true);
 
 	ManageInvencibility(); /*Check if ifrmaes are still active*/
 
@@ -634,8 +637,8 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		case ColliderType::CHECKPOINT:
 			b2Vec2 checkpointPos = physB->body->GetPosition();
 			
-			checkpointX	= checkpointPos.x;
-			checkpointY = checkpointPos.y;
+			checkpointX	= METERS_TO_PIXELS( checkpointPos.x);
+			checkpointY = METERS_TO_PIXELS( checkpointPos.y);
 			
 			break;
 
@@ -672,8 +675,8 @@ void Player::Spawn(int Level) {
 	/*	float x = position.x = parameters.attribute("x").as_float();
 		float y = position.y = parameters.attribute("y").as_float();
 		x = PIXEL_TO_METERS(x); y = PIXEL_TO_METERS(y);*/
-		float x = position.x = checkpointX;
-		float y = position.y = checkpointY;
+		float x = PIXEL_TO_METERS( checkpointX);
+		float y =  PIXEL_TO_METERS( checkpointY);
 	
 		
 		b2Vec2 startPos = { x,y };
@@ -726,25 +729,21 @@ void Player::Spawn(int Level) {
 		movementx = 0;
 
 		orbs = 0;
+
+		app->audio->PlayFx(winEffext);
+		app->physics->DestroyPlatforms();
+		app->entityManager->DestroyAll();
+		mySpear->pendingToDestroy = false;
+
+		newLevel = true;
+		app->map->CleanUp();
+		app->scene->Awake(app->scene->scene_parameter);
+		app->map->mapData.layers.Clear();
+		app->map->Start();
+
+		app->render->camera.y = -5832;
 	}
-	app->audio->PlayFx(winEffext);
-	app->physics->DestroyPlatforms();
-	app->entityManager->DestroyAll();
-	mySpear->pendingToDestroy = false;
-	/*if (app->scene->scene_parameter.child("spear")) {
-		mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
-		mySpear->parameters = app->scene->scene_parameter.child("spear");
-		mySpear->Awake();
-		mySpear->Start();
 
-	}*/
-	newLevel = true;
-	app->map->CleanUp();
-	app->scene->Awake(app->scene->scene_parameter);
-	app->map->mapData.layers.Clear();
-	app->map->Start();
-
-	app->render->camera.y = -5832;
 }
 
 // The player attributes are saved and loaded from scene

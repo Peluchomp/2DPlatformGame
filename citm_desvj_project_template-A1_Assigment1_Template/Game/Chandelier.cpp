@@ -51,6 +51,11 @@ bool Chandelier::Awake() {
 	plat_sensor->listener = app->scene->player;
 	plat_sensor->body->SetGravityScale(0);
 	plat_sensor->myEntity = this;
+
+	cordBody = app->physics->CreateRectangleSensor(position.x, position.y - 80, 20, 120, bodyType::STATIC, ColliderType::ENEMY);
+	cordBody->body->SetGravityScale(0);
+	cordBody->listener = this;
+	myBodies.Add(cordBody);
 	
 	myBodies.Add(plat_body);
 	myBodies.Add(plat_sensor);
@@ -124,7 +129,8 @@ bool Chandelier::Update(float dt)
 	plat_body->body->SetTransform(_body->body->GetPosition() + b2Vec2(0, -0.2f), 0.0f);
 	plat_sensor->body->SetTransform(_body->body->GetPosition() + b2Vec2(0, -0.3f), 0.0f);
 
-	if (fallTimer.ReadMSec() > 500 && touched && !destroyedJoint) {
+	if ((fallTimer.ReadMSec() > 500 && touched && !destroyedJoint)) {
+		elInfierno = false; cutRope = true;
 		_body->body->SetType(b2_dynamicBody);
 		_body->body->SetGravityScale(1);
 		if (myType == ChandelierType::PENDULUM) {
@@ -192,13 +198,15 @@ bool Chandelier::Update(float dt)
 	}
 
 	plat_sensor->collider = { x , y -15 , 115, 10 };
+	cordBody->collider = { x , y - 15 , 20, 120 };
 	if (app->physics->debug) {
 		app->render->DrawRectangle(plat_sensor->collider, 200, 200, 200, 255, true);
+		app->render->DrawRectangle(cordBody->collider, 50, 50, 50, 255, true);
 	}
 	
 	
 		bool playerOnTop = false;
-		if (plat_sensor->Intersects(&app->scene->player->pbody->collider)) {
+		if (plat_sensor->Intersects(&app->scene->player->pbody->collider) || cordBody->Intersects(&app->scene->player->mySpear->pbody->collider)) {
 			LOG("Player on top");
 			playerOnTop = true;
 		}
@@ -213,6 +221,10 @@ bool Chandelier::Update(float dt)
 			}
 			else if (myType == ChandelierType::STATIONARY) {
 				PlayerStandingOnME();
+
+				/*IMPORTANTE lo que hace q el candeladro caiga es la masa, al menos en el caso del candeladro estatico asi que hay que añaadirle una linear velocity*/
+
+				_body->body->SetLinearVelocity(b2Vec2(0,10));
 			}
 		}
 	
@@ -270,7 +282,11 @@ void Chandelier::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::PLAYER:
 		LOG("Player touched chandelier");
 		break;
-
+	case ColliderType::SPEAR :
+		if (elInfierno == false) {
+			elInfierno = true;
+		}
+		break;
 
 	}
 }

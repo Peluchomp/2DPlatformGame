@@ -13,6 +13,9 @@
 #include "Log.h"
 #include "../MegaMorgan.h"
 #include "../Checkpoint.h"
+#include "GuiControl.h"
+#include "GuiManager.h"
+
 
 Scene::Scene() : Module()
 {
@@ -147,7 +150,8 @@ bool Scene::Start()
 		app->map->mapData.tilesets.Count());
 
 
-	
+	SDL_Rect btPos = { windowW / 2 - 60, windowH / 2 - 10, 120,20 };
+	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "MyButton", btPos, this);
 
 	const char* tilePath = scene_parameter.child("pathTile").attribute("texturepath").as_string();
 	pathTexture = app->tex->Load(tilePath);
@@ -433,6 +437,14 @@ bool Scene::SaveState(pugi::xml_node node) {
 
 
 
+
+	return true;
+}
+
+bool Scene::OnGuiMouseClickEvent(GuiControl* control)
+{
+	// L15: DONE 5: Implement the OnGuiMouseClickEvent method
+	LOG("Press Gui Control: %d", control->id);
 
 	return true;
 }

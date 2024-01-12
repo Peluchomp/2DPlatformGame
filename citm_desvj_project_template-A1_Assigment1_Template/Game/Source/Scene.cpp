@@ -301,13 +301,17 @@ bool Scene::Update(float dt)
 	}
 	else if (currentLvl == 1)
 	{
-		if (app->render->camera.x > -680) {
-			app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
 
-			app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
+		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
 
-			app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
+		app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
+
+		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
+
+		if (app->render->camera.x < -680) {
+			app->render->camera.x = -680;
 		}
+		
 		
 		if (app->render->camera.y < 1000)
 			app->render->camera.y = (-player->position.y) * app->win->GetScale() + 530;

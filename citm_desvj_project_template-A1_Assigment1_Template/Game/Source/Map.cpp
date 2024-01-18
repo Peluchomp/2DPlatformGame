@@ -7,7 +7,7 @@
 #include "../Morgan.h"
 #include "Defs.h"
 #include "Log.h"
-
+#include "Window.h"
 #include <math.h>
 #include "SDL_image/include/SDL_image.h"
 
@@ -71,12 +71,16 @@ bool Map::Update(float dt)
             bool parallax = false;
             if (mapLayerItem->data->properties.GetProperty("Parallax") != NULL) { parallax = true; }
 
+            SDL_Rect const camera = app->render->camera;
 
+            // Map drawing optimization to only draw portion visible by the camera
+            iPoint const cameraPos = WorldToMap(-camera.x / app->win->GetScale(), ((camera.y) * -1) / app->win->GetScale());
+            iPoint const cameraSize = iPoint(16, 10);
            
 
-            for (int x = 0; x < mapLayerItem->data->width; x++)
+            for (int x = cameraPos.x ; x < cameraPos.x + cameraSize.x; x++)
             {
-                for (int y = 0; y < mapLayerItem->data->height; y++)
+                for (int y = camera.y; y < cameraPos.y + cameraSize.y; y++)
                 {
                     int gid = mapLayerItem->data->Get(x, y);
                     TileSet* tileset = GetTilesetFromTileId(gid);

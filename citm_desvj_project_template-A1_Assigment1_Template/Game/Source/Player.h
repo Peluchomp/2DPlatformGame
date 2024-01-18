@@ -166,6 +166,11 @@ public:
 	bool SpearhasBeenThrown = false;
 	Timer thrownCooldown;
 
+	float checkpointX = 100;
+		float checkpointY = 200;
+
+
+
 	bool startIdle = false;
 	Timer IdleTimer;
 

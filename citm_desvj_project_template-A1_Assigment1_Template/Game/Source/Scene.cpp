@@ -12,6 +12,10 @@
 #include "../Chandelier.h"
 #include "Log.h"
 #include "../MegaMorgan.h"
+#include "../Checkpoint.h"
+#include "GuiControl.h"
+#include "GuiManager.h"
+
 
 Scene::Scene() : Module()
 {
@@ -59,6 +63,15 @@ bool Scene::Awake(pugi::xml_node& config)
 			orb->position.y = orbNode.attribute("y").as_int();
 			orb->num = orbNode.attribute("num").as_int();
 			orb->parameters = scene_parameter.child("orb");
+
+		}
+
+		for (pugi::xml_node checkpointNode = config.child("checkpoint_spawn"); checkpointNode; checkpointNode = checkpointNode.next_sibling("checkpoint_spawn")) {
+			Checkpoint* checkpoint = (Checkpoint*)app->entityManager->CreateEntity(EntityType::CHECKPOINT);
+			checkpoint ->position.x = checkpointNode.attribute("x").as_int();
+			checkpoint ->position.y = checkpointNode.attribute("y").as_int();
+			checkpoint ->num = checkpointNode.attribute("num").as_int();
+			checkpoint ->parameters = scene_parameter.child("checkpoint");
 
 		}
 
@@ -137,7 +150,8 @@ bool Scene::Start()
 		app->map->mapData.tilesets.Count());
 
 
-	
+	SDL_Rect btPos = { windowW / 2 - 60, windowH / 2 - 10, 120,20 };
+	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "MyButton", btPos, this);
 
 	const char* tilePath = scene_parameter.child("pathTile").attribute("texturepath").as_string();
 	pathTexture = app->tex->Load(tilePath);
@@ -268,24 +282,46 @@ bool Scene::Update(float dt)
 */
 
 
-	app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
-	app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
-	if (app->render->camera.y < 1000)
-		app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
-
 	
-		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512; 
+
+	if (currentLvl == 0) {
+		
+		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
+		app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
+		if (app->render->camera.y < 1000)
+			app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
+
+
+		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
 		if (app->render->camera.x > 0) {
 			app->render->camera.x = 0;
 		}
 
-	if (currentLvl == 0) {
-		
 			if (app->render->camera.y > 0) app->render->camera.y = 0;
 
 				if (app->render->camera.y < -app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h - 175)
 					app->render->camera.y = (-app->map->mapData.height * app->map->mapData.tileHeight + app->render->camera.h - 175);
 
+	}
+	else if (currentLvl == 1)
+	{
+
+		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
+
+		app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
+
+		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
+
+		if (app->render->camera.x < -680) {
+			app->render->camera.x = -680;
+		}
+		
+		
+		if (app->render->camera.y < 1000)
+			app->render->camera.y = (-player->position.y) * app->win->GetScale() + 530;
+		if (app->render->camera.x > 0) {
+			app->render->camera.x = 0;
+		}
 	}
 
 	/**2 - 3 + app->win->screenSurface->w / 2;*/
@@ -401,6 +437,14 @@ bool Scene::SaveState(pugi::xml_node node) {
 
 
 
+
+	return true;
+}
+
+bool Scene::OnGuiMouseClickEvent(GuiControl* control)
+{
+	// L15: DONE 5: Implement the OnGuiMouseClickEvent method
+	LOG("Press Gui Control: %d", control->id);
 
 	return true;
 }

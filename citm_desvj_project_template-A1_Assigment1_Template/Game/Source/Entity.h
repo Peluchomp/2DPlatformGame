@@ -25,6 +25,7 @@ enum class EntityType
 	JORGE,
 	CHANDELIER,
 	ANGEL,
+	CHECKPOINT,
 	UNKNOWN
 };
 

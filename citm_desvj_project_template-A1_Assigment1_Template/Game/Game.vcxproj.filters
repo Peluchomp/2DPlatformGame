@@ -49,6 +49,11 @@
     <ClCompile Include="MegaMorgan.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Checkpoint.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GuiControlButton.cpp" />
+    <ClCompile Include="Source\GuiManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -126,6 +131,12 @@
     <ClInclude Include="MegaMorgan.h">
       <Filter>Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Checkpoint.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GuiControl.h" />
+    <ClInclude Include="Source\GuiControlButton.h" />
+    <ClInclude Include="Source\GuiManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

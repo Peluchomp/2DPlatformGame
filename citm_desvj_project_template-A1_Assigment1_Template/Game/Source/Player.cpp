@@ -120,8 +120,11 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+	int X, Y;
 	
-
+	mySpear->pbody->GetPosition(X, Y);
+	mySpear->pbody->collider = SDL_Rect{ X,Y, 40,16 };
+	app->render->DrawRectangle(mySpear->pbody->collider, 20, 2, 8, 200, true);
 
 	ManageInvencibility(); /*Check if ifrmaes are still active*/
 
@@ -225,16 +228,22 @@ bool Player::Update(float dt)
 
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !(Attacking)) /*Ypu can move as long as youre not attacking on the ground*/ {
+		
+			if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !(Attacking)) /*Ypu can move as long as youre not attacking on the ground*/ {
 
-			IdleTimer.Start();
-			if (isGrounded) {
-				currentAnim = &longRun;
+				IdleTimer.Start();
+				if (isGrounded) {
+					currentAnim = &longRun;
+				}
+
+				myDir = Direction::RIGHT;
+				movementx = speed * dt;
+
+				if (godMode == true) {
+					movementx = speed * dt * 9;
+				}
 			}
-
-			myDir = Direction::RIGHT;
-			movementx = speed * dt;
-		}
+			
 		//--------------Attacking Logic-----------------//
 
 		if (mySpear->isPicked)/*Can only attack if currently has the Spear*/ {
@@ -625,7 +634,13 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			app->audio->PlayFx(orbEffect);
 			physB->listener->pendingToDestroy = true;
 			break;
+		case ColliderType::CHECKPOINT:
+			b2Vec2 checkpointPos = physB->body->GetPosition();
 			
+			checkpointX	= METERS_TO_PIXELS( checkpointPos.x);
+			checkpointY = METERS_TO_PIXELS( checkpointPos.y);
+			
+			break;
 
 		}
 	}
@@ -656,10 +671,14 @@ void Player::Spawn(int Level) {
 		hp = 4;
 		spawning = true;
 		spawnFire.loopCount = 2;
-		float x = position.x = parameters.attribute("x").as_float();
+		//para checkear si funciona los checkpoints
+	/*	float x = position.x = parameters.attribute("x").as_float();
 		float y = position.y = parameters.attribute("y").as_float();
-		x = PIXEL_TO_METERS(x); y = PIXEL_TO_METERS(y);
-
+		x = PIXEL_TO_METERS(x); y = PIXEL_TO_METERS(y);*/
+		float x = PIXEL_TO_METERS( checkpointX);
+		float y =  PIXEL_TO_METERS( checkpointY);
+	
+		
 		b2Vec2 startPos = { x,y };
 		pbody->body->SetTransform(startPos, pbody->body->GetAngle());
 
@@ -670,13 +689,35 @@ void Player::Spawn(int Level) {
 		orbs = 0;
 	}
 	if (Level == 1) {
+		float x = position.x = 2 * 40;
+		float y = position.y = 79 * 40;
+
+		if (mySpear->isPicked == false && mySpear->isSticked == false) {
+
+			b2Vec2 positiondissapera = b2Vec2(-100, -100);
+			b2Vec2 positionPlayer = b2Vec2(x, y);
+			mySpear->pbody->body->SetTransform(positionPlayer, 0);
+			mySpear->ThePlatform->body->SetTransform(positiondissapera, 0);
+			mySpear->daPlatform = true;
+			mySpear->isSticked = false;
+		}
+
+		if (mySpear->isPicked == false && mySpear->isSticked == true) {
+
+			b2Vec2 positiondissapera = b2Vec2(-100, -100);
+			b2Vec2 positionPlayer = b2Vec2(x, y);
+			mySpear->pbody->body->SetTransform(positionPlayer, 0);
+			mySpear->ThePlatform->body->SetTransform(positiondissapera, 0);
+			mySpear->daPlatform = true;
+			mySpear->isSticked = false;
+		}
+
 		app->scene->currentLevel = 1;
 		power = PowerLvl::NORMAL;
 		hp = 4;
 		spawning = true;
 		spawnFire.loopCount = 2;
-		float x = position.x = 2*40;
-		float y = position.y = 79*40;
+		
 		app->render->camera.y = 0;
 		x = PIXEL_TO_METERS(x); y = PIXEL_TO_METERS(y);
 
@@ -688,25 +729,21 @@ void Player::Spawn(int Level) {
 		movementx = 0;
 
 		orbs = 0;
+
+		app->audio->PlayFx(winEffext);
+		app->physics->DestroyPlatforms();
+		app->entityManager->DestroyAll();
+		mySpear->pendingToDestroy = false;
+
+		newLevel = true;
+		app->map->CleanUp();
+		app->scene->Awake(app->scene->scene_parameter);
+		app->map->mapData.layers.Clear();
+		app->map->Start();
+
+		app->render->camera.y = -5832;
 	}
-	app->audio->PlayFx(winEffext);
-	app->physics->DestroyPlatforms();
-	app->entityManager->DestroyAll();
-	mySpear->pendingToDestroy = true;
-	/*if (app->scene->scene_parameter.child("spear")) {
-		mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
-		mySpear->parameters = app->scene->scene_parameter.child("spear");
-		mySpear->Awake();
-		mySpear->Start();
 
-	}*/
-	newLevel = true;
-	app->map->CleanUp();
-	app->scene->Awake(app->scene->scene_parameter);
-	app->map->mapData.layers.Clear();
-	app->map->Start();
-
-	app->render->camera.y = -5832;
 }
 
 // The player attributes are saved and loaded from scene

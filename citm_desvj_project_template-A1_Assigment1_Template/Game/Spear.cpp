@@ -38,7 +38,7 @@ bool Spear::Start() {
 	ThePlatform = app->physics->CreateRectangle(positiondissapera.x + 16, positiondissapera.y + 16, 40, 16, bodyType::STATIC, ColliderType::PLATFORM);
 	ThePlatform->ctype = ColliderType::PLATFORM;
 
-
+	
 	
 
 
@@ -54,7 +54,7 @@ bool Spear::PreUpdate(float dt)
 bool Spear::Update(float dt)
 {
 	
-	b2Vec2 vel;
+		b2Vec2 vel;
 
 	pbody->body->SetTransform(pbody->body->GetPosition(), angle);
 	if (started == false) 

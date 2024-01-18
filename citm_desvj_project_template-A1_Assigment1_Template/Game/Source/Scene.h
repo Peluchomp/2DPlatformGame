@@ -8,6 +8,8 @@
 #include "../Orb.h"
 #include "../Jorge.h"
 #include "../MegaMorgan.h"
+#include "GuiControl.h"
+#include "GuiControlButton.h"
 
 struct SDL_Texture;
 
@@ -47,6 +49,8 @@ public:
 
 	bool LoadState(pugi::xml_node node);
 
+	bool OnGuiMouseClickEvent(GuiControl* control);
+
 	pugi::xml_node scene_parameter;
 
 	SDL_Texture* pathTexture = nullptr;
@@ -57,15 +61,16 @@ private:
 
 	// Entity Textures
 
-	int currentLvl = 0;
+	
 
 	float textPosX, textPosY = 0;
 	uint texW, texH;
 	uint windowW, windowH;
 	bool isInDebugMode;
+	GuiControlButton* gcButtom;
 
 public:
-
+	int currentLvl = 0;
 	int currentLevel = 0;
 	uint enemyDeathEffect;
 

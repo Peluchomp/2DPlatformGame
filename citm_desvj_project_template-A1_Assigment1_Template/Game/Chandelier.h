@@ -36,6 +36,8 @@ public:
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
 
+	void Fall();
+
 	Animation* currentAnimation;
 	Animation defaultAnim;
 	Animation stationaryAnim;
@@ -53,8 +55,13 @@ public:
 	PhysBody* plat_body;
 	PhysBody* plat_sensor;
 
+	PhysBody* cordBody;
+
 	bool destroyedJoint = false;
 	bool destroying = false;
+
+	bool elInfierno = false;
+	bool cutRope = false;
 
 	Direction startingDir;
 

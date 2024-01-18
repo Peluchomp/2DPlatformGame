@@ -7,7 +7,7 @@
 	<:anonymous />
 	<scene>
 		<player orbs="0" PowerLvl="0" HP="4">
-			<position x="110" y="240" />
+			<position x="145" y="240" />
 		</player>
 	</scene>
 	<:anonymous />
@@ -94,25 +94,25 @@
 			<position x="7560" y="263" />
 		</morgan>
 		<morgan HP="3" num="28">
-			<position x="7501" y="303" />
+			<position x="7519" y="263" />
 		</morgan>
 		<jorge HP="2" num="16">
-			<position x="1479" y="116" />
+			<position x="1479" y="119" />
 		</jorge>
 		<jorge HP="2" num="17">
-			<position x="2280" y="116" />
+			<position x="2280" y="119" />
 		</jorge>
 		<jorge HP="2" num="20">
-			<position x="4039" y="236" />
+			<position x="4039" y="239" />
 		</jorge>
 		<jorge HP="2" num="21">
-			<position x="4840" y="116" />
+			<position x="4840" y="119" />
 		</jorge>
 		<jorge HP="2" num="22">
-			<position x="4960" y="236" />
+			<position x="4960" y="239" />
 		</jorge>
 		<jorge HP="2" num="26">
-			<position x="6600" y="236" />
+			<position x="6600" y="239" />
 		</jorge>
 	</entitymanager>
 	<moduleEnemies />

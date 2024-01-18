@@ -164,44 +164,48 @@ bool EntityManager::Update(float dt)
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
 
-	for (item = entities.end; item != NULL && ret == true; item = item->prev)
-	{
-		pEntity = item->data;
+		for (item = entities.end; item != NULL && ret == true; item = item->prev)
+		{
+			pEntity = item->data;
 
-		if (pEntity->pendingToDestroy && pEntity->type != EntityType::CHANDELIER) {
+			if (pEntity->pendingToDestroy && pEntity->type != EntityType::CHANDELIER) {
 
-			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
+				for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
 
-				app->physics->DestroyObject((PhysBody*)corpse->data);
+					app->physics->DestroyObject((PhysBody*)corpse->data);
+				}
+				pEntity->pendingToDestroy = false;
+				DestroyEntity(pEntity);
 			}
-			pEntity->pendingToDestroy = false;
-			DestroyEntity(pEntity);
-		}
-		else if (pEntity->pendingToDestroy && pEntity->type == EntityType::CHANDELIER) {
+			else if (pEntity->pendingToDestroy && pEntity->type == EntityType::CHANDELIER) {
 
-			for (pugi::xml_node orbNode = app->scene->scene_parameter.child("chandelure"); orbNode; orbNode = orbNode.next_sibling("chandelure")) {
-				if (pEntity->num == orbNode.attribute("num").as_int()) {
-					Chandelier* orb = (Chandelier*)app->entityManager->CreateEntity(EntityType::CHANDELIER);
-					orb->position.x = orbNode.attribute("x").as_int();
-					orb->position.y = orbNode.attribute("y").as_int();
-					orb->num = orbNode.attribute("num").as_int();
-					orb->parameters = orbNode;
-					orb->Awake();
-					orb->Start();
+				for (pugi::xml_node orbNode = app->scene->scene_parameter.child("chandelure"); orbNode; orbNode = orbNode.next_sibling("chandelure")) {
+					if (pEntity->num == orbNode.attribute("num").as_int()) {
+						Chandelier* orb = (Chandelier*)app->entityManager->CreateEntity(EntityType::CHANDELIER);
+						orb->position.x = orbNode.attribute("x").as_int();
+						orb->position.y = orbNode.attribute("y").as_int();
+						orb->num = orbNode.attribute("num").as_int();
+						orb->parameters = orbNode;
+						orb->Awake();
+						orb->Start();
+					}
+
 				}
 
-			}
+				for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
 
-			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
-
-				app->physics->DestroyObject((PhysBody*)corpse->data);
+					app->physics->DestroyObject((PhysBody*)corpse->data);
+				}
+				pEntity->pendingToDestroy = false;
+				DestroyEntity(pEntity);
 			}
-			pEntity->pendingToDestroy = false;
-			DestroyEntity(pEntity);
+			if (pEntity->active == false ) continue;
+
+			if (app->scene->player->options == false || item->data == app->scene->player)
+			ret = item->data->Update(dt);
 		}
-		if (pEntity->active == false) continue;
-		ret = item->data->Update(dt);
-	}
+	
+	
 
 	return ret;
 }

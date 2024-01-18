@@ -4,7 +4,7 @@
 
 #include "GuiControlButton.h"
 #include "Audio.h"
-
+#include "Scene.h"
 GuiManager::GuiManager() :Module()
 {
 	name.Create("guiManager");
@@ -46,7 +46,12 @@ bool GuiManager::Update(float dt)
 
 	while (control != nullptr)
 	{
+		if (control->data->id != 1)
 		control->data->Update(dt);
+
+		if (control->data->id == 1 && app->scene->player->options == true)
+			control->data->Update(dt);
+
 		control = control->next;
 	}
 

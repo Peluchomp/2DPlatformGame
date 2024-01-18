@@ -161,6 +161,7 @@ public:
 	int mousey;
 	bool godMode;
 	bool fpsCap = true;
+	bool options = false;
 
 	bool thrown = false;
 	bool SpearhasBeenThrown = false;

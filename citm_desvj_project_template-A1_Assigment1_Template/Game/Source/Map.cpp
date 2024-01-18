@@ -10,6 +10,8 @@
 #include "Window.h"
 #include <math.h>
 #include "SDL_image/include/SDL_image.h"
+#include "Optick/include/optick.h"
+#include "Scene.h"
 
 
 Map::Map() : Module(), mapLoaded(false)
@@ -56,32 +58,44 @@ bool Map::Start() {
 
 bool Map::Update(float dt)
 {
-    if(mapLoaded == false)
+    if (mapLoaded == false)
         return false;
 
     ListItem<MapLayer*>* mapLayerItem;
     mapLayerItem = mapData.layers.start;
 
-   
+    // Optick frame for the entire Update function
+    OPTICK_EVENT("Map::Update");
 
     while (mapLayerItem != NULL) {
-
-        if (mapLayerItem->data->properties.GetProperty("Draw") != NULL && mapLayerItem->data->properties.GetProperty("Front") == NULL && mapLayerItem->data->properties.GetProperty("Draw")->value) {
+        if (mapLayerItem->data->properties.GetProperty("Draw") != NULL &&
+            mapLayerItem->data->properties.GetProperty("Front") == NULL &&
+            mapLayerItem->data->properties.GetProperty("Draw")->value) {
+            
 
             bool parallax = false;
-            if (mapLayerItem->data->properties.GetProperty("Parallax") != NULL) { parallax = true; }
+            if (mapLayerItem->data->properties.GetProperty("Parallax") != NULL) {
+                parallax = true;
+            }
 
             SDL_Rect const camera = app->render->camera;
 
-            // Map drawing optimization to only draw portion visible by the camera
-            iPoint const cameraPos = WorldToMap(-camera.x / app->win->GetScale(), ((camera.y) * -1) / app->win->GetScale());
-            iPoint const cameraSize = iPoint(16, 10);
-           
+            iPoint cameraPos = iPoint(0, 0);
+            iPoint cameraSize = iPoint(mapLayerItem->data->width, mapLayerItem->data->height);
 
-            for (int x = cameraPos.x ; x < cameraPos.x + cameraSize.x; x++)
-            {
-                for (int y = camera.y; y < cameraPos.y + cameraSize.y; y++)
-                {
+            // Map drawing optimization to only draw portion visible by the camera
+            if (app->scene->currentLevel == 0) {
+                cameraPos = WorldToMap(-camera.x / app->win->GetScale(), ((camera.y) * -1) / app->win->GetScale());
+                cameraSize = iPoint(16, 10);
+            }
+            else {
+                /*Level 1 doesn't feature this optimization as it means dealing with complex offses due to parallax*/
+            }
+
+            for (int x = cameraPos.x; x < cameraPos.x + cameraSize.x; x++) {
+                for (int y = cameraPos.y; y < cameraPos.y + cameraSize.y; y++) {
+                    
+
                     int gid = mapLayerItem->data->Get(x, y);
                     TileSet* tileset = GetTilesetFromTileId(gid);
 
@@ -89,49 +103,36 @@ bool Map::Update(float dt)
                     iPoint pos = MapToWorld(x, y);
 
                     if (parallax) {
-                        app->render->DrawTexture(tileset->texture,
-                            pos.x,
-                            pos.y, false,
-                            &r,255, 0.84f);
+                        app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r, 255, 0.84f);
                     }
                     else {
-                        app->render->DrawTexture(tileset->texture,
-                            pos.x,
-                            pos.y, false,
-                            &r);
+                        app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r);
                     }
                 }
             }
-            
-
-
         }
-
         else if (!firstLoad && mapLayerItem->data->properties.GetProperty("Angelical") != NULL) {
 
-            for (int x = 0; x < mapLayerItem->data->width; x++)
-            {
-                for (int y = 0; y < mapLayerItem->data->height; y++)
-                {
+            for (int x = 0; x < mapLayerItem->data->width; x++) {
+                for (int y = 0; y < mapLayerItem->data->height; y++) {
+                    // Optick event for the entity creation section
+                    
+
                     int gid = mapLayerItem->data->Get(x, y);
 
                     if (gid == 1252) {
                         Entity* ye = app->entityManager->CreateEntity(EntityType::ANGEL);
                         ye->Awake();
-                        ye->position.x =( x * 40) -300;
+                        ye->position.x = (x * 40) - 300;
                         ye->position.y = y * 40;
                         ye->Start();
-
-
                     }
                 }
             }
             firstLoad = true;
-
         }
-        
-        mapLayerItem = mapLayerItem->next;
 
+        mapLayerItem = mapLayerItem->next;
     }
 
     return true;

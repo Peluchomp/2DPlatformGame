@@ -82,6 +82,7 @@ void PathFinding::ClearLastPath()
 // ----------------------------------------------------------------------------------
 int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
+	
 	int ret = -1;
 	int iterations = 0;
 

@@ -240,7 +240,7 @@ void App::FinishUpdate()
 bool App::PreUpdate()
 {
 
-	OPTICK_EVENT()
+	//OPTICK_EVENT()
 	bool ret = true;
 
 	ListItem<Module*>* item;

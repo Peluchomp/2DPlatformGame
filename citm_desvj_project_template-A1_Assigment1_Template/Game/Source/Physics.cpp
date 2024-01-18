@@ -9,6 +9,7 @@
 #include "Render.h"
 #include "Player.h"
 #include "Window.h"
+#include "Optick/include/optick.h"
 #include "Box2D/Box2D/Box2D.h"
 #include "List.h"
 
@@ -76,6 +77,7 @@ bool Physics::Start()
 
 bool Physics::PreUpdate()
 {
+	OPTICK_FRAME("Physics")
 	bool ret = true;
 
 	// Step (update) the World
@@ -356,6 +358,7 @@ PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType typ
 // 
 bool Physics::PostUpdate()
 {
+	OPTICK_EVENT()
 	bool ret = true;
 
 	// Activate or deactivate debug mode

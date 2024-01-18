@@ -11,6 +11,7 @@
 #include "../Angel.h"
 #include "../MegaMorgan.h"
 #include "../Checkpoint.h"
+#include "Optick/include/optick.h"
 #include "Defs.h"
 #include "Log.h"
 
@@ -158,6 +159,7 @@ void EntityManager::AddEntity(Entity* entity)
 
 bool EntityManager::Update(float dt)
 {
+	OPTICK_EVENT("EntityManager");
 	bool ret = true;
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
@@ -205,6 +207,7 @@ bool EntityManager::Update(float dt)
 }
 
 bool EntityManager::LoadState(pugi::xml_node node) {
+	OPTICK_EVENT("Load entities")
 
 	ListItem<Entity*>* item;
 
@@ -273,7 +276,7 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 // using append_child and append_attribute
 bool EntityManager::SaveState(pugi::xml_node node) {
 
-
+	OPTICK_EVENT("Save entities")
 	savedEntities = entities;
 
 	ListItem<Entity*>* item;

@@ -122,6 +122,8 @@ bool Player::Update(float dt)
 {
 	int X, Y;
 	
+	
+
 	mySpear->pbody->GetPosition(X, Y);
 	mySpear->pbody->collider = SDL_Rect{ X,Y, 40,16 };
 	app->render->DrawRectangle(mySpear->pbody->collider, 20, 2, 8, 200, true);
@@ -201,7 +203,7 @@ bool Player::Update(float dt)
 		}
 
 
-		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false && isGrounded == true && pbody->body->GetLinearVelocity().y == 0)
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false && isGrounded == true && pbody->body->GetLinearVelocity().y == 0 && options == false)
 		{
 			IdleTimer.Start();
 			isGrounded = false;
@@ -216,7 +218,7 @@ bool Player::Update(float dt)
 			isJumping = false;
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !(Attacking)) {
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !(Attacking) && options == false) {
 
 			IdleTimer.Start();
 			if (isGrounded) {
@@ -229,7 +231,7 @@ bool Player::Update(float dt)
 		}
 
 		
-			if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !(Attacking)) /*Ypu can move as long as youre not attacking on the ground*/ {
+			if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !(Attacking) && options == false) /*Ypu can move as long as youre not attacking on the ground*/ {
 
 				IdleTimer.Start();
 				if (isGrounded) {
@@ -246,15 +248,24 @@ bool Player::Update(float dt)
 			
 		//--------------Attacking Logic-----------------//
 
-		if (mySpear->isPicked)/*Can only attack if currently has the Spear*/ {
+		if (mySpear->isPicked && options == false)/*Can only attack if currently has the Spear*/ {
 			AttackingLogic();
 		}
-		else if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
+		else if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && options == false) {
 			_noSpearIcon = true;
 			spear_icon_timer.Start();
 			app->audio->PlayFx(noSpearEffect);
 		}
-
+		if (options == true) {
+			app->physics->world->SetGravity({0,0});
+			gravity = 0;
+		}
+		else if (options == false)
+		{
+			app->physics->world->SetGravity({ 0,10 });
+		
+		}
+			
 
 		if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		{
@@ -323,7 +334,7 @@ bool Player::Update(float dt)
 
 	angle_deg = (atan2(delta_y, delta_x) * 180.0000) / 3.1416;
 
-	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && options == false)
 	{
 		if (mySpear->isPicked == true && thrownCooldown.ReadSec() > 2) {
 			if (thrown == false) {
@@ -362,6 +373,16 @@ bool Player::Update(float dt)
 
 		Spawn(0);
 		dead = false;
+	}
+
+
+	//Options menu/pause screen toggle
+	if (app->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN)
+	{
+		if (options == false)
+			options = true;
+		else if (options == true)
+			options = false;
 	}
 
 

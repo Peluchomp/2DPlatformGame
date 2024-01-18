@@ -377,7 +377,7 @@ bool Player::Update(float dt)
 
 
 	//Options menu/pause screen toggle
-	if (app->input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 	{
 		if (options == false)
 			options = true;

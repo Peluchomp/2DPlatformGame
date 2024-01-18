@@ -73,7 +73,7 @@ public:
 	int currentLvl = 0;
 	int currentLevel = 0;
 	uint enemyDeathEffect;
-
+	bool exit;
 };
 
 #endif // __SCENE_H__

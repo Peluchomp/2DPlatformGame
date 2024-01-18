@@ -150,8 +150,8 @@ bool Scene::Start()
 		app->map->mapData.tilesets.Count());
 
 
-	SDL_Rect btPos = { windowW / 2 - 60, windowH / 2 - 10, 120,20 };
-	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "Quit", btPos, this);
+	SDL_Rect btPos = { windowW / 2 - 60, windowH / 2 + 100, 120,20 };
+	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "   Exit   ", btPos, this);
 
 	const char* tilePath = scene_parameter.child("pathTile").attribute("texturepath").as_string();
 	pathTexture = app->tex->Load(tilePath);
@@ -359,7 +359,7 @@ bool Scene::PostUpdate()
 {
 	bool ret = true;
 
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	if (exit == true)
 		ret = false;
 
 
@@ -444,6 +444,10 @@ bool Scene::SaveState(pugi::xml_node node) {
 bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 {
 	// L15: DONE 5: Implement the OnGuiMouseClickEvent method
+	if (control->id == 1) {
+		exit = true;
+	}
+
 	LOG("Press Gui Control: %d", control->id);
 
 	return true;

@@ -201,7 +201,7 @@ bool EntityManager::Update(float dt)
 			}
 			if (pEntity->active == false ) continue;
 
-			if (app->scene->player->options == false || item->data == app->scene->player)
+			if (app->scene->player->options == false || item->data == app->scene->player || item->data == app->scene->player->mySpear)
 			ret = item->data->Update(dt);
 		}
 	

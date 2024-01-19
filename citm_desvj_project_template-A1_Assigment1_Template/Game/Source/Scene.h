@@ -68,12 +68,14 @@ private:
 	uint windowW, windowH;
 	bool isInDebugMode;
 	GuiControlButton* gcButtom;
+	GuiControlButton* musicButtom;
 
 public:
 	int currentLvl = 0;
 	int currentLevel = 0;
 	uint enemyDeathEffect;
 	bool exit;
+	float volume = 90;
 };
 
 #endif // __SCENE_H__

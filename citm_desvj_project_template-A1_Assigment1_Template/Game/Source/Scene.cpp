@@ -15,7 +15,8 @@
 #include "../Checkpoint.h"
 #include "GuiControl.h"
 #include "GuiManager.h"
-
+#include "SDL_mixer/include/SDL_mixer.h"
+#include "../GuiSlider.h"
 
 Scene::Scene() : Module()
 {
@@ -151,7 +152,9 @@ bool Scene::Start()
 
 
 	SDL_Rect btPos = { windowW / 2 - 60, windowH / 2 + 100, 120,20 };
+	SDL_Rect musicbtPos = { windowW / 2 - 60, windowH / 2 + 70 , 120,20 };
 	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "   Exit   ", btPos, this);
+	musicButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 2, "   Sound   ", musicbtPos, this);
 
 	const char* tilePath = scene_parameter.child("pathTile").attribute("texturepath").as_string();
 	pathTexture = app->tex->Load(tilePath);
@@ -230,6 +233,7 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
+	
 	float camSpeed = 1;
 	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
 		isInDebugMode = true;
@@ -382,7 +386,9 @@ bool Scene::PostUpdate()
 		iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
 		// app->render->DrawTexture(mouseTileTex, pos.x, pos.y, false);
 	}
-
+	//volume sounds
+	Mix_VolumeMusic(volume);
+	Mix_Volume(-1, volume);
 
 	return ret;
 }
@@ -448,7 +454,8 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 		exit = true;
 	}
 
-	LOG("Press Gui Control: %d", control->id);
+
+	
 
 	return true;
 }

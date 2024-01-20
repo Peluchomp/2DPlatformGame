@@ -21,6 +21,7 @@ struct SDL_Texture;
 
 class Icon {
 public:
+	SDL_Texture* texture;
 
 	Animation* currentAnim;
 	Animation defaultAnim;

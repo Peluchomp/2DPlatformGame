@@ -48,9 +48,11 @@ public:
 		case DOWN:
 			startingPos.y = 600;
 			break;
+			
 		}
 
 	}
+	
 
 	SDL_Texture* texture;
 	iPoint desiredPos;
@@ -63,7 +65,11 @@ public:
 	bool started = false;
 	bool finished = false;
 
+	int alpha = 0;
+
 	SDL_Rect size;
+
+
 	float t;
 	float stayTime;
 
@@ -85,11 +91,16 @@ public:
 				started = true;
 			}
 			if (startTimer.ReadMSec() > startValue) {
+				if (myAppearance != Appearance::FADE) {
+					startingPos.x += (t * dt) * (desiredPos.x - startingPos.x);
+					startingPos.y += (t * dt) * (desiredPos.y - startingPos.y);
+					app->render->DrawTexture(texture, startingPos.x, startingPos.y, false, &size);
 
-				startingPos.x += (t * dt) * (desiredPos.x - startingPos.x);
-				startingPos.y += (t * dt) * (desiredPos.y - startingPos.y);
-				app->render->DrawTexture(texture, startingPos.x, startingPos.y, false, &size);
-
+				}
+				else {
+					alpha += (t * dt) * (255 - alpha);
+					app->render->DrawTexture(texture, startingPos.x, startingPos.y, false, &size, alpha);
+				}
 				if (nextTimer.ReadMSec() > stayTime) {
 					finished = true;
 				}
@@ -128,10 +139,20 @@ public:
 
 	pugi::xml_node mynode;
 
+	SDL_Texture* finalFrame;
+	Timer titleTimer;
+
+	Icon Logo;
+	Timer delayTimer;
+
+	Icon* Flame;
+
+	int blinkCounter = 0;
 
 private:
 	
 	List<Frame*> myFrames;
+	Frame* spearFrame;
 
 };
 

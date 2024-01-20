@@ -86,8 +86,8 @@ bool Audio::CleanUp()
 	return true;
 }
 
-// Play a music file
-bool Audio::PlayMusic(const char* path, float fadeTime)
+// Play a music file  repeat(0) is no, -1 is yes
+bool Audio::PlayMusic(const char* path, int repeat, float fadeTime)
 {
 	bool ret = true;
 
@@ -120,7 +120,7 @@ bool Audio::PlayMusic(const char* path, float fadeTime)
 	{
 		if (fadeTime > 0.0f)
 		{
-			if (Mix_FadeInMusic(music, -1, (int)(fadeTime * 1000.0f)) < 0)
+			if (Mix_FadeInMusic(music, repeat, (int)(fadeTime * 1000.0f)) < 0)
 			{
 				LOG("Cannot fade in music %s. Mix_GetError(): %s", path, Mix_GetError());
 				ret = false;
@@ -128,7 +128,7 @@ bool Audio::PlayMusic(const char* path, float fadeTime)
 		}
 		else
 		{
-			if (Mix_PlayMusic(music, -1) < 0)
+			if (Mix_PlayMusic(music, repeat) < 0)
 			{
 				LOG("Cannot play in music %s. Mix_GetError(): %s", path, Mix_GetError());
 				ret = false;

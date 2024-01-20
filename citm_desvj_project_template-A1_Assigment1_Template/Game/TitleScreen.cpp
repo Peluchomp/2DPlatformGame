@@ -32,7 +32,7 @@ TitleScreen::~TitleScreen()
 bool TitleScreen::Awake(pugi::xml_node& config)
 {
 
-	app->audio->PlayMusic(config.child("music").attribute("path").as_string());
+	app->audio->PlayMusic(config.child("music").attribute("path").as_string(), 0);
 
 	mynode = config;
 	return true;
@@ -53,6 +53,7 @@ bool TitleScreen::Start()
 				else if (apo == "left") { aporanc = Appearance::LEFTWARDS; }
 				else if (apo == "down") { aporanc = Appearance::DOWN; }
 				else if (apo == "up") { aporanc = Appearance::UP; }
+				else if (apo == "fade") { aporanc = Appearance::FADE; }
 
 				float interpolation = fNode.attribute("interpolation").as_float();
 				if (interpolation == 0) { interpolation = 0.005f; }
@@ -67,6 +68,20 @@ bool TitleScreen::Start()
 		}
 
 	}
+	finalFrame = app->tex->Load("Assets/Textures/Opening/Frame8.png");
+	Logo.texture = app->tex->Load("Assets/Textures/Opening/Logo.png");
+
+	Flame = new Icon();
+	Flame->texture = app->tex->Load("Assets/Textures/Opening/flameSheet.png");
+	for (pugi::xml_node pNode = config.child("flame").child("frame"); pNode; pNode = pNode.next_sibling("frame")) {
+		Flame->defaultAnim.PushBack(SDL_Rect{ pNode.attribute("x").as_int(), pNode.attribute("y").as_int(),pNode.attribute("w").as_int(),pNode.attribute("h").as_int() });
+	}
+	Flame->defaultAnim.speed = 0.2f / 16.0f;
+	Flame->currentAnim = &Flame->defaultAnim;
+	spearFrame =  new Frame(iPoint(-30, 70), 0.005f, Appearance::LEFTWARDS, SDL_Rect{ 0,0,640,185 }, 10000, 45200);
+	spearFrame->texture = app->tex->Load("Assets/Textures/Opening/logoSpear.png");
+
+	delayTimer.Start();
 	return true;
 	
 }
@@ -82,34 +97,65 @@ bool TitleScreen::PreUpdate()
 // Called each loop iteration
 bool TitleScreen::Update(float dt)
 {
-	ListItem<Frame*>* it = myFrames.start;
-	while (it != NULL) {
-
-		it->data->Update(dt);
+	if (delayTimer.ReadMSec() > 2500) {
 
 
-		it = it->next;
+
+		ListItem<Frame*>* it = myFrames.start;
+		while (it != NULL) {
+
+			it->data->Update(dt);
+
+
+			it = it->next;
+		}
+
+		spearFrame->Update(dt);
+
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && app->scene->active == false) {
+
+			app->physics->active = true;
+			app->physics->Start();
+			pugi::xml_node n = mynode.parent().child("scene");
+			app->scene->active = true;
+			app->scene->Awake(n);
+			app->scene->Start();
+
+			app->map->active = true;
+			app->map->Start();
+
+
+			app->guiManager->active = true;
+			app->guiManager->Start();
+
+		}
+
+
+
+		if (titleTimer.ReadSec() > 44 && titleTimer.ReadSec() < 49) {
+			int alpha = 255;
+
+			blinkCounter++;
+			if (blinkCounter > 4) {
+				alpha = 110;
+				if (blinkCounter > 8) {
+					blinkCounter = 0;
+				}
+			}
+			SDL_Rect ruct = SDL_Rect{ 0,0,640,360 };
+			app->render->DrawTexture(finalFrame, 0, 0, false, &ruct, alpha);
+		}
+		
+		if (titleTimer.ReadSec() > 47) {
+			
+			SDL_Rect ruct = SDL_Rect{ 0,0,640,185 };
+			app->render->DrawTexture(Logo.texture, 0, 0, false, &ruct);
+			if (titleTimer.ReadMSec() > 49000) {
+				app->render->DrawTexture(Flame->texture, 0, 230, true, &Flame->currentAnim->GetCurrentFrame());
+				Flame->currentAnim->Update();
+			}
+		}
 	}
-	
-
-	if(app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && app->scene->active == false){
-
-		app->physics->active = true;
-		app->physics->Start();
-		pugi::xml_node n = mynode.parent().child("scene");
-		app->scene->active = true;
-		app->scene->Awake(n);
-		app->scene->Start();
-
-		app->map->active = true;
-		app->map->Start();
-
-
-		app->guiManager->active = true;
-		app->guiManager->Start();
-
-	}
-
 	return true;
 }
 

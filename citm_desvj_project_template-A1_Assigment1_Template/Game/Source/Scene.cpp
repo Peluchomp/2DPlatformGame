@@ -30,101 +30,104 @@ Scene::~Scene()
 // Called before render is available
 bool Scene::Awake(pugi::xml_node& config)
 {
-	if (player == nullptr) {
+	if (active) {
+		if (player == nullptr) {
 
-		LOG("Loading Scene");
-		bool ret = true;
-		app->map->name = config.child("map").attribute("name").as_string();
-		app->map->path = config.child("map").attribute("path").as_string();
+		    LOG("Loading Scene");
+			bool ret = true;
+			app->map->name = config.child("map").attribute("name").as_string();
+			app->map->path = config.child("map").attribute("path").as_string();
 
-		scene_parameter = config;
+			scene_parameter = config;
 
-		// iterate all objects in the scene
-		// Check https://pugixml.org/docs/quickstart.html#access
+			// iterate all objects in the scene
+			// Check https://pugixml.org/docs/quickstart.html#access
 
 
 
-		if (config.child("player")) {
-			player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
-			player->parameters = config.child("player");
-		}
+			if (config.child("player")) {
+				player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
+				player->parameters = config.child("player");
+			}
 
-		const char* musicPath = config.child("level0_music").attribute("path").as_string();
-		if (musicPath != nullptr) { app->audio->PlayMusic(musicPath); }
+			const char* musicPath = config.child("level0_music").attribute("path").as_string();
+			if (musicPath != nullptr) { app->audio->PlayMusic(musicPath); }
 
-		if (config.child("spear")) {
-			player->mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
-			player->mySpear->parameters = config.child("spear");
-		}
+			if (config.child("spear")) {
+				player->mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
+				player->mySpear->parameters = config.child("spear");
+			}
 
-		//--------Spawn all Orbs----------//
-		for (pugi::xml_node orbNode = config.child("orb_spawn"); orbNode; orbNode = orbNode.next_sibling("orb_spawn")) {
-			Orb* orb = (Orb*)app->entityManager->CreateEntity(EntityType::ORB);
-			orb->position.x = orbNode.attribute("x").as_int();
-			orb->position.y = orbNode.attribute("y").as_int();
-			orb->num = orbNode.attribute("num").as_int();
-			orb->parameters = scene_parameter.child("orb");
-
-		}
-
-		for (pugi::xml_node checkpointNode = config.child("checkpoint_spawn"); checkpointNode; checkpointNode = checkpointNode.next_sibling("checkpoint_spawn")) {
-			Checkpoint* checkpoint = (Checkpoint*)app->entityManager->CreateEntity(EntityType::CHECKPOINT);
-			checkpoint ->position.x = checkpointNode.attribute("x").as_int();
-			checkpoint ->position.y = checkpointNode.attribute("y").as_int();
-			checkpoint ->num = checkpointNode.attribute("num").as_int();
-			checkpoint ->parameters = scene_parameter.child("checkpoint");
-
-		}
-
-		return ret;
-	}
-	else /*Level 2*/ {
-		currentLvl++;
-		LOG("Loading Scene");
-		bool ret = true;
-		app->map->name = config.child("map1").attribute("name").as_string();
-		app->map->path = config.child("map1").attribute("path").as_string();
-
-		scene_parameter = config;
-
-		// iterate all objects in the scene
-		// Check https://pugixml.org/docs/quickstart.html#access
-
-		const char* musicPath = config.child("level0_music").attribute("path").as_string();
-		if (musicPath != nullptr) { app->audio->PlayMusic(musicPath); }
-
-		/*if (config.child("spear")) {
-			player->mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
-			player->mySpear->parameters = config.child("spear");
-		}*/
-
-		//--------Spawn all Orbs----------//
-		for (pugi::xml_node orbNode = config.child("orb_spawn"); orbNode; orbNode = orbNode.next_sibling("orb_spawn")) {
-			Orb* orb = (Orb*)app->entityManager->CreateEntity(EntityType::ORB);
-			orb->position.x = orbNode.attribute("x").as_int();
-			orb->position.y = orbNode.attribute("y").as_int();
-			orb->num = orbNode.attribute("num").as_int();
-			orb->parameters = scene_parameter.child("orb");
-
-		}
-
-		if (currentLvl == 1) {
-			for (pugi::xml_node orbNode = config.child("chandelure"); orbNode; orbNode = orbNode.next_sibling("chandelure")) {
-				Chandelier* orb = (Chandelier*)app->entityManager->CreateEntity(EntityType::CHANDELIER);
+			//--------Spawn all Orbs----------//
+			for (pugi::xml_node orbNode = config.child("orb_spawn"); orbNode; orbNode = orbNode.next_sibling("orb_spawn")) {
+				Orb* orb = (Orb*)app->entityManager->CreateEntity(EntityType::ORB);
 				orb->position.x = orbNode.attribute("x").as_int();
 				orb->position.y = orbNode.attribute("y").as_int();
 				orb->num = orbNode.attribute("num").as_int();
-				orb->parameters = orbNode;
-				orb->Awake();
-				orb->Start();
+				orb->parameters = scene_parameter.child("orb");
 
 			}
+
+			for (pugi::xml_node checkpointNode = config.child("checkpoint_spawn"); checkpointNode; checkpointNode = checkpointNode.next_sibling("checkpoint_spawn")) {
+				Checkpoint* checkpoint = (Checkpoint*)app->entityManager->CreateEntity(EntityType::CHECKPOINT);
+				checkpoint->position.x = checkpointNode.attribute("x").as_int();
+				checkpoint->position.y = checkpointNode.attribute("y").as_int();
+				checkpoint->num = checkpointNode.attribute("num").as_int();
+				checkpoint->parameters = scene_parameter.child("checkpoint");
+
+			}
+
+			return ret;
 		}
+		else /*Level 2*/ {
+			currentLvl++;
+			LOG("Loading Scene");
+			bool ret = true;
+			app->map->name = config.child("map1").attribute("name").as_string();
+			app->map->path = config.child("map1").attribute("path").as_string();
 
-		SpawnGoons();
-		return ret;
+			scene_parameter = config;
 
+			// iterate all objects in the scene
+			// Check https://pugixml.org/docs/quickstart.html#access
+
+			const char* musicPath = config.child("level0_music").attribute("path").as_string();
+			if (musicPath != nullptr) { app->audio->PlayMusic(musicPath); }
+
+			/*if (config.child("spear")) {
+				player->mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
+				player->mySpear->parameters = config.child("spear");
+			}*/
+
+			//--------Spawn all Orbs----------//
+			for (pugi::xml_node orbNode = config.child("orb_spawn"); orbNode; orbNode = orbNode.next_sibling("orb_spawn")) {
+				Orb* orb = (Orb*)app->entityManager->CreateEntity(EntityType::ORB);
+				orb->position.x = orbNode.attribute("x").as_int();
+				orb->position.y = orbNode.attribute("y").as_int();
+				orb->num = orbNode.attribute("num").as_int();
+				orb->parameters = scene_parameter.child("orb");
+
+			}
+
+			if (currentLvl == 1) {
+				for (pugi::xml_node orbNode = config.child("chandelure"); orbNode; orbNode = orbNode.next_sibling("chandelure")) {
+					Chandelier* orb = (Chandelier*)app->entityManager->CreateEntity(EntityType::CHANDELIER);
+					orb->position.x = orbNode.attribute("x").as_int();
+					orb->position.y = orbNode.attribute("y").as_int();
+					orb->num = orbNode.attribute("num").as_int();
+					orb->parameters = orbNode;
+					orb->Awake();
+					orb->Start();
+
+				}
+			}
+
+			SpawnGoons();
+			return ret;
+
+		}
 	}
+	return true;
 }
 
 // Called before the first frame

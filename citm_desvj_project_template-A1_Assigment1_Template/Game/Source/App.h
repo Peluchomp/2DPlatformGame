@@ -10,6 +10,7 @@
 #include "PugiXml/src/pugixml.hpp"
 
 
+
 // Modules
 class Window;
 class Input;
@@ -21,6 +22,7 @@ class EntityManager;
 class Map;
 class Physics;
 class GuiManager;
+class TitleScreen;
 
 class App
 {
@@ -45,7 +47,7 @@ public:
 	bool CleanUp();
 
 	// Add a new module to handle
-	void AddModule(Module* module);
+	void AddModule(Module* module, bool isActive = true);
 
 	// Exposing some properties for reading
 	int GetArgc() const;
@@ -99,6 +101,7 @@ public:
 	Physics* physics;
 	ModuleEnemies* moduleEnemies;
 	GuiManager* guiManager;
+	TitleScreen* titleS;
 
 private:
 

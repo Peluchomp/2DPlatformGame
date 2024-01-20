@@ -38,21 +38,21 @@ bool Map::Awake(pugi::xml_node& config)
 }
 
 bool Map::Start() {
+    if (active) {
+        //Calls the functon to load the map, make sure that the filename is assigned
+        SString mapPath = path;
+        mapPath += name;
+        Load(mapPath);
 
-    //Calls the functon to load the map, make sure that the filename is assigned
-    SString mapPath = path;
-    mapPath += name;
-    Load(mapPath);
+        //Initialize pathfinding 
+        pathfinding = new PathFinding();
 
-    //Initialize pathfinding 
-    pathfinding = new PathFinding();
-
-    //Initialize the navigation map
-    uchar* navigationMap = NULL;
-    CreateNavigationMap(mapData.width, mapData.height, &navigationMap);
-    pathfinding->SetNavigationMap((uint)mapData.width, (uint)mapData.height, navigationMap);
-    RELEASE_ARRAY(navigationMap);
-
+        //Initialize the navigation map
+        uchar* navigationMap = NULL;
+        CreateNavigationMap(mapData.width, mapData.height, &navigationMap);
+        pathfinding->SetNavigationMap((uint)mapData.width, (uint)mapData.height, navigationMap);
+        RELEASE_ARRAY(navigationMap);
+    }
     return true;
 }
 
@@ -431,34 +431,7 @@ bool Map::LoadObjectGroups(pugi::xml_node mapNode) {
         }
     }
 
-  /*  for (pugi::xml_node angelNode = mapNode.child("layer"); angelNode; angelNode = angelNode.next_sibling("layer")) {
 
-        if (angelNode.attribute("name").as_string() == "angelStatues") {
-
-            
-                for (int x = 0; x < mapLayerItem->data->width; x++)
-                {
-                    for (int y = 0; y < mapLayerItem->data->height; y++)
-                    {
-                        int gid = mapLayerItem->data->Get(x, y);
-
-                        if (gid == 929) {
-                            Entity* ye = app->entityManager->CreateEntity(EntityType::ANGEL);
-                            ye->Awake();
-                            ye->position.x = x * 40;
-                            ye->position.y = y * 40;
-                            ye->Start();
-
-
-                        }
-                    }
-                }
-            
-        }
-
-        }
-
-    }*/
 
     return ret;
 }

@@ -34,6 +34,13 @@
 	
   </audio>
 
+	<title_screen>
+		<page texturepath ="Assets/Textures/Opening/Frame1.png">
+			<frame x="0" y="0" w="640" h="360" />
+		</page>
+		
+	</title_screen>
+
   <scene>
 	  <pathTile  texturepath ="Assets/Textures/markedTile.png" />
 	  <enemyEffect  audiopath ="Assets/Audio/Fx/enemy_wounded.wav"  />

@@ -130,7 +130,7 @@ int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			// L13: DONE 4: Fill a list of all adjancent nodes. 
 			// use the FindWalkableAdjacents function
 			PathList adjacent;
-			node->data.FindWalkableAdjacents(adjacent);
+			node->data.FindWalkableAdjacents(adjacent); // neighbors
 
 			// L13: DONE 5: Iterate adjancent nodes:
 			// If it is a better path, Update the parent
@@ -153,6 +153,7 @@ int PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 					else
 					{
 						// If it is already in the frontier list, check if it is a better path (compare G)
+						// neighbour in frontier is the copy extracted from the list, neighbourg is the one we created this iteration
 						if (neighbourgInFrontier->data.g > neighbourg->data.g + 1)
 						{
 							neighbourgInFrontier->data.parent = neighbourg->data.parent;
@@ -259,7 +260,7 @@ int PathNode::Score() const
 // ----------------------------------------------------------------------------------
 int PathNode::CalculateF(const iPoint& destination)
 {
-	g = parent->g + 1;
+	g = parent->g + 1; // because movement total movement from the start pos is 1 more tile than from its parent
 	h = pos.DistanceTo(destination);
 
 	return g + h;

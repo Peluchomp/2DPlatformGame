@@ -178,7 +178,8 @@ private:
 	bool firstLoad = false;
 	bool mapLoaded;
 	MapLayer* navigationLayer;
-	int blockedGid = 17; //!!!! make sure that you assign blockedGid according to your map
+	int blockedGid = 17; // The torch lights the way
+	//!!!! make sure that you assign blockedGid according to your map
 };
 
 #endif // __MAP_H__

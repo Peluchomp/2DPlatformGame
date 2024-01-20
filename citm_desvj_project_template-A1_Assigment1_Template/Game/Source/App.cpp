@@ -11,7 +11,7 @@
 #include "Defs.h"
 #include "Log.h"
 #include "GuiManager.h"
-
+#include "../TitleScreen.h"
 #include <iostream>
 #include <sstream>
 
@@ -36,6 +36,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	entityManager = new EntityManager();
 	moduleEnemies = new ModuleEnemies();
 	guiManager = new GuiManager();
+	titleS = new TitleScreen();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -43,12 +44,13 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(input);
 	AddModule(tex);
 	AddModule(audio);
-	AddModule(physics);
-	AddModule(scene);
-	AddModule(map);
+	AddModule(physics,false);
+	AddModule(titleS);
+	AddModule(scene, false);
+	AddModule(map, false);
 	AddModule(entityManager);
 	AddModule(moduleEnemies);
-	AddModule(guiManager);
+	AddModule(guiManager,false);
 
 	// Render last to swap buffer
 	AddModule(render);
@@ -74,9 +76,9 @@ App::~App()
 	modules.Clear();
 }
 
-void App::AddModule(Module* module)
+void App::AddModule(Module* module, bool isActive)
 {
-	module->Init();
+	module->Init(isActive);
 	modules.Add(module);
 }
 

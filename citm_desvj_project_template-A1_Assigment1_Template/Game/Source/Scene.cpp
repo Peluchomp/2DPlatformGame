@@ -48,6 +48,8 @@ bool Scene::Awake(pugi::xml_node& config)
 			if (config.child("player")) {
 				player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 				player->parameters = config.child("player");
+				player->Awake();
+				
 			}
 
 			const char* musicPath = config.child("level0_music").attribute("path").as_string();
@@ -56,6 +58,9 @@ bool Scene::Awake(pugi::xml_node& config)
 			if (config.child("spear")) {
 				player->mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
 				player->mySpear->parameters = config.child("spear");
+				player->mySpear->Awake();
+				player->Start();
+				player->mySpear->Start();
 			}
 
 			//--------Spawn all Orbs----------//
@@ -177,7 +182,7 @@ void Scene::SpawnGoons(bool first) {
 			item->num = itemNode.attribute("num").as_int();
 			item->position.x = itemNode.child("position").attribute("x").as_int() * 40;
 			item->position.y = itemNode.child("position").attribute("y").as_int() * 40;
-			if (!first)item->Start();
+			item->Start();
 		}
 
 		for (pugi::xml_node itemNode = scene_parameter.child("jorge"); itemNode; itemNode = itemNode.next_sibling("jorge"))
@@ -187,7 +192,7 @@ void Scene::SpawnGoons(bool first) {
 			jorge->num = itemNode.attribute("num").as_int();
 			jorge->position.x = itemNode.child("position").attribute("x").as_int() * 40;
 			jorge->position.y = itemNode.child("position").attribute("y").as_int() * 40;
-			if (!first)jorge->Start();
+			jorge->Start();
 		}
 	}
 	else {
@@ -200,7 +205,7 @@ void Scene::SpawnGoons(bool first) {
 			item->num = itemNode.attribute("num").as_int();
 			item->position.x = itemNode.child("position").attribute("x").as_int() * 40;
 			item->position.y = itemNode.child("position").attribute("y").as_int() * 40;
-			if (!first)item->Start();
+			item->Start();
 		}
 
 		for (pugi::xml_node itemNode = level1Node.child("mega_morgan"); itemNode; itemNode = itemNode.next_sibling("mega_morgan"))
@@ -210,7 +215,7 @@ void Scene::SpawnGoons(bool first) {
 			item->num = itemNode.attribute("num").as_int();
 			item->position.x = itemNode.child("position").attribute("x").as_int() * 40;
 			item->position.y = itemNode.child("position").attribute("y").as_int() * 40;
-			if (!first)item->Start();
+			item->Start();
 		}
 
 		for (pugi::xml_node itemNode = level1Node.child("jorge"); itemNode; itemNode = itemNode.next_sibling("jorge"))
@@ -220,7 +225,7 @@ void Scene::SpawnGoons(bool first) {
 			jorge->num = itemNode.attribute("num").as_int();
 			jorge->position.x = itemNode.child("position").attribute("x").as_int() * 40;
 			jorge->position.y = itemNode.child("position").attribute("y").as_int() * 40;
-			if (!first)jorge->Start();
+			jorge->Start();
 		}
 
 	}

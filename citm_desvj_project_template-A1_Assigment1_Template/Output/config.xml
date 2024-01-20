@@ -17,7 +17,7 @@
 	</entitymanager>
 	
   <window>
-    <resolution width="1024" height="768" scale="2"/>
+    <resolution width="1160" height="768" scale="2"/>
     <fullscreen value="false"/>
     <borderless value="false"/>
     <resizable value="false"/>
@@ -35,8 +35,42 @@
   </audio>
 
 	<title_screen>
+
+		<music path ="Assets/Audio/Music/OPENING.wav"/>
+		
 		<page texturepath ="Assets/Textures/Opening/Frame1.png">
-			<frame x="0" y="0" w="640" h="360" />
+			<frame x="0" y="0" w="640" h="360" timeStart="1" timeStay="3" appearance ="down" desiredX="0" desiredY="0" />
+		</page>
+		<page texturepath ="Assets/Textures/Opening/Frame2.png">
+			<frame x="8" y="8" w="245" h="111" timeStart="4.5" timeStay="8" appearance ="left" desiredX="8" desiredY="8"/>
+			<frame x="257" y="8" w="317" h="176"  timeStart="5.5" timeStay="7" appearance ="up" desiredX="257" desiredY="8"/>
+			<frame x="7" y="122" w="246" h="232"  timeStart="6.5" timeStay="6" appearance ="down" desiredX="7" desiredY="122"/>
+			<frame x="257" y="186" w="372" h="169"  timeStart="8" timeStay="4.5" appearance ="right" desiredX="257" desiredY="186"/>
+		</page>
+		<page texturepath ="Assets/Textures/Opening/Frame3.png">
+			<frame x="11" y="10" w="300" h="123" timeStart="12.55" timeStay="7" appearance ="left" desiredX="11" desiredY="10"/>
+			<frame x="323" y="10" w="304" h="167"  timeStart="13" timeStay="6.45" appearance ="up" desiredX="323" desiredY="10"/>
+			<frame x="13" y="147" w="298" h="210"  timeStart="14" timeStay="5.45" appearance ="down" desiredX="13" desiredY="147"/>
+			<frame x="323" y="184" w="307" h="170"  timeStart="16" timeStay="3.45" appearance ="right" desiredX="323" desiredY="184"/>
+		</page>
+		<page texturepath ="Assets/Textures/Opening/Frame4.png">
+			<frame x="0" y="0" w="360" h="640" timeStart="19" timeStay="9" appearance ="down" interpolation="0.00015" desiredX="100" desiredY="-640"/>
+			
+		</page>
+		<page texturepath ="Assets/Textures/Opening/Frame5.png">
+			<frame x="6" y="6" w="275" h="167" timeStart="29" timeStay="5" appearance ="down"      desiredX="6" desiredY="6"/>
+			<frame x="290" y="6" w="344" h="167" timeStart="31" timeStay="3" appearance ="down"    desiredX="290" desiredY="6"/>
+			<frame x="6" y="175" w="275" h="179" timeStart="32" timeStay="2" appearance ="down"    desiredX="6" desiredY="175"/>
+			<frame x="290" y="175" w="275" h="167" timeStart="33" timeStay="1" appearance ="down"  desiredX="290" desiredY="175"/>
+
+		</page>
+		<page texturepath ="Assets/Textures/Opening/Frame6.png">
+			<frame x="13" y="14" w="140" h="144" timeStart="34" timeStay="6" appearance ="up"      desiredX="13" desiredY="14"/>
+			<frame x="160" y="14" w="115" h="144" timeStart="34.4" timeStay="5.6" appearance ="up"    desiredX="160" desiredY="14"/>
+			<frame x="284" y="14" w="341" h="99" timeStart="35" timeStay="5" appearance ="down"    desiredX="284" desiredY="14"/>
+			<frame x="13" y="169" w="214" h="184" timeStart="36" timeStay="4" appearance ="down"  desiredX="13" desiredY="169"/>
+			<frame x="241" y="169" w="383" h="184" timeStart="37" timeStay="3" appearance ="down"  desiredX="241" desiredY="169"/>
+
 		</page>
 		
 	</title_screen>

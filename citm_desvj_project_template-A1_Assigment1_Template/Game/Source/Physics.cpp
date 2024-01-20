@@ -36,42 +36,43 @@ Physics::~Physics()
 
 bool Physics::Start()
 {
-	LOG("Creating Physics 2D environment");
+	if (active) {
+		LOG("Creating Physics 2D environment");
 
-	// Create a new World
-	world = new b2World(b2Vec2(GRAVITY_X, -GRAVITY_Y));
+		// Create a new World
+		world = new b2World(b2Vec2(GRAVITY_X, -GRAVITY_Y));
 
-	// Set this module as a listener for contacts
-	world->SetContactListener(this);
+		// Set this module as a listener for contacts
+		world->SetContactListener(this);
 
-// Set the filter data for the player's fixture
-	
-	playerFilterData.categoryBits = PLAYER_CATEGORY_BIT;
-	playerFilterData.maskBits = PLAYER_MASK_BITS;
-	playerFilterData.groupIndex = 0;
+		// Set the filter data for the player's fixture
 
-	// Set the filter data for the enemy's fixture
-	
-	enemyFilterData.categoryBits = ENEMY_CATEGORY_BIT;
-	enemyFilterData.maskBits = ENEMY_MASK_BITS;
-	enemyFilterData.groupIndex = 0;
+		playerFilterData.categoryBits = PLAYER_CATEGORY_BIT;
+		playerFilterData.maskBits = PLAYER_MASK_BITS;
+		playerFilterData.groupIndex = 0;
 
-	// Set the filter data for the ground's fixture
-	groundFilterData.categoryBits = GROUND_CATEGORY_BIT;
-	groundFilterData.maskBits = GROUND_MASK_BITS | PHYSIC_MASK_BITS | Float_PLAT_MASK_BIT;
-	groundFilterData.groupIndex = 0;
+		// Set the filter data for the enemy's fixture
 
-	physicFilterData.categoryBits = PHYSIC_CATEGORY_BIT;
-	physicFilterData.maskBits = PHYSIC_MASK_BITS;
-	physicFilterData.groupIndex = 0;
+		enemyFilterData.categoryBits = ENEMY_CATEGORY_BIT;
+		enemyFilterData.maskBits = ENEMY_MASK_BITS;
+		enemyFilterData.groupIndex = 0;
+
+		// Set the filter data for the ground's fixture
+		groundFilterData.categoryBits = GROUND_CATEGORY_BIT;
+		groundFilterData.maskBits = GROUND_MASK_BITS | PHYSIC_MASK_BITS | Float_PLAT_MASK_BIT;
+		groundFilterData.groupIndex = 0;
+
+		physicFilterData.categoryBits = PHYSIC_CATEGORY_BIT;
+		physicFilterData.maskBits = PHYSIC_MASK_BITS;
+		physicFilterData.groupIndex = 0;
 
 
-	//floatPlatformFilterData.categoryBits = Float_PLAT_CATEGORY_BIT;
-	//floatPlatformFilterData.maskBits = Float_PLAT_MASK_BIT |  GROUND_MASK_BITS;
-	//floatPlatformFilterData.groupIndex = 0;
+		//floatPlatformFilterData.categoryBits = Float_PLAT_CATEGORY_BIT;
+		//floatPlatformFilterData.maskBits = Float_PLAT_MASK_BIT |  GROUND_MASK_BITS;
+		//floatPlatformFilterData.groupIndex = 0;
 
-	debug = false;
-
+		debug = false;
+	}
 	return true;
 }
 

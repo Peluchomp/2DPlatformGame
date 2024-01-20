@@ -10,6 +10,8 @@
 #include "MegaMorgan.h"
 #include "../GuiControl.h"
 #include "../GuiControlButton.h"
+#include "../Timer.h"
+
 
 struct SDL_Texture;
 
@@ -23,13 +25,15 @@ enum Appearance {
 
 class Frame {
 public:
-
-	Frame(iPoint start, float t, Appearance appr, SDL_Rect size) {
+	// position where frame lands, time for interpolation, direction of interpolation, size of frame, time the frame is rendered, when does the frame start to get rendered
+	Frame(iPoint pos, float t, Appearance appr, SDL_Rect size, float StayTime, float whenToStart) {
 		this->t = t;
-		desiredPos = start;
+		desiredPos = pos;
 		myAppearance = appr;
 		startingPos = desiredPos;
 		this->size = size;
+		stayTime = StayTime + whenToStart;
+		startValue = whenToStart;
 
 		switch (myAppearance) {
 		case LEFTWARDS:
@@ -51,9 +55,17 @@ public:
 	SDL_Texture* texture;
 	iPoint desiredPos;
 	iPoint startingPos;
+	Timer nextTimer;
+
+	Timer startTimer;
+	float startValue;
+
+	bool started = false;
+	bool finished = false;
 
 	SDL_Rect size;
 	float t;
+	float stayTime;
 
 	Appearance myAppearance;
 
@@ -63,12 +75,26 @@ public:
 		startingPos.y + (t) * (desiredPos.x - startingPos.x);
 	}
 
+	// is the frame has finished returns true , else return false
 	void Update(float dt) {
+		if (!finished) {
+			if (!started) 
+			{
+				startTimer.Start();
+				nextTimer.Start();
+				started = true;
+			}
+			if (startTimer.ReadMSec() > startValue) {
 
-		startingPos.x += (t * dt) * (desiredPos.x - startingPos.x);
-		startingPos.y += (t * dt) * (desiredPos.y - startingPos.y);
-		app->render->DrawTexture(texture, startingPos.x, startingPos.y, false, &size);
+				startingPos.x += (t * dt) * (desiredPos.x - startingPos.x);
+				startingPos.y += (t * dt) * (desiredPos.y - startingPos.y);
+				app->render->DrawTexture(texture, startingPos.x, startingPos.y, false, &size);
 
+				if (nextTimer.ReadMSec() > stayTime) {
+					finished = true;
+				}
+			}
+		}
 	}
 
 };

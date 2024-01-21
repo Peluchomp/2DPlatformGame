@@ -161,9 +161,12 @@ bool Scene::Start()
 
 	SDL_Rect btPos = { windowW / 2 - 60, windowH / 2 + 100, 120,20 };
 	SDL_Rect musicbtPos = { windowW / 2 - 60, windowH / 2 + 70 , 120,20 };
+	SDL_Rect fullscreenbtPos = { windowW / 2 - 60, windowH / 2  , 40,40 };
+	SDL_Rect vSyncPos = { windowW / 2 - 60, windowH / 2 - 50 , 40,40 };
 	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "   Exit   ", btPos, this);
 	musicButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 2, "   Sound   ", musicbtPos, this);
-
+	fullScreenButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 3, "   Fullscreen   ", fullscreenbtPos, this);
+	vSyncButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 4, "   Vsync   ", vSyncPos, this);
 	const char* tilePath = scene_parameter.child("pathTile").attribute("texturepath").as_string();
 	pathTexture = app->tex->Load(tilePath);
 
@@ -461,8 +464,35 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 	if (control->id == 1) {
 		exit = true;
 	}
+	if (control->id == 3 && fullscreen == false) {
+		fullscreen = true;
+
+		Uint32 flags = SDL_WINDOW_SHOWN;
+		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+
+		SDL_SetWindowFullscreen(app->win->window, flags);
+
+		SDL_RenderSetLogicalSize(app->render->renderer, app->win->width, app->win->height);
+
+		app->win->screenSurface= SDL_GetWindowSurface(app->win->window);
+
+	}
+	else if (control->id == 3 && fullscreen == true) {
+		fullscreen = false;
+		
+
+		Uint32 flags = SDL_WINDOW_SHOWN;
 
 
+		SDL_SetWindowFullscreen(app->win->window, flags);
+	}
+
+	if (control->id == 4 && vSync == false) {
+		vSync = true;
+	}
+	else if (control->id == 4 && vSync == true) {
+		vSync = false;
+	}
 	
 
 	return true;

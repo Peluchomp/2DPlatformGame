@@ -4,6 +4,7 @@
 
 #include "GuiControlButton.h"
 #include "../GuiSlider.h"
+#include "../GuiCheckBox.h"
 #include "Audio.h"
 #include "Scene.h"
 GuiManager::GuiManager() :Module()
@@ -29,10 +30,10 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, int id, const char
 	case GuiControlType::BUTTON:
 		guiControl = new GuiControlButton(id, bounds, text);
 		break;
-	/*case GuiControlType::CHECKBOX:
-		guiControl = new GuiCheckBox(id, bounds, checkBoxTex);
+	case GuiControlType::CHECKBOX:
+		guiControl = new GuiCheckBox(id, bounds, text);
 		guiControl->SetObserver(app->scene);
-		break;*/
+		break;
 	case GuiControlType::SLIDER:
 		guiControl = new GuiSlider(id, bounds, text);
 		//guiControl->SetObserver(app->scene);
@@ -55,10 +56,10 @@ bool GuiManager::Update(float dt)
 
 	while (control != nullptr)
 	{
-		if (control->data->id != 1 && control->data->id != 2)
+		if (control->data->id != 1 && control->data->id != 2 && control->data->id != 3 && control->data->id != 4)
 		control->data->Update(dt);
 
-		if ((control->data->id == 2 || control->data->id == 1) && app->scene->player->options == true)
+		if ((control->data->id == 4 || control->data->id == 3 || control->data->id == 2 || control->data->id == 1) && app->scene->player->options == true)
 			control->data->Update(dt);
 		
 		

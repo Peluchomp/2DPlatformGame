@@ -71,9 +71,14 @@ private:
 	GuiControlButton* musicButtom;
 
 public:
+
+	PhysBody* blackDetection;
+	bool noir = false;
+
 	int currentLvl = 0;
 	int currentLevel = 0;
 	uint enemyDeathEffect;
+	uint chandelierDeathFx;
 	bool exit;
 	float volume = 90;
 };

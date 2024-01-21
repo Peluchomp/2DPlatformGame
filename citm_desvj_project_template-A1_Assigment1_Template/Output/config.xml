@@ -101,7 +101,37 @@
 		  <mega_morgan>
 			  <position x="10" y="66"/>
 		  </mega_morgan>
-		  
+		  <mega_morgan>
+			  <position x="22" y="24"/>
+		  </mega_morgan>
+		  <mega_morgan>
+			  <position x="25" y="24"/>
+		  </mega_morgan>
+		  <mega_morgan>
+			  <position x="27" y="24"/>
+		  </mega_morgan>
+		  <mega_morgan>
+			  <position x="29" y="24"/>
+		  </mega_morgan>
+		  <mega_morgan>
+			  <position x="31" y="24"/>
+		  </mega_morgan>
+		  <mega_morgan>
+			  <position x="33" y="24"/>
+		  </mega_morgan>
+		  <mega_morgan>
+			  <position x="35" y="24"/>
+		  </mega_morgan>
+		  <mega_morgan>
+			  <position x="37" y="24"/>
+		  </mega_morgan>
+
+
+
+
+
+
+
 	  </level1_spawns>
 
 	  <angel>
@@ -595,6 +625,16 @@
 
 	  <chandelure num="37" x="520" y ="2400" dir="left" type="0" />
 	  <chandelure num="38" x="250" y ="2400" dir="right" type="1" />
+
+	  <chandelure num="40" x="440" y ="1640" dir="right" type="1" />
+	  <chandelure num="41" x="640" y ="1570" dir="left" type="1" />
+
+	  <chandelure num="42" x="440" y ="1240" dir="right" type="1" />
+	  <chandelure num="43" x="320" y ="760" dir="right" type="0" />
+	  <chandelure num="44" x="440" y ="480" dir="right" type="0" />
+	  <chandelure num="45" x="280" y ="360" dir="right" type="0" />
+
+	  <chandelure num="46" x="1780" y ="920" dir="right" type="0" />
 
 	  <thunder texturepath ="Assets/Textures/thunder-Sheet.png" >
 		  <frame x="1" y="1" w="138" h="344" />

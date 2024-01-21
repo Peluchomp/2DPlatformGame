@@ -588,15 +588,11 @@ int PhysBody::RayCast(int x1, int y1, int x2, int y2, float& normal_x, float& no
 void Physics::DestroyPlatforms() {
 
 	ListItem<PhysBody*>* item;
-	item = physBodies.start;
+	item = app->map->killers.start;
 
 	while (item) {
-
-		if ((item->data->ctype == ColliderType::PLATFORM || item->data->ctype == ColliderType::INSTAKILL) && (item->data->myEntity != nullptr && item->data->myEntity->type != EntityType::SPEAR)) {
-			DestroyObject(item->data);
-
-			
-		}
+				DestroyObject(item->data);
+		
 		item = item->next;
 	}
 

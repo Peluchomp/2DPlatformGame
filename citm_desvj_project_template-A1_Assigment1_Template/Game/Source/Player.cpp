@@ -509,23 +509,44 @@ bool Player::Update(float dt)
 		}
 	}
 	
+	if (app->scene->noir == false) {
+		if (myDir == Direction::RIGHT) {
 
-	if (myDir == Direction::RIGHT) {
+			if (Attacking && power == PowerLvl::OP) { app->render->DrawTexture(texture, position.x - 36 - 30, position.y - 40 - 24, false, &currentAnim->GetCurrentFrame()); }
 
-		if (Attacking && power == PowerLvl::OP) { app->render->DrawTexture(texture, position.x - 36 - 30, position.y - 40 - 24, false, &currentAnim->GetCurrentFrame()); }
+			else if (powerTransition) { app->render->DrawTexture(texture, position.x - 33, position.y - 45, false, &currentAnim->GetCurrentFrame()); }
+			else if (spawning) { app->render->DrawTexture(texture, position.x, position.y - 100, false, &currentAnim->GetCurrentFrame()); }
+			else if (!isGrounded) { app->render->DrawTexture(texture, position.x - 50, position.y - 40, false, &currentAnim->GetCurrentFrame(), alpha); }
+			else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, false, &currentAnim->GetCurrentFrame(), alpha); }
+		}
+		else {
 
-		else if (powerTransition) { app->render->DrawTexture(texture, position.x - 33, position.y - 45, false, &currentAnim->GetCurrentFrame()); }
-		else if (spawning) { app->render->DrawTexture(texture, position.x, position.y - 100, false, &currentAnim->GetCurrentFrame()); }
-		else if (!isGrounded) { app->render->DrawTexture(texture, position.x - 50, position.y - 40, false, &currentAnim->GetCurrentFrame(), alpha); }
-		else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, false, &currentAnim->GetCurrentFrame(),alpha); }
+			if (Attacking && power == PowerLvl::OP) { app->render->DrawTexture(texture, position.x - 36 - 30, position.y - 40 - 24, true, &currentAnim->GetCurrentFrame()); }
+			else if (powerTransition) { app->render->DrawTexture(texture, position.x - 33, position.y - 45, false, &currentAnim->GetCurrentFrame()); }
+			else if (spawning) { app->render->DrawTexture(texture, position.x, position.y - 100, false, &currentAnim->GetCurrentFrame()); }
+			else if (!isGrounded) { app->render->DrawTexture(texture, position.x - 21, position.y - 40, true, &currentAnim->GetCurrentFrame(), alpha); }
+			else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, true, &currentAnim->GetCurrentFrame(), alpha); }
+		}
 	}
 	else {
 
-		if (Attacking && power == PowerLvl::OP) { app->render->DrawTexture(texture, position.x - 36 - 30, position.y - 40 - 24, true, &currentAnim->GetCurrentFrame()); }
-		else if (powerTransition) { app->render->DrawTexture(texture, position.x - 33, position.y - 45, false, &currentAnim->GetCurrentFrame()); }
-		else if (spawning) { app->render->DrawTexture(texture, position.x, position.y - 100, false, &currentAnim->GetCurrentFrame()); }
-		else if (!isGrounded) { app->render->DrawTexture(texture, position.x - 21, position.y - 40, true, &currentAnim->GetCurrentFrame(), alpha); }
-		else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, true, &currentAnim->GetCurrentFrame(), alpha); }
+		if (myDir == Direction::RIGHT) {
+
+			if (Attacking && power == PowerLvl::OP) { app->render->DrawTexture(texture, position.x - 36 - 30, position.y - 40 - 24, false, &currentAnim->GetCurrentFrame()); }
+
+			else if (powerTransition) { app->render->DrawTexture(texture, position.x - 33, position.y - 45, false, &currentAnim->GetCurrentFrame(),255,1, 0,0,0); }
+			else if (spawning) { app->render->DrawTexture(texture, position.x, position.y - 100, false, &currentAnim->GetCurrentFrame(),255,1,0,0,0); }
+			else if (!isGrounded) { app->render->DrawTexture(texture, position.x - 50, position.y - 40, false, &currentAnim->GetCurrentFrame(), alpha,1,0,0,0); }
+			else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, false, &currentAnim->GetCurrentFrame(), alpha,1,0,0,0); }
+		}
+		else {
+
+			if (Attacking && power == PowerLvl::OP) { app->render->DrawTexture(texture, position.x - 36 - 30, position.y - 40 - 24, true, &currentAnim->GetCurrentFrame(),255,1,0,0,0); }
+			else if (powerTransition) { app->render->DrawTexture(texture, position.x - 33, position.y - 45, false, &currentAnim->GetCurrentFrame(),255,1,0,0,0); }
+			else if (spawning) { app->render->DrawTexture(texture, position.x, position.y - 100, false, &currentAnim->GetCurrentFrame(),255,1,0,0,0); }
+			else if (!isGrounded) { app->render->DrawTexture(texture, position.x - 21, position.y - 40, true, &currentAnim->GetCurrentFrame(), alpha,1,0,0,0); }
+			else { app->render->DrawTexture(texture, position.x - 36, position.y - 40, true, &currentAnim->GetCurrentFrame(), alpha,1,0,0,0); }
+		}
 	}
 
 	if (SpearhasBeenThrown) {
@@ -640,8 +661,12 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 			LOG("Collision SPEAR");
 			break;
-		case ColliderType::UNKNOWN:
+		case ColliderType::BLACK_TRIGGER:
 			LOG("Collision UNKNOWN");
+			if (physB->myEntity == nullptr) {
+				app->scene->noir = true;
+			}
+
 			break;
 
 		case ColliderType::INSTAKILL:

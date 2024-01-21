@@ -65,7 +65,7 @@ bool Chandelier::Awake() {
 	touched = false;
 
 	jointBody = app->physics->CreateCircle(position.x, position.y, 5, bodyType::STATIC, ColliderType::UNKNOWN,true);
-
+	jointBody->myEntity = this;
 	jointBody->body->SetTransform(_body->body->GetPosition() + b2Vec2(0., -2.9f), 0.0f);
 
 
@@ -130,7 +130,7 @@ bool Chandelier::Update(float dt)
 	plat_sensor->body->SetTransform(_body->body->GetPosition() + b2Vec2(0, -0.3f), 0.0f);
 
 	if ((fallTimer.ReadMSec() > 500 && touched && !destroyedJoint)) {
-		elInfierno = false; cutRope = true;
+		cutRope = true;
 		_body->body->SetType(b2_dynamicBody);
 		_body->body->SetGravityScale(1);
 		if (myType == ChandelierType::PENDULUM) {
@@ -205,12 +205,18 @@ bool Chandelier::Update(float dt)
 	}
 	
 	
-		bool playerOnTop = false;
-		if (plat_sensor->Intersects(&app->scene->player->pbody->collider) || cordBody->Intersects(&app->scene->player->mySpear->pbody->collider)) {
+		
+		if (plat_sensor->Intersects(&app->scene->player->pbody->collider) ) {
 			LOG("Player on top");
-			playerOnTop = true;
+			playerOnTop = true; 
 		}
+		else {
+			playerOnTop = false;
+		}
+		
 		if (playerOnTop) {
+
+
 			if (myType == ChandelierType::PENDULUM) {
 				if (myDir == Direction::LEFT) {
 					app->scene->player->pbody->body->SetTransform(app->scene->player->pbody->body->GetPosition() + b2Vec2(0.025f, 0), 0);
@@ -219,55 +225,81 @@ bool Chandelier::Update(float dt)
 					app->scene->player->pbody->body->SetTransform(app->scene->player->pbody->body->GetPosition() + b2Vec2(-0.025f, 0), 0);
 				}
 			}
-			else if (myType == ChandelierType::STATIONARY) {
+			if (myType == ChandelierType::STATIONARY) {
 				PlayerStandingOnME();
 
 				/*IMPORTANTE lo que hace q el candeladro caiga es la masa, al menos en el caso del candeladro estatico asi que hay que añaadirle una linear velocity*/
 
-				_body->body->SetLinearVelocity(b2Vec2(0,10));
 			}
 		}
-	
+			if(lanceCut){
+				PlayerStandingOnME();
 
-	currentAnimation->Update();
-
-	int x1, y1, x2, y2, x3, y3;
-	_body->GetPosition(x1, y1);
-	jointBody->GetPosition(x2, y2);
-	x3 = x2 ; y3 = y2;
-
-	b2Vec2 chain =  b2Vec2(x1-x2, y1-y2);
-	if(myType == ChandelierType::STATIONARY){ chain = b2Vec2(x1 - x2 +55, y1 - y2); }
-	b2Vec2 chain2 = b2Vec2(x1 - x3 +110, y1 - y3);
-
-	
-	for (int i = 0; i < 10; ++i) {
-		if (myType == ChandelierType::PENDULUM) {
-			b2Vec2 current = b2Vec2(x2 + chain.x * i / 10, y2 + chain.y * i / 10);
-			app->render->DrawTexture(texture, current.x, current.y, false, &_chain1);
-
-			b2Vec2 current2 = b2Vec2(x3 + chain2.x * i / 10, y3 + chain2.y * i / 10);
-			app->render->DrawTexture(texture, current2.x, current2.y, false, &_chain1);
-		}
-		else if (myType == ChandelierType::STATIONARY) {
-			b2Vec2 current = b2Vec2(x2 + chain.x * i / 10, y2 + chain.y * i / 10);
-			app->render->DrawTexture(texture, current.x, current.y, false, &_chain2);
-
+				 _body->body->SetLinearVelocity(b2Vec2(0, 10));
+			}
+				
 			
-		}
+		
 
-	}
 
-	
-	app->render->DrawTexture(texture, x, y -25, false, &currentAnimation->GetCurrentFrame());
+			currentAnimation->Update();
 
-	return true;
+			int x1, y1, x2, y2, x3, y3;
+			_body->GetPosition(x1, y1);
+			jointBody->GetPosition(x2, y2);
+			x3 = x2; y3 = y2;
+
+			b2Vec2 chain = b2Vec2(x1 - x2, y1 - y2);
+			if (myType == ChandelierType::STATIONARY) { chain = b2Vec2(x1 - x2 + 55, y1 - y2); }
+			b2Vec2 chain2 = b2Vec2(x1 - x3 + 110, y1 - y3);
+
+			if (app->scene->noir == false) {
+				for (int i = 0; i < 10; ++i) {
+					if (myType == ChandelierType::PENDULUM) {
+						b2Vec2 current = b2Vec2(x2 + chain.x * i / 10, y2 + chain.y * i / 10);
+						app->render->DrawTexture(texture, current.x, current.y, false, &_chain1);
+
+						b2Vec2 current2 = b2Vec2(x3 + chain2.x * i / 10, y3 + chain2.y * i / 10);
+						app->render->DrawTexture(texture, current2.x, current2.y, false, &_chain1);
+					}
+					else if (myType == ChandelierType::STATIONARY) {
+						b2Vec2 current = b2Vec2(x2 + chain.x * i / 10, y2 + chain.y * i / 10);
+						app->render->DrawTexture(texture, current.x, current.y, false, &_chain2);
+
+
+					}
+
+				}
+
+
+				app->render->DrawTexture(texture, x, y - 25, false, &currentAnimation->GetCurrentFrame());
+			}
+			else {
+				for (int i = 0; i < 10; ++i) {
+					if (myType == ChandelierType::PENDULUM) {
+						b2Vec2 current = b2Vec2(x2 + chain.x * i / 10, y2 + chain.y * i / 10);
+						app->render->DrawTexture(texture, current.x, current.y, false, &_chain1,255,1,0,0,0);
+
+						b2Vec2 current2 = b2Vec2(x3 + chain2.x * i / 10, y3 + chain2.y * i / 10);
+						app->render->DrawTexture(texture, current2.x, current2.y, false, &_chain1,255,1,0,0,0);
+					}
+					else if (myType == ChandelierType::STATIONARY) {
+						b2Vec2 current = b2Vec2(x2 + chain.x * i / 10, y2 + chain.y * i / 10);
+						app->render->DrawTexture(texture, current.x, current.y, false, &_chain2,255,1,0,0,0);
+
+
+					}
+
+				}
+
+
+				app->render->DrawTexture(texture, x, y - 25, false, &currentAnimation->GetCurrentFrame(), 255 ,1 ,0,0,0);
+			}
+
+			return true;
+		
 }
 
-bool Chandelier::CleanUp()
-{
-	return true;
-}
 
 void Chandelier::OnCollision(PhysBody* physA, PhysBody* physB) {
 
@@ -283,9 +315,10 @@ void Chandelier::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Player touched chandelier");
 		break;
 	case ColliderType::SPEAR :
-		if (elInfierno == false) {
-			elInfierno = true;
-		}
+		
+			lanceCut = true;
+			playerOnTop = true;
+		
 		break;
 
 	}
@@ -295,5 +328,6 @@ void Chandelier::PlayerStandingOnME() {
 	if (touched == false) {
 		fallTimer.Start();
 		touched = true;
+		app->audio->PlayFx(breackFx);
 	}
 }

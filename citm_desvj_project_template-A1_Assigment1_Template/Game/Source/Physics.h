@@ -48,7 +48,8 @@ enum class ColliderType {
 	ORB,
 	PLAYER_ATTACK,
 	ENEMY_ATTACK,
-	CHECKPOINT
+	CHECKPOINT,
+	BLACK_TRIGGER
 	// ..
 };
 

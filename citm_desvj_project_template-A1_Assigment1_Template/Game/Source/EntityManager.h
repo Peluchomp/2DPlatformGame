@@ -58,6 +58,8 @@ public:
 
 	pugi::xml_node myNode;
 
+	PhysBody* shadowZone;
+
 	List<Entity*> entities;
 
 	List<Entity*> savedEntities;

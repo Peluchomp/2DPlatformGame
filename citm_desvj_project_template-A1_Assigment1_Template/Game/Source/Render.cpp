@@ -108,7 +108,7 @@ void Render::ResetViewPort()
 }
 
 // Blit to screen
-bool Render::DrawTexture(SDL_Texture* texture, int x, int y,bool flipped, const SDL_Rect* section, int opacity, float speed, double angle, int pivotX, int pivotY) const
+bool Render::DrawTexture(SDL_Texture* texture, int x, int y,bool flipped, const SDL_Rect* section, int opacity, float speed, int R, int G, int B, double angle, int pivotX, int pivotY) const
 {
 	bool ret = true;
 	uint scale = app->win->GetScale();
@@ -117,6 +117,7 @@ bool Render::DrawTexture(SDL_Texture* texture, int x, int y,bool flipped, const 
 	rect.x = (int)(camera.x * speed) + x * scale;
 	rect.y = (int)(camera.y * speed) + y * scale;
 
+	SDL_SetTextureColorMod(texture, R,G,B);
 	SDL_SetTextureAlphaMod(texture, opacity);
 
 	if(section != NULL)
@@ -159,6 +160,9 @@ bool Render::DrawTexture(SDL_Texture* texture, int x, int y,bool flipped, const 
 
 	return ret;
 }
+
+
+
 
 bool Render::DrawRectangle(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) const
 {

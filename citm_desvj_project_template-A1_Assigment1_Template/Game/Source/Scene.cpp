@@ -114,6 +114,7 @@ bool Scene::Awake(pugi::xml_node& config)
 
 			}
 
+			chandelierDeathFx = app->audio->LoadFx("Assets/Audio/Fx/chandelierFx.wav");
 			if (currentLvl == 1) {
 				for (pugi::xml_node orbNode = config.child("chandelure"); orbNode; orbNode = orbNode.next_sibling("chandelure")) {
 					Chandelier* orb = (Chandelier*)app->entityManager->CreateEntity(EntityType::CHANDELIER);
@@ -123,9 +124,13 @@ bool Scene::Awake(pugi::xml_node& config)
 					orb->parameters = orbNode;
 					orb->Awake();
 					orb->Start();
-
+					orb->breackFx = chandelierDeathFx;
 				}
 			}
+
+			blackDetection = app->physics->CreateRectangleSensor(15 * 40, 5 * 40, 200, 200, bodyType::STATIC, ColliderType::BLACK_TRIGGER);
+			blackDetection->listener = player;
+			blackDetection->ctype = ColliderType::BLACK_TRIGGER;
 
 			SpawnGoons();
 			return ret;
@@ -324,7 +329,7 @@ bool Scene::Update(float dt)
 
 		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
 
-		if (app->render->camera.x < -680) {
+		if (!noir && app->render->camera.x < -680) {
 			app->render->camera.x = -680;
 		}
 		

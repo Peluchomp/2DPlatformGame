@@ -101,12 +101,24 @@ bool Map::Update(float dt)
 
                     SDL_Rect r = tileset->GetTileRect(gid);
                     iPoint pos = MapToWorld(x, y);
-
-                    if (parallax) {
-                        app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r, 255, 0.84f);
+                    if (app->scene->noir == false) {
+                        if (parallax) {
+                            app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r, 255, 0.84f);
+                        }
+                        else {
+                            app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r);
+                        }
                     }
                     else {
-                        app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r);
+                        if (parallax) {
+                            app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r, 255, 0.84f);
+                        }
+                        else {
+                            if (mapLayerItem->data->name == "back" && gid != 7) {
+                                app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r,255);
+                            }
+                            else{ app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r,255,1,0,0,0); }
+                        }
                     }
                 }
             }
@@ -120,7 +132,7 @@ bool Map::Update(float dt)
 
                     int gid = mapLayerItem->data->Get(x, y);
 
-                    if (gid == 1252) {
+                    if (gid == 1282) {
                         Entity* ye = app->entityManager->CreateEntity(EntityType::ANGEL);
                         ye->Awake();
                         ye->position.x = (x * 40) - 300;
@@ -409,6 +421,7 @@ bool Map::LoadObjectGroups(pugi::xml_node mapNode) {
 
                 PhysBody* c1 = app->physics->CreateRectangle(x, y, width, height, STATIC, ColliderType::PLATFORM);
                 c1->ctype = ColliderType::INSTAKILL;
+                killers.Add(c1);
             }
         }
         else {
@@ -427,6 +440,7 @@ bool Map::LoadObjectGroups(pugi::xml_node mapNode) {
 
                 PhysBody* c1 = app->physics->CreateRectangle(x, y, width, height, STATIC, ColliderType::PLATFORM);
                 c1->ctype = ColliderType::PLATFORM;
+                killers.Add(c1);
             }
         }
     }
@@ -551,17 +565,25 @@ bool Map::PostUpdate() {
 
                     SDL_Rect r = tileset->GetTileRect(gid);
                     iPoint pos = MapToWorld(x, y);
-
-                    if(!parallax) app->render->DrawTexture(tileset->texture,
-                        pos.x,
-                        pos.y, false,
-                        &r);
-
+                    
+                    if (app->scene->noir == false) {
+                        if (parallax) {
+                            app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r, 255, 1.08f);
+                        }
+                        else {
+                            app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r);
+                        }
+                    }
                     else {
-                        app->render->DrawTexture(tileset->texture,
-                            pos.x,
-                            pos.y, false,
-                            &r, 255, 1.08f);
+                        if (parallax) {
+                            app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r, 255, 1.08f);
+                        }
+                        else {
+                            if (mapLayerItem->data->name == "back") {
+                                app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r,255,1,255,255,255);
+                            }
+                            else { app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r, 255, 1, 0, 0, 0); }
+                        }
                     }
                 }
             }

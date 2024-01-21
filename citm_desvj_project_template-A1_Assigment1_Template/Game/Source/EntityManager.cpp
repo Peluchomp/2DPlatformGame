@@ -71,6 +71,8 @@ bool EntityManager::Start() {
 		ret = item->data->Start();
 	}
 
+	//shadowZone = app->physics->CreateRectangleSensor()
+
 	return ret;
 }
 
@@ -189,6 +191,7 @@ bool EntityManager::Update(float dt)
 						orb->parameters = orbNode;
 						orb->Awake();
 						orb->Start();
+						orb->breackFx = app->scene->chandelierDeathFx;
 					}
 
 				}

@@ -28,7 +28,7 @@ public:
 
 	bool Update(float dt);
 
-	bool CleanUp();
+	
 
 	bool PreUpdate(float dt);
 
@@ -60,8 +60,10 @@ public:
 	bool destroyedJoint = false;
 	bool destroying = false;
 
-	bool elInfierno = false;
+	
 	bool cutRope = false;
+	bool playerOnTop = false;
+	bool lanceCut = false;
 
 	Direction startingDir;
 
@@ -71,7 +73,7 @@ public:
 	SDL_Rect _chain2 = { 361, 13,7,7 };
 
 	bool awake = false;
-
+	uint breackFx;
 	
 private:
 	const char* texturePath;

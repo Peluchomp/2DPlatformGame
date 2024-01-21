@@ -173,6 +173,8 @@ public:
 
 	MapData mapData;
 
+	List<PhysBody*> killers;
+
 private:
 
 	bool firstLoad = false;

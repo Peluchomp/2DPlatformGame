@@ -155,21 +155,38 @@ bool MegaMorgan::Update(float dt)
 		int mX, mY;
 		pbody->GetPosition(mX, mY);
 		
+		if (app->scene->noir == false) {
+			app->render->DrawTexture(texture, jX - 5, jY - 10, false, &r, 255, 1,255,255,255, AttackBody->GetRotation());
 
-		app->render->DrawTexture(texture, jX-5 , jY-10, false, &r, 255, 1, AttackBody->GetRotation());
+			for (int i = 0; i < 10; ++i) {
 
-		for (int i = 0; i < 10; ++i) {
-			
-				b2Vec2 current = b2Vec2(jX +(mX- jX) * i / 10, jY + (mY - jY) * i / 10);
+				b2Vec2 current = b2Vec2(jX + (mX - jX) * i / 10, jY + (mY - jY) * i / 10);
 				app->render->DrawTexture(texture2, current.x, current.y, false, &_chain1);
 
-				
+
 			}
 
-		currentAnimation->Update();
-		if (myDir == Direction::RIGHT) { app->render->DrawTexture(texture, position.x - 20, position.y - 60, true, &currentAnimation->GetCurrentFrame()); }
-		else if (myDir == Direction::LEFT) { app->render->DrawTexture(texture, position.x - 80, position.y - 60, false, &currentAnimation->GetCurrentFrame()); }
+			currentAnimation->Update();
+			if (myDir == Direction::RIGHT) { app->render->DrawTexture(texture, position.x - 20, position.y - 60, true, &currentAnimation->GetCurrentFrame()); }
+			else if (myDir == Direction::LEFT) { app->render->DrawTexture(texture, position.x - 80, position.y - 60, false, &currentAnimation->GetCurrentFrame()); }
+		}
+		else{
+		
+			app->render->DrawTexture(texture, jX - 5, jY - 10, false, &r, 255, 1,0,0,0, AttackBody->GetRotation());
 
+			for (int i = 0; i < 10; ++i) {
+
+				b2Vec2 current = b2Vec2(jX + (mX - jX) * i / 10, jY + (mY - jY) * i / 10);
+				app->render->DrawTexture(texture2, current.x, current.y, false, &_chain1, 255, 1, 0, 0, 0);
+
+
+			}
+
+			currentAnimation->Update();
+			if (myDir == Direction::RIGHT) { app->render->DrawTexture(texture, position.x - 20, position.y - 60, true, &currentAnimation->GetCurrentFrame(), 255, 1, 0, 0, 0); }
+			else if (myDir == Direction::LEFT) { app->render->DrawTexture(texture, position.x - 80, position.y - 60, false, &currentAnimation->GetCurrentFrame(), 255, 1, 0, 0, 0); }
+		
+		}
 
 
 		

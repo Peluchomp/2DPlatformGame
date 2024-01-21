@@ -69,6 +69,8 @@ private:
 	bool isInDebugMode;
 	GuiControlButton* gcButtom;
 	GuiControlButton* musicButtom;
+	GuiControlButton* fullScreenButtom;
+	GuiControlButton* vSyncButtom;
 
 public:
 
@@ -81,6 +83,8 @@ public:
 	uint chandelierDeathFx;
 	bool exit;
 	float volume = 90;
+	bool fullscreen = false;
+	bool vSync = false;
 };
 
 #endif // __SCENE_H__

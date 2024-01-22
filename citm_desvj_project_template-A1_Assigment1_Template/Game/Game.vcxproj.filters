@@ -57,6 +57,9 @@
     <ClCompile Include="GuiSlider.cpp" />
     <ClCompile Include="GuiCheckBox.cpp" />
     <ClCompile Include="TitleScreen.cpp" />
+    <ClCompile Include="Aelfric.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -143,6 +146,9 @@
     <ClInclude Include="GuiSlider.h" />
     <ClInclude Include="GuiCheckBox.h" />
     <ClInclude Include="TitleScreen.h" />
+    <ClInclude Include="Aelfric.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

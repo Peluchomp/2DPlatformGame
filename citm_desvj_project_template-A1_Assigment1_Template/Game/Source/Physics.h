@@ -132,6 +132,8 @@ public:
 	PhysBody* CreateChain(int x, int y, int* points, int size, bodyType type, ColliderType fixture);
 
 	b2RevoluteJoint* CreateRevolutionJoint(PhysBody* staticBody, PhysBody* moveableBody, float distance =-3.0f);
+	b2DistanceJoint* Physics::CreateDistanceJoint(b2Body* bodyA, b2Body* bodyB, float distance = -2.0f);
+	b2PrismaticJoint* Physics::CreateHorizontalDistanceJoint(b2Body* bodyA, b2Body* bodyB, float distance);
 
 	void DestroyPlatforms();
 

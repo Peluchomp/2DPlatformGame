@@ -13,6 +13,7 @@
 #include "Log.h"
 #include "../MegaMorgan.h"
 #include "../Checkpoint.h"
+#include "../Aelfric.h"
 #include "GuiControl.h"
 #include "GuiManager.h"
 #include "SDL_mixer/include/SDL_mixer.h"
@@ -51,6 +52,10 @@ bool Scene::Awake(pugi::xml_node& config)
 				player->Awake();
 				
 			}
+
+			Entity* father = (Aelfric*)app->entityManager->CreateEntity(EntityType::AELFRIC);
+			father->parameters = config.child("aelfric");
+			father->Start();
 
 			const char* musicPath = config.child("level0_music").attribute("path").as_string();
 			if (musicPath != nullptr) { app->audio->PlayMusic(musicPath); }

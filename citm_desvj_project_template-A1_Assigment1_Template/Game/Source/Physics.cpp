@@ -480,6 +480,40 @@ b2RevoluteJoint* Physics::CreateRevolutionJoint(PhysBody* staticBody, PhysBody* 
 	
 }
 
+b2DistanceJoint* Physics::CreateDistanceJoint(b2Body* bodyA, b2Body* bodyB, float distance) {
+	b2DistanceJointDef distanceJointDef;
+	distanceJointDef.bodyA = bodyA;
+	distanceJointDef.bodyB = bodyB;
+	distanceJointDef.localAnchorA.Set(0.0f, 0.0f);                // Anchor point on bodyA (in local coordinates)
+	distanceJointDef.localAnchorB.Set(0.0f, 0.0f);
+
+	// Anchor point on bodyB (in local coordinates)
+	distanceJointDef.length = distance;                            // Desired distance between bodies
+	distanceJointDef.frequencyHz = 2.0f;                          // Adjust frequency (optional)
+	distanceJointDef.dampingRatio = 0.5f;                          // Adjust damping ratio (optional)
+	distanceJointDef.collideConnected = true;                      // Adjust collision behavior if needed
+
+	b2DistanceJoint* distanceJoint = (b2DistanceJoint*)world->CreateJoint(&distanceJointDef);
+
+	return distanceJoint;
+}
+
+b2PrismaticJoint* Physics::CreateHorizontalDistanceJoint(b2Body* bodyA, b2Body* bodyB, float distance) {
+
+	b2DistanceJointDef distanceJointDef;
+	distanceJointDef.Initialize(bodyA, bodyB, bodyA->GetWorldCenter(), bodyB->GetWorldCenter());
+	distanceJointDef.length = distance;
+	b2DistanceJoint* distanceJoint = (b2DistanceJoint*)world->CreateJoint(&distanceJointDef);
+
+	// Now create a prismatic joint to restrict movement to the horizontal axis
+	b2PrismaticJointDef prismaticJointDef;
+	prismaticJointDef.Initialize(bodyA, bodyB, bodyA->GetWorldCenter(), b2Vec2(1.0f, 0.0f));
+	prismaticJointDef.localAxisA.Normalize();  // Ensure the axis is a unit vector
+	b2PrismaticJoint* prismaticJoint = (b2PrismaticJoint*)world->CreateJoint(&prismaticJointDef);
+
+	return prismaticJoint;
+}
+
 // Called before quitting
 bool Physics::CleanUp()
 {

@@ -26,7 +26,8 @@ enum class EntityType
 	CHANDELIER,
 	ANGEL,
 	CHECKPOINT,
-	UNKNOWN
+	UNKNOWN,
+	AELFRIC
 };
 
 

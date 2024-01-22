@@ -17,7 +17,7 @@ public:
 
 	b2RevoluteJoint* revol;
 
-	b2DistanceJoint* dist;
+	b2PrismaticJoint* dist;
 
 };
 

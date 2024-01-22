@@ -508,6 +508,7 @@ b2PrismaticJoint* Physics::CreateHorizontalDistanceJoint(b2Body* bodyA, b2Body* 
 	// Now create a prismatic joint to restrict movement to the horizontal axis
 	b2PrismaticJointDef prismaticJointDef;
 	prismaticJointDef.Initialize(bodyA, bodyB, bodyA->GetWorldCenter(), b2Vec2(1.0f, 0.0f));
+	prismaticJointDef.localAxisA = b2Vec2(1.0f, 0.0f);
 	prismaticJointDef.localAxisA.Normalize();  // Ensure the axis is a unit vector
 	b2PrismaticJoint* prismaticJoint = (b2PrismaticJoint*)world->CreateJoint(&prismaticJointDef);
 

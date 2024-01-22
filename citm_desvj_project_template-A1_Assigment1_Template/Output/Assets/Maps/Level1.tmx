@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="72" height="88" tilewidth="40" tileheight="40" infinite="0" nextlayerid="14" nextobjectid="92">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="72" height="88" tilewidth="40" tileheight="40" infinite="0" nextlayerid="15" nextobjectid="103">
  <tileset firstgid="1" name="church spritesheet" tilewidth="40" tileheight="40" tilecount="420" columns="28">
   <image source="../../../../tilemaps/church spritesheet.png" width="1120" height="612"/>
  </tileset>
@@ -47258,7 +47258,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="1278"/>
    <tile/>
    <tile/>
    <tile/>
@@ -57105,6 +57105,9 @@
    <tile/>
   </data>
  </layer>
+ <objectgroup id="14" name="checkPoints">
+  <object id="102" x="120" y="1560" width="40" height="40"/>
+ </objectgroup>
  <objectgroup id="6" name="collisions">
   <object id="1" x="320" y="3040" width="160" height="40"/>
   <object id="4" x="327.222" y="3079.44" width="25.5556" height="121.667"/>

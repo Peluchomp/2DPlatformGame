@@ -424,7 +424,7 @@ bool Map::LoadObjectGroups(pugi::xml_node mapNode) {
                 killers.Add(c1);
             }
         }
-        else {
+        else if (objectNode.attribute("id").as_int() != 14) {
             for (pugi::xml_node objectIt = objectNode.child("object"); objectIt != NULL; objectIt = objectIt.next_sibling("object")) {
 
 
@@ -441,6 +441,28 @@ bool Map::LoadObjectGroups(pugi::xml_node mapNode) {
                 PhysBody* c1 = app->physics->CreateRectangle(x, y, width, height, STATIC, ColliderType::PLATFORM);
                 c1->ctype = ColliderType::PLATFORM;
                 killers.Add(c1);
+            }
+        }
+        else {
+            for (pugi::xml_node objectIt = objectNode.child("object"); objectIt != NULL; objectIt = objectIt.next_sibling("object")) {
+
+
+
+                int x = objectIt.attribute("x").as_int();
+                int y = objectIt.attribute("y").as_int();
+                int width = objectIt.attribute("width").as_int();
+                int height = objectIt.attribute("height").as_int();
+
+
+                x += width / 2;
+                y += height / 2;
+
+                Entity* en = app->entityManager->CreateEntity(EntityType::CHECKPOINT);
+                app->entityManager->entities.Add(en);
+                en->position.x = x;
+                en->position.y = y;
+                en->parameters = app->scene->scene_parameter.child("checkpoint");
+
             }
         }
     }

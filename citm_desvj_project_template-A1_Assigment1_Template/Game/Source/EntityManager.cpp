@@ -273,6 +273,20 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 				}
 			}
 		}
+		else if (pEntity->type == EntityType::MEGA_MORGAN) {
+
+			for (pugi::xml_node orbNode = node.child("mega_morgan"); orbNode; orbNode = orbNode.next_sibling("morgan")) {
+				if (pEntity->num == orbNode.attribute("num").as_int()) {
+					pEntity = app->entityManager->CreateEntity(EntityType::MORGAN);
+					pEntity->position.x = orbNode.child("position").attribute("x").as_int();
+					pEntity->position.y = orbNode.child("position").attribute("y").as_int();
+					pEntity->num = orbNode.attribute("num").as_int();
+					pEntity->parameters = orbNode;
+					pEntity->Start();
+
+				}
+			}
+		}
 
 	}
 	// entities.Clear(); this removes them from the list, it doesnt delete them
@@ -317,6 +331,16 @@ bool EntityManager::SaveState(pugi::xml_node node) {
 			morganNode.append_attribute("y").set_value(pEntity->position.y);
 
 		}
+		if (pEntity->type == EntityType::MEGA_MORGAN) {
+
+			pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
+			morganNode.append_attribute("HP").set_value(pEntity->hp);
+			morganNode.append_attribute("num").set_value(pEntity->num);
+			morganNode = morganNode.append_child("position");
+			morganNode.append_attribute("x").set_value(pEntity->position.x);
+			morganNode.append_attribute("y").set_value(pEntity->position.y);
+
+		}
 		if (pEntity->type == EntityType::ORB) {
 
 			pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
@@ -343,7 +367,7 @@ void EntityManager::ReSpawn() {
 	{
 		pEntity = item->data;
 		// Orbs purposely dont respawn after you collect them
-		if ( pEntity->type == EntityType::MORGAN || pEntity->type == EntityType::JORGE) {
+		if ( pEntity->type == EntityType::MORGAN || pEntity->type == EntityType::JORGE || pEntity->type == EntityType::MEGA_MORGAN) {
 			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
 
 				// Destroy all of the entity's b2bodies
@@ -370,7 +394,7 @@ void EntityManager::DestroyAll() {
 	for (item = entities.start; item != NULL && ret == true; item = item->next)
 	{
 		pEntity = item->data;
-		if (pEntity->type == EntityType::ORB || pEntity->type == EntityType::MORGAN || pEntity->type == EntityType::JORGE) {
+		if (pEntity->type == EntityType::ORB || pEntity->type == EntityType::MORGAN || pEntity->type == EntityType::JORGE || pEntity->type == EntityType::MEGA_MORGAN) {
 			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
 
 				// Destroy all of the entity's b2bodies

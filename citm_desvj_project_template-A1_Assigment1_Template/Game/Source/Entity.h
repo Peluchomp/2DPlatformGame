@@ -27,7 +27,8 @@ enum class EntityType
 	ANGEL,
 	CHECKPOINT,
 	UNKNOWN,
-	AELFRIC
+	AELFRIC,
+	EVILSPEARLIGHTNING
 };
 
 

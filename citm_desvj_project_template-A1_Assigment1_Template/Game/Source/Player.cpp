@@ -310,6 +310,12 @@ bool Player::Update(float dt)
 		}
 	}
 
+	if (app->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN) {
+	
+		evilSpear = (EvilSpearLightning*)app->entityManager->CreateEntity(EntityType::EVILSPEARLIGHTNING);
+		evilSpear->Awake();
+	}
+
 	b2Vec2 vel = b2Vec2(movementx, gravity);
 	//Set the velocity of the pbody of the player
 	pbody->body->SetLinearVelocity(vel);

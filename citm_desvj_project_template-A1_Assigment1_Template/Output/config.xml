@@ -192,7 +192,11 @@
 		  
 	  </aelfric>
 
-	  <mega_morgan>
+    <evilspearlightning>
+      <texture path ="Assets/Textures/evilSpear.png"/>
+    </evilspearlightning>
+
+    <mega_morgan>
 		  <animations>
 			  <walking>
 				  <frame x="1" y="  179" w="99" h="78" />
@@ -933,6 +937,8 @@
 				  <loop value ="false"/>
 			  </spearThrown>
 
+      
+          
 			  <jump>
 				  <frame x="1" y="1" w="138" h="88" audio="Assets/Audio/Fx/Jump.wav" />
 				  <frame x="1" y="268" w="138" h="88"  />

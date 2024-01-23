@@ -9,6 +9,7 @@
 #include "../Spear.h"
 #include "Timer.h"
 #include "../EvilSpearLightning.h"
+#include "../FloorSpears.h"
 
 #define INVINCIBILITY_MS 1600
 
@@ -124,7 +125,7 @@ public:
 
 	Spear* mySpear;
 	Thunder* myThunder;
-	EvilSpearLightning* evilSpear;
+	FloorSpears* evilSpear;
 	PowerLvl power = PowerLvl::NORMAL;
 	Icon powerMessage;
 	Icon noSpearIcon;

@@ -312,7 +312,7 @@ bool Player::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN) {
 	
-		evilSpear = (EvilSpearLightning*)app->entityManager->CreateEntity(EntityType::EVILSPEARLIGHTNING);
+		evilSpear = (FloorSpears*)app->entityManager->CreateEntity(EntityType::FLOORSPEAR);
 		evilSpear->Awake();
 	}
 

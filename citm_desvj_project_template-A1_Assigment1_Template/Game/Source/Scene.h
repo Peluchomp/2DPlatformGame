@@ -79,6 +79,8 @@ public:
 
 	bool bossZone = false;
 
+	int fullscreenOnce;
+	int vsyncOnce;
 	int currentLvl = 0;
 	int currentLevel = 0;
 	uint enemyDeathEffect;

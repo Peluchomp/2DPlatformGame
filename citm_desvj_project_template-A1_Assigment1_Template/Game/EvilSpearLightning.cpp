@@ -67,7 +67,7 @@ bool EvilSpearLightning::Update(float dt)
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x);
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y);
 
-	if (startAtackTimer > 30)
+	if (startAtackTimer > 150)
 	{
 
 		if (spawnLightning == true) {

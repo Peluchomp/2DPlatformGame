@@ -478,38 +478,42 @@ bool Scene::SaveState(pugi::xml_node node) {
 
 bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 {
+	fullscreenOnce++;
+	vsyncOnce++;
 	// L15: DONE 5: Implement the OnGuiMouseClickEvent method
 	if (control->id == 1) {
 		exit = true;
 	}
-	if (control->id == 3 && fullscreen == false) {
+	if (control->id == 3 && fullscreen == false && fullscreenOnce > 1) {
 		fullscreen = true;
-
-		Uint32 flags = SDL_WINDOW_SHOWN;
-		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-
-		SDL_SetWindowFullscreen(app->win->window, flags);
-
-		SDL_RenderSetLogicalSize(app->render->renderer, app->win->width, app->win->height);
-
-		app->win->screenSurface= SDL_GetWindowSurface(app->win->window);
-
+		fullscreenOnce = 0;
+		SDL_SetWindowFullscreen(app->win->window, SDL_WINDOW_FULLSCREEN);
 	}
-	else if (control->id == 3 && fullscreen == true) {
-		fullscreen = false;
+	
+	if (control->id == 3 && fullscreen == true && fullscreenOnce > 1) {
 		
 
-		Uint32 flags = SDL_WINDOW_SHOWN;
+		fullscreen = false;
+		fullscreenOnce = 0;
+		uint heigth;
+		uint width;
 
+		app->win->GetWindowSize(width, heigth);
+		
+		SDL_SetWindowFullscreen(app->win->window, 0);
+		SDL_SetWindowSize(app->win->window, width,heigth );
+		
 
-		SDL_SetWindowFullscreen(app->win->window, flags);
 	}
 
-	if (control->id == 4 && vSync == false) {
+	if (control->id == 4 && vSync == false && vsyncOnce > 1) {
 		vSync = true;
+		vsyncOnce = 0;
+		
 	}
-	else if (control->id == 4 && vSync == true) {
+	else if (control->id == 4 && vSync == true && vsyncOnce > 1) {
 		vSync = false;
+		vsyncOnce = 0;
 	}
 	
 

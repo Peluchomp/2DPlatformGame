@@ -29,11 +29,15 @@ public:
 
 	Animation* currentAnimation;
 	Animation defaultAnim;
+	Animation bossAnim;
+	int pushBackSkip = 0;
+
+	iPoint bossPos;
 
 	SDL_Texture* texture = nullptr;
 
 	PhysBody* _body;
-
+	bool bossThunder = false;
 	bool awake = false;
 
 private:

@@ -48,14 +48,30 @@ bool Thunder::Update(float dt)
 		texture = app->tex->Load(texturePath);
 
 		for (pugi::xml_node node = parameters.child("frame"); node != NULL; node = node.next_sibling("frame")) {
-
+			
 			defaultAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() } , false, node.attribute("audio").as_string());
 			defaultAnim.speed = parameters.child("speed").attribute("value").as_float() / 16;
-			defaultAnim.loop = parameters.child("loop").attribute("value").as_bool();
+		
 			
+
+			defaultAnim.loop = parameters.child("loop").attribute("value").as_bool();
+		
 		}
+
+		for (pugi::xml_node node = parameters.child("frame2"); node != NULL; node = node.next_sibling("frame2"))
+		{
+
+			bossAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() }, false, node.attribute("audio").as_string());
+			bossAnim.speed = parameters.child("speed").attribute("value").as_float() / 16;
+			bossAnim.loop = true;
+		}
+
 		awake = true;
+		if (bossThunder == false)
 		currentAnimation = &defaultAnim;
+		else 
+		currentAnimation = &bossAnim;
+
 		/*_body = app->physics->CreateCircle(position.x + 19, position.y + 19, 15, bodyType::KINEMATIC, true);
 		_body->body->SetGravityScale(0);
 		_body->ctype = ColliderType::ORB;*/
@@ -66,9 +82,10 @@ bool Thunder::Update(float dt)
 		currentAnimation->Update();
 
 		// Blit
-
+		if (bossThunder == false)
 		app->render->DrawTexture(texture, app->scene->player->position.x -32, app->scene->player->position.y -325, false, &currentAnimation->GetCurrentFrame());
-
+		else 
+		app->render->DrawTexture(texture, bossPos.x, bossPos.y , false, &currentAnimation->GetCurrentFrame());
 	
 	return true;
 }

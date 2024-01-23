@@ -64,6 +64,9 @@
       <Filter>Entities</Filter>
     </ClCompile>
     <ClCompile Include="FloorSpears.cpp">
+          <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="EvilSpin.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -159,6 +162,9 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="FloorSpears.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="EvilSpin.h">
       <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>

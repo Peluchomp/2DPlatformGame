@@ -499,7 +499,7 @@ b2RevoluteJoint* Physics::CreateRevolutionJoint(PhysBody* staticBody, PhysBody* 
 	
 }
 
-b2RevoluteJoint* Physics::CreateRevoluteJoint(PhysBody* bodyA, PhysBody* bodyB, float relativeAnchorX, float relativeAnchorY, int speed) {
+b2RevoluteJoint* Physics::CreateRevoluteJoint(PhysBody* bodyA, PhysBody* bodyB, float relativeAnchorX, float relativeAnchorY, int speed, float maxTorque) {
 	b2RevoluteJointDef revoluteJointDef;
 	revoluteJointDef.bodyA = bodyA->body;
 	revoluteJointDef.bodyB = bodyB->body;
@@ -510,7 +510,7 @@ b2RevoluteJoint* Physics::CreateRevoluteJoint(PhysBody* bodyA, PhysBody* bodyB, 
 	revoluteJointDef.enableLimit = false;  // Set to true if you want to limit the rotation range
 	revoluteJointDef.enableMotor = true;  // Set to true to enable the joint motor
 	revoluteJointDef.motorSpeed = speed;  // Set motor speed (adjust as needed)
-	revoluteJointDef.maxMotorTorque = 900.0f;  // Set maximum motor torque (adjust as needed)
+	revoluteJointDef.maxMotorTorque = maxTorque;  // Set maximum motor torque (adjust as needed)
 
 	// Create the revolute joint
 	b2RevoluteJoint* revoluteJoint = (b2RevoluteJoint*)world->CreateJoint(&revoluteJointDef);

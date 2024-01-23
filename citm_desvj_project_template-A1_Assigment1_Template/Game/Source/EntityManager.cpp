@@ -14,6 +14,7 @@
 #include "../Checkpoint.h"
 #include "../FloorSpears.h"
 #include "../EvilSpearLightning.h"
+#include "../EvilSpin.h"
 #include "Optick/include/optick.h"
 #include "Defs.h"
 #include "Log.h"
@@ -143,6 +144,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		break;
 	case EntityType::FLOORSPEAR:
 		entity = new FloorSpears();
+		break;
+	case EntityType::EVILSPIN:
+		entity = new EvilSpin();
 		break;
 	default:
 		break;

@@ -141,7 +141,7 @@ public:
 	b2DistanceJoint* Physics::CreateDistanceJoint(b2Body* bodyA, b2Body* bodyB, float distance = -2.0f);
 	b2PrismaticJoint* Physics::CreateHorizontalPrismaticJoint(b2Body* bodyA, b2Body* bodyB, float distance, bool inverted = false);
 
-	b2RevoluteJoint* Physics::CreateRevoluteJoint(PhysBody* bodyA, PhysBody* bodyB, float relativeAnchorX, float relativeAnchorY, int speed = 20);
+	b2RevoluteJoint* Physics::CreateRevoluteJoint(PhysBody* bodyA, PhysBody* bodyB, float relativeAnchorX, float relativeAnchorY, int speed = 20, float maxTorque = 900.0f);
 
 	void DestroyPlatforms();
 

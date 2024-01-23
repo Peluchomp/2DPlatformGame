@@ -183,12 +183,14 @@ bool EntityManager::Update(float dt)
 		{
 			pEntity = item->data;
 
+			
 			if (pEntity->pendingToDestroy && pEntity->type != EntityType::CHANDELIER) {
-
 				for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
 
 					app->physics->DestroyObject((PhysBody*)corpse->data);
 				}
+
+				
 				pEntity->pendingToDestroy = false;
 				DestroyEntity(pEntity);
 			}
@@ -219,6 +221,14 @@ bool EntityManager::Update(float dt)
 
 			if (app->scene->player->options == false || item->data == app->scene->player || item->data == app->scene->player->mySpear)
 			ret = item->data->Update(dt);
+		}
+		for (ListItem<b2RevoluteJoint*>* corpse = destroyJoints.start; corpse != NULL; corpse = corpse->next) {
+
+			
+
+				app->physics->world->DestroyJoint(corpse->data);
+			
+
 		}
 	
 	

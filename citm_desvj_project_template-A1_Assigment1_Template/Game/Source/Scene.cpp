@@ -54,9 +54,7 @@ bool Scene::Awake(pugi::xml_node& config)
 				
 			}
 
-			Entity* father = (Aelfric*)app->entityManager->CreateEntity(EntityType::AELFRIC);
-			father->parameters = config.child("aelfric");
-			father->Start();
+			
 
 			const char* musicPath = config.child("level0_music").attribute("path").as_string();
 			if (musicPath != nullptr) { app->audio->PlayMusic(musicPath); }

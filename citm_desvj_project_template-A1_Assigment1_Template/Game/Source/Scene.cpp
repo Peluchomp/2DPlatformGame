@@ -53,9 +53,7 @@ bool Scene::Awake(pugi::xml_node& config)
 				
 			}
 
-			Entity* father = (Aelfric*)app->entityManager->CreateEntity(EntityType::AELFRIC);
-			father->parameters = config.child("aelfric");
-			father->Start();
+			
 
 			const char* musicPath = config.child("level0_music").attribute("path").as_string();
 			if (musicPath != nullptr) { app->audio->PlayMusic(musicPath); }
@@ -132,6 +130,10 @@ bool Scene::Awake(pugi::xml_node& config)
 					orb->breackFx = chandelierDeathFx;
 				}
 			}
+
+			Entity* father = (Aelfric*)app->entityManager->CreateEntity(EntityType::AELFRIC);
+			father->parameters = config.child("aelfric");
+			father->Start();
 
 			blackDetection = app->physics->CreateRectangleSensor(15 * 40, 5 * 40, 200, 200, bodyType::STATIC, ColliderType::BLACK_TRIGGER);
 			blackDetection->listener = player;
@@ -346,6 +348,10 @@ bool Scene::Update(float dt)
 			app->render->camera.y = (-player->position.y) * app->win->GetScale() + 530;
 		if (app->render->camera.x > 0) {
 			app->render->camera.x = 0;
+		}
+		if (player->position.x > 4240) {
+			app->render->camera.x = -8480; app->render->camera.y = -1310;
+			noir = false;
 		}
 	}
 

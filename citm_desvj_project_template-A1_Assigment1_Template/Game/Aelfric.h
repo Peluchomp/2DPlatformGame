@@ -14,10 +14,16 @@ public:
 	SDL_Texture* texture;
 
 	PhysBody* pbody;
+	PhysBody* rotationB;
 
 	b2RevoluteJoint* revol;
+	b2RevoluteJoint* revolMe;
 
-	b2PrismaticJoint* dist;
+	b2DistanceJoint* dist;
+
+	int fakeRotation = 0;
+	bool spinAttack = false;
+	Timer spinTimer;
 
 };
 
@@ -48,10 +54,18 @@ public:
 	SDL_Texture* texture = nullptr;
 
 	PhysBody* _body;
+	PhysBody* _body2;
+	PhysBody* _body3;
+	PhysBody* _detectionBody;
 
 	evilSpear MrSpear;
 	evilSpear MsSpear;
 
+	int HP = 20;
+	bool hurt = false;
+	Timer hurtTimer;
+
+	bool first = true;
 	bool awake = false;
 
 private:

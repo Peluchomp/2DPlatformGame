@@ -77,6 +77,8 @@ public:
 	PhysBody* blackDetection;
 	bool noir = false;
 
+	bool bossZone = false;
+
 	int currentLvl = 0;
 	int currentLevel = 0;
 	uint enemyDeathEffect;

@@ -67,6 +67,11 @@ bool Physics::Start()
 		physicFilterData.groupIndex = 0;
 
 
+		physic2Filter.categoryBits = PHYSIC2_CATEGORY_BIT;
+		physic2Filter.maskBits = PHYSIC2_MASK_BITS;
+		physic2Filter.groupIndex = 0;
+
+
 		//floatPlatformFilterData.categoryBits = Float_PLAT_CATEGORY_BIT;
 		//floatPlatformFilterData.maskBits = Float_PLAT_MASK_BIT |  GROUND_MASK_BITS;
 		//floatPlatformFilterData.groupIndex = 0;
@@ -216,6 +221,9 @@ PhysBody* Physics::CreateCircle(int x, int y, int radious, bodyType type, Collid
 		break;
 	case(ColliderType::PHYSIC_OBJ):
 		Fixture.filter = physicFilterData;
+		break;
+	case (ColliderType::PHYS2):
+		Fixture.filter = physic2Filter;
 		break;
 	}
 
@@ -459,17 +467,28 @@ bool Physics::PostUpdate()
 	return ret;
 }
 
-b2RevoluteJoint* Physics::CreateRevolutionJoint(PhysBody* staticBody, PhysBody* moveableBody, float distance) {
+
+
+
+
+b2RevoluteJoint* Physics::CreateRevolutionJoint(PhysBody* staticBody, PhysBody* moveableBody, float distance , bool enableMotor ,bool limit, int motorSpeed) {
 
 	b2RevoluteJointDef revoluteJointDef;
 	revoluteJointDef.bodyA = staticBody->body;
 	revoluteJointDef.bodyB = moveableBody->body;
 	revoluteJointDef.localAnchorA.Set(0.0f, 0.0f); // Anchor point on static body (in local coordinates)
 	revoluteJointDef.localAnchorB.Set(0.0f, distance); // Anchor point on movable body (in local coordinates)
-	revoluteJointDef.enableLimit = true; // Set to true if you want to limit the rotation range
-	revoluteJointDef.enableMotor = true; // Set to true to enable the joint motor
-	revoluteJointDef.motorSpeed = 12; // Set motor speed (adjust as needed)
-	revoluteJointDef.maxMotorTorque = 100; // Set maximum motor torque (adjust as needed)
+	revoluteJointDef.enableLimit = limit; // Set to true if you want to limit the rotation range
+	if (enableMotor) {
+		revoluteJointDef.enableMotor = true; // Set to true to enable the joint motor
+		revoluteJointDef.motorSpeed = motorSpeed; // Set motor speed (adjust as needed)
+		revoluteJointDef.maxMotorTorque = 100; // Set maximum motor torque (adjust as needed)
+	}
+	else {
+		revoluteJointDef.enableMotor = false;
+		revoluteJointDef.motorSpeed = 0; // Set motor speed (adjust as needed)
+		revoluteJointDef.maxMotorTorque = 0;
+	}
 	revoluteJointDef.lowerAngle =  -(M_PI/5)/* Set lower angle limit if enableLimit is true */;
 	revoluteJointDef.upperAngle = + M_PI/5/* Set upper angle limit if enableLimit is true */;
 
@@ -478,6 +497,25 @@ b2RevoluteJoint* Physics::CreateRevolutionJoint(PhysBody* staticBody, PhysBody* 
 
 	return revoluteJoint;
 	
+}
+
+b2RevoluteJoint* Physics::CreateRevoluteJoint(PhysBody* bodyA, PhysBody* bodyB, float relativeAnchorX, float relativeAnchorY, int speed) {
+	b2RevoluteJointDef revoluteJointDef;
+	revoluteJointDef.bodyA = bodyA->body;
+	revoluteJointDef.bodyB = bodyB->body;
+	revoluteJointDef.localAnchorA.Set(relativeAnchorX, relativeAnchorY);
+	revoluteJointDef.localAnchorB.Set(0.0f, 0.0f);  // Anchor point on movable body (in local coordinates)
+	revoluteJointDef.bodyA->SetAngularDamping(0); revoluteJointDef.bodyB->SetAngularDamping(0);
+
+	revoluteJointDef.enableLimit = false;  // Set to true if you want to limit the rotation range
+	revoluteJointDef.enableMotor = true;  // Set to true to enable the joint motor
+	revoluteJointDef.motorSpeed = speed;  // Set motor speed (adjust as needed)
+	revoluteJointDef.maxMotorTorque = 900.0f;  // Set maximum motor torque (adjust as needed)
+
+	// Create the revolute joint
+	b2RevoluteJoint* revoluteJoint = (b2RevoluteJoint*)world->CreateJoint(&revoluteJointDef);
+
+	return revoluteJoint;
 }
 
 b2DistanceJoint* Physics::CreateDistanceJoint(b2Body* bodyA, b2Body* bodyB, float distance) {
@@ -498,22 +536,19 @@ b2DistanceJoint* Physics::CreateDistanceJoint(b2Body* bodyA, b2Body* bodyB, floa
 	return distanceJoint;
 }
 
-b2PrismaticJoint* Physics::CreateHorizontalDistanceJoint(b2Body* bodyA, b2Body* bodyB, float distance) {
-
-	b2DistanceJointDef distanceJointDef;
-	distanceJointDef.Initialize(bodyA, bodyB, bodyA->GetWorldCenter(), bodyB->GetWorldCenter());
-	distanceJointDef.length = distance;
-	b2DistanceJoint* distanceJoint = (b2DistanceJoint*)world->CreateJoint(&distanceJointDef);
-
-	// Now create a prismatic joint to restrict movement to the horizontal axis
+b2PrismaticJoint* Physics::CreateHorizontalPrismaticJoint(b2Body* bodyA, b2Body* bodyB, float distance, bool inverted) {
 	b2PrismaticJointDef prismaticJointDef;
 	prismaticJointDef.Initialize(bodyA, bodyB, bodyA->GetWorldCenter(), b2Vec2(1.0f, 0.0f));
-	prismaticJointDef.localAxisA = b2Vec2(1.0f, 0.0f);
 	prismaticJointDef.localAxisA.Normalize();  // Ensure the axis is a unit vector
+	prismaticJointDef.enableLimit = true;
+	prismaticJointDef.lowerTranslation = 0.0f;  // Adjust as needed
+	prismaticJointDef.upperTranslation = distance;
+
 	b2PrismaticJoint* prismaticJoint = (b2PrismaticJoint*)world->CreateJoint(&prismaticJointDef);
 
 	return prismaticJoint;
 }
+
 
 // Called before quitting
 bool Physics::CleanUp()

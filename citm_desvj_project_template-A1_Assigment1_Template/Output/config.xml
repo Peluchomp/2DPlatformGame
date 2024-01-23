@@ -176,7 +176,7 @@
 
 	  <aelfric>
 		  <texture path ="Assets/Textures/FatherAelfric.png"/>
-		  <position x ="300" y ="30"/>
+		  <position x ="4789" y ="800"/>
 		  <animations>
 			  <walking>
 				  <frame x="1" y="1" w="138" h="88"/>
@@ -653,6 +653,9 @@
 	  <chandelure num="45" x="280" y ="360" dir="right" type="0" />
 
 	  <chandelure num="46" x="1780" y ="920" dir="right" type="0" />
+
+	  <chandelure num="47" x="4360" y ="800" dir="right" type="1" />
+	  <chandelure num="48" x="4640" y ="800" dir="left" type="1" />
 
 	  <thunder texturepath ="Assets/Textures/thunder-Sheet.png" >
 		  <frame x="1" y="1" w="138" h="344" />

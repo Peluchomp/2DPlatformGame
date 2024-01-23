@@ -20,15 +20,19 @@
 const uint16_t PLAYER_CATEGORY_BIT = 0x0001;
 const uint16_t ENEMY_CATEGORY_BIT = 0x0009;
 const uint16_t GROUND_CATEGORY_BIT = 0x0004;
-const uint16_t PHYSIC_CATEGORY_BIT = 0x0008;
+const uint16_t PHYSIC_CATEGORY_BIT = 0x0005;
 const uint16_t Float_PLAT_CATEGORY_BIT = 0x0002;
+const uint16_t PHYSIC2_CATEGORY_BIT = 0x0006;
+const uint16_t PHYSIC3_CATEGORY_BIT = 0x0007;
+
 
 // Define mask bits for which they CAN collide with
 const uint16_t PLAYER_MASK_BITS = ENEMY_CATEGORY_BIT | GROUND_CATEGORY_BIT |Float_PLAT_CATEGORY_BIT ;
 const uint16_t ENEMY_MASK_BITS = PLAYER_CATEGORY_BIT | GROUND_CATEGORY_BIT;
 const uint16_t GROUND_MASK_BITS = PLAYER_CATEGORY_BIT | ENEMY_CATEGORY_BIT ;
-const uint16_t PHYSIC_MASK_BITS = PHYSIC_CATEGORY_BIT |PLAYER_CATEGORY_BIT; // ghost bodies only used for physics //
+const uint16_t PHYSIC_MASK_BITS = PLAYER_CATEGORY_BIT; // ghost bodies only used for physics //
 const uint16_t Float_PLAT_MASK_BIT = PLAYER_CATEGORY_BIT | GROUND_CATEGORY_BIT;
+const uint16_t PHYSIC2_MASK_BITS = GROUND_CATEGORY_BIT; // ghost bodies only used for physics //
 
 // types of bodies
 enum bodyType {
@@ -49,7 +53,8 @@ enum class ColliderType {
 	PLAYER_ATTACK,
 	ENEMY_ATTACK,
 	CHECKPOINT,
-	BLACK_TRIGGER
+	BLACK_TRIGGER,
+	PHYS2
 	// ..
 };
 
@@ -131,9 +136,12 @@ public:
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height, bodyType type, ColliderType fixture);
 	PhysBody* CreateChain(int x, int y, int* points, int size, bodyType type, ColliderType fixture);
 
-	b2RevoluteJoint* CreateRevolutionJoint(PhysBody* staticBody, PhysBody* moveableBody, float distance =-3.0f);
+	b2RevoluteJoint* CreateRevolutionJoint(PhysBody* staticBody, PhysBody* moveableBody, float distance =-3.0f, bool enableMotor = true, bool limit = true, int motorSpeed = 150);
+	b2RevoluteJoint* CreateRotationalJoint(b2Body* body);
 	b2DistanceJoint* Physics::CreateDistanceJoint(b2Body* bodyA, b2Body* bodyB, float distance = -2.0f);
-	b2PrismaticJoint* Physics::CreateHorizontalDistanceJoint(b2Body* bodyA, b2Body* bodyB, float distance);
+	b2PrismaticJoint* Physics::CreateHorizontalPrismaticJoint(b2Body* bodyA, b2Body* bodyB, float distance, bool inverted = false);
+
+	b2RevoluteJoint* Physics::CreateRevoluteJoint(PhysBody* bodyA, PhysBody* bodyB, float relativeAnchorX, float relativeAnchorY, int speed = 20);
 
 	void DestroyPlatforms();
 
@@ -160,4 +168,6 @@ public:
 	b2Filter groundFilterData;
 	b2Filter physicFilterData;
 	b2Filter floatPlatformFilterData;
+	b2Filter physic2Filter;
+	b2Filter physic3Filter;
 };

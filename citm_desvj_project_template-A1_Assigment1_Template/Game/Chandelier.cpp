@@ -141,7 +141,7 @@ bool Chandelier::Update(float dt)
 		destroyedJoint = true;
 		fallen = true;
 		fallTimer.Start();
-		damage_body = app->physics->CreateRectangleSensor(position.x, position.y + 40, 113, 30, bodyType::STATIC, ColliderType::ENEMY_ATTACK);
+		damage_body = app->physics->CreateRectangleSensor(position.x, position.y + 40, 113, 30, bodyType::STATIC, ColliderType::ENEMY);
 		damage_body->ctype = ColliderType::ENEMY_ATTACK;
 		damage_body->listener = app->scene->player;
 		damage_body->body->SetTransform(_body->body->GetPosition() + b2Vec2(0, -0.2f), 0.0f);

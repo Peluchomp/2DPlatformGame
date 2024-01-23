@@ -56,61 +56,27 @@ bool Aelfric::Start() {
 	_body->body->SetGravityScale(1);
 	_body->listener = this;
 
-	_body2 = app->physics->CreateCircle(position.x, position.y, 8, bodyType::DYNAMIC, ColliderType::ENEMY);
-	_body2->ctype = ColliderType::ENEMY;
-	_body2->body->SetGravityScale(1);
-	_body3 = app->physics->CreateCircle(position.x , position.y, 30, bodyType::DYNAMIC, ColliderType::PHYS2,true);
-	_body3->ctype = ColliderType::ENEMY;
-	_body3->body->SetGravityScale(0);
-	
-
 	myDir = Direction::RIGHT;
 	ChangePosTimer.Start();
 
 	
+	CreateSpears();
 
-
-	MrSpear.texture = texture; MsSpear.texture = texture;
-	MrSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 16, 50, bodyType::DYNAMIC, ColliderType::PHYSIC_OBJ, 0.1);
-	MrSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
-	MrSpear.pbody->body->SetGravityScale(0);
-
-	MsSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 16, 50, bodyType::DYNAMIC, ColliderType::PHYSIC_OBJ, 0.1);
-	MsSpear.pbody->body->SetGravityScale(0);
-	MsSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
-
-
-
-	//MrSpear.revolMe = app->physics->CreateRevoluteJoint( MrSpear.rotationB, MrSpear.pbody, 0, 0, 300);
-
-	_detectionBody = app->physics->CreateRectangleSensor(position.x , position.y , 250, 200, bodyType::DYNAMIC, ColliderType::ENEMY);
-	myBodies.Add(_detectionBody);
-	_detectionBody->listener = this;
-	_detectionBody->body->SetGravityScale(0);
-
-	_body2->body->SetTransform(_body->body->GetPosition(), _body->body->GetAngle());
-
-	MrSpear.pbody->body->SetTransform(_body->body->GetPosition() + b2Vec2(1.0f, 0.0f), MrSpear.pbody->GetRotation());
-	MsSpear.pbody->body->SetTransform(_body->body->GetPosition() + b2Vec2(1.0f, 0.0f), MsSpear.pbody->GetRotation());
-
-	MsSpear.revol = app->physics->CreateRevoluteJoint(_body, MsSpear.pbody, 2, 0, 0);
-	MrSpear.revol = app->physics->CreateRevoluteJoint(_body, MrSpear.pbody, -2, 0, 0);
+	ogP1 = MrSpear.pbody->body->GetPosition(); 
+	ogP2 = MrSpear.pbody->body->GetPosition();
 	
 	return true;
 }
 
 bool Aelfric::PreUpdate(float dt)
 {
-
+	if (destroySpears) { DestroyFloatingSpears(); }
 	return  true;
 }
 
 bool Aelfric::Update(float dt)
 {
 	
-
-	MrSpear.pbody->body->SetAngularVelocity(10);
-
 
 	b2Vec2 Velocity;
 
@@ -139,7 +105,7 @@ bool Aelfric::Update(float dt)
 	if (_body->active) {
 
 		
-		//MsSpear.pbody->body->SetAngularVelocity(20);
+		
 		
 
 		_body->body->SetLinearVelocity(Velocity);
@@ -147,7 +113,6 @@ bool Aelfric::Update(float dt)
 	
 		currentAnimation->Update();
 
-		// Blit
 
 		_body->GetPosition(position.x, position.y);
 		
@@ -167,22 +132,37 @@ bool Aelfric::Update(float dt)
 		}
 		
 
+		// The spears spin if the player enters into the dtection collider, after 1.5s they stpo spinning
+		if (defending && defendTimer.ReadMSec() > 1500 && !destroySpears) {
+			defending = false;
+			revol1->SetMotorSpeed(0);
+			revol2->SetMotorSpeed(0);
+
+			// reset orientation
+			b2Vec2 pos1 = MrSpear.pbody->body->GetPosition(); pos1.y = ogP1.y;
+			b2Vec2 pos2 = MrSpear.pbody->body->GetPosition(); pos1.y = ogP2.y;
+
+			MrSpear.pbody->body->SetTransform(pos1, 0); MrSpear.pbody->body->SetTransform(pos2, 0);
+		}
+
 		int sp1Posx;
 		int sp1Posy;
 		MrSpear.pbody->GetPosition(sp1Posx, sp1Posy);
 		int sp2Posx;
 		int sp2Posy;
 		MsSpear.pbody->GetPosition(sp2Posx, sp2Posy);
-		
-		//MrSpear.rotationB->body->SetTransform(MrSpear.pbody->body->GetPosition(), 0);
+
+
+
 		_detectionBody->body->SetTransform(_body->body->GetPosition(),0.0f);
 		MsSpear.pbody->body->SetTransform(MsSpear.pbody->body->GetPosition(), MrSpear.pbody->GetRotation());
-	//	MrSpear.rotationB->body->SetTransform(_body->body->GetPosition(), 0.0f);
-	//	MsSpear.rotationB->body->SetTransform(_body->body->GetPosition(), 0.0f);
+	
 
 		SDL_Rect spearRect = { 560,1,17,85 };
-	 	app->render->DrawTexture(texture, sp1Posx -8, sp1Posy-40, false, &spearRect, 255, 1,255,255,255, MrSpear.pbody->GetRotation());
-		app->render->DrawTexture(texture, sp2Posx - 8, sp2Posy - 40, false, &spearRect, 255, 1, 255, 255, 255, MrSpear.pbody->GetRotation());
+		if (!destroySpears) {
+			app->render->DrawTexture(texture, sp1Posx - 8, sp1Posy - 40, false, &spearRect, 255, 1, 255, 255, 255, MrSpear.pbody->GetRotation());
+			app->render->DrawTexture(texture, sp2Posx - 8, sp2Posy - 40, false, &spearRect, 255, 1, 255, 255, 255, MsSpear.pbody->GetRotation());
+		}
 		if (myDir == Direction::LEFT) {
 			app->render->DrawTexture(texture, position.x - 70, position.y - 35, true, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
 		}
@@ -190,7 +170,7 @@ bool Aelfric::Update(float dt)
 			app->render->DrawTexture(texture, position.x - 60, position.y - 35, false, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
 		}
 	}
-
+	app->scene->player->hp = 100;
 
 	return true;
 }
@@ -213,18 +193,21 @@ void Aelfric::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::PLAYER:
 		LOG("Player touched Checkpoint");
 
-
-		//MrSpear.revol->SetMotorSpeed(20);
-		//MsSpear.revol->SetMotorSpeed(-20);
-		MrSpear.pbody->body->SetAngularVelocity(-200);
-		MsSpear.pbody->body->SetAngularVelocity(200);
-
+		if (revol1 != nullptr && revol2 != nullptr) {
+			revol1->SetMotorSpeed(10);
+			revol2->SetMotorSpeed(10);
+			defendTimer.Start();
+			defending = true;
+		}
 		break;
 	case ColliderType::ENEMY_ATTACK:
 		LOG("erpt");
-		HP--;
-		hurt = true;
-		hurtTimer.Start();
+		if (physB != MrSpear.pbody && physB != MsSpear.pbody) {
+			HP--;
+			destroySpears = true;
+			hurt = true;
+			hurtTimer.Start();
+		}
 		break;
 	case ColliderType::PLAYER_ATTACK:
 		if (active) {
@@ -238,3 +221,57 @@ void Aelfric::OnCollision(PhysBody* physA, PhysBody* physB) {
 	}
 }
 
+void Aelfric::DestroyFloatingSpears() {
+
+	app->entityManager->destroyJoints.Add(revol1);
+	app->entityManager->destroyJoints.Add(revol2);
+
+	app->entityManager->destroyJoints.Add(MrSpear.revol);
+	app->entityManager->destroyJoints.Add(MsSpear.revol);
+	MrSpear.pbody->active = false; MsSpear.pbody->active = false;
+	myBodies.Add(MrSpear.pbody); myBodies.Add(MsSpear.pbody);
+}
+
+void Aelfric::CreateSpears() {
+	
+	MrSpear.texture = texture; MsSpear.texture = texture;
+	MrSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 16, 50, bodyType::DYNAMIC, ColliderType::PHYSIC_OBJ, 0.1);
+	MrSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
+	MrSpear.pbody->body->SetGravityScale(0);
+
+	MsSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 16, 50, bodyType::DYNAMIC, ColliderType::PHYSIC_OBJ, 0.1);
+	MsSpear.pbody->body->SetGravityScale(0);
+	MsSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
+
+	MrSpear.pbody->active = true; MsSpear.pbody->active = true;
+
+	float relativeAnchorX_B = 2.0f;  // Offset to the right
+	float relativeAnchorY_B = -1.0f;
+
+	float relativeAnchorX_C = -2.0f;  // Offset to the left
+	float relativeAnchorY_C = -1.0f;
+
+	// These joints make the spears spin around themselves
+	revol1 = app->physics->CreateRevoluteJoint(_body, MrSpear.pbody, relativeAnchorX_B, relativeAnchorY_B, 0, 200);
+	revol2 = app->physics->CreateRevoluteJoint(_body, MsSpear.pbody, relativeAnchorX_C, relativeAnchorY_C, 0, 5.0f);
+
+	//// Set motor speed for rotation
+	//jointB->SetMotorSpeed(2.0f);  // Clockwise rotation
+	//jointC->SetMotorSpeed(-2.0f);  // Counter-clockwise rotation
+
+
+
+	_detectionBody = app->physics->CreateRectangleSensor(position.x, position.y, 250, 200, bodyType::DYNAMIC, ColliderType::ENEMY);
+	myBodies.Add(_detectionBody);
+	_detectionBody->listener = this;
+	_detectionBody->body->SetGravityScale(0);
+
+	MrSpear.pbody->body->SetTransform(_body->body->GetPosition() + b2Vec2(1.0f, 0.0f), MrSpear.pbody->GetRotation());
+	MsSpear.pbody->body->SetTransform(_body->body->GetPosition() + b2Vec2(1.0f, 0.0f), MsSpear.pbody->GetRotation());
+
+	// These joints bind the spears to father Aelfric
+	MsSpear.revol = app->physics->CreateRevoluteJoint(_body, MsSpear.pbody, 2, 0, 0, 5);
+	MrSpear.revol = app->physics->CreateRevoluteJoint(_body, MrSpear.pbody, -2, 0, 0, 5);
+	MrSpear.pbody->body->SetAngularDamping(20);
+	MsSpear.pbody->body->SetAngularDamping(20);
+}

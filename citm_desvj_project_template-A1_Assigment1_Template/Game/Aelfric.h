@@ -46,12 +46,28 @@ public:
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
 
+	void DestroyFloatingSpears();
+
+	void CreateSpears();
+
 	Animation* currentAnimation;
 	Animation walkingAnim;
 
 	Timer ChangePosTimer;
 
 	SDL_Texture* texture = nullptr;
+
+	b2RevoluteJoint* revol1;
+	b2RevoluteJoint* revol2;
+	Timer defendTimer;
+	bool defending = false;
+
+	bool destroySpears = false;
+
+	b2Vec2 ogP1;
+	b2Vec2 ogP2;
+	b2Vec2 ogR1;
+	b2Vec2 ogR2;
 
 	PhysBody* _body;
 	PhysBody* _body2;

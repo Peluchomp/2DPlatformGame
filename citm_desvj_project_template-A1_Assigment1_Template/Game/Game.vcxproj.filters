@@ -60,6 +60,9 @@
     <ClCompile Include="Aelfric.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="EvilSpearLightning.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -147,6 +150,9 @@
     <ClInclude Include="GuiCheckBox.h" />
     <ClInclude Include="TitleScreen.h" />
     <ClInclude Include="Aelfric.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="EvilSpearLightning.h">
       <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>

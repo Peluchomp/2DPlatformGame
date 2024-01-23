@@ -99,6 +99,7 @@
     <ClCompile Include="Angel.cpp" />
     <ClCompile Include="Chandelier.cpp" />
     <ClCompile Include="Checkpoint.cpp" />
+    <ClCompile Include="EvilSpearLightning.cpp" />
     <ClCompile Include="GuiCheckBox.cpp" />
     <ClCompile Include="GuiSlider.cpp" />
     <ClCompile Include="Jorge.cpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Chandelier.h" />
     <ClInclude Include="Checkpoint.h" />
+    <ClInclude Include="EvilSpearLightning.h" />
     <ClInclude Include="GuiCheckBox.h" />
     <ClInclude Include="GuiSlider.h" />
     <ClInclude Include="Jorge.h" />

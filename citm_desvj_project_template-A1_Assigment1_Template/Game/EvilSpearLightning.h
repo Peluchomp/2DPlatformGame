@@ -4,6 +4,7 @@
 #include "Source/Entity.h"
 #include "Source/Point.h"
 #include "SDL/include/SDL.h"
+#include "Thunder.h"
 #include "Animation.h"
 
 struct SDL_Texture;
@@ -35,6 +36,10 @@ public:
 	PhysBody* pbody;
 	PhysBody* eviltwinpbody;
 
+	Thunder* Lthunder;
+	Thunder* Rthunder;
+
+	bool spawnLightning = true;
 	bool awake = false;
 	float startAtackTimer;
 private:

@@ -29,13 +29,13 @@ EvilSpearLightning::~EvilSpearLightning() {}
 bool EvilSpearLightning::Awake() {
 
 	// the awake is only called for entities that are awaken with the manager
-	texture = app->tex->Load(parameters.child("texture").attribute("path").as_string());
+	texture = app->tex->Load("Assets/Textures/priest.png");
 
-	pbody = app->physics->CreateRectangle(position.x, position.y, 16, 200, bodyType::KINEMATIC, ColliderType::ENEMY);
+	pbody = app->physics->CreateRectangle(position.x, position.y, 16, 350, bodyType::KINEMATIC, ColliderType::ENEMY);
 	pbody->ctype = ColliderType::ENEMY;
 	pbody->body->SetGravityScale(0);
 
-	eviltwinpbody = app->physics->CreateRectangle(position.x, position.y, 16, 200, bodyType::KINEMATIC, ColliderType::ENEMY);
+	eviltwinpbody = app->physics->CreateRectangle(position.x, position.y, 16, 350, bodyType::KINEMATIC, ColliderType::ENEMY);
 	eviltwinpbody->ctype = ColliderType::ENEMY;
 	pbody->body->SetGravityScale(0);
 
@@ -67,8 +67,20 @@ bool EvilSpearLightning::Update(float dt)
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x);
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y);
 
-	if (startAtackTimer > 300)
+	if (startAtackTimer > 30)
 	{
+
+		if (spawnLightning == true) {
+			Lthunder = (Thunder*)app->entityManager->CreateEntity(EntityType::THUNDER);
+			Lthunder->parameters = app->scene->scene_parameter.child("thunder");
+			Lthunder->bossThunder = true;
+
+			Rthunder = (Thunder*)app->entityManager->CreateEntity(EntityType::THUNDER);
+			Rthunder->parameters = app->scene->scene_parameter.child("thunder");
+			Rthunder->bossThunder = true;
+			spawnLightning = false;
+		}
+
 		if (taimer.ReadSec() > 1) {
 
 			if (getRandomNumber2(0, 1) == 0) {
@@ -81,15 +93,20 @@ bool EvilSpearLightning::Update(float dt)
 	}
 	else
 	{
-		b2Vec2 pozition = { app->scene->player->pbody->body->GetPosition().x,app->scene->player->pbody->body->GetPosition().y - 1 };
+		b2Vec2 pozition = { app->scene->player->pbody->body->GetPosition().x,app->scene->player->pbody->body->GetPosition().y - 2 };
 		pbody->body->SetTransform(pozition, 0);
 	}
-
+	if (spawnLightning == false) {
+		Lthunder->bossPos.x = position.x - 65;
+		Lthunder->bossPos.y = position.y - 120;
+		Rthunder->bossPos.x = position.x + 40;
+		Rthunder->bossPos.y = position.y - 120;
+	}
 	b2Vec2 pozition = { pbody->body->GetPosition().x + 2,pbody->body->GetPosition().y};
 	eviltwinpbody->body->SetTransform(pozition, 0);
-
-	app->render->DrawTexture(texture, pbody->body->GetPosition().x + 2, pbody->body->GetPosition().y, false);
-	app->render->DrawTexture(texture, METERS_TO_PIXELS(eviltwinpbody->body->GetTransform().p.x), METERS_TO_PIXELS(eviltwinpbody->body->GetTransform().p.y), false);
+	SDL_Rect spearRect = { 34,4,15,81 };
+	app->render->DrawTexture(texture, METERS_TO_PIXELS(pbody->body->GetTransform().p.x), METERS_TO_PIXELS(pbody->body->GetTransform().p.y - 130), false, &spearRect);
+	app->render->DrawTexture(texture, METERS_TO_PIXELS(eviltwinpbody->body->GetTransform().p.x), METERS_TO_PIXELS(eviltwinpbody->body->GetTransform().p.y - 130), false, &spearRect);
 
 	return true;
 }

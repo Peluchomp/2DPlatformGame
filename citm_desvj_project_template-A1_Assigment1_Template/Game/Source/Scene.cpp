@@ -15,10 +15,10 @@
 #include "../Checkpoint.h"
 #include "../Aelfric.h"
 #include "../EvilSpin.h"
-#include "GuiControl.h"
-#include "GuiManager.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 #include "../GuiSlider.h"
+#include "GuiControl.h"
+#include "GuiManager.h"
 
 Scene::Scene() : Module()
 {
@@ -178,7 +178,9 @@ bool Scene::Start()
 	SDL_Rect musicbtPos = { windowW / 2 - 60, windowH / 2 + 70 , 120,20 };
 	SDL_Rect fullscreenbtPos = { windowW / 2 - 60, windowH / 2  , 40,40 };
 	SDL_Rect vSyncPos = { windowW / 2 - 60, windowH / 2 - 50 , 40,40 };
+	SDL_Rect resumePos = { windowW / 2 - 60, windowH / 2 - 100, 120,20 };
 	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "   Exit   ", btPos, this);
+	resumeButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "   Resume   ", resumePos, this);
 	musicButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 2, "   Sound   ", musicbtPos, this);
 	fullScreenButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 3, "   Fullscreen   ", fullscreenbtPos, this);
 	vSyncButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 4, "   Vsync   ", vSyncPos, this);
@@ -493,6 +495,18 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 	}
 	if (control->id == 3 && fullscreen == false) {
 		fullscreen = true;
+<<<<<<< Updated upstream
+=======
+		fullscreenOnce = 0;
+		SDL_SetWindowFullscreen(app->win->window, SDL_WINDOW_FULLSCREEN);
+	}
+	if (control->id == 5) {
+		app->scene->player->options = false;
+	}
+	
+	if (control->id == 3 && fullscreen == true && fullscreenOnce > 1) {
+		
+>>>>>>> Stashed changes
 
 		Uint32 flags = SDL_WINDOW_SHOWN;
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;

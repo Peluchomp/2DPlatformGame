@@ -50,7 +50,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map, false);
 	AddModule(entityManager);
 	AddModule(moduleEnemies);
-	AddModule(guiManager,false);
+	AddModule(guiManager,true);
 
 	// Render last to swap buffer
 	AddModule(render);

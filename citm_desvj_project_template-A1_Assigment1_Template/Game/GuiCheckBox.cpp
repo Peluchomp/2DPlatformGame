@@ -98,6 +98,7 @@ bool GuiCheckBox::Update(float dt)
     default:
         break;
     }
+    if (state != GuiControlState::DISABLED)
     app->render->DrawText(text.GetString(), bounds.x + 43, bounds.y, bounds.w + 60, bounds.h);
     return false;
 }

@@ -24,7 +24,7 @@ TitleScreen::TitleScreen() : Module()
 	name.Create("title_screen");
 }
 
-// Destructor
+// Destructorhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
 TitleScreen::~TitleScreen()
 {}
 
@@ -37,7 +37,7 @@ bool TitleScreen::Awake(pugi::xml_node& config)
 	mynode = config;
 	return true;
 }
-
+//hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
 // Called before the first frame
 bool TitleScreen::Start()
 {
@@ -82,6 +82,32 @@ bool TitleScreen::Start()
 	spearFrame->texture = app->tex->Load("Assets/Textures/Opening/logoSpear.png");
 
 	delayTimer.Start();
+
+	app->win->GetWindowSize(windowW, windowH);
+
+	skip = false;
+	stopesquizo = 0;
+	startt = false;
+
+	SDL_Rect btPos = { windowW / 2 - 60, windowH / 2 + 50, 120,20 };
+	SDL_Rect exitPos = { windowW / 2 - 60, windowH / 2 + 250, 120,20 };
+	SDL_Rect optionsPos = { windowW / 2 - 60, windowH / 2+150 , 120,20 };
+	SDL_Rect musicbtPos = { windowW / 2 - 60, windowH / 2 + 120 , 120,20 };
+	SDL_Rect vSyncPos = { windowW / 2 - 60, windowH / 2 + 150 , 40,40 };
+	SDL_Rect fullscreenbtPos = { windowW / 2 - 60, windowH / 2 + 50  , 40,40 };
+
+	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "   Start   ", btPos, this);
+	exitButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, "   Exit   ", exitPos, this);
+	optionsButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 8, "   Options   ", optionsPos, this);
+	backButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 9, "   Back   ", exitPos, this);
+	musicButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 10, "   Sound   ", musicbtPos, this);
+	fullScreenButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 11, "   Fullscreen   ", fullscreenbtPos, this);
+	vSyncButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 12, "   Vsync   ", vSyncPos, this);
+
+
+	gcButtom->state = GuiControlState::DISABLED;
+	exitButtom->state = GuiControlState::DISABLED;
+	optionsButtom->state = GuiControlState::DISABLED;
 	return true;
 	
 }
@@ -97,22 +123,27 @@ bool TitleScreen::PreUpdate()
 // Called each loop iteration
 bool TitleScreen::Update(float dt)
 {
+	tittleTimerSec = titleTimer.ReadSec();
+	tittleTimerMSec = titleTimer.ReadMSec();
+
+	
+
 	if (delayTimer.ReadMSec() > 2500) {
 
 
 
 		ListItem<Frame*>* it = myFrames.start;
 		while (it != NULL) {
-
+			if (skip == false)
 			it->data->Update(dt);
 
 
 			it = it->next;
 		}
-
+	
 		spearFrame->Update(dt);
 
-		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && app->scene->active == false) {
+		if (app->scene->active == false && startt == true) {
 
 			app->physics->active = true;
 			app->physics->Start();
@@ -127,35 +158,83 @@ bool TitleScreen::Update(float dt)
 
 			app->guiManager->active = true;
 			app->guiManager->Start();
-
+			gcButtom->state = GuiControlState::DISABLED;
+			exitButtom->state = GuiControlState::DISABLED;
+			optionsButtom->state = GuiControlState::DISABLED;
 		}
 
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			skip = true;
+		}
 
+		if (skip == true) 
+		{
+			tittleTimerSec = 50;
+			tittleTimerMSec = 50000;
+		}
 
-		if (titleTimer.ReadSec() > 44 && titleTimer.ReadSec() < 49) {
+		if (tittleTimerSec > 44)
+		{
+			gcButtom->state = GuiControlState::NORMAL;
+			exitButtom->state = GuiControlState::NORMAL;
+			optionsButtom->state = GuiControlState::NORMAL;
+		}
+
+		if (tittleTimerSec > 44 && tittleTimerSec < 49 || skip == true) {
 			int alpha = 255;
 
 			blinkCounter++;
+			stopesquizo++;
 			if (blinkCounter > 4) {
-				alpha = 110;
+				alpha = 200;
 				if (blinkCounter > 8) {
 					blinkCounter = 0;
 				}
 			}
+			if (stopesquizo > 300)
+				alpha = 0;
+
 			SDL_Rect ruct = SDL_Rect{ 0,0,640,360 };
 			app->render->DrawTexture(finalFrame, 0, 0, false, &ruct, alpha);
 		}
 		
-		if (titleTimer.ReadSec() > 47) {
+		if (tittleTimerSec > 47) {
 			
 			SDL_Rect ruct = SDL_Rect{ 0,0,640,185 };
 			app->render->DrawTexture(Logo.texture, 0, 0, false, &ruct);
-			if (titleTimer.ReadMSec() > 49000) {
+			if (tittleTimerMSec > 49000) {
 				app->render->DrawTexture(Flame->texture, 0, 230, true, &Flame->currentAnim->GetCurrentFrame());
 				Flame->currentAnim->Update();
 			}
 		}
 	}
+	if (optionsTittle == true)
+	{
+		gcButtom->state = GuiControlState::DISABLED;
+		exitButtom->state = GuiControlState::DISABLED;
+		optionsButtom->state = GuiControlState::DISABLED;
+		backButtom->state = GuiControlState::NORMAL;
+
+		musicButtom->state = GuiControlState::NORMAL;
+		fullScreenButtom->state = GuiControlState::NORMAL;
+		vSyncButtom->state = GuiControlState::NORMAL;
+
+	}
+	else
+	{
+		backButtom->state = GuiControlState::DISABLED;
+		musicButtom->state = GuiControlState::DISABLED;
+		fullScreenButtom->state = GuiControlState::DISABLED;
+		vSyncButtom->state = GuiControlState::DISABLED;
+	}
+	if (app->scene->active == true) 
+	{
+		gcButtom->state = GuiControlState::DISABLED;
+		exitButtom->state = GuiControlState::DISABLED;
+		optionsButtom->state = GuiControlState::DISABLED;
+	}
+
 	return true;
 }
 
@@ -164,7 +243,8 @@ bool TitleScreen::PostUpdate()
 {
 	bool ret = true;
 
-	
+	if (exit == true)
+		ret = false;
 
 	return ret;
 }
@@ -177,3 +257,61 @@ bool TitleScreen::CleanUp()
 	return true;
 }
 
+bool TitleScreen::OnGuiMouseClickEvent(GuiControl* control)
+{
+	fullscreenOnce++;
+	vsyncOnce++;
+
+	if (control->id == 6) {
+		startt = true;
+		
+	}
+
+	if (control->id == 8) {
+		optionsTittle = true;
+
+	}
+
+	if (control->id == 9) {
+		optionsTittle = false;
+
+	}
+
+	if (control->id == 7) {
+		
+		exit = true;
+	}
+
+	if (control->id == 11 && fullscreen == false && fullscreenOnce >= 1) {
+		fullscreen = true;
+		fullscreenOnce = 0;
+		SDL_SetWindowFullscreen(app->win->window, SDL_WINDOW_FULLSCREEN);
+	}
+
+
+	if (control->id == 11 && fullscreen == true && fullscreenOnce >= 1) {
+
+
+		fullscreen = false;
+		fullscreenOnce = 0;
+		uint heigth;
+		uint width;
+
+		app->win->GetWindowSize(width, heigth);
+
+		SDL_SetWindowFullscreen(app->win->window, 0);
+		SDL_SetWindowSize(app->win->window, width, heigth);
+	}
+
+	if (control->id == 12 && vSync == false && vsyncOnce >= 1) {
+		vSync = true;
+		vsyncOnce = 0;
+
+	}
+	else if (control->id == 12 && vSync == true && vsyncOnce >= 1) {
+		vSync = false;
+		vsyncOnce = 0;
+	}
+
+	return true;
+}

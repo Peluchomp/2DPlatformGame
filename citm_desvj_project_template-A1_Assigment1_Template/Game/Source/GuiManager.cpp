@@ -56,10 +56,11 @@ bool GuiManager::Update(float dt)
 
 	while (control != nullptr)
 	{
-		if (control->data->id != 1 && control->data->id != 2 && control->data->id != 3 && control->data->id != 4)
+		if (control->data->id != 5 && control->data->id != 1 && control->data->id != 2 && control->data->id != 3 && control->data->id != 4)
 		control->data->Update(dt);
 
-		if ((control->data->id == 4 || control->data->id == 3 || control->data->id == 2 || control->data->id == 1) && app->scene->player->options == true)
+		if (app->scene->active == true)
+		if ((control->data->id == 5 || control->data->id == 4 || control->data->id == 3 || control->data->id == 2 || control->data->id == 1) && app->scene->player->options == true)
 			control->data->Update(dt);
 		
 		

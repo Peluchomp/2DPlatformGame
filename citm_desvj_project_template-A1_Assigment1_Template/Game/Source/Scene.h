@@ -71,6 +71,7 @@ private:
 	GuiControlButton* musicButtom;
 	GuiControlButton* fullScreenButtom;
 	GuiControlButton* vSyncButtom;
+	GuiControlButton* resumeButtom;
 
 public:
 
@@ -87,6 +88,8 @@ public:
 	float volume = 90;
 	bool fullscreen = false;
 	bool vSync = false;
+	int fullscreenOnce;
+	int vsyncOnce;
 };
 
 #endif // __SCENE_H__

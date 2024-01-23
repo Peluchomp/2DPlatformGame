@@ -56,7 +56,7 @@ bool Aelfric::Start() {
 	_body->body->SetGravityScale(1);
 	_body->listener = this;
 
-	_body2 = app->physics->CreateCircle(position.x, position.y, 30, bodyType::DYNAMIC, ColliderType::PHYS2,true);
+	_body2 = app->physics->CreateCircle(position.x, position.y, 8, bodyType::DYNAMIC, ColliderType::ENEMY);
 	_body2->ctype = ColliderType::ENEMY;
 	_body2->body->SetGravityScale(1);
 	_body3 = app->physics->CreateCircle(position.x , position.y, 30, bodyType::DYNAMIC, ColliderType::PHYS2,true);
@@ -71,30 +71,15 @@ bool Aelfric::Start() {
 
 
 	MrSpear.texture = texture; MsSpear.texture = texture;
-	MrSpear.pbody = app->physics->CreateRectangle(30, 0, 16, 50, bodyType::DYNAMIC, ColliderType::PHYSIC_OBJ, 0.1);
+	MrSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 16, 50, bodyType::DYNAMIC, ColliderType::PHYSIC_OBJ, 0.1);
 	MrSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
 	MrSpear.pbody->body->SetGravityScale(0);
 
-	MsSpear.pbody = app->physics->CreateRectangle(200, 0, 16, 50, bodyType::DYNAMIC, ColliderType::PHYSIC_OBJ, 0.1);
+	MsSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 16, 50, bodyType::DYNAMIC, ColliderType::PHYSIC_OBJ, 0.1);
 	MsSpear.pbody->body->SetGravityScale(0);
 	MsSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
 
-	/*MrSpear.rotationB = app->physics->CreateCircle(MrSpear.pbody->body->GetPosition().x, MrSpear.pbody->body->GetPosition().y, 5, bodyType::DYNAMIC, ColliderType::PHYSIC_OBJ, false);
-	MsSpear.rotationB = app->physics->CreateCircle(MrSpear.pbody->body->GetPosition().x, MrSpear.pbody->body->GetPosition().y, 5, bodyType::DYNAMIC, ColliderType::PHYSIC_OBJ, true);
-	MrSpear.rotationB->body->SetGravityScale(0); MsSpear.rotationB->body->SetGravityScale(0);*/
 
-
-	float rightAnchorX = 2;  // Adjust as needed
-	float rightAnchorY = 0.0f;
-
-	// Left side for MsSpear
-	float leftAnchorX = -2;  // Adjust as needed
-	float leftAnchorY = 0.0f;
-
-
-	// revolute joints
-	MrSpear.revol = app->physics->CreateRevoluteJoint(MrSpear.pbody, _body2, rightAnchorX, rightAnchorY, 0);
-	MsSpear.revol = app->physics->CreateRevoluteJoint(MsSpear.pbody, _body3, leftAnchorX, leftAnchorY , -0);
 
 	//MrSpear.revolMe = app->physics->CreateRevoluteJoint( MrSpear.rotationB, MrSpear.pbody, 0, 0, 300);
 
@@ -104,8 +89,12 @@ bool Aelfric::Start() {
 	_detectionBody->body->SetGravityScale(0);
 
 	_body2->body->SetTransform(_body->body->GetPosition(), _body->body->GetAngle());
-	_body3->body->SetTransform(_body->body->GetPosition(), _body->body->GetAngle());
-	
+
+	MrSpear.pbody->body->SetTransform(_body->body->GetPosition() + b2Vec2(1.0f, 0.0f), MrSpear.pbody->GetRotation());
+	MsSpear.pbody->body->SetTransform(_body->body->GetPosition() + b2Vec2(-1.0f, 0.0f), MsSpear.pbody->GetRotation());
+
+	MsSpear.revol = app->physics->CreateRevoluteJoint(_body, MsSpear.pbody, 2, 0, 2);
+	MrSpear.revol = app->physics->CreateRevoluteJoint(_body, MrSpear.pbody, -2, 0, -2);
 	
 	return true;
 }
@@ -119,8 +108,9 @@ bool Aelfric::PreUpdate(float dt)
 bool Aelfric::Update(float dt)
 {
 	
-	MrSpear.revol->SetMotorSpeed(10);
-	MsSpear.revol->SetMotorSpeed(-10);
+
+	MsSpear.pbody->body->SetAngularVelocity(10);
+	MrSpear.pbody->body->SetAngularVelocity(-10);
 
 	b2Vec2 Velocity;
 
@@ -153,17 +143,16 @@ bool Aelfric::Update(float dt)
 		
 
 		_body->body->SetLinearVelocity(Velocity);
-		_body2->body->SetLinearVelocity(Velocity);
-		_body3->body->SetLinearVelocity(Velocity);
+		_body->body->SetLinearVelocity(Velocity);
+	
 		currentAnimation->Update();
 
 		// Blit
 
-		position.x = METERS_TO_PIXELS(_body->body->GetTransform().p.x);
-		position.y = METERS_TO_PIXELS(_body->body->GetTransform().p.y);
+		_body->GetPosition(position.x, position.y);
+		
 
-		//MrSpear.pbody->body->SetTransform(_body->body->GetPosition() + b2Vec2(1.0f, 0.0f), MrSpear.pbody->GetRotation());
-		//MsSpear.pbody->body->SetTransform(_body->body->GetPosition() + b2Vec2(-1.0f, 0.0f), 0.0f);
+		
 		
 		int R = 255, G = 255, B = 255;
 
@@ -191,7 +180,7 @@ bool Aelfric::Update(float dt)
 	//	MsSpear.rotationB->body->SetTransform(_body->body->GetPosition(), 0.0f);
 
 		SDL_Rect spearRect = { 560,1,17,85 };
-		app->render->DrawTexture(texture, sp1Posx -8, sp1Posy-40, false, &spearRect, 255, 1,255,255,255, MrSpear.pbody->GetRotation());
+	 	app->render->DrawTexture(texture, sp1Posx -8, sp1Posy-40, false, &spearRect, 255, 1,255,255,255, MrSpear.pbody->GetRotation());
 		app->render->DrawTexture(texture, sp2Posx - 8, sp2Posy - 40, false, &spearRect, 255, 1, 255, 255, 255, MsSpear.pbody->GetRotation());
 		if (myDir == Direction::LEFT) {
 			app->render->DrawTexture(texture, position.x - 75, position.y - 50, true, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);

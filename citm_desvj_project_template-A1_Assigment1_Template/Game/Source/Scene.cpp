@@ -493,8 +493,7 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 	}
 	if (control->id == 3 && fullscreen == false) {
 		fullscreen = true;
-<<<<<<< Updated upstream
-=======
+
 		fullscreenOnce = 0;
 		SDL_SetWindowFullscreen(app->win->window, SDL_WINDOW_FULLSCREEN);
 	}
@@ -504,7 +503,7 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 	
 	if (control->id == 3 && fullscreen == true && fullscreenOnce > 1) {
 		
->>>>>>> Stashed changes
+
 
 		Uint32 flags = SDL_WINDOW_SHOWN;
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;

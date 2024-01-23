@@ -91,10 +91,10 @@ bool Aelfric::Start() {
 	_body2->body->SetTransform(_body->body->GetPosition(), _body->body->GetAngle());
 
 	MrSpear.pbody->body->SetTransform(_body->body->GetPosition() + b2Vec2(1.0f, 0.0f), MrSpear.pbody->GetRotation());
-	MsSpear.pbody->body->SetTransform(_body->body->GetPosition() + b2Vec2(-1.0f, 0.0f), MsSpear.pbody->GetRotation());
+	MsSpear.pbody->body->SetTransform(_body->body->GetPosition() + b2Vec2(1.0f, 0.0f), MsSpear.pbody->GetRotation());
 
-	MsSpear.revol = app->physics->CreateRevoluteJoint(_body, MsSpear.pbody, 2, 0, 2);
-	MrSpear.revol = app->physics->CreateRevoluteJoint(_body, MrSpear.pbody, -2, 0, -2);
+	MsSpear.revol = app->physics->CreateRevoluteJoint(_body, MsSpear.pbody, 2, 0, 0);
+	MrSpear.revol = app->physics->CreateRevoluteJoint(_body, MrSpear.pbody, -2, 0, 0);
 	
 	return true;
 }
@@ -109,8 +109,8 @@ bool Aelfric::Update(float dt)
 {
 	
 
-	MsSpear.pbody->body->SetAngularVelocity(10);
-	MrSpear.pbody->body->SetAngularVelocity(-10);
+	MrSpear.pbody->body->SetAngularVelocity(10);
+
 
 	b2Vec2 Velocity;
 
@@ -176,17 +176,18 @@ bool Aelfric::Update(float dt)
 		
 		//MrSpear.rotationB->body->SetTransform(MrSpear.pbody->body->GetPosition(), 0);
 		_detectionBody->body->SetTransform(_body->body->GetPosition(),0.0f);
+		MsSpear.pbody->body->SetTransform(MsSpear.pbody->body->GetPosition(), MrSpear.pbody->GetRotation());
 	//	MrSpear.rotationB->body->SetTransform(_body->body->GetPosition(), 0.0f);
 	//	MsSpear.rotationB->body->SetTransform(_body->body->GetPosition(), 0.0f);
 
 		SDL_Rect spearRect = { 560,1,17,85 };
 	 	app->render->DrawTexture(texture, sp1Posx -8, sp1Posy-40, false, &spearRect, 255, 1,255,255,255, MrSpear.pbody->GetRotation());
-		app->render->DrawTexture(texture, sp2Posx - 8, sp2Posy - 40, false, &spearRect, 255, 1, 255, 255, 255, MsSpear.pbody->GetRotation());
+		app->render->DrawTexture(texture, sp2Posx - 8, sp2Posy - 40, false, &spearRect, 255, 1, 255, 255, 255, MrSpear.pbody->GetRotation());
 		if (myDir == Direction::LEFT) {
-			app->render->DrawTexture(texture, position.x - 75, position.y - 50, true, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
+			app->render->DrawTexture(texture, position.x - 60, position.y - 35, true, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
 		}
 		else if (myDir == Direction::RIGHT) {
-			app->render->DrawTexture(texture, position.x - 75, position.y - 50, false, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
+			app->render->DrawTexture(texture, position.x - 60, position.y - 35, false, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
 		}
 	}
 

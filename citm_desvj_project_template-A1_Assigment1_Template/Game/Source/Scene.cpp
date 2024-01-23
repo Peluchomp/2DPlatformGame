@@ -14,6 +14,7 @@
 #include "../MegaMorgan.h"
 #include "../Checkpoint.h"
 #include "../Aelfric.h"
+#include "../EvilSpin.h"
 #include "GuiControl.h"
 #include "GuiManager.h"
 #include "SDL_mixer/include/SDL_mixer.h"
@@ -373,6 +374,14 @@ bool Scene::Update(float dt)
 				break;
 			}
 		}
+
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN) {
+
+		EvilSpin* ev = (EvilSpin*)app->entityManager->CreateEntity(EntityType::EVILSPIN);
+		ev->position.x = player->position.x; ev->position.y = player->position.y - 100;
+		ev->Awake();
 
 	}
 

@@ -184,7 +184,7 @@ bool Aelfric::Update(float dt)
 	 	app->render->DrawTexture(texture, sp1Posx -8, sp1Posy-40, false, &spearRect, 255, 1,255,255,255, MrSpear.pbody->GetRotation());
 		app->render->DrawTexture(texture, sp2Posx - 8, sp2Posy - 40, false, &spearRect, 255, 1, 255, 255, 255, MrSpear.pbody->GetRotation());
 		if (myDir == Direction::LEFT) {
-			app->render->DrawTexture(texture, position.x - 60, position.y - 35, true, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
+			app->render->DrawTexture(texture, position.x - 70, position.y - 35, true, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
 		}
 		else if (myDir == Direction::RIGHT) {
 			app->render->DrawTexture(texture, position.x - 60, position.y - 35, false, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);

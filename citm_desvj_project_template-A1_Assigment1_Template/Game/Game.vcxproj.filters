@@ -63,6 +63,9 @@
     <ClCompile Include="EvilSpearLightning.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="EvilSpin.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -153,6 +156,9 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="EvilSpearLightning.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="EvilSpin.h">
       <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>

@@ -13,6 +13,7 @@
 #include "../Aelfric.h"
 #include "../Checkpoint.h"
 #include "../EvilSpearLightning.h"
+#include "../EvilSpin.h"
 #include "Optick/include/optick.h"
 #include "Defs.h"
 #include "Log.h"
@@ -139,6 +140,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		break;
 	case EntityType::EVILSPEARLIGHTNING:
 		entity = new EvilSpearLightning();
+		break;
+	case EntityType::EVILSPIN:
+		entity = new EvilSpin();
 		break;
 	default:
 		break;

@@ -59,7 +59,7 @@ bool Aelfric::Start() {
 	myDir = Direction::RIGHT;
 	ChangePosTimer.Start();
 
-	
+	hp = 20;
 	CreateSpears();
 
 	ogP1 = MrSpear.pbody->body->GetPosition(); 
@@ -203,16 +203,16 @@ void Aelfric::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::ENEMY_ATTACK:
 		LOG("erpt");
 		if (physB != MrSpear.pbody && physB != MsSpear.pbody) {
-			HP--;
+			hp--;
 			destroySpears = true;
 			hurt = true;
 			hurtTimer.Start();
 		}
 		break;
 	case ColliderType::PLAYER_ATTACK:
-		if (active) {
+		if (physB->active && physA == _body) {
 			LOG("erpt");
-			HP--;
+			hp--;
 			hurt = true;
 			hurtTimer.Start();
 		}
@@ -235,21 +235,21 @@ void Aelfric::DestroyFloatingSpears() {
 void Aelfric::CreateSpears() {
 	
 	MrSpear.texture = texture; MsSpear.texture = texture;
-	MrSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 16, 50, bodyType::DYNAMIC, ColliderType::PHYSIC_OBJ, 0.1);
+	MrSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 16, 50, bodyType::DYNAMIC, ColliderType::PHYS2, 0.1);
 	MrSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
 	MrSpear.pbody->body->SetGravityScale(0);
 
-	MsSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 16, 50, bodyType::DYNAMIC, ColliderType::PHYSIC_OBJ, 0.1);
+	MsSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 16, 50, bodyType::DYNAMIC, ColliderType::PHYS2, 0.1);
 	MsSpear.pbody->body->SetGravityScale(0);
 	MsSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
 
 	MrSpear.pbody->active = true; MsSpear.pbody->active = true;
 
-	float relativeAnchorX_B = 2.0f;  // Offset to the right
-	float relativeAnchorY_B = -1.0f;
+	float relativeAnchorX_B = 0.5f;  // Offset to the right
+	float relativeAnchorY_B = -0.5f;
 
-	float relativeAnchorX_C = -2.0f;  // Offset to the left
-	float relativeAnchorY_C = -1.0f;
+	float relativeAnchorX_C = -0.5f;  // Offset to the left
+	float relativeAnchorY_C = -0.5f;
 
 	// These joints make the spears spin around themselves
 	revol1 = app->physics->CreateRevoluteJoint(_body, MrSpear.pbody, relativeAnchorX_B, relativeAnchorY_B, 0, 200);
@@ -274,4 +274,16 @@ void Aelfric::CreateSpears() {
 	MrSpear.revol = app->physics->CreateRevoluteJoint(_body, MrSpear.pbody, -2, 0, 0, 5);
 	MrSpear.pbody->body->SetAngularDamping(20);
 	MsSpear.pbody->body->SetAngularDamping(20);
+}
+
+bool Aelfric::PostUpdate() {
+
+	if (app->scene->bossZone == true) {
+
+		healthBar = { 520 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), 20, 7 * hp };
+		app->render->DrawRectangle(SDL_Rect{ 520 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), 20, 140 }, 78, 0, 0, 255);
+		app->render->DrawRectangle(healthBar, 27, 210, 152, 255);
+
+	}
+	return true;
 }

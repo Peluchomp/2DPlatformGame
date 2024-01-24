@@ -236,6 +236,21 @@ bool EntityManager::Update(float dt)
 	return ret;
 }
 
+
+bool EntityManager::PostUpdate() {
+	// This will be used for entities that have to render something overlapping
+
+	bool ret = true;
+	ListItem<Entity*>* item;
+	Entity* pEntity = NULL;
+	for (item = entities.end; item != NULL && ret == true; item = item->prev)
+	{
+		pEntity = item->data;
+		ret = pEntity->PostUpdate();
+	}
+	return ret;
+}
+
 bool EntityManager::LoadState(pugi::xml_node node) {
 	OPTICK_EVENT("Load entities")
 

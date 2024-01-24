@@ -162,6 +162,9 @@ PhysBody* Physics::CreateRectangle(int x, int y, int width, int height, bodyType
 	case(ColliderType::UNKNOWN):
 		Fixture.filter = floatPlatformFilterData;
 		break;
+	case (ColliderType::PHYS2):
+		Fixture.filter = physic2Filter;
+		break;
 	}
 
 	b->CreateFixture(&Fixture);

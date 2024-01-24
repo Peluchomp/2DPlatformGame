@@ -40,6 +40,8 @@ public:
 
 	bool Update(float dt);
 
+	bool PostUpdate();
+
 	bool CleanUp();
 
 	bool PreUpdate(float dt);
@@ -68,6 +70,7 @@ public:
 	b2Vec2 ogP2;
 	b2Vec2 ogR1;
 	b2Vec2 ogR2;
+	SDL_Rect healthBar;
 
 	PhysBody* _body;
 	PhysBody* _body2;
@@ -77,7 +80,7 @@ public:
 	evilSpear MrSpear;
 	evilSpear MsSpear;
 
-	int HP = 20;
+	
 	bool hurt = false;
 	Timer hurtTimer;
 

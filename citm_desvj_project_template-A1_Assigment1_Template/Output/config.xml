@@ -625,8 +625,9 @@
 	  <orb_spawn num="4"  x="991" y="60" />
 	  <orb_spawn num="5"  x="991" y="141" />
 	  <orb_spawn num="6"  x="1231" y="149" />
-	  <orb_spawn num="7"  x="1375" y="224" />
-	  <orb_spawn num="8"  x="1656" y="317" />
+	  <orb_spawn num="7"  x="1375" y="224" />ael
+	  <orb_spawn num="8"  x="1656" y="317" />aeflric
+	  
 	  <orb_spawn num="9"  x="2028" y="208" />
 	  <orb_spawn num="10"  x="2431" y="333" />
 	  <orb_spawn num="11"  x="3447" y="317" />
@@ -658,8 +659,8 @@
 
 	  <chandelure num="46" x="1780" y ="920" dir="right" type="0" />
 
-	  <chandelure num="47" x="4360" y ="800" dir="right" type="1" />
-	  <chandelure num="48" x="4640" y ="800" dir="left" type="1" />
+
+	  <chandelure num="48" x="4520" y ="760" dir="left" type=" 0" />
 
 	  <thunder texturepath ="Assets/Textures/thunder-Sheet.png" >
 		  <frame x="1" y="1" w="138" h="344" />

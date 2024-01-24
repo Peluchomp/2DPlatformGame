@@ -76,9 +76,12 @@ private:
 
 public:
 
+	// Detect when the player reaches the shadow part of the second level
 	PhysBody* blackDetection;
 	bool noir = false;
 
+	// Locl the boss room when the player arrives
+	PhysBody* bossDoor;
 	bool bossZone = false;
 
 	int currentLvl = 0;

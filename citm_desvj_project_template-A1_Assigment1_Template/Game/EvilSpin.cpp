@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include <ctime>
 
+
 int getRandomNumber3(int min, int max) {
 	// Seed the random number generator with the current time
 	std::srand(static_cast<unsigned int>(std::time(0)));
@@ -90,6 +91,7 @@ bool EvilSpin::Update(float dt)
 				revol = app->physics->CreateRevoluteJoint(pbody, pbody, anchorX, anchorY, 0.0f, 5);
 				revol->SetMotorSpeed(0.01f);
 				pbody->body->SetAngularDamping(5);
+				pbody->body->SetLinearVelocity(b2Vec2_zero);
 			}
 		}
 
@@ -99,9 +101,10 @@ bool EvilSpin::Update(float dt)
 
 
 		SDL_Rect spearRect = { 560,1,17,85 };
-		app->render->DrawTexture(texture, position.x, position.y, false, &spearRect, 255, 1, 255, 255, 255, pbody->GetRotation());
+		app->render->DrawTexture(texture, position.x, position.y -30, false, &spearRect, 255, 1, 255, 255, 255, pbody->GetRotation());
 	
-	if ( timeAlive.ReadSec() > 4  && !pendingToDestroy) {
+	if ( timeAlive.ReadSec() > 8  && !pendingToDestroy) {
+		app->physics->world->DestroyJoint(revol);
 		pendingToDestroy = true;
 		timeAlive.Start();
 	}
@@ -113,8 +116,9 @@ bool EvilSpin::Update(float dt)
 iPoint EvilSpin::GenerateRandomDestination(const iPoint& initialPos, float distance)
 {
 
-	float angle = static_cast<float>(getRandomNumber3(0, 360));
-	angle *= 20;
+	int angle (getRandomNumber3(0,180));
+	angle *= 30;
+	angle %= 180;
 	float radianAngle = DEGTORAD * angle;
 	float destX = initialPos.x + distance * cosf(radianAngle);
 	float destY = initialPos.y + distance * sinf(radianAngle);

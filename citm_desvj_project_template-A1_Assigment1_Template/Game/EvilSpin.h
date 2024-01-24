@@ -49,7 +49,7 @@ public:
 
 	b2RevoluteJoint* revol;
 
-	int distance = 70;
+	int distance = 200;
 
 	float speed = 3;
 

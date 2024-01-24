@@ -61,6 +61,8 @@ public:
 
 	void CreateSpears();
 
+	void SpinAttackLogic();
+
 	void Teleport();
 
 	bool startFight = false;
@@ -91,6 +93,10 @@ public:
 	PhysBody* _body3;
 	PhysBody* _detectionBody;
 
+	iPoint ogPos;
+
+	b2Vec2 ogTransform;
+
 	evilSpear MrSpear;
 	evilSpear MsSpear;
 
@@ -98,6 +104,7 @@ public:
 	bool startedSpin = false;
 	bool spinTimeDecided = false;
 	bool startedThunder = false;
+	bool groundPhase = true;
 	Timer attackChangeTimer;
 
 	Timer floorSpearTimer;
@@ -108,6 +115,8 @@ public:
 	
 	bool hurt = false;
 	Timer hurtTimer;
+
+	
 
 	bool first = true;
 	bool awake = false;

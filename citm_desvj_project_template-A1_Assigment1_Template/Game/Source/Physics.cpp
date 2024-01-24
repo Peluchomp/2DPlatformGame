@@ -117,6 +117,18 @@ bool Physics::PreUpdate()
 		}
 	}
 
+	
+	/*ListItem<PhysBody*>* p = corpses.start;
+		while (p != nullptr) {
+
+			ListItem<PhysBody*>* p2 = p->next;
+			DestroyObject(p->data);
+			p = p2;
+
+			
+
+		}*/
+
 	return ret;
 }
 

@@ -4,7 +4,7 @@
 #include "../GuiManager.h"
 #include "../Audio.h"
 #include "../Window.h"
-
+#include "TitleScreen.h"
 GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* tex) : GuiControl(GuiControlType::SLIDER, id)
 {
     this->bounds = bounds;
@@ -43,6 +43,7 @@ bool GuiSlider::Update( float dt)
             unit = bounds.w / 100.0f;
             value = (mouseX - bounds.x) / unit;
             value = round(value);
+
 
             value2 = (sliderPosx - bounds.x) / unit;
             value2 = round(value2);
@@ -122,6 +123,8 @@ bool GuiSlider::Update( float dt)
     }
 
     app->scene->volume = value2;
+    app->titleS->volume3 = value2;
+
     return false;
 }
 

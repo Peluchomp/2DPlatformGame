@@ -5,6 +5,7 @@
 #include "GuiControlButton.h"
 #include "../GuiSlider.h"
 #include "../GuiCheckBox.h"
+#include "../TitleScreen.h"
 #include "Audio.h"
 #include "Scene.h"
 GuiManager::GuiManager() :Module()
@@ -56,11 +57,11 @@ bool GuiManager::Update(float dt)
 
 	while (control != nullptr)
 	{
-		if (control->data->id != 43 && control->data->id != 5 && control->data->id != 1 && control->data->id != 2 && control->data->id != 3 && control->data->id != 4)
+		if (control->data->id != 43 && control->data->id != 5 && control->data->id != 1  && control->data->id != 3 && control->data->id != 4 )
 		control->data->Update(dt);
 
 		if (app->scene->active == true)
-		if ((control->data->id == 43 || control->data->id == 5 || control->data->id == 4 || control->data->id == 3 || control->data->id == 2 || control->data->id == 1) && app->scene->player->options == true)
+		if ((control->data->id == 43 || control->data->id == 5 || control->data->id == 4 || control->data->id == 3 || control->data->id == 1) && app->titleS->options == true)
 			control->data->Update(dt);
 		
 		

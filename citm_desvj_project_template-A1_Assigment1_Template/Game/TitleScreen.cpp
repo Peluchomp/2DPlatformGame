@@ -18,6 +18,7 @@
 #include "GuiSlider.h"
 #include "TitleScreen.h"
 #include <string>
+#include "SDL_mixer/include/SDL_mixer.h"
 
 TitleScreen::TitleScreen() : Module()
 {
@@ -100,7 +101,7 @@ bool TitleScreen::Start()
 	exitButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, "   Exit   ", exitPos, this);
 	optionsButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 8, "   Options   ", optionsPos, this);
 	backButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 9, "   Back   ", exitPos, this);
-	musicButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 10, "   Sound   ", musicbtPos, this);
+	musicButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 2, "   Sound   ", musicbtPos, this);
 	fullScreenButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 11, "   Fullscreen   ", fullscreenbtPos, this);
 	vSyncButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 12, "   Vsync   ", vSyncPos, this);
 
@@ -126,7 +127,19 @@ bool TitleScreen::Update(float dt)
 	tittleTimerSec = titleTimer.ReadSec();
 	tittleTimerMSec = titleTimer.ReadMSec();
 
-	
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && app->scene->active == true)
+	{
+		if (options == false)
+			options = true;
+		else if (options == true)
+			options = false;
+	}
+	if (options == true && app->scene->active == true) 
+	{
+		musicButtom->state = GuiControlState::NORMAL;
+		fullScreenButtom->state = GuiControlState::NORMAL;
+		vSyncButtom->state = GuiControlState::NORMAL;
+	}
 
 	if (delayTimer.ReadMSec() > 2500) {
 
@@ -219,15 +232,25 @@ bool TitleScreen::Update(float dt)
 		musicButtom->state = GuiControlState::NORMAL;
 		fullScreenButtom->state = GuiControlState::NORMAL;
 		vSyncButtom->state = GuiControlState::NORMAL;
+		Mix_VolumeMusic(volume3);
+		Mix_Volume(-1, volume3);
 
 	}
-	else
+	else 
 	{
 		backButtom->state = GuiControlState::DISABLED;
+		//musicButtom->state = GuiControlState::DISABLED;
+		//fullScreenButtom->state = GuiControlState::DISABLED;
+		//vSyncButtom->state = GuiControlState::DISABLED;
+	}
+	if (optionsTittle == false && options == false) 
+	{
 		musicButtom->state = GuiControlState::DISABLED;
 		fullScreenButtom->state = GuiControlState::DISABLED;
 		vSyncButtom->state = GuiControlState::DISABLED;
 	}
+
+
 	if (app->scene->active == true) 
 	{
 		gcButtom->state = GuiControlState::DISABLED;

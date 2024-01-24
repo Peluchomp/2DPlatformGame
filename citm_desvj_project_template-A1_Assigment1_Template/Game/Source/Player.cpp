@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
+#include "../TitleScreen.h"
 #include "Window.h"
 
 #define IDLE_SECS 5;
@@ -138,7 +139,7 @@ bool Player::Update(float dt)
 		spawning = false; /*Skip spawn animation*/
 	}
 
-	if (hp == 0) { 
+	if (hp <= 0) { 
 		Spawn(app->scene->currentLvl); 
 	}
 	if (position.x > 7000 || app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) /*Victory condition*/ {
@@ -265,7 +266,7 @@ bool Player::Update(float dt)
 
 	angle_deg = (atan2(delta_y, delta_x) * 180.0000) / 3.1416;
 
-	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && options == false)
+	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && app->titleS->options == false)
 	{
 		if (mySpear->isPicked == true && mySpear->isThrown == false && mySpear->isSticked == true && mySpear->daPlatform == false && mySpear->platform == false && thrown == true) {
 			thrown = false;
@@ -312,13 +313,7 @@ bool Player::Update(float dt)
 
 
 	//Options menu/pause screen toggle
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-	{
-		if (options == false)
-			options = true;
-		else if (options == true)
-			options = false;
-	}
+	
 
 
 
@@ -541,6 +536,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		{
 		case ColliderType::ENEMY:
 			if (physA->ctype == ColliderType::PLAYER) {
+				if (godMode == true) return;
 				LOG("Collision ENEMY");
 				hurtIcon.defaultAnim.Reset();
 				hp--;
@@ -561,7 +557,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			break;
 		case ColliderType::ENEMY_ATTACK:
 			LOG("Collision ENEMY ATTACK");
-
+			if (godMode == true) return;
 			hurtIcon.defaultAnim.Reset();
 			hp--;
 			hurt = true;
@@ -681,8 +677,19 @@ void Player::Spawn(int Level) {
 		orbs = 0;
 	}
 	if (Level == 1) {
-		float x = position.x = 2 * 40;
-		float y = position.y = 79 * 40;
+		float x;
+		float y;
+		app->scene->noir = false;
+		x = position.x = checkpointX;
+		y = position.y = checkpointY;
+		if (app->scene->prevLevel == 0) 
+		{
+			x = position.x = 2 * 40;
+			y = position.y = 79 * 40;
+			checkpointX = 2 * 40;
+			checkpointY = 79 * 40;
+		}
+	
 
 		if (mySpear->isPicked == false && mySpear->isSticked == false) {
 
@@ -1396,7 +1403,7 @@ void Player::InputControls(float dt) {
 	}
 
 
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false && isGrounded == true && pbody->body->GetLinearVelocity().y == 0 && options == false)
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false && isGrounded == true && pbody->body->GetLinearVelocity().y == 0 && app->titleS->options == false)
 	{
 		IdleTimer.Start();
 		isGrounded = false;
@@ -1411,7 +1418,7 @@ void Player::InputControls(float dt) {
 		isJumping = false;
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !(Attacking) && options == false) {
+	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !(Attacking) && app->titleS->options == false) {
 
 		IdleTimer.Start();
 		if (isGrounded) {
@@ -1424,7 +1431,7 @@ void Player::InputControls(float dt) {
 	}
 
 
-	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !(Attacking) && options == false) /*Ypu can move as long as youre not attacking on the ground*/ {
+	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !(Attacking) && app->titleS->options == false) /*Ypu can move as long as youre not attacking on the ground*/ {
 
 		IdleTimer.Start();
 		if (isGrounded) {
@@ -1441,19 +1448,19 @@ void Player::InputControls(float dt) {
 
 	//--------------Attacking Logic-----------------//
 
-	if (mySpear->isPicked && options == false)/*Can only attack if currently has the Spear*/ {
+	if (mySpear->isPicked && app->titleS->options == false)/*Can only attack if currently has the Spear*/ {
 		AttackingLogic();
 	}
-	else if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && options == false) {
+	else if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && app->titleS->options == false) {
 		_noSpearIcon = true;
 		spear_icon_timer.Start();
 		app->audio->PlayFx(noSpearEffect);
 	}
-	if (options == true) {
+	if (app->titleS->options == true) {
 		app->physics->world->SetGravity({ 0,0 });
 		gravity = 0;
 	}
-	else if (options == false)
+	else if (app->titleS->options == false)
 	{
 		app->physics->world->SetGravity({ 0,10 });
 

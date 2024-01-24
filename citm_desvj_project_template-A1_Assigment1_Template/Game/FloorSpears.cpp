@@ -40,7 +40,7 @@ bool FloorSpears::Awake() {
 	pbody->body->SetGravityScale(0);
 
 	taimer.Start();
-
+	deathTaimer.Start();
 	myBodies.Add(pbody);
 
 	return true;
@@ -63,7 +63,10 @@ bool FloorSpears::PreUpdate(float dt)
 bool FloorSpears::Update(float dt)
 {
 	startAtackTimer++;
-
+	if (deathTaimer.ReadSec() > 2) 
+	{
+		pendingToDestroy = true;
+	}
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x);
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y);
 

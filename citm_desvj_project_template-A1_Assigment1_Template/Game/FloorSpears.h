@@ -33,6 +33,8 @@ public:
 
 	SDL_Texture* texture = nullptr;
 	Timer taimer;
+	Timer deathTaimer;
+
 	PhysBody* pbody;
 
 	bool spawn;

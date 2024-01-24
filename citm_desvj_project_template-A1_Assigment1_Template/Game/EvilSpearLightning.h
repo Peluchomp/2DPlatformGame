@@ -30,7 +30,7 @@ public:
 
 	Animation* currentAnimation;
 	Animation defaultAnim;
-
+	Timer deathTaimer;
 	SDL_Texture* texture = nullptr;
 	Timer taimer;
 	PhysBody* pbody;

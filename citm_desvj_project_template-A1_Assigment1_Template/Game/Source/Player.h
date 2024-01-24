@@ -127,7 +127,7 @@ public:
 
 	Spear* mySpear;
 	Thunder* myThunder;
-	HealingOrb* evilSpear;
+	FloorSpears* evilSpear;
 	PowerLvl power = PowerLvl::NORMAL;
 	Icon powerMessage;
 	Icon noSpearIcon;

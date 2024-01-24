@@ -215,7 +215,7 @@ bool Player::Update(float dt)
 			isJumping = false;
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_A && options == false) == KEY_REPEAT && !(Attacking)) {
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !(Attacking) && options == false) {
 
 			IdleTimer.Start();
 			if (isGrounded) {
@@ -309,7 +309,7 @@ bool Player::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN) {
 	
-		evilSpear = (HealingOrb*)app->entityManager->CreateEntity(EntityType::HEALINGORB);
+		evilSpear = (FloorSpears*)app->entityManager->CreateEntity(EntityType::FLOORSPEAR);
 		evilSpear->Awake();
 		evilSpear->position.y = position.y;
 	}
@@ -723,7 +723,7 @@ void Player::Spawn(int Level) {
 	if (mySpear->isPicked == false && mySpear->isSticked == true) {
 
 		b2Vec2 positiondissapera = b2Vec2(-100, -100);
-		b2Vec2 positionPlayer = b2Vec2(0, 0);
+		b2Vec2 positionPlayer = b2Vec2(PIXEL_TO_METERS(checkpointX), PIXEL_TO_METERS(checkpointY));
 		mySpear->pbody->body->SetTransform(positionPlayer, 0);
 		mySpear->ThePlatform->body->SetTransform(positiondissapera, 0);
 		mySpear->daPlatform = true;

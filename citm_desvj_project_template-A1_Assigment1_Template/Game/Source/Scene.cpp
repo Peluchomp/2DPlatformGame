@@ -342,7 +342,7 @@ bool Scene::Update(float dt)
 
 		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
 
-		if (!noir && app->render->camera.x < -680) {
+		if (!noir && app->render->camera.x < -680 && !bossZone) {
 			app->render->camera.x = -680;
 		}
 		
@@ -352,9 +352,16 @@ bool Scene::Update(float dt)
 		if (app->render->camera.x > 0) {
 			app->render->camera.x = 0;
 		}
-		if (player->position.x > 4240) {
-			app->render->camera.x = -8480; app->render->camera.y = -1310;
+		if (player->position.x > 4240 && noir) {
+			// Lock camera position to boss room
+			app->render->camera.x = -8480; app->render->camera.y = -1290;
+			bossDoor =  app->physics->CreateRectangle(105 * 40, 22 * 40, 42, 160, bodyType::STATIC, ColliderType::PLATFORM);
+			bossDoor->ctype = ColliderType::PLATFORM;
+			bossZone = true;
 			noir = false;
+		}
+		if (bossZone) {
+			app->render->camera.x = -8480; app->render->camera.y = -1290;
 		}
 	}
 

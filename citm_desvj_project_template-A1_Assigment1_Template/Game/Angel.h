@@ -40,6 +40,8 @@ public:
 	PhysBody* platBody;
 	PhysBody* deathSensor;
 
+
+
 	bool awake = false;
 
 private:

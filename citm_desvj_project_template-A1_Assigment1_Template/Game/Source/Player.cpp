@@ -139,7 +139,7 @@ bool Player::Update(float dt)
 	}
 
 	if (hp == 0) { 
-		Spawn(0); 
+		Spawn(app->scene->currentLvl); 
 	}
 	if (position.x > 7000 || app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) /*Victory condition*/ {
 		Spawn(1);
@@ -776,7 +776,7 @@ void Player::Spawn(int Level) {
 			mySpear->isSticked = false;
 		}
 
-		app->scene->currentLevel = 1;
+		app->scene->currentLvl = 1;
 		power = PowerLvl::NORMAL;
 		hp = 4;
 		spawning = true;
@@ -794,18 +794,21 @@ void Player::Spawn(int Level) {
 
 		orbs = 0;
 
-		app->audio->PlayFx(winEffext);
-		app->physics->DestroyPlatforms();
-		app->entityManager->DestroyAll();
-		mySpear->pendingToDestroy = false;
+		if (app->scene->prevLevel == 0)/*if it's the first time you enter level0*/ {
+			app->audio->PlayFx(winEffext);
+			app->physics->DestroyPlatforms();
+			app->entityManager->DestroyAll();
+			mySpear->pendingToDestroy = false;
 
-		newLevel = true;
-		app->map->CleanUp();
-		app->scene->Awake(app->scene->scene_parameter);
-		app->map->mapData.layers.Clear();
-		app->map->Start();
+			newLevel = true;
+			app->map->CleanUp();
+			app->scene->Awake(app->scene->scene_parameter);
+			app->map->mapData.layers.Clear();
+			app->map->Start();
 
-		app->render->camera.y = -5832;
+			app->render->camera.y = -5832;
+			app->scene->prevLevel = 1;
+		}
 	}
 
 }

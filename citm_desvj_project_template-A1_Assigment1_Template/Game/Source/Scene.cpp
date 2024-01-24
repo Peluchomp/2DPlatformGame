@@ -92,7 +92,7 @@ bool Scene::Awake(pugi::xml_node& config)
 			return ret;
 		}
 		else /*Level 2*/ {
-			currentLvl++;
+			
 			LOG("Loading Scene");
 			bool ret = true;
 			app->map->name = config.child("map1").attribute("name").as_string();
@@ -197,7 +197,7 @@ bool Scene::Start()
 
 void Scene::SpawnGoons(bool first) {
 
-	if (currentLevel == 0) {
+	if (currentLvl == 0) {
 		for (pugi::xml_node itemNode = scene_parameter.child("morgan"); itemNode; itemNode = itemNode.next_sibling("morgan"))
 		{
 			Morgan* item = (Morgan*)app->entityManager->CreateEntity(EntityType::MORGAN);
@@ -351,6 +351,7 @@ bool Scene::Update(float dt)
 			app->render->camera.x = -680;
 		}
 		
+	
 		
 		if (app->render->camera.y < -100)
 			app->render->camera.y = (-player->position.y) * app->win->GetScale() + 530;

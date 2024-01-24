@@ -88,7 +88,8 @@ public:
 	SDL_Texture* itemTexture;
 
 	int currentLvl = 0;
-	int currentLevel = 0;
+	int prevLevel = 0;
+
 	uint enemyDeathEffect;
 	uint chandelierDeathFx;
 	bool exit;

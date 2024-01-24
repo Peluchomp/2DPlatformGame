@@ -8,6 +8,14 @@
 
 struct SDL_Texture;
 
+enum BossAttacks {
+
+	SPIN,
+	THUNDERS,
+	GROUND_SPEARS
+
+};
+
 class evilSpear {
 
 public:
@@ -80,6 +88,10 @@ public:
 	evilSpear MrSpear;
 	evilSpear MsSpear;
 
+	BossAttacks currentAttack;
+	Timer attackChangeTimer;
+
+	Timer floorSpearTimer;
 	
 	bool hurt = false;
 	Timer hurtTimer;

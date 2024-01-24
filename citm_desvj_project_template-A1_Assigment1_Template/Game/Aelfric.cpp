@@ -41,7 +41,7 @@ bool Aelfric::Start() {
 	texture = app->tex->Load( parameters.child("texture").attribute("path").as_string());
 	position.x = parameters.child("position").attribute("x").as_int();
 	position.y = parameters.child("position").attribute("y").as_int();
-
+	attackChangeTimer.Start();
 
  	for (pugi::xml_node node = parameters.child("animations").child("walking").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
@@ -61,6 +61,8 @@ bool Aelfric::Start() {
 
 	hp = 20;
 	CreateSpears();
+	currentAttack = GROUND_SPEARS;
+	floorSpearTimer.Start();
 
 	ogP1 = MrSpear.pbody->body->GetPosition(); 
 	ogP2 = MrSpear.pbody->body->GetPosition();
@@ -78,98 +80,122 @@ bool Aelfric::Update(float dt)
 {
 	
 
-	b2Vec2 Velocity;
-
-	if (myDir == Direction::RIGHT) {
-
-		Velocity.x = 2; Velocity.y = _body->body->GetLinearVelocity().y;
-
-	}
-	else if (myDir == Direction::LEFT) {
-		Velocity.x = -2; Velocity.y = _body->body->GetLinearVelocity().y;
-
-	}
-
-	if (ChangePosTimer.ReadSec() > 2) {
-
-		if (getRandomNumber(0, 1) == 0) {
-			myDir = Direction::RIGHT;
-		}
-		else {
-			myDir = Direction::LEFT;
-		}
-
-
-	}
-
-	if (_body->active) {
-
-		
-		
-		
-
-		_body->body->SetLinearVelocity(Velocity);
-		_body->body->SetLinearVelocity(Velocity);
 	
-		currentAnimation->Update();
+	
+	int R = 255, G = 255, B = 255;
+	if (_body->active && app->scene->bossZone == true) {
 
+		if (ChangePosTimer.ReadSec() % 15 == 0) {
 
-		_body->GetPosition(position.x, position.y);
-		
-
-		
-		
-		int R = 255, G = 255, B = 255;
-
-		if (hurt == true) {
-			if (hurtTimer.ReadMSec() < 800) {
-				G = 0; B = 0;
-			}
-			else {
-				hurt = false;
+			int id = getRandomNumber(1, 2);
+			switch (id) {
+			case(1):
+				currentAttack = SPIN;
+				break;
+			case(2):
+				currentAttack = THUNDERS;
+				break;
 			}
 
 		}
 		
 
-		// The spears spin if the player enters into the dtection collider, after 1.5s they stpo spinning
-		if (defending && defendTimer.ReadMSec() > 1500 && !destroySpears) {
-			defending = false;
-			revol1->SetMotorSpeed(0);
-			revol2->SetMotorSpeed(0);
+		if (currentAttack == GROUND_SPEARS) {
+			b2Vec2 Velocity;
 
-			// reset orientation
-			b2Vec2 pos1 = MrSpear.pbody->body->GetPosition(); pos1.y = ogP1.y;
-			b2Vec2 pos2 = MrSpear.pbody->body->GetPosition(); pos1.y = ogP2.y;
+			
+			if (floorSpearTimer.ReadSec() < 2) {
+				FloorSpears* fs = (FloorSpears*) app->entityManager->CreateEntity(EntityType::FLOORSPEAR);
+				floorSpearTimer.Start();
+			}
 
-			MrSpear.pbody->body->SetTransform(pos1, 0); MrSpear.pbody->body->SetTransform(pos2, 0);
+
+			if (myDir == Direction::RIGHT) {
+
+				Velocity.x = 2; Velocity.y = _body->body->GetLinearVelocity().y;
+
+			}
+			else if (myDir == Direction::LEFT) {
+				Velocity.x = -2; Velocity.y = _body->body->GetLinearVelocity().y;
+
+			}
+
+			if (ChangePosTimer.ReadSec() > 2) {
+
+				if (getRandomNumber(0, 1) == 0) {
+					myDir = Direction::RIGHT;
+				}
+				else {
+					myDir = Direction::LEFT;
+				}
+
+			}
+
+
+			_body->body->SetLinearVelocity(Velocity);
+			_body->body->SetLinearVelocity(Velocity);
+
+			currentAnimation->Update();
+
+
+			_body->GetPosition(position.x, position.y);
+
+
+
+
+			
+
+			if (hurt == true) {
+				if (hurtTimer.ReadMSec() < 800) {
+					G = 0; B = 0;
+				}
+				else {
+					hurt = false;
+				}
+
+			}
+
+
+			// The spears spin if the player enters into the dtection collider, after 1.5s they stpo spinning
+			if (defending && defendTimer.ReadMSec() > 1500 && !destroySpears) {
+				defending = false;
+				revol1->SetMotorSpeed(0);
+				revol2->SetMotorSpeed(0);
+
+				// reset orientation
+				b2Vec2 pos1 = MrSpear.pbody->body->GetPosition(); pos1.y = ogP1.y;
+				b2Vec2 pos2 = MrSpear.pbody->body->GetPosition(); pos1.y = ogP2.y;
+
+				MrSpear.pbody->body->SetTransform(pos1, 0); MrSpear.pbody->body->SetTransform(pos2, 0);
+			}
+
+			int sp1Posx;
+			int sp1Posy;
+			MrSpear.pbody->GetPosition(sp1Posx, sp1Posy);
+			int sp2Posx;
+			int sp2Posy;
+			MsSpear.pbody->GetPosition(sp2Posx, sp2Posy);
+
+
+
+			_detectionBody->body->SetTransform(_body->body->GetPosition(), 0.0f);
+			MsSpear.pbody->body->SetTransform(MsSpear.pbody->body->GetPosition(), MrSpear.pbody->GetRotation());
+
+
+
+			
+
+			if (!destroySpears) {
+				SDL_Rect spearRect = { 560,1,17,85 };
+				app->render->DrawTexture(texture, sp1Posx - 8, sp1Posy - 30, false, &spearRect, 255, 1, 255, 255, 255, MrSpear.pbody->GetRotation());
+				app->render->DrawTexture(texture, sp2Posx - 8, sp2Posy - 30, false, &spearRect, 255, 1, 255, 255, 255, MsSpear.pbody->GetRotation());
+			}
 		}
-
-		int sp1Posx;
-		int sp1Posy;
-		MrSpear.pbody->GetPosition(sp1Posx, sp1Posy);
-		int sp2Posx;
-		int sp2Posy;
-		MsSpear.pbody->GetPosition(sp2Posx, sp2Posy);
-
-
-
-		_detectionBody->body->SetTransform(_body->body->GetPosition(),0.0f);
-		MsSpear.pbody->body->SetTransform(MsSpear.pbody->body->GetPosition(), MrSpear.pbody->GetRotation());
-	
-
-		
 		if (myDir == Direction::LEFT) {
 			app->render->DrawTexture(texture, position.x - 40, position.y - 35, true, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
 		}
 		else if (myDir == Direction::RIGHT) {
 			app->render->DrawTexture(texture, position.x - 60, position.y - 35, false, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
-		}
-		
-		if (!destroySpears) {
-			SDL_Rect spearRect = { 560,1,17,85 };
-			app->render->DrawTexture(texture, sp1Posx - 8, sp1Posy - 30, false, &spearRect, 255, 1, 255, 255, 255, MrSpear.pbody->GetRotation());
-			app->render->DrawTexture(texture, sp2Posx - 8, sp2Posy - 30, false, &spearRect, 255, 1, 255, 255, 255, MsSpear.pbody->GetRotation());
 		}
 	}
 

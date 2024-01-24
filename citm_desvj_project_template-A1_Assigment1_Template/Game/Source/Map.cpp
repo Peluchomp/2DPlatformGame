@@ -84,7 +84,7 @@ bool Map::Update(float dt)
             iPoint cameraSize = iPoint(mapLayerItem->data->width, mapLayerItem->data->height);
 
             // Map drawing optimization to only draw portion visible by the camera
-            if (app->scene->currentLevel == 0) {
+            if (app->scene->currentLvl == 0) {
                 cameraPos = WorldToMap(-camera.x / app->win->GetScale(), ((camera.y) * -1) / app->win->GetScale());
                 cameraSize = iPoint(16, 14);
             }

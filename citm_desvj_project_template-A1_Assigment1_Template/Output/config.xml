@@ -686,12 +686,7 @@
 	  <orb_spawn num="35"  x="7525" y="438" />
 	  <orb_spawn num="36"  x="7516" y="452" />
 
-    <checkpoint texturepath ="Assets/Textures/checkPt.png" >
-      <frame x="1" y="1" w="78" h="120" />
-      <speed value="0.05" />
-     </checkpoint>
-    <checkpoint_spawn num="0"  x="624" y="141" />
-
+    
 	  <chandelure num="37" x="520" y ="2400" dir="left" type="0" />
 	  <chandelure num="38" x="250" y ="2400" dir="right" type="1" />
 

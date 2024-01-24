@@ -69,7 +69,6 @@ bool Aelfric::Start() {
 
 	hp = 20;
 
-
 	MrSpear.texture = texture; MsSpear.texture = texture;
 	MrSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 10, 65, bodyType::DYNAMIC, ColliderType::PHYS2, 0.1);
 	MrSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
@@ -78,8 +77,9 @@ bool Aelfric::Start() {
 	MsSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 10, 65, bodyType::DYNAMIC, ColliderType::PHYS2, 0.1);
 	MsSpear.pbody->body->SetGravityScale(0);
 	MsSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
-	CreateSpears();
 
+
+	CreateSpears();
 	_detectionBody = app->physics->CreateRectangleSensor(position.x, position.y, 250, 200, bodyType::DYNAMIC, ColliderType::ENEMY);
 	myBodies.Add(_detectionBody);
 	_detectionBody->listener = this;
@@ -309,18 +309,14 @@ void Aelfric::DestroyFloatingSpears() {
 
 	app->entityManager->destroyJoints.Add(MrSpear.revol);
 	app->entityManager->destroyJoints.Add(MsSpear.revol);
-
-
 	MrSpear.pbody->active = false; MsSpear.pbody->active = false;
-	//app->physics->corpses.Add(MrSpear.pbody); app->physics->corpses.Add(MsSpear.pbody);
-
+	myBodies.Add(MrSpear.pbody); myBodies.Add(MsSpear.pbody);
 }
 
 void Aelfric::CreateSpears() {
 	
 	destroySpears = false;
 	
-
 	MrSpear.pbody->active = true; MsSpear.pbody->active = true;
 
 	float relativeAnchorX_B = 0.5f;  // Offset to the right
@@ -362,8 +358,7 @@ bool Aelfric::PostUpdate() {
 	}
 	if (currentAttack != GROUND_SPEARS && MrSpear.pbody != nullptr && MsSpear.pbody != nullptr) {
 
-		app->physics->DestroyObject(MrSpear.pbody); app->physics->DestroyObject(MsSpear.pbody);
-	
+		
 	}
 	return true;
 }
@@ -419,11 +414,20 @@ void Aelfric::SpinAttackLogic() {
 		}
 	}
 
-	if (floorSpearTimer.ReadSec() > 3) {
-
+	if (floorSpearTimer.ReadSec() > 1) {
+		int randodist = getRandomNumber(1, 3);
 		EvilSpin* Es = (EvilSpin*)app->entityManager->CreateEntity(EntityType::EVILSPIN);
 		Es->position = position;
 		Es->position.y += 50;
+
+		switch (randodist) {
+		case(1): Es->SetDistance(180); break;
+
+		case(2):Es->SetDistance(80); break;
+
+		case(3):Es->SetDistance(250); break;
+		}
+
 		Es->Awake();
 		floorSpearTimer.Start();
 

@@ -72,6 +72,7 @@ private:
 	GuiControlButton* fullScreenButtom;
 	GuiControlButton* vSyncButtom;
 	GuiControlButton* resumeButtom;
+	GuiControlButton* backtittleButtom;
 
 public:
 

@@ -182,7 +182,7 @@ bool Scene::Start()
 	SDL_Rect resumePos = { windowW / 2 - 60, windowH / 2 - 100, 120,20 };
 	SDL_Rect backPos = { windowW / 2 - 60, windowH / 2 - 75, 120,20 };
 	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "   Exit   ", btPos, this);
-	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 43, "Back To tittle", backPos, this);
+	backtittleButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 43, "Back To tittle", backPos, this);
 	resumeButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "   Resume   ", resumePos, this);
 	musicButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 2, "   Sound   ", musicbtPos, this);
 	fullScreenButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 3, "   Fullscreen   ", fullscreenbtPos, this);

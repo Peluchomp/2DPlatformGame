@@ -66,7 +66,7 @@ private:
 
 	float textPosX, textPosY = 0;
 	uint texW, texH;
-	uint windowW, windowH;
+
 	bool isInDebugMode;
 	GuiControlButton* gcButtom;
 	GuiControlButton* musicButtom;
@@ -80,7 +80,7 @@ public:
 	// Detect when the player reaches the shadow part of the second level
 	PhysBody* blackDetection;
 	bool noir = false;
-
+	uint windowW, windowH;
 	// Locl the boss room when the player arrives
 	PhysBody* bossDoor;
 	bool bossZone = false;

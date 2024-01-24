@@ -8,7 +8,7 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
-
+#include "Window.h"
 
 #define IDLE_SECS 5;
 
@@ -215,7 +215,7 @@ bool Player::Update(float dt)
 			isJumping = false;
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !(Attacking) && options == false) {
+		if (app->input->GetKey(SDL_SCANCODE_A && options == false) == KEY_REPEAT && !(Attacking)) {
 
 			IdleTimer.Start();
 			if (isGrounded) {
@@ -467,7 +467,7 @@ bool Player::Update(float dt)
 	
 	////----------------Score stuf----------------//
 	scoreText = "Score:" + std::to_string(app->scene->score);
-	app->render->DrawText(scoreText.c_str(), 25 - (app->render->camera.x / 10), app->render->camera.y, 80, 40);
+	app->render->DrawText(scoreText.c_str(), app->scene->windowW/ 2 - 525, app->scene->windowH / 2 - 380, 80, 40);
 	// ---------------Orb stuf----------------//
 	orbMeter = { 25 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), orbs * 10, 15 };
 	app->render->DrawRectangle(SDL_Rect{ 25 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), 100,15 }, 50, 0, 140, 255);

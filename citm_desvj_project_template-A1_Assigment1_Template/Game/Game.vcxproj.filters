@@ -64,9 +64,12 @@
       <Filter>Entities</Filter>
     </ClCompile>
     <ClCompile Include="FloorSpears.cpp">
-          <Filter>Entities</Filter>
+      <Filter>Entities</Filter>
     </ClCompile>
     <ClCompile Include="EvilSpin.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="HealingOrb.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -165,6 +168,9 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="EvilSpin.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="HealingOrb.h">
       <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>

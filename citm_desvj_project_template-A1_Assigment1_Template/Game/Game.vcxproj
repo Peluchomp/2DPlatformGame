@@ -104,6 +104,7 @@
     <ClCompile Include="EvilSpin.cpp" />
     <ClCompile Include="GuiCheckBox.cpp" />
     <ClCompile Include="GuiSlider.cpp" />
+    <ClCompile Include="HealingOrb.cpp" />
     <ClCompile Include="Jorge.cpp" />
     <ClCompile Include="MegaMorgan.cpp" />
     <ClCompile Include="ModuleEnemies.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="EvilSpin.h" />
     <ClInclude Include="GuiCheckBox.h" />
     <ClInclude Include="GuiSlider.h" />
+    <ClInclude Include="HealingOrb.h" />
     <ClInclude Include="Jorge.h" />
     <ClInclude Include="MegaMorgan.h" />
     <ClInclude Include="ModuleEnemies.h" />

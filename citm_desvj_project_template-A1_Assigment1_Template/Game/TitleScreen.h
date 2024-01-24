@@ -172,6 +172,7 @@ public:
 	bool vSync = false;
 	int fullscreenOnce;
 	int vsyncOnce;
+	bool back = false;
 private:
 	
 	List<Frame*> myFrames;

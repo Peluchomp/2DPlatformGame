@@ -187,83 +187,10 @@ bool Player::Update(float dt)
 			currentAnim = &idle;
 		}
 
-
-		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-			//
-		}
-		if (isJumping == true)
-		{
-			// debe de haber algun problema , aqui le restamos a la velocidad en y pero el dt es mas grande cuanto menor los fps y esto hace que cauga menos/ salte mas
-			gravity += 0.05f * dt;
-
-
-		}
-
-
-		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false && isGrounded == true && pbody->body->GetLinearVelocity().y == 0 && options == false)
-		{
-			IdleTimer.Start();
-			isGrounded = false;
-			isJumping = true;
-			Jump.Reset();
-			currentAnim = &Jump;
-			gravity = -17;
-		}
-
-		if (gravity >= 0.3f * dt && isJumping == true)
-		{
-			isJumping = false;
-		}
-
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !(Attacking) && options == false) {
-
-			IdleTimer.Start();
-			if (isGrounded) {
-				currentAnim = &longRun;
-			}
-
-			myDir = Direction::LEFT;
-			movementx = -speed * dt;
-
-		}
-
+		InputControls(dt);
 		
-			if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !(Attacking) && options == false) /*Ypu can move as long as youre not attacking on the ground*/ {
-
-				IdleTimer.Start();
-				if (isGrounded) {
-					currentAnim = &longRun;
-				}
-
-				myDir = Direction::RIGHT;
-				movementx = speed * dt;
-
-				if (godMode == true) {
-					movementx = speed * dt * 9;
-				}
-			}
 			
-		//--------------Attacking Logic-----------------//
-
-		if (mySpear->isPicked && options == false)/*Can only attack if currently has the Spear*/ {
-			AttackingLogic();
-		}
-		else if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && options == false) {
-			_noSpearIcon = true;
-			spear_icon_timer.Start();
-			app->audio->PlayFx(noSpearEffect);
-		}
-		if (options == true) {
-			app->physics->world->SetGravity({0,0});
-			gravity = 0;
-		}
-		else if (options == false)
-		{
-			app->physics->world->SetGravity({ 0,10 });
-		
-		}
-			
-
+		//----------Activate God mode to phase through enemies-----------------//
 		if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		{
 			if (godMode == true)
@@ -519,6 +446,7 @@ bool Player::Update(float dt)
 		}
 	}
 	
+	// this variable is for the shadow are, draw every thing with 0,0,0 rgb
 	if (app->scene->noir == false) {
 		if (myDir == Direction::RIGHT) {
 
@@ -1325,6 +1253,7 @@ void Player::AttackingLogic() {
 		}
 		break;
 	case PowerLvl::MID:
+		attack = 2;
 		op_attackTrigger->active = false;
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && isGrounded) {
 
@@ -1452,4 +1381,81 @@ void Player::ManageInvencibility() {
 		invencibilityCounter = 0;
 	}
 
+}
+
+void Player::InputControls(float dt) {
+	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+		//
+	}
+	if (isJumping == true)
+	{
+		// debe de haber algun problema , aqui le restamos a la velocidad en y pero el dt es mas grande cuanto menor los fps y esto hace que cauga menos/ salte mas
+		gravity += 0.05f * dt;
+
+
+	}
+
+
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && isJumping == false && isGrounded == true && pbody->body->GetLinearVelocity().y == 0 && options == false)
+	{
+		IdleTimer.Start();
+		isGrounded = false;
+		isJumping = true;
+		Jump.Reset();
+		currentAnim = &Jump;
+		gravity = -17;
+	}
+
+	if (gravity >= 0.3f * dt && isJumping == true)
+	{
+		isJumping = false;
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !(Attacking) && options == false) {
+
+		IdleTimer.Start();
+		if (isGrounded) {
+			currentAnim = &longRun;
+		}
+
+		myDir = Direction::LEFT;
+		movementx = -speed * dt;
+
+	}
+
+
+	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !(Attacking) && options == false) /*Ypu can move as long as youre not attacking on the ground*/ {
+
+		IdleTimer.Start();
+		if (isGrounded) {
+			currentAnim = &longRun;
+		}
+
+		myDir = Direction::RIGHT;
+		movementx = speed * dt;
+
+		if (godMode == true) {
+			movementx = speed * dt * 9;
+		}
+	}
+
+	//--------------Attacking Logic-----------------//
+
+	if (mySpear->isPicked && options == false)/*Can only attack if currently has the Spear*/ {
+		AttackingLogic();
+	}
+	else if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && options == false) {
+		_noSpearIcon = true;
+		spear_icon_timer.Start();
+		app->audio->PlayFx(noSpearEffect);
+	}
+	if (options == true) {
+		app->physics->world->SetGravity({ 0,0 });
+		gravity = 0;
+	}
+	else if (options == false)
+	{
+		app->physics->world->SetGravity({ 0,10 });
+
+	}
 }

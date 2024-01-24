@@ -228,9 +228,22 @@
 				  <frame x="1" y="1" w="138" h="88"/>
 				  <frame x="141" y="1" w="138" h="88"/>
 				  <frame x="281" y="1" w="138" h="88"/>
-				  <frame x="1" y="1" w="138" h="88"/>
+				  <frame x="421" y="1" w="138" h="88"/>
 				  <speed value ="0.15"/>
 			  </walking>
+			  <magic>
+				  <frame x="1  " y="90" w="138" h="88"/>
+				  <frame x="141" y="90" w="138" h="88"/>
+				  <frame x="281" y="90" w="138" h="88"/>
+				  <frame x="421  " y="90" w="138" h="88"/>
+				  <frame x="1" y="  179" w="138" h="88"/>
+				  <frame x="141" y="179" w="138" h="88"/>
+				  <frame x="281" y="179" w="138" h="88"/>
+				  <frame x="421" y="  179" w="138" h="88"/>
+				  <speed value ="0.15"/>
+			
+				  
+			  </magic>
 	
 		  </animations>
 		  

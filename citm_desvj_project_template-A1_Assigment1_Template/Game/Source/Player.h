@@ -64,6 +64,8 @@ public:
 
 	void AttackingLogic();
 
+	void InputControls(float dt);
+
 	void StartIFrames();
 	void ManageInvencibility();
 
@@ -140,6 +142,7 @@ public:
 
 	int orbs = 0;
 
+	int attack = 1;
 
 	//----HP stuff----//
 	bool iframes = false;

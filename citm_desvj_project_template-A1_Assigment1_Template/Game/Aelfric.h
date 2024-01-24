@@ -8,6 +8,7 @@
 
 struct SDL_Texture;
 
+
 enum BossAttacks {
 
 	SPIN,
@@ -60,8 +61,13 @@ public:
 
 	void CreateSpears();
 
+	void Teleport();
+
+	bool startFight = false;
+
 	Animation* currentAnimation;
 	Animation walkingAnim;
+	Animation magicAnim;
 
 	Timer ChangePosTimer;
 
@@ -89,9 +95,16 @@ public:
 	evilSpear MsSpear;
 
 	BossAttacks currentAttack;
+	bool startedSpin = false;
+	bool spinTimeDecided = false;
+	bool startedThunder = false;
 	Timer attackChangeTimer;
 
 	Timer floorSpearTimer;
+	float floorSpearWait = 2;
+	float spinSpearWait = 1;
+	float spinSpearAmount = 2;
+	float TeleportWait;
 	
 	bool hurt = false;
 	Timer hurtTimer;

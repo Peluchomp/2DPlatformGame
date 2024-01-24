@@ -30,6 +30,8 @@ public:
 
 	iPoint GenerateRandomDestination(const iPoint& initialPos, float distance);
 
+	void SetDistance(int distance);
+
 	Animation* currentAnimation;
 	Animation defaultAnim;
 
@@ -42,6 +44,8 @@ public:
 	bool reachedPos;
 	iPoint finalPos;
 	iPoint inPos;
+
+	Timer timeAlive;
 
 	b2RevoluteJoint* revol;
 

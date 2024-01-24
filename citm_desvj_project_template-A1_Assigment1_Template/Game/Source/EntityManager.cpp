@@ -196,7 +196,7 @@ bool EntityManager::Update(float dt)
 			if (pEntity->pendingToDestroy && pEntity->type != EntityType::CHANDELIER) {
 				for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
 
-					app->physics->DestroyObject((PhysBody*)corpse->data);
+ 					app->physics->DestroyObject((PhysBody*)corpse->data);
 				}
 
 				

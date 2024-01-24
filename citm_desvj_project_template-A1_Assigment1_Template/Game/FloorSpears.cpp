@@ -46,6 +46,10 @@ bool FloorSpears::Awake() {
 	return true;
 }
 
+void FloorSpears::SetSpeed(float speed) {
+	this->speed = speed;
+}
+
 bool FloorSpears::Start() {
 
 	//initilize textures
@@ -72,7 +76,7 @@ bool FloorSpears::Update(float dt)
 
 	if (startAtackTimer > 60)
 	{
-		pbody->body->SetLinearVelocity({ 0, -2 });
+		pbody->body->SetLinearVelocity({ 0, -speed });
 		
 	}
 	else if (spawn == false)
@@ -81,13 +85,13 @@ bool FloorSpears::Update(float dt)
 
 		if (getRandomNumber5(0,1) == 0) {
 				if (app->scene->player->myDir == Direction::LEFT)
-				pozition = { app->scene->player->pbody->body->GetPosition().x + 0.25f,app->scene->player->pbody->body->GetPosition().y + 2};
+				pozition = { app->scene->player->pbody->body->GetPosition().x + 0.25f, 20.405};
 			if (app->scene->player->myDir == Direction::RIGHT)
-				pozition = { app->scene->player->pbody->body->GetPosition().x + 1.5f,app->scene->player->pbody->body->GetPosition().y + 2 };
+				pozition = { app->scene->player->pbody->body->GetPosition().x + 1.5f,20.405 };
 			pbody->body->SetTransform(pozition, 0);
 		}
 		else {
-			pozition = { app->scene->player->pbody->body->GetPosition().x + 0.75f,app->scene->player->pbody->body->GetPosition().y + 2 };
+			pozition = { app->scene->player->pbody->body->GetPosition().x + 0.75f,20.405 };
 			pbody->body->SetTransform(pozition, 0);
 		}
 	

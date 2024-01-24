@@ -8,6 +8,7 @@
 #include "Source/Log.h"
 #include "Source/Point.h"
 #include "Source/Physics.h"
+#include "EvilSpin.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -48,6 +49,11 @@ bool Aelfric::Start() {
 		walkingAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
 		walkingAnim.speed = parameters.child("animations").child("walking").child("speed").attribute("value").as_float() / 16;
 	}
+	for (pugi::xml_node node = parameters.child("animations").child("magic").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+		magicAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+		magicAnim.speed = parameters.child("animations").child("magic").child("speed").attribute("value").as_float() / 16;
+	}
 
 	currentAnimation = &walkingAnim;
 
@@ -78,16 +84,22 @@ bool Aelfric::PreUpdate(float dt)
 
 bool Aelfric::Update(float dt)
 {
-	
+	if (!startFight && app->scene->bossZone == true){
+		attackChangeTimer.Start();
+		startFight = true;
+	}
 
 	
 	
 	int R = 255, G = 255, B = 255;
 	if (_body->active && app->scene->bossZone == true) {
+		_body->GetPosition(position.x, position.y);
 
-		if (ChangePosTimer.ReadSec() % 15 == 0) {
+		/*Select a random attack*/
+		if (attackChangeTimer.ReadSec() % 15 == 0) {
+			startedSpin = false; startedThunder = false;
 
-			int id = getRandomNumber(1, 2);
+			int id = getRandomNumber(1, 1);
 			switch (id) {
 			case(1):
 				currentAttack = SPIN;
@@ -99,14 +111,52 @@ bool Aelfric::Update(float dt)
 
 		}
 		
+		if (currentAttack == SPIN ) {
+			if (!startedSpin) {
+				Teleport();
+				startedSpin = true;
+			}
+
+			if (spinTimeDecided == false) {
+				// throw first rotating Spear
+				EvilSpin* Es = (EvilSpin*)app->entityManager->CreateEntity(EntityType::EVILSPIN);
+				Es->position = position;
+				Es->Awake();
+				spinTimeDecided = true;
+				floorSpearTimer.Start();
+				int id = getRandomNumber(1, 2);
+				if (id == 1) {
+					floorSpearWait = 0.5f;
+				}
+				else {
+					floorSpearWait = 2;
+				}
+			}
+
+			if (floorSpearTimer.ReadSec() > 3) {
+				
+				EvilSpin* Es = (EvilSpin*)app->entityManager->CreateEntity(EntityType::EVILSPIN);
+				Es->position = position;
+				Es->Awake();
+				floorSpearTimer.Start();
+				
+
+			}
+
+
+		}
+
 
 		if (currentAttack == GROUND_SPEARS) {
 			b2Vec2 Velocity;
 
 			
-			if (floorSpearTimer.ReadSec() < 2) {
+			if (floorSpearTimer.ReadSec() > floorSpearWait) {
 				FloorSpears* fs = (FloorSpears*) app->entityManager->CreateEntity(EntityType::FLOORSPEAR);
+				fs->Awake();
+				fs->SetSpeed(4);
 				floorSpearTimer.Start();
+				floorSpearWait = 1.5f / getRandomNumber(1, 3);
 			}
 
 
@@ -138,7 +188,7 @@ bool Aelfric::Update(float dt)
 			currentAnimation->Update();
 
 
-			_body->GetPosition(position.x, position.y);
+			
 
 
 
@@ -231,7 +281,7 @@ void Aelfric::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::ENEMY_ATTACK:
 		LOG("erpt");
 		if (physB != MrSpear.pbody && physB != MsSpear.pbody) {
-			hp--;
+			hp -= 3;
 			destroySpears = true;
 			hurt = true;
 			hurtTimer.Start();
@@ -240,7 +290,7 @@ void Aelfric::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::PLAYER_ATTACK:
 		if (physB->active && physA == _body) {
 			LOG("erpt");
-			hp--;
+			hp -= app->scene->player->attack;
 			hurt = true;
 			hurtTimer.Start();
 		}
@@ -314,4 +364,25 @@ bool Aelfric::PostUpdate() {
 
 	}
 	return true;
+}
+
+void Aelfric::Teleport() {
+
+	currentAnimation = &magicAnim;
+	int id = getRandomNumber(1, 2);
+	if (id == 1) {
+		myDir = Direction::LEFT; /*He stands at the right, facing left*/
+		// enter magical animation
+
+		destroySpears = true;
+		_body->body->SetTransform(b2Vec2(PIXEL_TO_METERS(116 * 40), PIXEL_TO_METERS(18 * 40)), 0);
+	}
+	else if (id == 2) {
+		myDir = Direction::RIGHT; 
+		// enter magical animation
+
+		destroySpears = true;
+		_body->body->SetTransform(b2Vec2(PIXEL_TO_METERS(109 * 40), PIXEL_TO_METERS(18 * 40)), 0);
+	}
+
 }

@@ -28,6 +28,8 @@ public:
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
 
+	void SetSpeed(float speed);
+
 	Animation* currentAnimation;
 	Animation defaultAnim;
 
@@ -38,7 +40,7 @@ public:
 	PhysBody* pbody;
 
 	bool spawn;
-
+	float speed = 2;
 	bool awake = false;
 	float startAtackTimer;
 private:

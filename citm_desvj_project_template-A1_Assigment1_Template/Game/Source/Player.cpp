@@ -466,8 +466,8 @@ bool Player::Update(float dt)
 	app->render->DrawRectangle(healthBar, 27, 210, 152, 255);
 	
 	////----------------Score stuf----------------//
-	//scoreText = "Score:" + std::to_string(score);
-	//app->render->DrawText(scoreText.c_str(), 25 - (app->render->camera.x / 2), app->render->camera.y, 80, 40);
+	scoreText = "Score:" + std::to_string(app->scene->score);
+	app->render->DrawText(scoreText.c_str(), 25 - (app->render->camera.x / 10), app->render->camera.y, 80, 40);
 	// ---------------Orb stuf----------------//
 	orbMeter = { 25 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), orbs * 10, 15 };
 	app->render->DrawRectangle(SDL_Rect{ 25 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), 100,15 }, 50, 0, 140, 255);

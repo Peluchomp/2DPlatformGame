@@ -11,6 +11,7 @@
 #include "../EvilSpearLightning.h"
 #include "../FloorSpears.h"
 #include "../HealingOrb.h"
+#include <string>
 
 #define INVINCIBILITY_MS 1600
 
@@ -173,8 +174,9 @@ public:
 	Timer thrownCooldown;
 
 	float checkpointX = 100;
-		float checkpointY = 200;
+	float checkpointY = 200;
 
+	std::string scoreText;
 
 
 	bool startIdle = false;

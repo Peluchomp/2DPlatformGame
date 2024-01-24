@@ -79,14 +79,14 @@ bool Scene::Awake(pugi::xml_node& config)
 
 			}
 
-			/*for (pugi::xml_node checkpointNode = config.child("checkpoint_spawn"); checkpointNode; checkpointNode = checkpointNode.next_sibling("checkpoint_spawn")) {
+			for (pugi::xml_node checkpointNode = config.child("checkpoint_spawn"); checkpointNode; checkpointNode = checkpointNode.next_sibling("checkpoint_spawn")) {
 				Checkpoint* checkpoint = (Checkpoint*)app->entityManager->CreateEntity(EntityType::CHECKPOINT);
 				checkpoint->position.x = checkpointNode.attribute("x").as_int();
 				checkpoint->position.y = checkpointNode.attribute("y").as_int();
 				checkpoint->num = checkpointNode.attribute("num").as_int();
 				checkpoint->parameters = scene_parameter.child("checkpoint");
 
-			}*/
+			}
 
 			return ret;
 		}
@@ -359,7 +359,7 @@ bool Scene::Update(float dt)
 		if (player->position.x > 4240 && noir) {
 			// Lock camera position to boss room
 			app->render->camera.x = -8480; app->render->camera.y = -1290;
-			bossDoor =  app->physics->CreateRectangle(106 * 40, 22 * 40, 42, 160, bodyType::STATIC, ColliderType::PLATFORM);
+			bossDoor =  app->physics->CreateRectangle(105 * 40, 22 * 40, 42, 160, bodyType::STATIC, ColliderType::PLATFORM);
 			bossDoor->ctype = ColliderType::PLATFORM;
 			bossZone = true;
 			noir = false;
@@ -404,9 +404,7 @@ bool Scene::Update(float dt)
 	// Renders the image in the center of the screen 
 	//app->render->DrawTexture(img, (int)textPosX, (int)textPosY);
 
-		//----------------Score stuf----------------//
-	scoreText = "Score:" + std::to_string(score);
-	app->render->DrawText(scoreText.c_str(), 25 - (app->render->camera.x / 2), app->render->camera.y, 80, 40);
+
 
 	return true;
 }
@@ -440,7 +438,8 @@ bool Scene::PostUpdate()
 		// app->render->DrawTexture(mouseTileTex, pos.x, pos.y, false);
 	}
 
-	
+	//----------------Score stuf----------------//
+
 
 	//volume sounds
 	Mix_VolumeMusic(volume);

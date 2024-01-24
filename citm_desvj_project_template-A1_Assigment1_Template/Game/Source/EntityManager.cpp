@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "../Spear.h"
 #include "../Orb.h"
+#include "../HealingOrb.h"
 #include "../Jorge.h"
 #include "../Morgan.h"
 #include "../Chandelier.h"
@@ -147,6 +148,10 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		break;
 	case EntityType::EVILSPIN:
 		entity = new EvilSpin();
+		break;
+		break;
+	case EntityType::HEALINGORB:
+		entity = new HealingOrb();
 		break;
 	default:
 		break;

@@ -54,7 +54,8 @@ enum class ColliderType {
 	ENEMY_ATTACK,
 	CHECKPOINT,
 	BLACK_TRIGGER,
-	PHYS2
+	PHYS2,
+	HEALINGORB
 	// ..
 };
 

@@ -140,6 +140,7 @@ bool MegaMorgan::Update(float dt)
 				// Destroy all of the entity's b2bodies
 				app->physics->DestroyObject((PhysBody*)corpse->data);
 			}
+			app->scene->score += 400;
 			pendingToDestroy = false;
 			app->entityManager->DestroyEntity(this);
 		}

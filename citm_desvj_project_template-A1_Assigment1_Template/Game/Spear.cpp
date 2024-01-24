@@ -74,7 +74,10 @@ bool Spear::Update(float dt)
 		pbody->body->SetLinearVelocity(-vel);
 	}
 
-	
+	if (isSticked == true && isPicked == true) 
+	{
+
+	}
 
 
 	if (daPlatform == true) {

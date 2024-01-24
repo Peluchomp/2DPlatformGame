@@ -312,8 +312,9 @@ bool Player::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN) {
 	
-		evilSpear = (FloorSpears*)app->entityManager->CreateEntity(EntityType::FLOORSPEAR);
+		evilSpear = (HealingOrb*)app->entityManager->CreateEntity(EntityType::HEALINGORB);
 		evilSpear->Awake();
+		evilSpear->position.y = position.y;
 	}
 
 	b2Vec2 vel = b2Vec2(movementx, gravity);
@@ -342,6 +343,10 @@ bool Player::Update(float dt)
 
 	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && options == false)
 	{
+		if (mySpear->isPicked == true && mySpear->isThrown == false && mySpear->isSticked == true && mySpear->daPlatform == false && mySpear->platform == false && thrown == true) {
+			thrown = false;
+		}
+
 		if (mySpear->isPicked == true && thrownCooldown.ReadSec() > 2) {
 			if (thrown == false) {
 				currentAnim = &spearThrown;
@@ -463,7 +468,9 @@ bool Player::Update(float dt)
 	app->render->DrawRectangle(SDL_Rect{ 25 - (app->render->camera.x / 2), 42 - (app->render->camera.y / 2), 80,15 }, 78, 0, 0, 255);
 	app->render->DrawRectangle(healthBar, 27, 210, 152, 255);
 	
-
+	////----------------Score stuf----------------//
+	//scoreText = "Score:" + std::to_string(score);
+	//app->render->DrawText(scoreText.c_str(), 25 - (app->render->camera.x / 2), app->render->camera.y, 80, 40);
 	// ---------------Orb stuf----------------//
 	orbMeter = { 25 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), orbs * 10, 15 };
 	app->render->DrawRectangle(SDL_Rect{ 25 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), 100,15 }, 50, 0, 140, 255);
@@ -682,7 +689,15 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		case ColliderType::ORB:
 			LOG("Player touched an orb");
 			orbs++;
-
+			app->scene->score += 25;
+			app->audio->PlayFx(orbEffect);
+			physB->listener->pendingToDestroy = true;
+			break;
+		case ColliderType::HEALINGORB:
+			LOG("Player touched an orb");
+			if (hp < 4 && hp > 0)
+			hp++;
+			app->scene->score += 25;
 			app->audio->PlayFx(orbEffect);
 			physB->listener->pendingToDestroy = true;
 			break;

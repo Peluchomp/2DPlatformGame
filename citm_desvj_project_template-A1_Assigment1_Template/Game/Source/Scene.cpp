@@ -20,6 +20,7 @@
 #include "../TitleScreen.h"
 #include "GuiControl.h"
 #include "GuiManager.h"
+#include <string> 
 
 Scene::Scene() : Module()
 {
@@ -403,6 +404,10 @@ bool Scene::Update(float dt)
 	// Renders the image in the center of the screen 
 	//app->render->DrawTexture(img, (int)textPosX, (int)textPosY);
 
+		//----------------Score stuf----------------//
+	scoreText = "Score:" + std::to_string(score);
+	app->render->DrawText(scoreText.c_str(), 25 - (app->render->camera.x / 2), app->render->camera.y, 80, 40);
+
 	return true;
 }
 
@@ -434,10 +439,13 @@ bool Scene::PostUpdate()
 		iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
 		// app->render->DrawTexture(mouseTileTex, pos.x, pos.y, false);
 	}
+
+	
+
 	//volume sounds
 	Mix_VolumeMusic(volume);
 	Mix_Volume(-1, volume);
-
+	
 	return ret;
 }
 

@@ -11,7 +11,7 @@
 
 HealingOrb::HealingOrb() : Entity(EntityType::ORB)
 {
-	name.Create("orb");
+	name.Create("healingorb");
 }
 
 HealingOrb ::~HealingOrb() {}
@@ -58,7 +58,7 @@ bool HealingOrb::Update(float dt)
 		myBodies.Add(_body);
 		_body->listener = this;
 		_body->body->SetGravityScale(0);
-		_body->ctype = ColliderType::ORB;
+		_body->ctype = ColliderType::HEALINGORB;
 
 	}
 

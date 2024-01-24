@@ -10,6 +10,7 @@
 #include "../MegaMorgan.h"
 #include "GuiControl.h"
 #include "GuiControlButton.h"
+#include <string> 
 
 struct SDL_Texture;
 
@@ -95,6 +96,8 @@ public:
 	bool vSync = false;
 	int fullscreenOnce;
 	int vsyncOnce;
+	std::string scoreText;
+	int score;
 };
 
 #endif // __SCENE_H__

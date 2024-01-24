@@ -17,6 +17,7 @@
 #include "../EvilSpin.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 #include "../GuiSlider.h"
+#include "../TitleScreen.h"
 #include "GuiControl.h"
 #include "GuiManager.h"
 
@@ -177,7 +178,9 @@ bool Scene::Start()
 	SDL_Rect fullscreenbtPos = { windowW / 2 - 60, windowH / 2  , 40,40 };
 	SDL_Rect vSyncPos = { windowW / 2 - 60, windowH / 2 - 50 , 40,40 };
 	SDL_Rect resumePos = { windowW / 2 - 60, windowH / 2 - 100, 120,20 };
+	SDL_Rect backPos = { windowW / 2 - 60, windowH / 2 - 75, 120,20 };
 	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "   Exit   ", btPos, this);
+	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 43, "Back To tittle", backPos, this);
 	resumeButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "   Resume   ", resumePos, this);
 	musicButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 2, "   Sound   ", musicbtPos, this);
 	fullScreenButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 3, "   Fullscreen   ", fullscreenbtPos, this);
@@ -506,6 +509,10 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 	}
 	if (control->id == 5) {
 		app->scene->player->options = false;
+	}
+
+	if (control->id == 43) {
+		app->titleS->back = true;
 	}
 	
 	if (control->id == 3 && fullscreen == true && fullscreenOnce > 1) {

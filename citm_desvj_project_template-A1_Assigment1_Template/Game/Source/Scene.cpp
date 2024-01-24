@@ -352,8 +352,11 @@ bool Scene::Update(float dt)
 		}
 		
 		
-		if (app->render->camera.y < 1000)
+		if (app->render->camera.y < -100)
 			app->render->camera.y = (-player->position.y) * app->win->GetScale() + 530;
+		else if (app->scene->player->position.y > 279)
+			app->render->camera.y = (-player->position.y) * app->win->GetScale() + 530;
+
 		if (app->render->camera.x > 0) {
 			app->render->camera.x = 0;
 		}

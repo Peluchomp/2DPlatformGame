@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="200" height="14" tilewidth="40" tileheight="40" infinite="0" nextlayerid="11" nextobjectid="104">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="200" height="14" tilewidth="40" tileheight="40" infinite="0" nextlayerid="12" nextobjectid="109">
  <tileset firstgid="1" name="Building tilemap" tilewidth="40" tileheight="40" tilecount="144" columns="16">
   <image source="Building tilemap.png" width="640" height="360"/>
  </tileset>
@@ -22520,7 +22520,11 @@
   <object id="100" x="7360" y="440" width="40"/>
   <object id="102" x="6480" y="360" width="40" height="40"/>
  </objectgroup>
- <objectgroup id="9" name="pit">
+ <objectgroup id="11" name="checkPts">
+  <object id="107" x="4320" y="160" width="40" height="40"/>
+  <object id="108" x="2120" y="160" width="40" height="40"/>
+ </objectgroup>
+ <objectgroup id="9" name="pit" visible="0">
   <properties>
    <property name="kill" type="bool" value="true"/>
   </properties>

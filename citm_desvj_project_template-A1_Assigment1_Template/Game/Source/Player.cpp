@@ -122,11 +122,8 @@ bool Player::Update(float dt)
 {
 	int X, Y;
 	
-	
 
-	mySpear->pbody->GetPosition(X, Y);
-	mySpear->pbody->collider = SDL_Rect{ X,Y, 40,16 };
-	app->render->DrawRectangle(mySpear->pbody->collider, 20, 2, 8, 200, true);
+	
 
 	ManageInvencibility(); /*Check if ifrmaes are still active*/
 

@@ -86,10 +86,11 @@ bool Map::Update(float dt)
             // Map drawing optimization to only draw portion visible by the camera
             if (app->scene->currentLevel == 0) {
                 cameraPos = WorldToMap(-camera.x / app->win->GetScale(), ((camera.y) * -1) / app->win->GetScale());
-                cameraSize = iPoint(16, 10);
+                cameraSize = iPoint(16, 14);
             }
-            else {
-                /*Level 1 doesn't feature this optimization as it means dealing with complex offses due to parallax*/
+            else if(!parallax) {
+                cameraPos = WorldToMap(-camera.x / app->win->GetScale(), ((camera.y) * -1) / app->win->GetScale());
+                cameraSize = iPoint(16, 14);
             }
 
             for (int x = cameraPos.x; x < cameraPos.x + cameraSize.x; x++) {
@@ -103,6 +104,7 @@ bool Map::Update(float dt)
                     iPoint pos = MapToWorld(x, y);
                     if (app->scene->noir == false) {
                         if (parallax) {
+                            // with parallax things are rendered at slower speed , they are in the back. The drawing of the foreground elements is in the postUpdate
                             app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r, 255, 0.84f);
                         }
                         else {
@@ -110,6 +112,7 @@ bool Map::Update(float dt)
                         }
                     }
                     else {
+                        // when the noir variable is true all tiles except those of the "back" layer are drawn in black
                         if (parallax) {
                             app->render->DrawTexture(tileset->texture, pos.x, pos.y, false, &r, 255, 0.84f);
                         }
@@ -293,7 +296,7 @@ bool Map::Load(SString mapFileName)
         // L06: DONE 3: Iterate all layers in the TMX and load each of them
         for (pugi::xml_node layerNode = mapFileXML.child("map").child("layer"); layerNode != NULL; layerNode = layerNode.next_sibling("layer")) {
 
-            // L06: DONE 4: Implement a function that loads a single layer layer
+
             //Load the attributes and saved in a new MapLayer
             MapLayer* mapLayer = new MapLayer();
             mapLayer->id = layerNode.attribute("id").as_int();
@@ -347,11 +350,7 @@ bool Map::Load(SString mapFileName)
             ListItem<MapLayer*>* mapLayer;
             mapLayer = mapData.layers.start;
 
-            /*while (mapLayer != NULL) {
-                LOG("id : %d name : %s", mapLayer->data->id, mapLayer->data->name.GetString());
-                LOG("Layer width : %d Layer height : %d", mapLayer->data->width, mapLayer->data->height);
-                mapLayer = mapLayer->next;
-            }*/
+          
         }
 
         // Find the navigation layer
@@ -424,7 +423,7 @@ bool Map::LoadObjectGroups(pugi::xml_node mapNode) {
                 killers.Add(c1);
             }
         }
-        else if (objectNode.attribute("id").as_int() != 14) {
+        else if (objectNode.attribute("id").as_int() != 14 && objectNode.attribute("id").as_int() != 11) {
             for (pugi::xml_node objectIt = objectNode.child("object"); objectIt != NULL; objectIt = objectIt.next_sibling("object")) {
 
 
@@ -443,13 +442,14 @@ bool Map::LoadObjectGroups(pugi::xml_node mapNode) {
                 killers.Add(c1);
             }
         }
+        // The last object layer is dedicated to spawning checkPoint objects
         else {
             for (pugi::xml_node objectIt = objectNode.child("object"); objectIt != NULL; objectIt = objectIt.next_sibling("object")) {
 
 
 
                 int x = objectIt.attribute("x").as_int();
-                int y = objectIt.attribute("y").as_int();
+                int y = objectIt.attribute("y").as_int()-19;
                 int width = objectIt.attribute("width").as_int();
                 int height = objectIt.attribute("height").as_int();
 
@@ -461,7 +461,7 @@ bool Map::LoadObjectGroups(pugi::xml_node mapNode) {
                 app->entityManager->entities.Add(en);
                 en->position.x = x;
                 en->position.y = y;
-                en->parameters = app->scene->scene_parameter.child("checkpoint");
+                en->parameters = app->scene->scene_parameter.child("checkPointData");
 
             }
         }

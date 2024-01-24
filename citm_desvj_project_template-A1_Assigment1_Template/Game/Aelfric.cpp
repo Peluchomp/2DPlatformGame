@@ -158,19 +158,21 @@ bool Aelfric::Update(float dt)
 		MsSpear.pbody->body->SetTransform(MsSpear.pbody->body->GetPosition(), MrSpear.pbody->GetRotation());
 	
 
-		SDL_Rect spearRect = { 560,1,17,85 };
-		if (!destroySpears) {
-			app->render->DrawTexture(texture, sp1Posx - 8, sp1Posy - 40, false, &spearRect, 255, 1, 255, 255, 255, MrSpear.pbody->GetRotation());
-			app->render->DrawTexture(texture, sp2Posx - 8, sp2Posy - 40, false, &spearRect, 255, 1, 255, 255, 255, MsSpear.pbody->GetRotation());
-		}
+		
 		if (myDir == Direction::LEFT) {
-			app->render->DrawTexture(texture, position.x - 70, position.y - 35, true, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
+			app->render->DrawTexture(texture, position.x - 40, position.y - 35, true, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
 		}
 		else if (myDir == Direction::RIGHT) {
 			app->render->DrawTexture(texture, position.x - 60, position.y - 35, false, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
 		}
+		
+		if (!destroySpears) {
+			SDL_Rect spearRect = { 560,1,17,85 };
+			app->render->DrawTexture(texture, sp1Posx - 8, sp1Posy - 30, false, &spearRect, 255, 1, 255, 255, 255, MrSpear.pbody->GetRotation());
+			app->render->DrawTexture(texture, sp2Posx - 8, sp2Posy - 30, false, &spearRect, 255, 1, 255, 255, 255, MsSpear.pbody->GetRotation());
+		}
 	}
-	app->scene->player->hp = 100;
+
 
 	return true;
 }
@@ -235,11 +237,11 @@ void Aelfric::DestroyFloatingSpears() {
 void Aelfric::CreateSpears() {
 	
 	MrSpear.texture = texture; MsSpear.texture = texture;
-	MrSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 16, 50, bodyType::DYNAMIC, ColliderType::PHYS2, 0.1);
+	MrSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 10, 65, bodyType::DYNAMIC, ColliderType::PHYS2, 0.1);
 	MrSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
 	MrSpear.pbody->body->SetGravityScale(0);
 
-	MsSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 16, 50, bodyType::DYNAMIC, ColliderType::PHYS2, 0.1);
+	MsSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 10, 65, bodyType::DYNAMIC, ColliderType::PHYS2, 0.1);
 	MsSpear.pbody->body->SetGravityScale(0);
 	MsSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
 

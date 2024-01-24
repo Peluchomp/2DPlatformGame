@@ -199,10 +199,7 @@ bool Chandelier::Update(float dt)
 
 	plat_sensor->collider = { x , y -15 , 115, 10 };
 	cordBody->collider = { x , y - 15 , 20, 120 };
-	if (app->physics->debug) {
-		app->render->DrawRectangle(plat_sensor->collider, 200, 200, 200, 255, true);
-		app->render->DrawRectangle(cordBody->collider, 50, 50, 50, 255, true);
-	}
+	
 	
 	
 		

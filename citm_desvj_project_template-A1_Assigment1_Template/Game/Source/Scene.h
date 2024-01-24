@@ -85,6 +85,7 @@ public:
 	PhysBody* bossDoor;
 	bool bossZone = false;
 
+	SDL_Texture* itemTexture;
 
 	int currentLvl = 0;
 	int currentLevel = 0;

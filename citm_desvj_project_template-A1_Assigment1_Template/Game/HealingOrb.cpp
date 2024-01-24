@@ -41,13 +41,13 @@ bool HealingOrb::Update(float dt)
 
 
 	if (!awake) {
-		texturePath = parameters.attribute("texturepath").as_string();
-		texture = app->tex->Load(texturePath);
+	
+		texture = app->scene->itemTexture;
 
 		for (pugi::xml_node node = parameters.child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 			defaultAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-			defaultAnim.speed = parameters.child("speed").attribute("value").as_float() / 16;
+			defaultAnim.speed = 0.03f / 16;
 			//idle.loop = parameters.child("animations").child("idle").child("loop").attribute("value").as_bool();
 			/*position = app->scene->player->position;
 			position.y -= 100;*/

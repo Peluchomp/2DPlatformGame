@@ -92,11 +92,19 @@
 	  <pathTile  texturepath ="Assets/Textures/markedTile.png" />
 	  <enemyEffect  audiopath ="Assets/Audio/Fx/enemy_wounded.wav"  />
 	  <winEffect audiopath = "Assets/Audio/Fx/endLevel.wav"/>
+	  <items texturePath = "Assets/Textures/orbSheet.png"/>
+
+	  <healingOrb>
+		  <frame x="160" y="3" w="40" h="36" />
+		  <frame x="202" y="3" w="40" h="36" />
+
+
+	  </healingOrb>
+
 
 	  <checkPointData 		 texturepath ="Assets/Textures/checkPt.png" >
 
-
-		 
+		  
 		 <animations>
 			 <idle>
 				 <frame x="1" y="123" w="78" h="120" />

@@ -178,6 +178,7 @@ public:
 private:
 
 	bool firstLoad = false;
+	bool chickens = false;
 	bool mapLoaded;
 	MapLayer* navigationLayer;
 	int blockedGid = 17; // The torch lights the way

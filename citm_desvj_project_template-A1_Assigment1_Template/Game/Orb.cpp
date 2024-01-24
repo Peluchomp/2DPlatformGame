@@ -41,8 +41,8 @@ bool Orb::Update(float dt)
 
 
 	if (!awake) {
-		texturePath = parameters.attribute("texturepath").as_string();
-		texture = app->tex->Load(texturePath);
+		
+		texture = app->scene->itemTexture;
 
 		for (pugi::xml_node node = parameters.child("frame"); node != NULL; node = node.next_sibling("frame")) {
 

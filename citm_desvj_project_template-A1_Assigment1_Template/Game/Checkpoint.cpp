@@ -44,13 +44,19 @@ bool Checkpoint::Update(float dt)
 		texturePath = parameters.attribute("texturepath").as_string();
 		texture = app->tex->Load(texturePath);
 
-		for (pugi::xml_node node = parameters.child("frame"); node != NULL; node = node.next_sibling("frame")) {
+		for (pugi::xml_node node = parameters.child("animations").child("idle").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 			defaultAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
-			defaultAnim.speed = parameters.child("speed").attribute("value").as_float() / 16;
-			//idle.loop = parameters.child("animations").child("idle").child("loop").attribute("value").as_bool();
-			/*position = app->scene->player->position;
-			position.y -= 100;*/
+			defaultAnim.speed = parameters.child("animations").child("idle").child("speed").attribute("value").as_float() / 16;
+			defaultAnim.loop = parameters.child("animations").child("idle").child("loop").attribute("value").as_bool();
+			
+		}
+		for (pugi::xml_node node = parameters.child("animations").child("checked").child("frame"); node != NULL; node = node.next_sibling("frame")) {
+
+			saveAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+			saveAnim.speed = parameters.child("animations").child("checked").child("speed").attribute("value").as_float() / 16;
+			saveAnim.loop = parameters.child("animations").child("checked").child("loop").attribute("value").as_bool();
+
 		}
 		awake = true;
 		currentAnimation = &defaultAnim;
@@ -98,6 +104,9 @@ void Checkpoint::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	case ColliderType::PLAYER:
 		LOG("Player touched Checkpoint");
+		if (!saved) {
+			currentAnimation = &saveAnim;
+		}
 		break;
 
 

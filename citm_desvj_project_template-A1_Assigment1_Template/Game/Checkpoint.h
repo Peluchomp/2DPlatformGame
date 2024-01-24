@@ -29,6 +29,8 @@ public:
 
 	Animation* currentAnimation;
 	Animation defaultAnim;
+	Animation saveAnim;
+	bool saved = false;
 
 	SDL_Texture* texture = nullptr;
 

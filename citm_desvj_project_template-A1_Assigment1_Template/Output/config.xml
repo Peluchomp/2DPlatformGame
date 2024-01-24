@@ -93,6 +93,44 @@
 	  <enemyEffect  audiopath ="Assets/Audio/Fx/enemy_wounded.wav"  />
 	  <winEffect audiopath = "Assets/Audio/Fx/endLevel.wav"/>
 
+	  <checkPointData 		 texturepath ="Assets/Textures/checkPt.png" >
+
+
+		 
+		 <animations>
+			 <idle>
+				 <frame x="1" y="123" w="78" h="120" />
+				 <frame x="81" y="123" w="78" h="120" />
+				 <frame x="161" y="123" w="78" h="120" />
+				 <frame x="241" y="123" w="78" h="120" />
+				 <frame x="321" y="123" w="78" h="120" />
+				 <frame x="401" y="123" w="78" h="120" />
+				 <frame x="481" y="123" w="78" h="120" />
+				 <frame x="561" y="123" w="78" h="120" />
+				 <speed value="0.05" />
+				 <loop value="true" />
+			 </idle>
+
+			 <checked>
+				 <frame x="1  " y="1" w="78" h="120" />
+				 <frame x="81 " y="1" w="78" h="120" />
+				 <frame x="161" y="1" w="78" h="120" />
+				 <frame x="241" y="1" w="78" h="120" />
+				 <frame x="321" y="1" w="78" h="120" />
+				 <frame x="401" y="1" w="78" h="120" />
+				 <frame x="481" y="1" w="78" h="120" />
+				 <frame x="561" y="1" w="78" h="120" />
+				 <frame x="641" y="1" w="78" h="120" />
+				 <frame x="721" y="1" w="78" h="120" />
+				 <speed value="0.05" />
+				 <loop value="false" />
+			 </checked>
+			 
+		 </animations>
+		 			  <speed value="0.05" />
+		  
+	  </checkPointData>
+
 	  <level1_spawns>
 
 		  <mega_morgan>
@@ -176,7 +214,7 @@
 
 	  <aelfric>
 		  <texture path ="Assets/Textures/FatherAelfric.png"/>
-		  <position x ="4789" y ="800"/>
+		  <position x ="4700" y ="800"/>
 		  <animations>
 			  <walking>
 				  <frame x="1" y="1" w="138" h="88"/>

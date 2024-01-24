@@ -15,10 +15,11 @@
 #include "../Checkpoint.h"
 #include "../Aelfric.h"
 #include "../EvilSpin.h"
-#include "GuiControl.h"
-#include "GuiManager.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 #include "../GuiSlider.h"
+#include "../TitleScreen.h"
+#include "GuiControl.h"
+#include "GuiManager.h"
 
 Scene::Scene() : Module()
 {
@@ -54,9 +55,7 @@ bool Scene::Awake(pugi::xml_node& config)
 				
 			}
 
-			Entity* father = (Aelfric*)app->entityManager->CreateEntity(EntityType::AELFRIC);
-			father->parameters = config.child("aelfric");
-			father->Start();
+			
 
 			const char* musicPath = config.child("level0_music").attribute("path").as_string();
 			if (musicPath != nullptr) { app->audio->PlayMusic(musicPath); }
@@ -178,7 +177,11 @@ bool Scene::Start()
 	SDL_Rect musicbtPos = { windowW / 2 - 60, windowH / 2 + 70 , 120,20 };
 	SDL_Rect fullscreenbtPos = { windowW / 2 - 60, windowH / 2  , 40,40 };
 	SDL_Rect vSyncPos = { windowW / 2 - 60, windowH / 2 - 50 , 40,40 };
+	SDL_Rect resumePos = { windowW / 2 - 60, windowH / 2 - 100, 120,20 };
+	SDL_Rect backPos = { windowW / 2 - 60, windowH / 2 - 75, 120,20 };
 	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "   Exit   ", btPos, this);
+	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 43, "Back To tittle", backPos, this);
+	resumeButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "   Resume   ", resumePos, this);
 	musicButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 2, "   Sound   ", musicbtPos, this);
 	fullScreenButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 3, "   Fullscreen   ", fullscreenbtPos, this);
 	vSyncButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 4, "   Vsync   ", vSyncPos, this);
@@ -342,7 +345,7 @@ bool Scene::Update(float dt)
 
 		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
 
-		if (!noir && app->render->camera.x < -680) {
+		if (!noir && app->render->camera.x < -680 && !bossZone) {
 			app->render->camera.x = -680;
 		}
 		
@@ -352,9 +355,16 @@ bool Scene::Update(float dt)
 		if (app->render->camera.x > 0) {
 			app->render->camera.x = 0;
 		}
-		if (player->position.x > 4240) {
-			app->render->camera.x = -8480; app->render->camera.y = -1310;
+		if (player->position.x > 4240 && noir) {
+			// Lock camera position to boss room
+			app->render->camera.x = -8480; app->render->camera.y = -1290;
+			bossDoor =  app->physics->CreateRectangle(105 * 40, 22 * 40, 42, 160, bodyType::STATIC, ColliderType::PLATFORM);
+			bossDoor->ctype = ColliderType::PLATFORM;
+			bossZone = true;
 			noir = false;
+		}
+		if (bossZone) {
+			app->render->camera.x = -8480; app->render->camera.y = -1290;
 		}
 	}
 
@@ -495,8 +505,31 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 	}
 	if (control->id == 3 && fullscreen == false && fullscreenOnce > 1) {
 		fullscreen = true;
+
 		fullscreenOnce = 0;
 		SDL_SetWindowFullscreen(app->win->window, SDL_WINDOW_FULLSCREEN);
+	}
+	if (control->id == 5) {
+		app->scene->player->options = false;
+	}
+
+	if (control->id == 43) {
+		app->titleS->back = true;
+	}
+	
+	if (control->id == 3 && fullscreen == true && fullscreenOnce > 1) {
+		
+
+
+		Uint32 flags = SDL_WINDOW_SHOWN;
+		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+
+		SDL_SetWindowFullscreen(app->win->window, flags);
+
+		SDL_RenderSetLogicalSize(app->render->renderer, app->win->width, app->win->height);
+
+		app->win->screenSurface= SDL_GetWindowSurface(app->win->window);
+
 	}
 	
 	if (control->id == 3 && fullscreen == true && fullscreenOnce > 1) {

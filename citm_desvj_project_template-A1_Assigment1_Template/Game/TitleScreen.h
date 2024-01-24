@@ -11,7 +11,9 @@
 #include "../GuiControl.h"
 #include "../GuiControlButton.h"
 #include "../Timer.h"
-
+#include "SDL_mixer/include/SDL_mixer.h"
+#include "GuiSlider.h"
+#include "../GuiManager.h"
 
 struct SDL_Texture;
 
@@ -137,6 +139,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	bool OnGuiMouseClickEvent(GuiControl* control);
+
 	pugi::xml_node mynode;
 
 	SDL_Texture* finalFrame;
@@ -146,9 +150,28 @@ public:
 	Timer delayTimer;
 
 	Icon* Flame;
-
+	uint windowH;
+	uint windowW;
 	int blinkCounter = 0;
+	bool startt = false;
+	GuiControlButton* gcButtom;
+	GuiControlButton* exitButtom;
+	GuiControlButton* optionsButtom;
+	GuiControlButton* backButtom;
+	GuiControlButton* musicButtom;
+	GuiControlButton* fullScreenButtom;
+	GuiControlButton* vSyncButtom;
+	bool exit = false;
+	bool skip = false;
+	float tittleTimerSec;
+	float tittleTimerMSec;
+	int stopesquizo;
+	bool optionsTittle;
 
+	bool fullscreen = false;
+	bool vSync = false;
+	int fullscreenOnce;
+	int vsyncOnce;
 private:
 	
 	List<Frame*> myFrames;

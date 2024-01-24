@@ -71,12 +71,17 @@ private:
 	GuiControlButton* musicButtom;
 	GuiControlButton* fullScreenButtom;
 	GuiControlButton* vSyncButtom;
+	GuiControlButton* resumeButtom;
+	GuiControlButton* backtittleButtom;
 
 public:
 
+	// Detect when the player reaches the shadow part of the second level
 	PhysBody* blackDetection;
 	bool noir = false;
 
+	// Locl the boss room when the player arrives
+	PhysBody* bossDoor;
 	bool bossZone = false;
 
 	int fullscreenOnce;
@@ -89,6 +94,8 @@ public:
 	float volume = 90;
 	bool fullscreen = false;
 	bool vSync = false;
+	int fullscreenOnce;
+	int vsyncOnce;
 };
 
 #endif // __SCENE_H__

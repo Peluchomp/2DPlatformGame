@@ -12,7 +12,7 @@
 #include <cstdlib>
 #include <ctime>
 
-int getRandomNumber3(int min, int max) {
+int getRandomNumber5(int min, int max) {
 	// Seed the random number generator with the current time
 	std::srand(static_cast<unsigned int>(std::time(0)));
 
@@ -76,7 +76,7 @@ bool FloorSpears::Update(float dt)
 	{
 		b2Vec2 pozition;
 
-		if (getRandomNumber3(0,1) == 0) {
+		if (getRandomNumber5(0,1) == 0) {
 				if (app->scene->player->myDir == Direction::LEFT)
 				pozition = { app->scene->player->pbody->body->GetPosition().x + 0.25f,app->scene->player->pbody->body->GetPosition().y + 2};
 			if (app->scene->player->myDir == Direction::RIGHT)

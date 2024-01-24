@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Entity.h"
 #include "List.h"
+#include "Box2D/Box2D/Box2D.h"
 
 
 struct EntityData {
@@ -30,6 +31,8 @@ public:
 
 	// Called every frame
 	bool Update(float dt);
+
+	bool PostUpdate();
 
 	// Called before quitting
 	bool CleanUp();
@@ -61,6 +64,8 @@ public:
 	PhysBody* shadowZone;
 
 	List<Entity*> entities;
+
+	List<b2RevoluteJoint*> destroyJoints;
 
 	List<Entity*> savedEntities;
 

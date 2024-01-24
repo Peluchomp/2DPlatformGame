@@ -22,7 +22,7 @@ const uint16_t ENEMY_CATEGORY_BIT = 0x0009;
 const uint16_t GROUND_CATEGORY_BIT = 0x0004;
 const uint16_t PHYSIC_CATEGORY_BIT = 0x0005;
 const uint16_t Float_PLAT_CATEGORY_BIT = 0x0002;
-const uint16_t PHYSIC2_CATEGORY_BIT = 0x0006;
+const uint16_t PHYSIC2_CATEGORY_BIT = 0x0008;
 const uint16_t PHYSIC3_CATEGORY_BIT = 0x0007;
 
 
@@ -32,7 +32,7 @@ const uint16_t ENEMY_MASK_BITS = PLAYER_CATEGORY_BIT | GROUND_CATEGORY_BIT;
 const uint16_t GROUND_MASK_BITS = PLAYER_CATEGORY_BIT | ENEMY_CATEGORY_BIT ;
 const uint16_t PHYSIC_MASK_BITS = PLAYER_CATEGORY_BIT; // ghost bodies only used for physics //
 const uint16_t Float_PLAT_MASK_BIT = PLAYER_CATEGORY_BIT | GROUND_CATEGORY_BIT;
-const uint16_t PHYSIC2_MASK_BITS = GROUND_CATEGORY_BIT; // ghost bodies only used for physics //
+const uint16_t PHYSIC2_MASK_BITS = PLAYER_CATEGORY_BIT; // ghost bodies only used for physics //
 
 // types of bodies
 enum bodyType {

@@ -120,6 +120,7 @@ class Physics : public Module, public b2ContactListener // TODO
 public:
 
 	List<PhysBody*> physBodies;
+	List<PhysBody*> corpses;
 
 	// Constructors & Destructors
 	Physics();

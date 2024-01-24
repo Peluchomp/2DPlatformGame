@@ -44,6 +44,8 @@ bool Aelfric::Start() {
 	position.y = parameters.child("position").attribute("y").as_int();
 	attackChangeTimer.Start();
 
+	ogPos = position;
+
  	for (pugi::xml_node node = parameters.child("animations").child("walking").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
 		walkingAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
@@ -66,7 +68,23 @@ bool Aelfric::Start() {
 	ChangePosTimer.Start();
 
 	hp = 20;
+
+
+	MrSpear.texture = texture; MsSpear.texture = texture;
+	MrSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 10, 65, bodyType::DYNAMIC, ColliderType::PHYS2, 0.1);
+	MrSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
+	MrSpear.pbody->body->SetGravityScale(0);
+
+	MsSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 10, 65, bodyType::DYNAMIC, ColliderType::PHYS2, 0.1);
+	MsSpear.pbody->body->SetGravityScale(0);
+	MsSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
 	CreateSpears();
+
+	_detectionBody = app->physics->CreateRectangleSensor(position.x, position.y, 250, 200, bodyType::DYNAMIC, ColliderType::ENEMY);
+	myBodies.Add(_detectionBody);
+	_detectionBody->listener = this;
+	_detectionBody->body->SetGravityScale(0);
+
 	currentAttack = GROUND_SPEARS;
 	floorSpearTimer.Start();
 
@@ -87,6 +105,7 @@ bool Aelfric::Update(float dt)
 	if (!startFight && app->scene->bossZone == true){
 		attackChangeTimer.Start();
 		startFight = true;
+		ogTransform = _body->body->GetPosition();
 	}
 
 	
@@ -96,53 +115,36 @@ bool Aelfric::Update(float dt)
 		_body->GetPosition(position.x, position.y);
 
 		/*Select a random attack*/
-		if (attackChangeTimer.ReadSec() % 15 == 0) {
+		if (attackChangeTimer.ReadSec() > 15 && groundPhase == true) {
+			attackChangeTimer.Start();
 			startedSpin = false; startedThunder = false;
 
 			int id = getRandomNumber(1, 1);
 			switch (id) {
 			case(1):
 				currentAttack = SPIN;
+				groundPhase = false;
 				break;
 			case(2):
 				currentAttack = THUNDERS;
+				groundPhase = false;
 				break;
 			}
 
 		}
+		if (attackChangeTimer.ReadSec() > 10 && groundPhase == false) {
+			groundPhase = true;
+			currentAttack = GROUND_SPEARS;
+			Teleport();
+			CreateSpears();
+			attackChangeTimer.Start();
+		
+		}
+		
 		
 		if (currentAttack == SPIN ) {
-			if (!startedSpin) {
-				Teleport();
-				startedSpin = true;
-			}
-
-			if (spinTimeDecided == false) {
-				// throw first rotating Spear
-				EvilSpin* Es = (EvilSpin*)app->entityManager->CreateEntity(EntityType::EVILSPIN);
-				Es->position = position;
-				Es->Awake();
-				spinTimeDecided = true;
-				floorSpearTimer.Start();
-				int id = getRandomNumber(1, 2);
-				if (id == 1) {
-					floorSpearWait = 0.5f;
-				}
-				else {
-					floorSpearWait = 2;
-				}
-			}
-
-			if (floorSpearTimer.ReadSec() > 3) {
-				
-				EvilSpin* Es = (EvilSpin*)app->entityManager->CreateEntity(EntityType::EVILSPIN);
-				Es->position = position;
-				Es->Awake();
-				floorSpearTimer.Start();
-				
-
-			}
-
+			
+			SpinAttackLogic();
 
 		}
 
@@ -185,7 +187,7 @@ bool Aelfric::Update(float dt)
 			_body->body->SetLinearVelocity(Velocity);
 			_body->body->SetLinearVelocity(Velocity);
 
-			currentAnimation->Update();
+			
 
 
 			
@@ -241,6 +243,7 @@ bool Aelfric::Update(float dt)
 				app->render->DrawTexture(texture, sp2Posx - 8, sp2Posy - 30, false, &spearRect, 255, 1, 255, 255, 255, MsSpear.pbody->GetRotation());
 			}
 		}
+		currentAnimation->Update();
 		if (myDir == Direction::LEFT) {
 			app->render->DrawTexture(texture, position.x - 40, position.y - 35, true, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
 		}
@@ -306,20 +309,17 @@ void Aelfric::DestroyFloatingSpears() {
 
 	app->entityManager->destroyJoints.Add(MrSpear.revol);
 	app->entityManager->destroyJoints.Add(MsSpear.revol);
+
+
 	MrSpear.pbody->active = false; MsSpear.pbody->active = false;
-	myBodies.Add(MrSpear.pbody); myBodies.Add(MsSpear.pbody);
+	//app->physics->corpses.Add(MrSpear.pbody); app->physics->corpses.Add(MsSpear.pbody);
+
 }
 
 void Aelfric::CreateSpears() {
 	
-	MrSpear.texture = texture; MsSpear.texture = texture;
-	MrSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 10, 65, bodyType::DYNAMIC, ColliderType::PHYS2, 0.1);
-	MrSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
-	MrSpear.pbody->body->SetGravityScale(0);
-
-	MsSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 10, 65, bodyType::DYNAMIC, ColliderType::PHYS2, 0.1);
-	MsSpear.pbody->body->SetGravityScale(0);
-	MsSpear.pbody->ctype = ColliderType::ENEMY_ATTACK;
+	destroySpears = false;
+	
 
 	MrSpear.pbody->active = true; MsSpear.pbody->active = true;
 
@@ -339,10 +339,7 @@ void Aelfric::CreateSpears() {
 
 
 
-	_detectionBody = app->physics->CreateRectangleSensor(position.x, position.y, 250, 200, bodyType::DYNAMIC, ColliderType::ENEMY);
-	myBodies.Add(_detectionBody);
-	_detectionBody->listener = this;
-	_detectionBody->body->SetGravityScale(0);
+	
 
 	MrSpear.pbody->body->SetTransform(_body->body->GetPosition() + b2Vec2(1.0f, 0.0f), MrSpear.pbody->GetRotation());
 	MsSpear.pbody->body->SetTransform(_body->body->GetPosition() + b2Vec2(1.0f, 0.0f), MsSpear.pbody->GetRotation());
@@ -363,26 +360,73 @@ bool Aelfric::PostUpdate() {
 		app->render->DrawRectangle(healthBar, 27, 210, 152, 255);
 
 	}
+	if (currentAttack != GROUND_SPEARS && MrSpear.pbody != nullptr && MsSpear.pbody != nullptr) {
+
+		app->physics->DestroyObject(MrSpear.pbody); app->physics->DestroyObject(MsSpear.pbody);
+	
+	}
 	return true;
 }
 
 void Aelfric::Teleport() {
+	if (currentAttack == GROUND_SPEARS) {
 
-	currentAnimation = &magicAnim;
-	int id = getRandomNumber(1, 2);
-	if (id == 1) {
-		myDir = Direction::LEFT; /*He stands at the right, facing left*/
-		// enter magical animation
+		currentAnimation = &walkingAnim;
+		_body->body->SetTransform(ogTransform, 0);
 
-		destroySpears = true;
-		_body->body->SetTransform(b2Vec2(PIXEL_TO_METERS(116 * 40), PIXEL_TO_METERS(18 * 40)), 0);
 	}
-	else if (id == 2) {
-		myDir = Direction::RIGHT; 
-		// enter magical animation
+	else {
+		currentAnimation = &magicAnim;
+		int id = getRandomNumber(1, 2);
+		if (id == 1) {
+			myDir = Direction::LEFT; /*He stands at the right, facing left*/
+			// enter magical animation
 
-		destroySpears = true;
-		_body->body->SetTransform(b2Vec2(PIXEL_TO_METERS(109 * 40), PIXEL_TO_METERS(18 * 40)), 0);
+			destroySpears = true;
+			_body->body->SetTransform(b2Vec2(PIXEL_TO_METERS(116 * 40), PIXEL_TO_METERS(18 * 40)), 0);
+		}
+		else if (id == 2) {
+			myDir = Direction::RIGHT;
+			// enter magical animation
+
+			destroySpears = true;
+			_body->body->SetTransform(b2Vec2(PIXEL_TO_METERS(109 * 40), PIXEL_TO_METERS(18 * 40)), 0);
+		}
+	}
+}
+
+void Aelfric::SpinAttackLogic() {
+	if (!startedSpin) {
+		Teleport();
+		_body->body->SetLinearVelocity(b2Vec2_zero);
+		startedSpin = true;
 	}
 
+	if (spinTimeDecided == false) {
+		// throw first rotating Spear
+		EvilSpin* Es = (EvilSpin*)app->entityManager->CreateEntity(EntityType::EVILSPIN);
+		Es->position = position;
+		Es->position.y += 50;
+		Es->Awake();
+		spinTimeDecided = true;
+		floorSpearTimer.Start();
+		int id = getRandomNumber(1, 2);
+		if (id == 1) {
+			floorSpearWait = 0.5f;
+		}
+		else {
+			floorSpearWait = 2;
+		}
+	}
+
+	if (floorSpearTimer.ReadSec() > 3) {
+
+		EvilSpin* Es = (EvilSpin*)app->entityManager->CreateEntity(EntityType::EVILSPIN);
+		Es->position = position;
+		Es->position.y += 50;
+		Es->Awake();
+		floorSpearTimer.Start();
+
+
+	}
 }

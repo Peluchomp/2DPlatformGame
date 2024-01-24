@@ -24,6 +24,8 @@ public:
 
 	bool CleanUp();
 
+	void SetSpeed(float speed);
+
 	bool PreUpdate(float dt);
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
@@ -42,6 +44,8 @@ public:
 	bool spawnLightning = true;
 	bool awake = false;
 	float startAtackTimer;
+
+	float speed = 0.5f;
 private:
 	const char* texturePath;
 

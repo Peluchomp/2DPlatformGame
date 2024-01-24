@@ -26,6 +26,10 @@ EvilSpearLightning::EvilSpearLightning() : Entity(EntityType::EVILSPEARLIGHTNING
 
 EvilSpearLightning::~EvilSpearLightning() {}
 
+void EvilSpearLightning::SetSpeed(float speed) {
+	this->speed = speed;
+}
+
 bool EvilSpearLightning::Awake() {
 
 	// the awake is only called for entities that are awaken with the manager
@@ -42,6 +46,7 @@ bool EvilSpearLightning::Awake() {
 	taimer.Start();
 
 	myBodies.Add(pbody);
+	myBodies.Add(eviltwinpbody);
 
 	return true;
 }
@@ -63,11 +68,13 @@ bool EvilSpearLightning::PreUpdate(float dt)
 bool EvilSpearLightning::Update(float dt)
 {
 	startAtackTimer++;
-	if (deathTaimer.ReadSec() > 2)
+	if (deathTaimer.ReadSec() > 3)
 	{
 		pendingToDestroy = true;
+		Lthunder->pendingToDestroy = true;
+		Rthunder->pendingToDestroy = true;
 	}
-	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x);
+ 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x);
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y);
 
 	if (startAtackTimer > 150)
@@ -87,16 +94,16 @@ bool EvilSpearLightning::Update(float dt)
 		if (taimer.ReadSec() > 1) {
 
 			if (getRandomNumber2(0, 1) == 0) {
-				pbody->body->SetLinearVelocity({0.5f,0 });
+				pbody->body->SetLinearVelocity({speed,0 });
 			}
 			else {
-				pbody->body->SetLinearVelocity({ -0.5f,0 });
+				pbody->body->SetLinearVelocity({ -speed,0 });
 			}
 		}
 	}
 	else
 	{
-		b2Vec2 pozition = { app->scene->player->pbody->body->GetPosition().x,app->scene->player->pbody->body->GetPosition().y - 2 };
+		b2Vec2 pozition = { app->scene->player->pbody->body->GetPosition().x, 16.405 };
 		pbody->body->SetTransform(pozition, 0);
 	}
 	if (spawnLightning == false) {
@@ -105,7 +112,7 @@ bool EvilSpearLightning::Update(float dt)
 		Rthunder->bossPos.x = position.x + 40;
 		Rthunder->bossPos.y = position.y - 120;
 	}
-	b2Vec2 pozition = { pbody->body->GetPosition().x + 2,pbody->body->GetPosition().y};
+	b2Vec2 pozition = { pbody->body->GetPosition().x + 2, 16.405};
 	eviltwinpbody->body->SetTransform(pozition, 0);
 	SDL_Rect spearRect = { 34,4,15,81 };
 	app->render->DrawTexture(texture, METERS_TO_PIXELS(pbody->body->GetTransform().p.x), METERS_TO_PIXELS(pbody->body->GetTransform().p.y - 130), false, &spearRect);

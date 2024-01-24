@@ -63,6 +63,8 @@ public:
 
 	void SpinAttackLogic();
 
+	void ThunderLogic();
+
 	void Teleport();
 
 	bool startFight = false;

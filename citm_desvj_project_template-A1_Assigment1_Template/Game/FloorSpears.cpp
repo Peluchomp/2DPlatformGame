@@ -67,7 +67,7 @@ bool FloorSpears::PreUpdate(float dt)
 bool FloorSpears::Update(float dt)
 {
 	startAtackTimer++;
-	if (deathTaimer.ReadSec() > 2) 
+	if (deathTaimer.ReadMSec() > 1700) 
 	{
 		pendingToDestroy = true;
 	}

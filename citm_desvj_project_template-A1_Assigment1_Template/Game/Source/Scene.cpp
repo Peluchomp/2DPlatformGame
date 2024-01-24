@@ -363,7 +363,7 @@ bool Scene::Update(float dt)
 		if (player->position.x > 4240 && noir) {
 			// Lock camera position to boss room
 			app->render->camera.x = -8480; app->render->camera.y = -1290;
-			bossDoor =  app->physics->CreateRectangle(105 * 40, 22 * 40, 42, 160, bodyType::STATIC, ColliderType::PLATFORM);
+			bossDoor =  app->physics->CreateRectangle(106 * 40, 22 * 40, 42, 160, bodyType::STATIC, ColliderType::PLATFORM);
 			bossDoor->ctype = ColliderType::PLATFORM;
 			bossZone = true;
 			noir = false;

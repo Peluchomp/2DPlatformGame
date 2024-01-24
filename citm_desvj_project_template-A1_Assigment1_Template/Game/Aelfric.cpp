@@ -119,7 +119,7 @@ bool Aelfric::Update(float dt)
 			attackChangeTimer.Start();
 			startedSpin = false; startedThunder = false;
 
-			int id = getRandomNumber(1, 1);
+			int id = getRandomNumber(1, 2);
 			switch (id) {
 			case(1):
 				currentAttack = SPIN;
@@ -147,7 +147,9 @@ bool Aelfric::Update(float dt)
 			SpinAttackLogic();
 
 		}
-
+		else if (currentAttack == THUNDERS) {
+			ThunderLogic();
+		}
 
 		if (currentAttack == GROUND_SPEARS) {
 			b2Vec2 Velocity;
@@ -417,6 +419,7 @@ void Aelfric::SpinAttackLogic() {
 	if (floorSpearTimer.ReadSec() > 1) {
 		int randodist = getRandomNumber(1, 3);
 		EvilSpin* Es = (EvilSpin*)app->entityManager->CreateEntity(EntityType::EVILSPIN);
+		Es->Awake();
 		Es->position = position;
 		Es->position.y += 50;
 
@@ -433,4 +436,34 @@ void Aelfric::SpinAttackLogic() {
 
 
 	}
+}
+
+void Aelfric::ThunderLogic() {
+
+	if (!startedThunder) {
+		Teleport();
+		_body->body->SetLinearVelocity(b2Vec2_zero);
+		startedThunder = true;
+
+		int id = getRandomNumber(1, 4);
+
+		EvilSpearLightning* esL =  (EvilSpearLightning*)app->entityManager->CreateEntity(EntityType::EVILSPEARLIGHTNING);
+		esL->Awake();
+		switch (id) {
+		case(1):
+			esL->SetSpeed(0.5f);
+			break;
+		case(2):
+			esL->SetSpeed(2.0f);
+			break;
+		case(3):
+			esL->SetSpeed(1.2f);
+			break;
+		case(4):
+			esL->SetSpeed(0.2f);
+		}
+
+	}
+
+	
 }

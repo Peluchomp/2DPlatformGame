@@ -16,6 +16,7 @@
 #include "../FloorSpears.h"
 #include "../EvilSpearLightning.h"
 #include "../EvilSpin.h"
+#include "../TitleScreen.h"
 #include "Optick/include/optick.h"
 #include "Defs.h"
 #include "Log.h"
@@ -228,7 +229,7 @@ bool EntityManager::Update(float dt)
 			}
 			if (pEntity->active == false ) continue;
 
-			if (app->scene->player->options == false || item->data == app->scene->player || item->data == app->scene->player->mySpear)
+			if (app->titleS->options == false || item->data == app->scene->player || item->data == app->scene->player->mySpear)
 			ret = item->data->Update(dt);
 		}
 		for (ListItem<b2RevoluteJoint*>* corpse = destroyJoints.start; corpse != NULL; corpse = corpse->next) {

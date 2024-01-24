@@ -21,7 +21,7 @@ public:
     float value2 = 90;
     int sliderPosx;
     float unit;
-
+    bool tittleToScene = true;
 private:
 
     // GuiSlider specific properties

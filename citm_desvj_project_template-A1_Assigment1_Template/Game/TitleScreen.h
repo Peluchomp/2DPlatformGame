@@ -171,7 +171,9 @@ public:
 	bool fullscreen = false;
 	bool vSync = false;
 	int fullscreenOnce;
+	float volume3;
 	int vsyncOnce;
+	bool options;
 	bool back = false;
 private:
 	

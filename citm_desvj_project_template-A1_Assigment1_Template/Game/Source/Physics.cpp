@@ -13,6 +13,7 @@
 #include "Box2D/Box2D/Box2D.h"
 #include "List.h"
 #include "Scene.h"
+#include "../TitleScreen.h"
 
 // Tell the compiler to reference the compiled Box2D libraries
 #ifdef _DEBUG
@@ -89,7 +90,7 @@ bool Physics::PreUpdate()
 
 	// Step (update) the World
 	// WARNING: WE ARE STEPPING BY CONSTANT 1/60 SECONDS!
-	if (app->scene->player->options == false)
+	if (app->titleS->options == false)
 	world->Step(1.0f / 60.0f, 6, 2);
 
 	// Because Box2D does not automatically broadcast collisions/contacts with sensors, 

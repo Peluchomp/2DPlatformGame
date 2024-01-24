@@ -175,22 +175,21 @@ bool Scene::Start()
 		app->map->mapData.tilesets.Count());
 
 
-	SDL_Rect btPos = { windowW / 2 - 60, windowH / 2 + 100, 120,20 };
-	SDL_Rect musicbtPos = { windowW / 2 - 60, windowH / 2 + 70 , 120,20 };
-	SDL_Rect fullscreenbtPos = { windowW / 2 - 60, windowH / 2  , 40,40 };
-	SDL_Rect vSyncPos = { windowW / 2 - 60, windowH / 2 - 50 , 40,40 };
-	SDL_Rect resumePos = { windowW / 2 - 60, windowH / 2 - 100, 120,20 };
-	SDL_Rect backPos = { windowW / 2 - 60, windowH / 2 - 75, 120,20 };
+	SDL_Rect btPos = { windowW / 2 - 60, windowH / 2 + 200, 120,20 };
+	SDL_Rect resumePos = { windowW / 2 - 60, windowH / 2 , 120,20 };
+	SDL_Rect backPos = { windowW / 2 - 60, windowH / 2 + 25, 120,20 };
 	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "   Exit   ", btPos, this);
 	backtittleButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 43, "Back To tittle", backPos, this);
 	resumeButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "   Resume   ", resumePos, this);
-	musicButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 2, "   Sound   ", musicbtPos, this);
-	fullScreenButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 3, "   Fullscreen   ", fullscreenbtPos, this);
-	vSyncButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 4, "   Vsync   ", vSyncPos, this);
+	musicButtom = app->titleS->musicButtom; //(GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 2, "   Sound   ", musicbtPos, this);
+	fullScreenButtom = app->titleS->fullScreenButtom;//(GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 3, "   Fullscreen   ", fullscreenbtPos, this);
+	vSyncButtom = app->titleS->vSyncButtom;//(GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 4, "   Vsync   ", vSyncPos, this);
 	const char* tilePath = scene_parameter.child("pathTile").attribute("texturepath").as_string();
 	pathTexture = app->tex->Load(tilePath);
 
-	SpawnGoons(true  );
+	
+
+	SpawnGoons(true);
 
 	return true;
 }
@@ -445,7 +444,6 @@ bool Scene::PostUpdate()
 
 	//----------------Score stuf----------------//
 
-
 	//volume sounds
 	Mix_VolumeMusic(volume);
 	Mix_Volume(-1, volume);
@@ -522,7 +520,7 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 		SDL_SetWindowFullscreen(app->win->window, SDL_WINDOW_FULLSCREEN);
 	}
 	if (control->id == 5) {
-		app->scene->player->options = false;
+		app->titleS->options = false;
 	}
 
 	if (control->id == 43) {

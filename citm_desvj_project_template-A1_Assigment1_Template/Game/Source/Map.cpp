@@ -126,25 +126,49 @@ bool Map::Update(float dt)
                 }
             }
         }
-        else if (!firstLoad && mapLayerItem->data->properties.GetProperty("Angelical") != NULL) {
+        else if (!firstLoad ) {
+            if ( mapLayerItem->data->properties.GetProperty("Angelical") != NULL) {
 
-            for (int x = 0; x < mapLayerItem->data->width; x++) {
-                for (int y = 0; y < mapLayerItem->data->height; y++) {
-                    // Optick event for the entity creation section
-                    
+                for (int x = 0; x < mapLayerItem->data->width; x++) {
+                    for (int y = 0; y < mapLayerItem->data->height; y++) {
+                        // Optick event for the entity creation section
 
-                    int gid = mapLayerItem->data->Get(x, y);
 
-                    if (gid == 1282) {
-                        Entity* ye = app->entityManager->CreateEntity(EntityType::ANGEL);
-                        ye->Awake();
-                        ye->position.x = (x * 40) - 300;
-                        ye->position.y = y * 40;
-                        ye->Start();
+                        int gid = mapLayerItem->data->Get(x, y);
+
+                        if (gid == 1282) {
+                            Entity* ye = app->entityManager->CreateEntity(EntityType::ANGEL);
+                            ye->Awake();
+                            ye->position.x = (x * 40) - 300;
+                            ye->position.y = y * 40;
+                            ye->Start();
+                        }
                     }
                 }
+                firstLoad = true;
             }
-            firstLoad = true;
+           
+        }
+        if (!chickens) {
+            if (mapLayerItem->data->name == "chickens") {
+                for (int x = 0; x < mapLayerItem->data->width; x++) {
+                    for (int y = 0; y < mapLayerItem->data->height; y++) {
+                        // Optick event for the entity creation section
+
+                        int gid = mapLayerItem->data->Get(x, y);
+
+                        if (gid != 0) {
+                            Entity* ye = app->entityManager->CreateEntity(EntityType::HEALINGORB);
+                            ye->parameters = app->scene->scene_parameter.child("healingOrb");
+                            ye->Awake();
+                            ye->position.x = (x * 40) - 20;
+                            ye->position.y = (y * 40) - 20;
+                            ye->Start();
+                        }
+                    }
+                }
+                chickens = true;
+            }
         }
 
         mapLayerItem = mapLayerItem->next;
@@ -204,6 +228,8 @@ bool Map::CleanUp()
 
 	ListItem<TileSet*>* item;
 	item = mapData.tilesets.start;
+
+    chickens = false;
 
 	while (item != NULL)
 	{

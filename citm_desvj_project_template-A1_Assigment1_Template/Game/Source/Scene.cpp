@@ -43,6 +43,7 @@ bool Scene::Awake(pugi::xml_node& config)
 			app->map->path = config.child("map").attribute("path").as_string();
 
 			scene_parameter = config;
+			itemTexture = app->tex->Load(config.child("items").attribute("texturePath").as_string());
 
 			// iterate all objects in the scene
 			// Check https://pugixml.org/docs/quickstart.html#access

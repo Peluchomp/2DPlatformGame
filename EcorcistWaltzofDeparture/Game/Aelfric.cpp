@@ -257,6 +257,8 @@ bool Aelfric::Update(float dt)
 			app->render->DrawTexture(texture, position.x - 60, position.y - 35, false, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
 		}
 	}
+	
+
 
 
 	return true;
@@ -297,6 +299,14 @@ void Aelfric::OnCollision(PhysBody* physA, PhysBody* physB) {
 		}
 		break;
 	case ColliderType::PLAYER_ATTACK:
+		if (physB->active && physA == _body) {
+			LOG("erpt");
+			hp -= app->scene->player->attack;
+			hurt = true;
+			hurtTimer.Start();
+		}
+		break;
+	case ColliderType::SPEAR:
 		if (physB->active && physA == _body) {
 			LOG("erpt");
 			hp -= app->scene->player->attack;

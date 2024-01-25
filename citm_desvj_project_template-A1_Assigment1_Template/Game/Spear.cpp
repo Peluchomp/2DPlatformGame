@@ -148,10 +148,18 @@ bool Spear::Update(float dt)
 
 		daPlatform = false;
 	}
-	if (app->scene->player->power != PowerLvl::OP)
-	app->render->DrawTexture(texture, METERS_TO_PIXELS(ThePlatform->body->GetPosition().x-30), METERS_TO_PIXELS(ThePlatform->body->GetPosition().y -8), false,&form1Anim.GetCurrentFrame());
-	else 
-	app->render->DrawTexture(texture, METERS_TO_PIXELS(ThePlatform->body->GetPosition().x - 43), METERS_TO_PIXELS(ThePlatform->body->GetPosition().y - 8), false, &form3Anim.GetCurrentFrame());
+	if (!app->scene->noir) {
+		if (app->scene->player->power != PowerLvl::OP)
+			app->render->DrawTexture(texture, METERS_TO_PIXELS(ThePlatform->body->GetPosition().x - 30), METERS_TO_PIXELS(ThePlatform->body->GetPosition().y - 8), false, &form1Anim.GetCurrentFrame());
+		else
+			app->render->DrawTexture(texture, METERS_TO_PIXELS(ThePlatform->body->GetPosition().x - 43), METERS_TO_PIXELS(ThePlatform->body->GetPosition().y - 8), false, &form3Anim.GetCurrentFrame());
+	}
+	else {
+		if (app->scene->player->power != PowerLvl::OP)
+			app->render->DrawTexture(texture, METERS_TO_PIXELS(ThePlatform->body->GetPosition().x - 30), METERS_TO_PIXELS(ThePlatform->body->GetPosition().y - 8), false, &form1Anim.GetCurrentFrame(), 255,1, 0,0,0);
+		else
+			app->render->DrawTexture(texture, METERS_TO_PIXELS(ThePlatform->body->GetPosition().x - 43), METERS_TO_PIXELS(ThePlatform->body->GetPosition().y - 8), false, &form3Anim.GetCurrentFrame(), 255,1,0,0,0);
+	}
 	//app->render->DrawTexture(texture, METERS_TO_PIXELS(ThePlatformLong->body->GetPosition().x - 30), METERS_TO_PIXELS(ThePlatformLong->body->GetPosition().y - 8), false, &form3Anim.GetCurrentFrame());
 	//app->render->DrawTexture(texture, position.x, position.y, false, 0,0,angle);
 

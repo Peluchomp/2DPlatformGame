@@ -99,6 +99,11 @@ public:
 
 	b2Vec2 ogTransform;
 
+	uint spinningFx;
+	uint teleportFx;
+	uint thunderFx;
+
+
 	evilSpear MrSpear;
 	evilSpear MsSpear;
 

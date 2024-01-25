@@ -35,7 +35,7 @@ Scene::~Scene()
 bool Scene::Awake(pugi::xml_node& config)
 {
 	if (active) {
-		if (player == nullptr) {
+		if (currentLvl == 0) {
 
 		    LOG("Loading Scene");
 			bool ret = true;
@@ -43,33 +43,36 @@ bool Scene::Awake(pugi::xml_node& config)
 			app->map->path = config.child("map").attribute("path").as_string();
 
 			scene_parameter = config;
-			itemTexture = app->tex->Load(config.child("items").attribute("texturePath").as_string());
+			if (itemTexture == nullptr) { itemTexture = app->tex->Load(config.child("items").attribute("texturePath").as_string()); }
 
 			// iterate all objects in the scene
 			// Check https://pugixml.org/docs/quickstart.html#access
 
+			if (player == nullptr) {
 
+				if (config.child("player")) {
+					player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
+					player->parameters = config.child("player");
+					player->Awake();
 
-			if (config.child("player")) {
-				player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
-				player->parameters = config.child("player");
-				player->Awake();
-				
+				}
 			}
-
 			
 
 			const char* musicPath = config.child("level0_music").attribute("path").as_string();
 			if (musicPath != nullptr) { app->audio->PlayMusic(musicPath); }
+			bossMusicPath = config.child("boss_music").attribute("path").as_string();
 
-			if (config.child("spear")) {
-				player->mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
-				player->mySpear->parameters = config.child("spear");
-				player->mySpear->Awake();
-				player->Start();
-				player->mySpear->Start();
+
+			if (player->mySpear == nullptr) {
+				if (config.child("spear")) {
+					player->mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
+					player->mySpear->parameters = config.child("spear");
+					player->mySpear->Awake();
+					player->Start();
+					player->mySpear->Start();
+				}
 			}
-
 			//--------Spawn all Orbs----------//
 			for (pugi::xml_node orbNode = config.child("orb_spawn"); orbNode; orbNode = orbNode.next_sibling("orb_spawn")) {
 				Orb* orb = (Orb*)app->entityManager->CreateEntity(EntityType::ORB);
@@ -103,8 +106,8 @@ bool Scene::Awake(pugi::xml_node& config)
 			// iterate all objects in the scene
 			// Check https://pugixml.org/docs/quickstart.html#access
 
-			const char* musicPath = config.child("level0_music").attribute("path").as_string();
-			if (musicPath != nullptr) { app->audio->PlayMusic(musicPath); }
+			const char* musicPath = config.child("level1_music").attribute("path").as_string();
+			if (musicPath != nullptr) { app->audio->PlayMusic(musicPath,-1); }
 
 			/*if (config.child("spear")) {
 				player->mySpear = (Spear*)app->entityManager->CreateEntity(EntityType::SPEAR);
@@ -166,6 +169,7 @@ bool Scene::Start()
 	textPosY = (float)windowH / 2 - (float)texH / 2;
 
 	enemyDeathEffect = app->audio->LoadFx(scene_parameter.child("enemyEffect").attribute("audiopath").as_string());
+	bossGreetingFx = app->audio->LoadFx(scene_parameter.child("bossGreetingFx").attribute("audiopath").as_string());
 
 	SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
 		app->map->mapData.width,
@@ -306,15 +310,7 @@ bool Scene::Update(float dt)
 		//app->render->camera.y = -player->position.y +app->win->screenSurface->h/2-143;
 	}
 
-	/*app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
-	if (app->render->camera.x > 0) app->render->camera.x = 0;
-	if (app->render->camera.x < -app->map->mapData.width && app->map->mapData.tileWidth + app->render->camera.w)
-		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
-	app->render->camera.x = -app->scene->player->position.x + app->render->camera.w / 2;
-	if (app->render->camera.y < 1000)
-		app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
-*/
-
+	
 
 	
 
@@ -366,18 +362,13 @@ bool Scene::Update(float dt)
 			bossDoor =  app->physics->CreateRectangle(106 * 40, 22 * 40, 42, 160, bodyType::STATIC, ColliderType::PLATFORM);
 			bossDoor->ctype = ColliderType::PLATFORM;
 			bossZone = true;
+			app->audio->PlayFx(bossGreetingFx);
 			noir = false;
 		}
 		if (bossZone) {
 			app->render->camera.x = -8480; app->render->camera.y = -1290;
 		}
 	}
-
-	/**2 - 3 + app->win->screenSurface->w / 2;*/
-
-
-
-	//app->render->camera.y = (-player->position.y) * app->win->GetScale() + 480;
 
 
 	if (app->physics->debug && app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
@@ -405,8 +396,6 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveRequest();
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadRequest();
 
-	// Renders the image in the center of the screen 
-	//app->render->DrawTexture(img, (int)textPosX, (int)textPosY);
 
 
 
@@ -461,6 +450,25 @@ bool Scene::CleanUp()
 
 bool Scene::LoadState(pugi::xml_node node) {
 
+	int actualLevel = node.attribute("currentLevel").as_int();
+
+	if (currentLvl != actualLevel) {
+		LOG("Have to recreate level");
+		currentLvl = actualLevel;
+
+		//app->physics->DestroyPlatforms();
+		app->entityManager->DestroyAll();
+		
+
+		app->map->CleanUp();
+		app->scene->Awake(app->scene->scene_parameter);
+		app->map->mapData.layers.Clear();
+		app->map->Start();
+
+		
+	}
+
+
 	player->position.x = node.child(player->name.GetString()).child("position").attribute("x").as_int();
 	player->position.y = node.child(player->name.GetString()).child("position").attribute("y").as_int();
 	player->hp = node.child(player->name.GetString()).attribute("HP").as_int();
@@ -488,6 +496,8 @@ bool Scene::LoadState(pugi::xml_node node) {
 // L14: TODO 8: Create a method to save the state of the renderer
 // using append_child and append_attribute
 bool Scene::SaveState(pugi::xml_node node) {
+
+	node.append_attribute("currentLevel").set_value(currentLvl);
 
 	pugi::xml_node Node = node.append_child(player->name.GetString());
 

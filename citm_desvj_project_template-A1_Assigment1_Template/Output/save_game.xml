@@ -6,9 +6,9 @@
 	<audio />
 	<:anonymous />
 	<title_screen />
-	<scene>
+	<scene currentLevel="0">
 		<player orbs="0" PowerLvl="0" HP="4">
-			<position x="139" y="240" />
+			<position x="145" y="240" />
 		</player>
 	</scene>
 	<:anonymous />
@@ -115,6 +115,15 @@
 		<jorge HP="2" num="26">
 			<position x="6600" y="239" />
 		</jorge>
+		<healingorb num="-1">
+			<position x="1740" y="180" />
+		</healingorb>
+		<healingorb num="-1">
+			<position x="4020" y="180" />
+		</healingorb>
+		<healingorb num="-1">
+			<position x="6020" y="380" />
+		</healingorb>
 	</entitymanager>
 	<moduleEnemies />
 	<guiManager />

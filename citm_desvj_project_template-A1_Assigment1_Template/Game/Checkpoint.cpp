@@ -53,7 +53,7 @@ bool Checkpoint::Update(float dt)
 		}
 		for (pugi::xml_node node = parameters.child("animations").child("checked").child("frame"); node != NULL; node = node.next_sibling("frame")) {
 
-			saveAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() });
+			saveAnim.PushBack({ node.attribute("x").as_int() , node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() },  false, node.attribute("audio").as_string());
 			saveAnim.speed = parameters.child("animations").child("checked").child("speed").attribute("value").as_float() / 16;
 			saveAnim.loop = parameters.child("animations").child("checked").child("loop").attribute("value").as_bool();
 

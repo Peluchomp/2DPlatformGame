@@ -51,6 +51,8 @@ public:
 
 	bool Update(float dt);
 
+	bool PostUpdate();
+
 	bool CleanUp();
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);

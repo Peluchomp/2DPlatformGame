@@ -68,7 +68,7 @@ bool EvilSpearLightning::PreUpdate(float dt)
 bool EvilSpearLightning::Update(float dt)
 {
 	startAtackTimer++;
-	if (deathTaimer.ReadSec() > 5)
+	if (deathTaimer.ReadSec() > 6)
 	{
 		pendingToDestroy = true;
 		Lthunder->pendingToDestroy = true;

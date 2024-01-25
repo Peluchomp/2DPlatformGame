@@ -90,8 +90,11 @@ public:
 	int currentLvl = 0;
 	int prevLevel = 0;
 
+	SString bossMusicPath;
+
 	uint enemyDeathEffect;
 	uint chandelierDeathFx;
+	uint bossGreetingFx;
 	bool exit;
 	float volume = 90;
 	bool fullscreen = false;

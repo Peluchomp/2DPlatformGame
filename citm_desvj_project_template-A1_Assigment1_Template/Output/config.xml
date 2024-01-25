@@ -91,6 +91,7 @@
   <scene>
 	  <pathTile  texturepath ="Assets/Textures/markedTile.png" />
 	  <enemyEffect  audiopath ="Assets/Audio/Fx/enemy_wounded.wav"  />
+	  <bossGreetingFx  audiopath ="Assets/Audio/Fx/daddy.wav"/>
 	  <winEffect audiopath = "Assets/Audio/Fx/endLevel.wav"/>
 	  <items texturePath = "Assets/Textures/orbSheet.png"/>
 
@@ -123,7 +124,7 @@
 				 <frame x="1  " y="1" w="78" h="120" />
 				 <frame x="81 " y="1" w="78" h="120" />
 				 <frame x="161" y="1" w="78" h="120" />
-				 <frame x="241" y="1" w="78" h="120" />
+				 <frame x="241" y="1" w="78" h="120" audio ="Assets/Audio/Fx/checkPoint.wav"/>
 				 <frame x="321" y="1" w="78" h="120" />
 				 <frame x="401" y="1" w="78" h="120" />
 				 <frame x="481" y="1" w="78" h="120" />
@@ -244,9 +245,13 @@
 			
 				  
 			  </magic>
+
 	
 		  </animations>
-		  
+
+		  <spinning_spear   audiopath ="Assets/Audio/Fx/flipdoor_rotate.wav" />
+		  <thunder   audiopath ="Assets/Audio/Fx/bossThunder.wav" />
+		  <teleport   audiopath ="Assets/Audio/Fx/boss_disappear.wav" />
 		  
 		  
 	  </aelfric>
@@ -1118,6 +1123,8 @@
 	  <orb  texturepath ="Assets/Textures/orbSheet.png" />
 	  
 	<level0_music path ="Assets/Audio/Music/Level0Theme.wav"/>
+	  <level1_music path ="Assets/Audio/Music/Level1Theme.wav"/>
+	  <boss_music path ="Assets/Audio/Music/BloodyTears.wav"/>
   </scene>
 
 

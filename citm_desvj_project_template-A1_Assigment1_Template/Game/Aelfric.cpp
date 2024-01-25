@@ -44,6 +44,10 @@ bool Aelfric::Start() {
 	position.y = parameters.child("position").attribute("y").as_int();
 	attackChangeTimer.Start();
 
+	spinningFx = app->audio->LoadFx( parameters.child("spinning_spear").attribute("audiopath").as_string());
+	thunderFx = app->audio->LoadFx(parameters.child("thunder").attribute("audiopath").as_string());
+	teleportFx = app->audio->LoadFx(parameters.child("teleport").attribute("audiopath").as_string());
+
 	ogPos = position;
 
  	for (pugi::xml_node node = parameters.child("animations").child("walking").child("frame"); node != NULL; node = node.next_sibling("frame")) {
@@ -331,13 +335,6 @@ void Aelfric::CreateSpears() {
 	revol1 = app->physics->CreateRevoluteJoint(_body, MrSpear.pbody, relativeAnchorX_B, relativeAnchorY_B, 0, 200);
 	revol2 = app->physics->CreateRevoluteJoint(_body, MsSpear.pbody, relativeAnchorX_C, relativeAnchorY_C, 0, 5.0f);
 
-	//// Set motor speed for rotation
-	//jointB->SetMotorSpeed(2.0f);  // Clockwise rotation
-	//jointC->SetMotorSpeed(-2.0f);  // Counter-clockwise rotation
-
-
-
-	
 
 	MrSpear.pbody->body->SetTransform(_body->body->GetPosition() + b2Vec2(1.0f, 0.0f), MrSpear.pbody->GetRotation());
 	MsSpear.pbody->body->SetTransform(_body->body->GetPosition() + b2Vec2(1.0f, 0.0f), MsSpear.pbody->GetRotation());
@@ -366,7 +363,9 @@ bool Aelfric::PostUpdate() {
 }
 
 void Aelfric::Teleport() {
-	if (currentAttack == GROUND_SPEARS) {
+	app->audio->PlayFx(teleportFx);
+
+	if (currentAttack == GROUND_SPEARS) /*Teleport to ground, start walking and reset tranform*/ {
 
 		currentAnimation = &walkingAnim;
 		_body->body->SetTransform(ogTransform, 0);
@@ -405,6 +404,7 @@ void Aelfric::SpinAttackLogic() {
 		Es->position = position;
 		Es->position.y += 50;
 		Es->Awake();
+		app->audio->PlayFx(spinningFx);
 		spinTimeDecided = true;
 		floorSpearTimer.Start();
 		int id = getRandomNumber(1, 2);
@@ -422,7 +422,7 @@ void Aelfric::SpinAttackLogic() {
 		Es->Awake();
 		Es->position = position;
 		Es->position.y += 50;
-
+		app->audio->PlayFx(spinningFx);
 		switch (randodist) {
 		case(1): Es->SetDistance(180); break;
 
@@ -448,6 +448,7 @@ void Aelfric::ThunderLogic() {
 		int id = getRandomNumber(1, 4);
 
 		EvilSpearLightning* esL =  (EvilSpearLightning*)app->entityManager->CreateEntity(EntityType::EVILSPEARLIGHTNING);
+		app->audio->PlayFx(thunderFx);
 		esL->Awake();
 		switch (id) {
 		case(1):

@@ -382,18 +382,7 @@ bool Player::Update(float dt)
 		}
 	}
 
-	//----------------Health Bar----------------//
-	healthBar = { 25 - (app->render->camera.x / 2), 42 - (app->render->camera.y / 2), hp * 20, 15 };
-	app->render->DrawRectangle(SDL_Rect{ 25 - (app->render->camera.x / 2), 42 - (app->render->camera.y / 2), 80,15 }, 78, 0, 0, 255);
-	app->render->DrawRectangle(healthBar, 27, 210, 152, 255);
-	
-	////----------------Score stuf----------------//
-	scoreText = "Score:" + std::to_string(app->scene->score);
-	app->render->DrawText(scoreText.c_str(), app->scene->windowW/ 2 - 525, app->scene->windowH / 2 - 380, 80, 40);
-	// ---------------Orb stuf----------------//
-	orbMeter = { 25 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), orbs * 10, 15 };
-	app->render->DrawRectangle(SDL_Rect{ 25 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), 100,15 }, 50, 0, 140, 255);
-	app->render->DrawRectangle(orbMeter, 130, 238 ,255, 255);
+
 	if (orbs > 9) {
 		orbs = 0;
 		myThunder = (Thunder*)app->entityManager->CreateEntity(EntityType::THUNDER);
@@ -520,6 +509,24 @@ bool Player::Update(float dt)
 	return true;
 }
 
+bool Player::PostUpdate() {
+
+	//----------------Health Bar----------------//
+	healthBar = { 25 - (app->render->camera.x / 2), 42 - (app->render->camera.y / 2), hp * 20, 15 };
+	app->render->DrawRectangle(SDL_Rect{ 25 - (app->render->camera.x / 2), 42 - (app->render->camera.y / 2), 80,15 }, 78, 0, 0, 255);
+	app->render->DrawRectangle(healthBar, 27, 210, 152, 255);
+
+	////----------------Score stuf----------------//
+	scoreText = "Score:" + std::to_string(app->scene->score);
+	app->render->DrawText(scoreText.c_str(), app->scene->windowW / 2 - 525, app->scene->windowH / 2 - 380, 80, 40);
+	// ---------------Orb stuf----------------//
+	orbMeter = { 25 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), orbs * 10, 15 };
+	app->render->DrawRectangle(SDL_Rect{ 25 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), 100,15 }, 50, 0, 140, 255);
+	app->render->DrawRectangle(orbMeter, 130, 238, 255, 255);
+
+	return true;
+}
+
 bool Player::CleanUp()
 {
 
@@ -599,6 +606,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			LOG("Collision UNKNOWN");
 			if (physB->myEntity == nullptr) {
 				app->scene->noir = true;
+				app->audio->PlayMusic(app->scene->bossMusicPath.GetString());
 			}
 
 			break;
@@ -1215,6 +1223,8 @@ void Player::AttackHitBoxManagement() {
 
 }
 
+
+// this functions is responsible for managing the animation logic of attacks
 void Player::AttackingLogic() {
 	switch (power) {
 	case PowerLvl::NORMAL:

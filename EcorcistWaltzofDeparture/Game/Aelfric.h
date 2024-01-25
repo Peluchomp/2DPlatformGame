@@ -102,6 +102,7 @@ public:
 	uint spinningFx;
 	uint teleportFx;
 	uint thunderFx;
+	uint groundSpearFx;
 
 	// the 2 spears that follow him in his ground state
 	evilSpear MrSpear;

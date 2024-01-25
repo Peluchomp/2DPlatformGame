@@ -307,7 +307,7 @@ bool Player::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_UP || app->input->GetKey(SDL_SCANCODE_F1) == KEY_UP || dead == true && godMode == false) {
 
-		Spawn(0);
+		Spawn(app->scene->currentLvl);
 		dead = false;
 	}
 

@@ -93,13 +93,12 @@
 	  <enemyEffect  audiopath ="Assets/Audio/Fx/enemy_wounded.wav"  />
 	  <bossGreetingFx  audiopath ="Assets/Audio/Fx/daddy.wav"/>
 	  <winEffect audiopath = "Assets/Audio/Fx/endLevel.wav"/>
+	  
 	  <items texturePath = "Assets/Textures/orbSheet.png"/>
 
 	  <healingOrb>
 		  <frame x="160" y="3" w="40" h="36" />
 		  <frame x="202" y="3" w="40" h="36" />
-
-
 	  </healingOrb>
 
 
@@ -158,16 +157,10 @@
 			  <position x="27" y="24"/>
 		  </mega_morgan>
 		  <mega_morgan>
-			  <position x="29" y="24"/>
-		  </mega_morgan>
-		  <mega_morgan>
 			  <position x="31" y="24"/>
 		  </mega_morgan>
 		  <mega_morgan>
 			  <position x="33" y="24"/>
-		  </mega_morgan>
-		  <mega_morgan>
-			  <position x="35" y="24"/>
 		  </mega_morgan>
 		  <mega_morgan>
 			  <position x="37" y="24"/>
@@ -252,6 +245,7 @@
 		  <spinning_spear   audiopath ="Assets/Audio/Fx/flipdoor_rotate.wav" />
 		  <thunder   audiopath ="Assets/Audio/Fx/thunderSpears.wav" />
 		  <teleport   audiopath ="Assets/Audio/Fx/boss_disappear.wav" />
+		  <groundEffect audiopath ="Assets/Audio/Fx/groundSpears.wav"/>
 		  
 		  
 	  </aelfric>

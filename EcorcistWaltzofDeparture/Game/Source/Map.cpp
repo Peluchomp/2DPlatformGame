@@ -84,7 +84,7 @@ bool Map::Update(float dt)
             iPoint cameraSize = iPoint(mapLayerItem->data->width, mapLayerItem->data->height);
 
             // Map drawing optimization to only draw portion visible by the camera
-            if (app->scene->currentLvl == 0) {
+            if (app->scene->currentLvl == 0 && !parallax) {
                 cameraPos = WorldToMap(-camera.x / app->win->GetScale(), ((camera.y) * -1) / app->win->GetScale());
                 cameraSize = iPoint(16, 14);
             }
@@ -429,7 +429,7 @@ bool Map::LoadObjectGroups(pugi::xml_node mapNode) {
 
     for (pugi::xml_node objectNode = mapNode.child("objectgroup"); objectNode && ret; objectNode = objectNode.next_sibling("objectgroup"))
     {
-        if (objectNode.attribute("id").as_int() == 9) {
+        if (objectNode.attribute("id").as_int() == 9 || (app->scene->currentLvl == 1 && objectNode.attribute("id").as_int() == 16)) {
             LOG("Kill");
             for (pugi::xml_node objectIt = objectNode.child("object"); objectIt != NULL; objectIt = objectIt.next_sibling("object")) {
 

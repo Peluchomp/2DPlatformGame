@@ -44,6 +44,7 @@ bool Aelfric::Start() {
 	spinningFx = app->audio->LoadFx( parameters.child("spinning_spear").attribute("audiopath").as_string());
 	thunderFx = app->audio->LoadFx(parameters.child("thunder").attribute("audiopath").as_string());
 	teleportFx = app->audio->LoadFx(parameters.child("teleport").attribute("audiopath").as_string());
+	groundSpearFx = app->audio->LoadFx(parameters.child("groundEffect").attribute("audiopath").as_string());
 
 	ogPos = position;
 
@@ -164,6 +165,7 @@ bool Aelfric::Update(float dt)
 			if (floorSpearTimer.ReadSec() > floorSpearWait) {
 				FloorSpears* fs = (FloorSpears*) app->entityManager->CreateEntity(EntityType::FLOORSPEAR);
 				fs->Awake();
+				app->audio->PlayFx(groundSpearFx);
 				fs->SetSpeed(4);
 				floorSpearTimer.Start();
 				floorSpearWait = 1.5f / getRandomNumber(1, 3);

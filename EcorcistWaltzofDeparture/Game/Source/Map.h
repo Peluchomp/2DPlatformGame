@@ -175,9 +175,11 @@ public:
 
 	List<PhysBody*> killers;
 
+	bool firstLoad = false;
+
 private:
 
-	bool firstLoad = false;
+
 	bool chickens = false;
 	bool mapLoaded;
 	MapLayer* navigationLayer;

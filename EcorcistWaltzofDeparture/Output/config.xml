@@ -99,6 +99,7 @@
 	  <enemyEffect  audiopath ="Assets/Audio/Fx/enemy_wounded.wav"  />
 	  <bossGreetingFx  audiopath ="Assets/Audio/Fx/daddy.wav"/>
 	  <winEffect audiopath = "Assets/Audio/Fx/endLevel.wav"/>
+	  <chandelierFx audiopath = "Assets/Audio/Fx/chandelierFx.wav" />
 	  
 	  <items texturePath = "Assets/Textures/orbSheet.png"/>
 

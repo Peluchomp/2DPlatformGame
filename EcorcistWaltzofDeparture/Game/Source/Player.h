@@ -184,6 +184,7 @@ public:
 	float checkpointY = 200;
 
 	std::string scoreText;
+	
 
 
 	bool startIdle = false;

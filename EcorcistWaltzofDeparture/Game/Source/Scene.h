@@ -90,6 +90,10 @@ public:
 	SDL_Texture* titleCardTex = nullptr;
 	Timer tietleTimer;
 
+	// Keep track of the time passed in the level
+	std::string levelTimeDisplay;
+	Timer levelTimer;
+
 	SDL_Texture* itemTexture;
 
 	int currentLvl = 0;

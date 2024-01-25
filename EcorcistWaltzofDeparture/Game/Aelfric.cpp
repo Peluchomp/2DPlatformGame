@@ -9,6 +9,7 @@
 #include "Source/Point.h"
 #include "Source/Physics.h"
 #include "EvilSpin.h"
+#include "Optick/include/optick.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -104,6 +105,8 @@ bool Aelfric::PreUpdate(float dt)
 
 bool Aelfric::Update(float dt)
 {
+	OPTICK_EVENT("Boss behaviour");
+
 	if (!startFight && app->scene->bossZone == true){
 		attackChangeTimer.Start();
 		startFight = true;

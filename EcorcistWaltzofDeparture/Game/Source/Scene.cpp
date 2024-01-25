@@ -602,7 +602,7 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 
 	if (control->id == 50) {
 		app->scene->player->deathScreen = false;
-	    app->scene->player->Spawn(app->scene->currentLvl);
+	    app->scene->player->Spawn(app->scene->currentLvl, false);
 	}
 	
 	if (control->id == 3 && fullscreen == true && fullscreenOnce > 1) {

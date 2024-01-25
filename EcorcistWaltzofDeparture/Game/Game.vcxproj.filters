@@ -20,7 +20,6 @@
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Physics.cpp" />
-    <ClCompile Include="ModuleEnemies.cpp" />
     <ClCompile Include="Source\Pathfinding.cpp" />
     <ClCompile Include="Source\Player.cpp">
       <Filter>Entities</Filter>
@@ -117,7 +116,6 @@
     <ClInclude Include="Animation.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleEnemies.h" />
     <ClInclude Include="Source\Pathfinding.h" />
     <ClInclude Include="Source\Player.h">
       <Filter>Entities</Filter>

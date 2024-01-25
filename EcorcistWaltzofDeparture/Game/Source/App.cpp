@@ -34,7 +34,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new Scene();
 	map = new Map();
 	entityManager = new EntityManager();
-	moduleEnemies = new ModuleEnemies();
 	guiManager = new GuiManager();
 	titleS = new TitleScreen();
 
@@ -49,7 +48,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(scene, false);
 	AddModule(map, false);
 	AddModule(entityManager);
-	AddModule(moduleEnemies);
 	AddModule(guiManager,true);
 
 	// Render last to swap buffer

@@ -1,7 +1,7 @@
 #include "GuiManager.h"
 #include "App.h"
 #include "Textures.h"
-
+#include "Optick/include/optick.h"
 #include "GuiControlButton.h"
 #include "../GuiSlider.h"
 #include "../GuiCheckBox.h"
@@ -72,6 +72,8 @@ bool GuiManager::CleanUp()
 
 
 bool GuiManager::PostUpdate() {
+
+	OPTICK_EVENT("Gui::PostUpdate");
 
 
 	ListItem<GuiControl*>* control = guiControlsList.start;

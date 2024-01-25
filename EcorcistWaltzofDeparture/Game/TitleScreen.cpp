@@ -10,6 +10,7 @@
 #include "../Physics.h"
 #include "../Defs.h"
 #include "Chandelier.h"
+#include "Optick/include/optick.h"
 #include "../Log.h"
 #include "MegaMorgan.h"
 #include "Checkpoint.h"
@@ -127,6 +128,8 @@ bool TitleScreen::PreUpdate()
 // Called each loop iteration
 bool TitleScreen::Update(float dt)
 {
+	OPTICK_EVENT("Update::TitleScreen");
+
 	tittleTimerSec = titleTimer.ReadSec();
 	tittleTimerMSec = titleTimer.ReadMSec();
 

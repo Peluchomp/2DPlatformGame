@@ -173,11 +173,192 @@
 			  <position x="37" y="24"/>
 		  </mega_morgan>
 
+		  <jorge num= "16"  texturepath="Assets/Textures/Morgan.png">
+			  <position x="9" y="61"/>
+			  <swimming>
+				  <frame x="801" y="80 " w=" 73" h=" 48" />
+				  <frame x="876" y="80 " w=" 73" h=" 48" />
+				  <speed value ="0.04" />
+			  </swimming>
+			  <attacking>
+				  <frame x="951" y="80 " w=" 73" h=" 48" />
+				  <frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
+				  <frame x="1101" y="80 " w=" 73" h=" 48" />
+				  <frame x="801" y="129 " w=" 73" h=" 48" />
+				  <frame x="876" y="129 " w=" 73" h=" 48" />
+
+				  <speed value ="0.07" />
+
+			  </attacking>
 
 
+		  </jorge>
+
+		  <jorge num= "16"  texturepath="Assets/Textures/Morgan.png">
+			  <position x="9" y="61"/>
+			  <swimming>
+				  <frame x="801" y="80 " w=" 73" h=" 48" />
+				  <frame x="876" y="80 " w=" 73" h=" 48" />
+				  <speed value ="0.04" />
+			  </swimming>
+			  <attacking>
+				  <frame x="951" y="80 " w=" 73" h=" 48" />
+				  <frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
+				  <frame x="1101" y="80 " w=" 73" h=" 48" />
+				  <frame x="801" y="129 " w=" 73" h=" 48" />
+				  <frame x="876" y="129 " w=" 73" h=" 48" />
+
+				  <speed value ="0.07" />
+
+			  </attacking>
 
 
+		  </jorge>
 
+		  <jorge num= "16"  texturepath="Assets/Textures/Morgan.png">
+			  <position x="2" y="47"/>
+			  <swimming>
+				  <frame x="801" y="80 " w=" 73" h=" 48" />
+				  <frame x="876" y="80 " w=" 73" h=" 48" />
+				  <speed value ="0.04" />
+			  </swimming>
+			  <attacking>
+				  <frame x="951" y="80 " w=" 73" h=" 48" />
+				  <frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
+				  <frame x="1101" y="80 " w=" 73" h=" 48" />
+				  <frame x="801" y="129 " w=" 73" h=" 48" />
+				  <frame x="876" y="129 " w=" 73" h=" 48" />
+
+				  <speed value ="0.07" />
+
+			  </attacking>
+		  </jorge>
+
+		  <jorge num= "16"  texturepath="Assets/Textures/Morgan.png">
+			  <position x="17" y="42"/>
+			  <swimming>
+				  <frame x="801" y="80 " w=" 73" h=" 48" />
+				  <frame x="876" y="80 " w=" 73" h=" 48" />
+				  <speed value ="0.04" />
+			  </swimming>
+			  <attacking>
+				  <frame x="951" y="80 " w=" 73" h=" 48" />
+				  <frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
+				  <frame x="1101" y="80 " w=" 73" h=" 48" />
+				  <frame x="801" y="129 " w=" 73" h=" 48" />
+				  <frame x="876" y="129 " w=" 73" h=" 48" />
+
+				  <speed value ="0.07" />
+
+			  </attacking>
+
+
+		  </jorge>
+
+		  <jorge num= "16"  texturepath="Assets/Textures/Morgan.png">
+			  <position x="5" y="15"/>
+			  <swimming>
+				  <frame x="801" y="80 " w=" 73" h=" 48" />
+				  <frame x="876" y="80 " w=" 73" h=" 48" />
+				  <speed value ="0.04" />
+			  </swimming>
+			  <attacking>
+				  <frame x="951" y="80 " w=" 73" h=" 48" />
+				  <frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
+				  <frame x="1101" y="80 " w=" 73" h=" 48" />
+				  <frame x="801" y="129 " w=" 73" h=" 48" />
+				  <frame x="876" y="129 " w=" 73" h=" 48" />
+
+				  <speed value ="0.07" />
+
+			  </attacking>
+
+
+		  </jorge>
+
+		  <jorge num= "16"  texturepath="Assets/Textures/Morgan.png">
+			  <position x="12" y="11"/>
+			  <swimming>
+				  <frame x="801" y="80 " w=" 73" h=" 48" />
+				  <frame x="876" y="80 " w=" 73" h=" 48" />
+				  <speed value ="0.04" />
+			  </swimming>
+			  <attacking>
+				  <frame x="951" y="80 " w=" 73" h=" 48" />
+				  <frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
+				  <frame x="1101" y="80 " w=" 73" h=" 48" />
+				  <frame x="801" y="129 " w=" 73" h=" 48" />
+				  <frame x="876" y="129 " w=" 73" h=" 48" />
+
+				  <speed value ="0.07" />
+
+			  </attacking>
+
+
+		  </jorge>
+
+		  <jorge num= "16"  texturepath="Assets/Textures/Morgan.png">
+			  <position x="3" y="4"/>
+			  <swimming>
+				  <frame x="801" y="80 " w=" 73" h=" 48" />
+				  <frame x="876" y="80 " w=" 73" h=" 48" />
+				  <speed value ="0.04" />
+			  </swimming>
+			  <attacking>
+				  <frame x="951" y="80 " w=" 73" h=" 48" />
+				  <frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
+				  <frame x="1101" y="80 " w=" 73" h=" 48" />
+				  <frame x="801" y="129 " w=" 73" h=" 48" />
+				  <frame x="876" y="129 " w=" 73" h=" 48" />
+
+				  <speed value ="0.07" />
+
+			  </attacking>
+
+
+		  </jorge>
+
+		  <jorge num= "16"  texturepath="Assets/Textures/Morgan.png">
+			  <position x="8" y="11"/>
+			  <swimming>
+				  <frame x="801" y="80 " w=" 73" h=" 48" />
+				  <frame x="876" y="80 " w=" 73" h=" 48" />
+				  <speed value ="0.04" />
+			  </swimming>
+			  <attacking>
+				  <frame x="951" y="80 " w=" 73" h=" 48" />
+				  <frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
+				  <frame x="1101" y="80 " w=" 73" h=" 48" />
+				  <frame x="801" y="129 " w=" 73" h=" 48" />
+				  <frame x="876" y="129 " w=" 73" h=" 48" />
+
+				  <speed value ="0.07" />
+
+			  </attacking>
+
+
+		  </jorge>
+
+		  <jorge num= "16"  texturepath="Assets/Textures/Morgan.png">
+			  <position x="56" y="19"/>
+			  <swimming>
+				  <frame x="801" y="80 " w=" 73" h=" 48" />
+				  <frame x="876" y="80 " w=" 73" h=" 48" />
+				  <speed value ="0.04" />
+			  </swimming>
+			  <attacking>
+				  <frame x="951" y="80 " w=" 73" h=" 48" />
+				  <frame x="1026" y="80 " w=" 73" h=" 48" audio="Assets/Audio/Fx/jorgeLaugh.wav"/>
+				  <frame x="1101" y="80 " w=" 73" h=" 48" />
+				  <frame x="801" y="129 " w=" 73" h=" 48" />
+				  <frame x="876" y="129 " w=" 73" h=" 48" />
+
+				  <speed value ="0.07" />
+
+			  </attacking>
+
+
+		  </jorge>
 
 	  </level1_spawns>
 
@@ -675,7 +856,8 @@
 
 
     </jorge>
-    
+
+	 
 	  <orb texturepath ="Assets/Textures/orbSheet.png" >
 		  <frame x="1" y="1" w="38" h="38" />
 		  <frame x="41" y="1" w="38" h="38" />
@@ -719,6 +901,7 @@
 
 	  <chandelure num="46" x="1780" y ="920" dir="right" type="0" />
 
+	  <chandelure num="47" x="3640" y ="640" dir="right" type=" 1" />
 
 	  <chandelure num="48" x="4520" y ="760" dir="left" type=" 0" />
 

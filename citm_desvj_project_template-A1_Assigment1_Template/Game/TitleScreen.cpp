@@ -127,6 +127,30 @@ bool TitleScreen::Update(float dt)
 	tittleTimerSec = titleTimer.ReadSec();
 	tittleTimerMSec = titleTimer.ReadMSec();
 
+	if (back == true) 
+	{
+		
+		app->physics->DestroyPlatforms();
+		app->entityManager->titlescreenreset = true;
+		app->entityManager->DestroyAll();
+		app->entityManager->titlescreenreset = false;
+		app->map->CleanUp();	
+		app->map->mapData.layers.Clear();
+		
+		app->physics->active = false;
+		app->scene->active = false;		
+		app->map->active = false;
+		
+		skip = false;
+		stopesquizo = 0;
+		startt = false;
+		options = false;
+
+		
+		
+		back = false;
+	}
+
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && app->scene->active == true)
 	{
 		if (options == false)

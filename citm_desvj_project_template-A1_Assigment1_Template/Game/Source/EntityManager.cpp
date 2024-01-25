@@ -441,7 +441,7 @@ void EntityManager::DestroyAll() {
 	for (item = entities.start; item != NULL && ret == true; item = item->next)
 	{
 		pEntity = item->data;
-		if (pEntity->type == EntityType::ORB || pEntity->type == EntityType::MORGAN || pEntity->type == EntityType::JORGE || pEntity->type == EntityType::MEGA_MORGAN) {
+		if ((pEntity->type == EntityType::ORB || pEntity->type == EntityType::MORGAN || pEntity->type == EntityType::JORGE || pEntity->type == EntityType::MEGA_MORGAN ) || pEntity->type == EntityType::PLAYER && titlescreenreset == true) {
 			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
 
 				// Destroy all of the entity's b2bodies

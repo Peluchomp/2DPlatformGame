@@ -8,6 +8,7 @@
 #include "../Orb.h"
 #include "../Jorge.h"
 #include "../MegaMorgan.h"
+#include "../Aelfric.h"
 #include "GuiControl.h"
 #include "GuiControlButton.h"
 #include <string> 
@@ -102,6 +103,8 @@ public:
 	int prevLevel = 0;
 
 	SString bossMusicPath;
+
+	Aelfric* father;
 
 	uint enemyDeathEffect;
 	uint chandelierDeathFx;

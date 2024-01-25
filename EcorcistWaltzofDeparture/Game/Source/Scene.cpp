@@ -148,7 +148,7 @@ bool Scene::Awake(pugi::xml_node& config)
 				}
 			}
 
-			Entity* father = (Aelfric*)app->entityManager->CreateEntity(EntityType::AELFRIC);
+			father = (Aelfric*)app->entityManager->CreateEntity(EntityType::AELFRIC);
 			father->parameters = config.child("aelfric");
 			father->Start();
 
@@ -608,7 +608,6 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 	
 	if (control->id == 3 && fullscreen == true && fullscreenOnce > 1) {
 		
-
 
 		Uint32 flags = SDL_WINDOW_SHOWN;
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;

@@ -767,6 +767,11 @@ void Player::Spawn(int Level, bool checkPoint) {
 
 		orbs = 0;
 
+		if (app->scene->father != nullptr) {
+
+			app->scene->father->hp = 15;
+		}
+
 		if (app->scene->prevLevel == 0)/*if it's the first time you enter level0*/ {
 			app->audio->PlayFx(winEffext);
 			app->physics->breakAll = true;

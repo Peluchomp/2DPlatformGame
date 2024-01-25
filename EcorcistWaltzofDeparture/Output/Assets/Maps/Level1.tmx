@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="129" height="88" tilewidth="40" tileheight="40" infinite="0" nextlayerid="17" nextobjectid="187">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="129" height="88" tilewidth="40" tileheight="40" infinite="0" nextlayerid="17" nextobjectid="191">
  <tileset firstgid="1" name="church spritesheet" tilewidth="40" tileheight="40" tilecount="420" columns="28">
   <image source="../../../../tilemaps/church spritesheet.png" width="1120" height="612"/>
  </tileset>
@@ -57985,7 +57985,6 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="602"/>
    <tile/>
    <tile/>
    <tile/>
@@ -58114,7 +58113,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="628"/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -69335,8 +69335,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="442"/>
+   <tile gid="443"/>
    <tile/>
    <tile/>
    <tile/>
@@ -69864,7 +69864,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="491"/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile/>
@@ -72446,138 +72446,138 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile gid="628"/>
-   <tile/>
-   <tile/>
-   <tile/>
    <tile gid="491"/>
-   <tile gid="492"/>
+   <tile gid="63"/>
    <tile gid="64"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile gid="628"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -102311,12 +102311,14 @@
   <object id="167" x="-40" y="0" width="40" height="800"/>
   <object id="169" x="4341.25" y="775" width="76.875" height="0.625"/>
   <object id="170" x="4621.25" y="776.25" width="76.875" height="0.625"/>
-  <object id="178" x="623.125" y="1378.13" width="71.25"/>
   <object id="181" x="3160" y="760" width="320" height="40"/>
   <object id="182" x="3440" y="800" width="40" height="160"/>
   <object id="183" x="3160" y="800" width="40" height="40"/>
   <object id="184" x="3160" y="920" width="40" height="40"/>
   <object id="186" x="160" y="2120" width="240" height="40"/>
+  <object id="187" x="622.5" y="1335" width="71.25" height="1.25"/>
+  <object id="189" x="0" y="360" width="80" height="40"/>
+  <object id="190" x="542.5" y="535" width="16.25" height="8.75"/>
  </objectgroup>
  <objectgroup id="16" name="pit">
   <object id="172" x="1560" y="1040" width="400" height="40"/>

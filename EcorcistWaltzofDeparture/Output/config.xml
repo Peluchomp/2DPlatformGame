@@ -81,7 +81,7 @@
 
 		</page>
 		<page texturepath ="Assets/Textures/Opening/Frame7.png">
-			<frame x="0" y="0" w="640" h="360" timeStart="42" timeStay="5" appearance ="fade"      desiredX="0" desiredY="0"/>
+			<frame x="-40" y="0" w="640" h="360" timeStart="42" timeStay="5" appearance ="fade"      desiredX="0" desiredY="0"/>
 		
 
 		</page>

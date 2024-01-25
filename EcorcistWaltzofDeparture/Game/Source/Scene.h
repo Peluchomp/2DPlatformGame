@@ -84,6 +84,10 @@ public:
 	// Locl the boss room when the player arrives
 	PhysBody* bossDoor;
 	bool bossZone = false;
+	uint titleAlpha = 0;
+	SDL_Rect titleCard = { 0,268,100, 162 };
+	SDL_Texture* titleCardTex = nullptr;
+	Timer tietleTimer;
 
 	SDL_Texture* itemTexture;
 

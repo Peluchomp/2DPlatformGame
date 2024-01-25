@@ -29,10 +29,6 @@ Aelfric::~Aelfric() {}
 
 bool Aelfric::Awake() {
 
-	// the awake is only called for entities that are awaken with the manager
-
-
-
 	return true;
 }
 
@@ -40,6 +36,7 @@ bool Aelfric::Start() {
 
 	//initilize textures
 	texture = app->tex->Load( parameters.child("texture").attribute("path").as_string());
+	app->scene->titleCardTex = texture;
 	position.x = parameters.child("position").attribute("x").as_int();
 	position.y = parameters.child("position").attribute("y").as_int();
 	attackChangeTimer.Start();
@@ -71,7 +68,7 @@ bool Aelfric::Start() {
 	myDir = Direction::RIGHT;
 	ChangePosTimer.Start();
 
-	hp = 20;
+	hp = 15;
 
 	MrSpear.texture = texture; MsSpear.texture = texture;
 	MrSpear.pbody = app->physics->CreateRectangle(position.x, position.y, 10, 65, bodyType::DYNAMIC, ColliderType::PHYS2, 0.1);
@@ -147,17 +144,19 @@ bool Aelfric::Update(float dt)
 		
 		
 		if (currentAttack == SPIN ) {
-			
+			// Instanciates spinning spears entities in random positions
 			SpinAttackLogic();
 
 		}
 		else if (currentAttack == THUNDERS) {
+			// Instanciates EvilTunderSpear entities that trap the player
 			ThunderLogic();
 		}
-
+	
 		if (currentAttack == GROUND_SPEARS) {
 			b2Vec2 Velocity;
-
+			// Default state is ground spears where he will constantly instanciate ground spear entities arounf the player
+			// (all boss instanciated entities delete themselves)
 			
 			if (floorSpearTimer.ReadSec() > floorSpearWait) {
 				FloorSpears* fs = (FloorSpears*) app->entityManager->CreateEntity(EntityType::FLOORSPEAR);
@@ -179,7 +178,7 @@ bool Aelfric::Update(float dt)
 			}
 
 			if (ChangePosTimer.ReadSec() > 2) {
-
+				// Randomly change walking direction
 				if (getRandomNumber(0, 1) == 0) {
 					myDir = Direction::RIGHT;
 				}
@@ -194,17 +193,9 @@ bool Aelfric::Update(float dt)
 			_body->body->SetLinearVelocity(Velocity);
 
 			
-
-
-			
-
-
-
-
-			
-
 			if (hurt == true) {
 				if (hurtTimer.ReadMSec() < 800) {
+					// change rgb to read when hurt
 					G = 0; B = 0;
 				}
 				else {
@@ -235,7 +226,7 @@ bool Aelfric::Update(float dt)
 			MsSpear.pbody->GetPosition(sp2Posx, sp2Posy);
 
 
-
+			// the detection body makes the spears rotate when the player gets near the boss
 			_detectionBody->body->SetTransform(_body->body->GetPosition(), 0.0f);
 			MsSpear.pbody->body->SetTransform(MsSpear.pbody->body->GetPosition(), MrSpear.pbody->GetRotation());
 
@@ -244,6 +235,7 @@ bool Aelfric::Update(float dt)
 			
 
 			if (!destroySpears) {
+				// These are the 2 spears that follow and protect the boss 
 				SDL_Rect spearRect = { 560,1,17,85 };
 				app->render->DrawTexture(texture, sp1Posx - 8, sp1Posy - 30, false, &spearRect, 255, 1, 255, 255, 255, MrSpear.pbody->GetRotation());
 				app->render->DrawTexture(texture, sp2Posx - 8, sp2Posy - 30, false, &spearRect, 255, 1, 255, 255, 255, MsSpear.pbody->GetRotation());
@@ -401,6 +393,7 @@ void Aelfric::SpinAttackLogic() {
 	if (spinTimeDecided == false) {
 		// throw first rotating Spear
 		EvilSpin* Es = (EvilSpin*)app->entityManager->CreateEntity(EntityType::EVILSPIN);
+		Es->texture = texture;
 		Es->position = position;
 		Es->position.y += 50;
 		Es->Awake();
@@ -419,6 +412,7 @@ void Aelfric::SpinAttackLogic() {
 	if (floorSpearTimer.ReadSec() > 1) {
 		int randodist = getRandomNumber(1, 3);
 		EvilSpin* Es = (EvilSpin*)app->entityManager->CreateEntity(EntityType::EVILSPIN);
+		Es->texture = texture;
 		Es->Awake();
 		Es->position = position;
 		Es->position.y += 50;
@@ -448,6 +442,7 @@ void Aelfric::ThunderLogic() {
 		int id = getRandomNumber(1, 4);
 
 		EvilSpearLightning* esL =  (EvilSpearLightning*)app->entityManager->CreateEntity(EntityType::EVILSPEARLIGHTNING);
+		esL->texture = texture;
 		app->audio->PlayFx(thunderFx);
 		esL->Awake();
 		switch (id) {

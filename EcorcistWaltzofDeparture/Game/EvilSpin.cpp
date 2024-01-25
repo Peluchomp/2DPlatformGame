@@ -33,9 +33,7 @@ void::EvilSpin::SetDistance(int distance) {
 
 bool EvilSpin::Awake() {
 
-	// CHANGE
-	texture = app->tex->Load("Assets/Textures/FatherAelfric.png");
-
+	
 	pbody = app->physics->CreateRectangle(position.x, position.y, 16, 60, bodyType::DYNAMIC, ColliderType::PHYS2);
 	pbody->ctype = ColliderType::ENEMY;
 	pbody->body->SetGravityScale(0);

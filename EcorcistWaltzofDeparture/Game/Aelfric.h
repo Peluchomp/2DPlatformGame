@@ -103,7 +103,6 @@ public:
 	uint teleportFx;
 	uint thunderFx;
 
-
 	evilSpear MrSpear;
 	evilSpear MsSpear;
 

@@ -168,7 +168,7 @@ bool TitleScreen::Update(float dt)
 	if (delayTimer.ReadMSec() > 2500) {
 
 
-
+		// This loop iterates through all the frames of the opening updating their positions and states
 		ListItem<Frame*>* it = myFrames.start;
 		while (it != NULL) {
 			if (skip == false)
@@ -232,7 +232,7 @@ bool TitleScreen::Update(float dt)
 			if (stopesquizo > 300)
 				alpha = 0;
 
-			SDL_Rect ruct = SDL_Rect{ 0,0,640,360 };
+			SDL_Rect ruct = SDL_Rect{ -40,0,640,360 };
 			app->render->DrawTexture(finalFrame, 0, 0, false, &ruct, alpha);
 		}
 		

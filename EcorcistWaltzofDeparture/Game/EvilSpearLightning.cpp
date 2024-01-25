@@ -32,9 +32,6 @@ void EvilSpearLightning::SetSpeed(float speed) {
 
 bool EvilSpearLightning::Awake() {
 
-	// the awake is only called for entities that are awaken with the manager
-	texture = app->tex->Load("Assets/Textures/priest.png");
-
 	pbody = app->physics->CreateRectangle(position.x, position.y, 16, 350, bodyType::KINEMATIC, ColliderType::PHYS2);
 	pbody->ctype = ColliderType::ENEMY;
 	pbody->body->SetGravityScale(0);
@@ -114,7 +111,7 @@ bool EvilSpearLightning::Update(float dt)
 	}
 	b2Vec2 pozition = { pbody->body->GetPosition().x + 2, 16.405};
 	eviltwinpbody->body->SetTransform(pozition, 0);
-	SDL_Rect spearRect = { 34,4,15,81 };
+	SDL_Rect spearRect = { 560,1,17,85 };
 	app->render->DrawTexture(texture, METERS_TO_PIXELS(pbody->body->GetTransform().p.x), METERS_TO_PIXELS(pbody->body->GetTransform().p.y - 130), false, &spearRect);
 	app->render->DrawTexture(texture, METERS_TO_PIXELS(eviltwinpbody->body->GetTransform().p.x), METERS_TO_PIXELS(eviltwinpbody->body->GetTransform().p.y - 130), false, &spearRect);
 

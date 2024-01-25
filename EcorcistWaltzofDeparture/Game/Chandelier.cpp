@@ -25,6 +25,7 @@ bool Chandelier::Awake() {
 
 	ogPos = position;
 	
+	// Chandeliers can be type Stationary or pendulum, their behaviours will vary
 	if (parameters.attribute("type").as_int() == 0) {
 		myType = ChandelierType::STATIONARY;
 	}
@@ -34,7 +35,6 @@ bool Chandelier::Awake() {
 	// the awake is only called for entities that are awaken with the manager
 	_body = app->physics->CreateRectangle(position.x, position.y , 113, 30, bodyType::DYNAMIC, ColliderType::PHYSIC_OBJ,3);
 	_body->ctype = ColliderType::PHYSIC_OBJ;
-	//_body->listener = app->scene->player;
 	_body->body->SetGravityScale(0);
 	_body->myEntity = this;
 
@@ -70,7 +70,8 @@ bool Chandelier::Awake() {
 
 
 	
-
+	// If the chandelier is type pendulum we create a revolite joint and depending on its given direction it start turning left or right
+	// direction and chandelier type are read from nodes in the config file
 	if (myType == ChandelierType::PENDULUM) {
 
 		revol = app->physics->CreateRevolutionJoint(jointBody, _body);
@@ -130,6 +131,7 @@ bool Chandelier::Update(float dt)
 	plat_sensor->body->SetTransform(_body->body->GetPosition() + b2Vec2(0, -0.3f), 0.0f);
 
 	if ((fallTimer.ReadMSec() > 500 && touched && !destroyedJoint)) {
+		// Handle destruction of the chandelier  once it has fallen, the entity manager will automatically create a new one
 		cutRope = true;
 		_body->body->SetType(b2_dynamicBody);
 		_body->body->SetGravityScale(1);
@@ -152,7 +154,7 @@ bool Chandelier::Update(float dt)
 	if(fallen && fallTimer.ReadMSec() > 600){
 		if (_body->body->GetLinearVelocity().y < 45) {
 			LOG("Destroy chandelier");
-
+			// Instanciate a hitbox at the bottom of the chandelier when it falls
 			_body->ctype == ColliderType::ENEMY_ATTACK;
 
 
@@ -172,7 +174,7 @@ bool Chandelier::Update(float dt)
 		pendingToDestroy = true;
 
 	}
-
+	// Soften the pengulum movement
 	_body->body->SetAngularDamping(0.1f);
 	_body->body->SetAngularVelocity(0.0f);
 
@@ -183,14 +185,15 @@ bool Chandelier::Update(float dt)
 
 			if (revol->GetMotorSpeed() > 0) {
 
-
+				// change direction of oscilation
 				myDir = Direction::LEFT;
-				revol->SetMotorSpeed(-40);  // Adjust as needed
+				revol->SetMotorSpeed(-40); 
 
 			}
 			else {
+				// change direction of oscilation
 				myDir = Direction::RIGHT;
-				revol->SetMotorSpeed(40);  // Adjust as needed
+				revol->SetMotorSpeed(40);  
 				app->scene->player->movementx -= 10;
 			}
 		}
@@ -202,7 +205,7 @@ bool Chandelier::Update(float dt)
 	
 	
 	
-		
+		// If the player stands on the chandelier it will start some timers and fall
 		if (plat_sensor->Intersects(&app->scene->player->pbody->collider) ) {
 			LOG("Player on top");
 			playerOnTop = true; 
@@ -213,7 +216,7 @@ bool Chandelier::Update(float dt)
 		
 		if (playerOnTop) {
 
-
+			// If the player is on top of a pendulum chandelier, we apply to the player the chandelier's speed so that they dont fall
 			if (myType == ChandelierType::PENDULUM) {
 				if (myDir == Direction::LEFT) {
 					app->scene->player->pbody->body->SetTransform(app->scene->player->pbody->body->GetPosition() + b2Vec2(0.025f, 0), 0);
@@ -225,13 +228,11 @@ bool Chandelier::Update(float dt)
 			if (myType == ChandelierType::STATIONARY) {
 				PlayerStandingOnME();
 
-				/*IMPORTANTE lo que hace q el candeladro caiga es la masa, al menos en el caso del candeladro estatico asi que hay que añaadirle una linear velocity*/
-
 			}
 		}
 			if(lanceCut){
 				PlayerStandingOnME();
-
+				// Set linear velocity for the chandelier to fall
 				 _body->body->SetLinearVelocity(b2Vec2(0, 10));
 			}
 				
@@ -249,7 +250,9 @@ bool Chandelier::Update(float dt)
 			b2Vec2 chain = b2Vec2(x1 - x2, y1 - y2);
 			if (myType == ChandelierType::STATIONARY) { chain = b2Vec2(x1 - x2 + 55, y1 - y2); }
 			b2Vec2 chain2 = b2Vec2(x1 - x3 + 110, y1 - y3);
+			// Draw textures
 
+			// Alternarnate if for when entering the shadow area, RGB = 0,0,0
 			if (app->scene->noir == false) {
 				for (int i = 0; i < 10; ++i) {
 					if (myType == ChandelierType::PENDULUM) {
@@ -273,7 +276,9 @@ bool Chandelier::Update(float dt)
 			}
 			else {
 				for (int i = 0; i < 10; ++i) {
+					// Iterate through the vector between the changelier and its joint
 					if (myType == ChandelierType::PENDULUM) {
+						// in case pendulum, iterate 2 vectors from the sides of the chandelier and draw 10 chain sprites along those vectors
 						b2Vec2 current = b2Vec2(x2 + chain.x * i / 10, y2 + chain.y * i / 10);
 						app->render->DrawTexture(texture, current.x, current.y, false, &_chain1,255,1,0,0,0);
 
@@ -281,6 +286,7 @@ bool Chandelier::Update(float dt)
 						app->render->DrawTexture(texture, current2.x, current2.y, false, &_chain1,255,1,0,0,0);
 					}
 					else if (myType == ChandelierType::STATIONARY) {
+						// in case stationary, iterate 1 vector from the center and draw 10 chain sprites along it
 						b2Vec2 current = b2Vec2(x2 + chain.x * i / 10, y2 + chain.y * i / 10);
 						app->render->DrawTexture(texture, current.x, current.y, false, &_chain2,255,1,0,0,0);
 
@@ -312,7 +318,7 @@ void Chandelier::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Player touched chandelier");
 		break;
 	case ColliderType::SPEAR :
-		
+		// the chandelier will also fall if the spear cuts its chain
 			lanceCut = true;
 			playerOnTop = true;
 		

@@ -313,7 +313,7 @@ bool Scene::Update(float dt)
 	
 
 	
-
+	// Camera behaviour, depends on the level
 	if (currentLvl == 0) {
 		
 		app->render->camera.x = (-player->position.x) * app->win->GetScale() + 512;
@@ -364,13 +364,15 @@ bool Scene::Update(float dt)
 			bossZone = true;
 			app->audio->PlayFx(bossGreetingFx);
 			noir = false;
+
 		}
 		if (bossZone) {
 			app->render->camera.x = -8480; app->render->camera.y = -1290;
+			tietleTimer.Start();
 		}
 	}
 
-
+	// Debug spawn orbs
 	if (app->physics->debug && app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
 		for (int i = 0; i < 50; ++i) {
 			if (orbs[i] == nullptr) {
@@ -383,6 +385,7 @@ bool Scene::Update(float dt)
 
 	}
 
+	// Debug spawn rotating spears
 	if (app->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN) {
 
 		EvilSpin* ev = (EvilSpin*)app->entityManager->CreateEntity(EntityType::EVILSPIN);
@@ -415,6 +418,13 @@ bool Scene::PostUpdate()
 	app->input->GetMousePosition(mousePos.x, mousePos.y);
 	iPoint mouseTile = app->map->WorldToMap(mousePos.x - app->render->camera.x,
 		mousePos.y - app->render->camera.y);
+
+	if (bossZone && tietleTimer.ReadSec() < 2) {
+
+		app->render->DrawTexture(titleCardTex,- app->render->camera.x/2,- app->render->camera.y/2, &titleCard,false, 255);
+
+	}
+
 
 	// Render a texture where the mouse is over to highlight the tile, use the texture 'mouseTileTex'
 	iPoint highlightedTileWorld = app->map->MapToWorld(mouseTile.x, mouseTile.y);

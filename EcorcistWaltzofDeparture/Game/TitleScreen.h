@@ -37,6 +37,7 @@ public:
 		stayTime = StayTime + whenToStart;
 		startValue = whenToStart;
 
+		// Frames are initialized to have 5 appearance methods, unless they are type FADE, they need to be assignes a starting position outside the camera area
 		switch (myAppearance) {
 		case LEFTWARDS:
 			startingPos.x = -300;
@@ -83,8 +84,9 @@ public:
 		startingPos.y + (t) * (desiredPos.x - startingPos.x);
 	}
 
-	// is the frame has finished returns true , else return false
+
 	void Update(float dt) {
+		// when the frames designates time starts we use linear interpolation from its given starting position to its target position
 		if (!finished) {
 			if (!started) 
 			{
@@ -93,6 +95,7 @@ public:
 				started = true;
 			}
 			if (startTimer.ReadMSec() > startValue) {
+				// if the frame has appeareance type FADE we interpolate its alpha
 				if (myAppearance != Appearance::FADE) {
 					startingPos.x += (t * dt) * (desiredPos.x - startingPos.x);
 					startingPos.y += (t * dt) * (desiredPos.y - startingPos.y);

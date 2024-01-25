@@ -72,7 +72,7 @@ bool Map::Update(float dt)
             mapLayerItem->data->properties.GetProperty("Front") == NULL &&
             mapLayerItem->data->properties.GetProperty("Draw")->value) {
             
-
+            // check if layer has parallax property
             bool parallax = false;
             if (mapLayerItem->data->properties.GetProperty("Parallax") != NULL) {
                 parallax = true;
@@ -131,7 +131,7 @@ bool Map::Update(float dt)
 
                 for (int x = 0; x < mapLayerItem->data->width; x++) {
                     for (int y = 0; y < mapLayerItem->data->height; y++) {
-                        // Optick event for the entity creation section
+                       
 
 
                         int gid = mapLayerItem->data->Get(x, y);
@@ -153,7 +153,7 @@ bool Map::Update(float dt)
             if (mapLayerItem->data->name == "chickens") {
                 for (int x = 0; x < mapLayerItem->data->width; x++) {
                     for (int y = 0; y < mapLayerItem->data->height; y++) {
-                        // Optick event for the entity creation section
+                        // spawn fried chickens (healing items) in accordance to the chicken layer
 
                         int gid = mapLayerItem->data->Get(x, y);
 
@@ -443,7 +443,7 @@ bool Map::LoadObjectGroups(pugi::xml_node mapNode) {
 
                 x += width / 2;
                 y += height / 2;
-
+                // Create death pit colliders
                 PhysBody* c1 = app->physics->CreateRectangle(x, y, width, height, STATIC, ColliderType::PLATFORM);
                 c1->ctype = ColliderType::INSTAKILL;
                 killers.Add(c1);
@@ -462,7 +462,7 @@ bool Map::LoadObjectGroups(pugi::xml_node mapNode) {
 
                 x += width / 2;
                 y += height / 2;
-
+                // Create ground colliders
                 PhysBody* c1 = app->physics->CreateRectangle(x, y, width, height, STATIC, ColliderType::PLATFORM);
                 c1->ctype = ColliderType::PLATFORM;
                 killers.Add(c1);
@@ -595,7 +595,7 @@ bool Map::PostUpdate() {
     ListItem<MapLayer*>* mapLayerItem;
     mapLayerItem = mapData.layers.start;
 
-
+    // layes with the Front property are drawn on the post update to make sure they are drawn in front of entities
 
     while (mapLayerItem != NULL) {
 

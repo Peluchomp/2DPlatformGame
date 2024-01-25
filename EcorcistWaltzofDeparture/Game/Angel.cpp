@@ -18,7 +18,7 @@ Angel::~Angel() {}
 
 bool Angel::Awake() {
 
-	// the awake is only called for entities that are awaken with the manager
+	// Angels are loaded from the Map
 
 
 	return true;
@@ -77,8 +77,10 @@ bool Angel::Update(float dt)
 	int PlayerX = app->scene->player->position.x + (112 / 2);
 
 	if (!attacked &&  attackSensor->Intersects(&app->scene->player->pbody->collider) && coolDownTimer.ReadMSec() > 1000) {
+		// if he has detected the player beneath him and is in position to attack
 
 		LOG("Found player");
+		// Change bodies to dynamic and use gravity to fall
 		currentAnim = &attackAnim;
 		riseAnim.Reset();
 		platBody->body->SetType(b2_dynamicBody);
@@ -91,6 +93,7 @@ bool Angel::Update(float dt)
 
 	}
 	if (attackAnim.HasFinished() && !swordDrop) {
+		// after the sword has fallen sya in pos for a bit, change bodies to static to prevent from falling more
 		platBody->body->SetGravityScale(0.0f);
 		platBody->body->SetType(b2_staticBody);
 
@@ -101,6 +104,7 @@ bool Angel::Update(float dt)
 	}
 
 	if (swordDrop && restTimer.ReadMSec() > 1500) {
+		// after having lowered the sword set an upwards linear velocity to lift up the sword again
 		currentAnim = &riseAnim;
 		platBody->body->SetType(b2_dynamicBody);
 		platBody->body->SetGravityScale(-0.55f);
@@ -111,6 +115,7 @@ bool Angel::Update(float dt)
 	}
 
 	if (riseAnim.HasFinished()) {
+		// after the sword has risen make sure all transforms go back to the copies we made when instanciating the angel
 		platBody->body->SetTransform(ogPlatPos, 0);
 		deathSensor->body->SetTransform(ogHitPos, 0);
 		platBody->body->SetGravityScale(0.0f);
@@ -130,15 +135,17 @@ bool Angel::Update(float dt)
 	}
 
 	currentAnim->Update();
-	//app->render->DrawRectangle(attackSensor->collider, 50, 70, 20, 255, true);
+
+	// Eyes of the statue follow the player
 	app->render->DrawTexture(texture, position.x, position.y, false, &currentAnim->GetCurrentFrame());
 	SDL_Rect eyeRect = { 6420,2,3,3 };
 	if (PlayerX > position.x + (636 / 2)) {
-		// Left
+		// if player is to the left move eye sprites to the left
 		app->render->DrawTexture(texture,position.x +  eyeL.x + 3,position.y+ eyeL.y, false, &eyeRect);
 		app->render->DrawTexture(texture,position.x+  eyeR.x + 3,position.y + eyeR.y, false, &eyeRect);
 	}
 	else {
+		// if player is to the right move eye sprites to the right
 		app->render->DrawTexture(texture,position.x + eyeL.x - 3,position.y + eyeL.y, false, &eyeRect);
 		app->render->DrawTexture(texture,position.x + eyeR.x - 3,position.y + eyeR.y, false, &eyeRect);
 	}

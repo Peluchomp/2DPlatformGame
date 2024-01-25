@@ -58,7 +58,7 @@ public:
 	SDL_Texture* enemy_tex = nullptr;
 	SDL_Texture* chandelier_tex = nullptr;
 	SDL_Texture* angel_tex = nullptr;
-
+	bool titlescreenreset;
 	pugi::xml_node myNode;
 
 	PhysBody* shadowZone;

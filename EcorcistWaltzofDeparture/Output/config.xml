@@ -250,7 +250,7 @@
 		  </animations>
 
 		  <spinning_spear   audiopath ="Assets/Audio/Fx/flipdoor_rotate.wav" />
-		  <thunder   audiopath ="Assets/Audio/Fx/bossThunder.wav" />
+		  <thunder   audiopath ="Assets/Audio/Fx/thunderSpears.wav" />
 		  <teleport   audiopath ="Assets/Audio/Fx/boss_disappear.wav" />
 		  
 		  

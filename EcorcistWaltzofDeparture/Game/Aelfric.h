@@ -103,6 +103,7 @@ public:
 	uint teleportFx;
 	uint thunderFx;
 
+	// the 2 spears that follow him in his ground state
 	evilSpear MrSpear;
 	evilSpear MsSpear;
 
@@ -122,6 +123,11 @@ public:
 	bool hurt = false;
 	Timer hurtTimer;
 
+	// Variables for the title card when starting fight
+	uint titleAlpha = 0;
+	SDL_Rect titleCard = { 0,268,600, 180 };
+	SDL_Texture* titleCardTex = nullptr;
+	Timer tietleTimer;
 	
 
 	bool first = true;

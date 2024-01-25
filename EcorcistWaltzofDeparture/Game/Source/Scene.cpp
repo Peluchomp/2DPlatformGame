@@ -362,13 +362,13 @@ bool Scene::Update(float dt)
 			bossDoor =  app->physics->CreateRectangle(106 * 40, 22 * 40, 42, 160, bodyType::STATIC, ColliderType::PLATFORM);
 			bossDoor->ctype = ColliderType::PLATFORM;
 			bossZone = true;
+			tietleTimer.Start();
 			app->audio->PlayFx(bossGreetingFx);
 			noir = false;
 
 		}
 		if (bossZone) {
 			app->render->camera.x = -8480; app->render->camera.y = -1290;
-			tietleTimer.Start();
 		}
 	}
 
@@ -419,9 +419,10 @@ bool Scene::PostUpdate()
 	iPoint mouseTile = app->map->WorldToMap(mousePos.x - app->render->camera.x,
 		mousePos.y - app->render->camera.y);
 
-	if (bossZone && tietleTimer.ReadSec() < 2) {
-
-		app->render->DrawTexture(titleCardTex,- app->render->camera.x/2,- app->render->camera.y/2, &titleCard,false, 255);
+	if (bossZone && tietleTimer.ReadSec() < 4) {
+		titleAlpha = titleAlpha + (0.01) * (255 - titleAlpha);
+			
+		app->render->DrawTexture(titleCardTex,- app->render->camera.x/2,- app->render->camera.y/2,false, &titleCard, titleAlpha);
 
 	}
 

@@ -107,6 +107,9 @@ bool Aelfric::Update(float dt)
 		attackChangeTimer.Start();
 		startFight = true;
 		ogTransform = _body->body->GetPosition();
+		tietleTimer.Start();
+
+
 	}
 
 	
@@ -339,17 +342,20 @@ void Aelfric::CreateSpears() {
 }
 
 bool Aelfric::PostUpdate() {
-
+	// Draw health bar
 	if (app->scene->bossZone == true) {
 
-		healthBar = { 520 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), 20, 7 * hp };
-		app->render->DrawRectangle(SDL_Rect{ 520 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), 20, 140 }, 78, 0, 0, 255);
+		healthBar = { 520 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), 20, 13 * hp };
+		app->render->DrawRectangle(SDL_Rect{ 520 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), 20, 13*15 }, 78, 0, 0, 255);
 		app->render->DrawRectangle(healthBar, 27, 210, 152, 255);
 
 	}
-	if (currentAttack != GROUND_SPEARS && MrSpear.pbody != nullptr && MsSpear.pbody != nullptr) {
+	// Draw title card
+	if (app->scene->bossZone && tietleTimer.ReadSec() < 5) {
+		titleAlpha = titleAlpha + (0.03) * (255 - titleAlpha);
 
-		
+		app->render->DrawTexture(texture, -app->render->camera.x / 2, -app->render->camera.y / 2, false, &titleCard, titleAlpha);
+
 	}
 	return true;
 }

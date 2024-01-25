@@ -295,6 +295,7 @@ bool TitleScreen::Update(float dt)
 		gcButtom->state = GuiControlState::DISABLED;
 		exitButtom->state = GuiControlState::DISABLED;
 		optionsButtom->state = GuiControlState::DISABLED;
+		creditButtom->state = GuiControlState::DISABLED;
 	}
 
 	return true;

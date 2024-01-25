@@ -6,9 +6,9 @@
 	<audio />
 	<:anonymous />
 	<title_screen />
-	<scene currentLevel="0">
+	<scene currentLevel="1">
 		<player orbs="0" PowerLvl="0" HP="4">
-			<position x="145" y="240" />
+			<position x="455" y="3000" />
 		</player>
 	</scene>
 	<:anonymous />
@@ -73,61 +73,79 @@
 		<orb num="36">
 			<position x="7516" y="452" />
 		</orb>
-		<morgan HP="3" num="15">
-			<position x="920" y="263" />
-		</morgan>
-		<morgan HP="3" num="18">
-			<position x="2959" y="263" />
-		</morgan>
-		<morgan HP="3" num="19">
-			<position x="3200" y="263" />
-		</morgan>
-		<morgan HP="3" num="23">
-			<position x="5480" y="463" />
-		</morgan>
-		<morgan HP="3" num="24">
-			<position x="5680" y="463" />
-		</morgan>
-		<morgan HP="3" num="25">
-			<position x="5480" y="223" />
-		</morgan>
-		<morgan HP="3" num="27">
-			<position x="7560" y="263" />
-		</morgan>
-		<morgan HP="3" num="28">
-			<position x="7519" y="263" />
-		</morgan>
-		<jorge HP="2" num="16">
-			<position x="1479" y="119" />
-		</jorge>
-		<jorge HP="2" num="17">
-			<position x="2280" y="119" />
-		</jorge>
-		<jorge HP="2" num="20">
-			<position x="4039" y="239" />
-		</jorge>
-		<jorge HP="2" num="21">
-			<position x="4840" y="119" />
-		</jorge>
-		<jorge HP="2" num="22">
-			<position x="4960" y="239" />
-		</jorge>
-		<jorge HP="2" num="26">
-			<position x="6600" y="239" />
-		</jorge>
-		<healingorb num="-1">
-			<position x="1740" y="180" />
-		</healingorb>
-		<healingorb num="-1">
-			<position x="4020" y="180" />
-		</healingorb>
-		<healingorb num="-1">
-			<position x="6020" y="380" />
-		</healingorb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<orb num="-1">
+			<position x="100" y="420" />
+		</orb>
+		<mega_morgan HP="50" num="0">
+			<position x="561" y="2703" />
+		</mega_morgan>
+		<mega_morgan HP="50" num="0">
+			<position x="943" y="943" />
+		</mega_morgan>
+		<mega_morgan HP="50" num="0">
+			<position x="1019" y="943" />
+		</mega_morgan>
+		<mega_morgan HP="50" num="0">
+			<position x="1101" y="943" />
+		</mega_morgan>
+		<mega_morgan HP="50" num="0">
+			<position x="1319" y="943" />
+		</mega_morgan>
+		<mega_morgan HP="50" num="0">
+			<position x="1351" y="943" />
+		</mega_morgan>
+		<mega_morgan HP="50" num="0">
+			<position x="1543" y="943" />
+		</mega_morgan>
 	</entitymanager>
 	<moduleEnemies />
 	<guiManager />
 	<renderer>
-		<camera x="0" y="0" />
+		<camera x="-398" y="-5470" />
 	</renderer>
 </game_state>

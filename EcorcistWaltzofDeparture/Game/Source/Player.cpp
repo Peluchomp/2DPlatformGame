@@ -139,6 +139,7 @@ bool Player::Update(float dt)
 	}
 
 	if (hp <= 0) { 
+
 		Spawn(app->scene->currentLvl); 
 	}
 	if (position.x > 7000 || app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) /*Victory condition*/ {

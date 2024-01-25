@@ -76,6 +76,7 @@ private:
 	GuiControlButton* vSyncButtom;
 	GuiControlButton* resumeButtom;
 	GuiControlButton* backtittleButtom;
+	GuiControlButton* ReviveButtom;
 
 public:
 

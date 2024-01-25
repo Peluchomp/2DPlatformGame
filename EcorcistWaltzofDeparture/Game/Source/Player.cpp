@@ -115,6 +115,8 @@ bool Player::Start() {
 
 	pbody->collider = playerRect;
 
+
+	
 	return true;
 }
 
@@ -142,6 +144,8 @@ bool Player::Update(float dt)
 
 		// spawn at previous checkpoint
 		Spawn(app->scene->currentLvl,true); 
+		deathScreen = true;
+
 	}
 	if (position.x > 7000) /*Victory condition*/ {
 		Spawn(1,false);
@@ -432,6 +436,18 @@ bool Player::Update(float dt)
 
 	if (app->physics->debug) app->render->DrawRectangle(pbody->collider, 200, 020, 200, 255, true);
 
+	//black box death screen
+	if (app->scene->player->deathScreen == true)
+	{
+		SDL_Rect squarePos = { app->scene->windowW/ 2 - 700, app->scene->windowH/2 -700 , 1400,1200 };
+
+		app->render->DrawRectangle(squarePos, 0, 0, 0, 255, true, false);
+
+
+		app->render->DrawText("Hope perishes here", app->scene->windowW / 2 - 450, app->scene->windowH / 2 - 250,900, 200,255,0,0);
+	}
+
+
 	app->render->camera.y;
 
 	return true;
@@ -541,7 +557,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 		case ColliderType::INSTAKILL:
 
-			dead = true;
+			deathScreen = true;
 			break;
 		case ColliderType::ORB:
 			LOG("Player touched an orb");

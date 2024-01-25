@@ -63,7 +63,7 @@ bool EntityManager::Start() {
 	chandelier_tex = app->tex->Load(myNode.child("chandelier").attribute("path").as_string());
 
 	// CHANGE
-	angel_tex = app->tex->Load("Assets/Textures/angelGuard.png");
+	angel_tex = app->tex->Load(myNode.child("angleTexture").attribute("path").as_string());
 
 	//Iterates over the entities and calls Start
 	ListItem<Entity*>* item;
@@ -77,7 +77,6 @@ bool EntityManager::Start() {
 		ret = item->data->Start();
 	}
 
-	//shadowZone = app->physics->CreateRectangleSensor()
 
 	return ret;
 }

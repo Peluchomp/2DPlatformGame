@@ -71,12 +71,12 @@ bool Player::Start() {
 
 	attackTrigger = app->physics->CreateRectangleSensor(position.x + 110, position.y + 40, 60, 70, bodyType::DYNAMIC, ColliderType::PLAYER);
 	attackTrigger->body->SetGravityScale(0);
-	attackTrigger->listener = this; // CHANGE to enemies
+	attackTrigger->listener = this; 
 	attackTrigger->ctype = ColliderType::PLAYER_ATTACK;
 
 	op_attackTrigger = app->physics->CreateRectangleSensor(position.x + 110, position.y + 40, 73, 103, bodyType::DYNAMIC, ColliderType::PLAYER);
 	op_attackTrigger->body->SetGravityScale(0);
-	op_attackTrigger->listener = this; // CHANGE to enemies
+	op_attackTrigger->listener = this; 
 	op_attackTrigger->ctype = ColliderType::PLAYER_ATTACK;
 
 	orbEffect = app->audio->LoadFx(parameters.child("soundEffects").child("orbSound").attribute("audiopath").as_string());
@@ -89,7 +89,6 @@ bool Player::Start() {
 
 	currentAnim = &epicSpawn;
 	currentSpawnAnim = &epicSpawn;
-	//idleState = true;
 	mySpear->currentAnim = &mySpear->form1Anim;
 	hp = 4;
 

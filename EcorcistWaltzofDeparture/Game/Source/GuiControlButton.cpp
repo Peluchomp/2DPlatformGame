@@ -2,6 +2,8 @@
 #include "Render.h"
 #include "App.h"
 #include "Audio.h"
+#include "Scene.h"
+#include "../TitleScreen.h"
 
 GuiControlButton::GuiControlButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::BUTTON, id)
 {
@@ -63,6 +65,7 @@ bool GuiControlButton::Update(float dt)
 		app->render->DrawText(text.GetString(), bounds.x, bounds.y, bounds.w, bounds.h);
 
 	}
+	
 
 	return false;
 }

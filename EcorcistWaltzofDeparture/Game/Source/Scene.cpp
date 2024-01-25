@@ -197,6 +197,7 @@ bool Scene::Start()
 	musicButtom = app->titleS->musicButtom; //(GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 2, "   Sound   ", musicbtPos, this);
 	fullScreenButtom = app->titleS->fullScreenButtom;//(GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 3, "   Fullscreen   ", fullscreenbtPos, this);
 	vSyncButtom = app->titleS->vSyncButtom;//(GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 4, "   Vsync   ", vSyncPos, this);
+	ReviveButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 50, "   Try again   ", resumePos, this);
 	const char* tilePath = scene_parameter.child("pathTile").attribute("texturepath").as_string();
 	pathTexture = app->tex->Load(tilePath);
 
@@ -409,7 +410,18 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadRequest();
 
 
+	if (app->scene->player->deathScreen == true)
+	{
+		SDL_Rect squarePos = { app->scene->player->position.x, app->scene->player->position.y, 1200,1200 };
+		app->titleS->options = true;
+		ReviveButtom->state = GuiControlState::NORMAL;
+		app->render->DrawRectangle(squarePos, 0, 0, 0, 255, true, false);
 
+	}
+	else
+	{
+		ReviveButtom->state = GuiControlState::DISABLED;
+	}
 
 	return true;
 }
@@ -559,6 +571,11 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 
 	if (control->id == 43) {
 		app->titleS->back = true;
+	}
+
+	if (control->id == 50) {
+		app->scene->player->deathScreen = false;
+	    app->scene->player->Spawn(app->scene->currentLvl);
 	}
 	
 	if (control->id == 3 && fullscreen == true && fullscreenOnce > 1) {

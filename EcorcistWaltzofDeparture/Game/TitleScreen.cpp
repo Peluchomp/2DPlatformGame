@@ -143,6 +143,8 @@ bool TitleScreen::Update(float dt)
 		app->physics->DestroyPlatforms();
 		app->scene->noir = false;
 		app->entityManager->DestroyAll();
+		app->scene->player->options = false;
+		app->scene->player->deathScreen = false;
 		
 		app->scene->player->active = false;
 
@@ -175,7 +177,7 @@ bool TitleScreen::Update(float dt)
 		else if (options == true)
 			options = false;
 	}
-	if (options == true && app->scene->active == true) 
+	if (options == true && app->scene->active == true && app->scene->player->deathScreen == false) 
 	{
 		musicButtom->state = GuiControlState::NORMAL;
 		fullScreenButtom->state = GuiControlState::NORMAL;
@@ -273,6 +275,9 @@ bool TitleScreen::Update(float dt)
 			}
 		}
 	}
+
+
+	//here we control when buttons are on or off 
 	if (optionsTittle == true)
 	{
 		gcButtom->state = GuiControlState::DISABLED;

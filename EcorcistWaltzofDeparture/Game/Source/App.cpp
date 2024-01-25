@@ -194,6 +194,7 @@ void App::FinishUpdate()
 		uint32 delay = (uint32) (maxFrameDuration - currentDt);
 
 		PerfTimer delayTimer = PerfTimer();
+		if (app->titleS->vSync == false)
 		SDL_Delay(delay);
 		//LOG("We waited for %I32u ms and got back in %f ms",delay,delayTimer.ReadMs());
 	}

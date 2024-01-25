@@ -602,7 +602,7 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 
 	if (control->id == 50) {
 		app->scene->player->deathScreen = false;
-	    app->scene->player->Spawn(app->scene->currentLvl);
+	    app->scene->player->Spawn(app->scene->currentLvl,true);
 	}
 	
 	if (control->id == 3 && fullscreen == true && fullscreenOnce > 1) {
@@ -636,12 +636,12 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 
 	}
 
-	if (control->id == 4 && vSync == false && vsyncOnce > 1) {
+	if (control->id == 12 && vSync == false && vsyncOnce > 1) {
 		vSync = true;
 		vsyncOnce = 0;
 		
 	}
-	else if (control->id == 4 && vSync == true && vsyncOnce > 1) {
+	else if (control->id == 12 && vSync == true && vsyncOnce > 1) {
 		vSync = false;
 		vsyncOnce = 0;
 	}

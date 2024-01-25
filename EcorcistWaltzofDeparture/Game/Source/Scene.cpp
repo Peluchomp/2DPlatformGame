@@ -35,7 +35,16 @@ Scene::~Scene()
 bool Scene::Awake(pugi::xml_node& config)
 {
 	if (active) {
+
+
+
 		if (currentLvl == 0) {
+
+			if (blackDetection != nullptr)
+			{
+				blackDetection->active = false;
+			}
+
 
 		    LOG("Loading Scene");
 			bool ret = true;

@@ -173,6 +173,8 @@ public:
 	bool godMode;
 	bool fpsCap = true;
 	bool options = false;
+	bool deathScreen = false;
+	bool activee = true;
 
 	bool thrown = false;
 	bool SpearhasBeenThrown = false;

@@ -175,6 +175,7 @@ public:
 	int stopesquizo;
 	bool optionsTittle;
 
+	bool backfromPlay = false;
 	bool fullscreen = false;
 	bool vSync = false;
 	int fullscreenOnce;

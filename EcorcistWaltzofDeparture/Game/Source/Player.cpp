@@ -121,7 +121,7 @@ bool Player::Start() {
 bool Player::Update(float dt)
 {
 	int X, Y;
-	
+	if (active == false) return true;
 
 	
 
@@ -139,6 +139,7 @@ bool Player::Update(float dt)
 	}
 
 	if (hp <= 0) { 
+
 
 		Spawn(app->scene->currentLvl); 
 	}

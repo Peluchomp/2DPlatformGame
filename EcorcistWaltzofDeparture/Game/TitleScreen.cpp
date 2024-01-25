@@ -141,15 +141,20 @@ bool TitleScreen::Update(float dt)
 	if (back == true) 
 	{
 		app->physics->DestroyPlatforms();
-		app->entityManager->titlescreenreset = true;
+		app->scene->noir = false;
 		app->entityManager->DestroyAll();
-		app->entityManager->titlescreenreset = false;
+		
+		app->scene->player->active = false;
 
+		app->scene->player->checkpointX = 100;
+		app->scene->player->checkpointY = 200;
 		app->map->CleanUp();	
 		app->map->mapData.layers.Clear();
-		app->scene->player->pendingToDestroy = true;
+		
+		app->render->camera.x = 0;
+		app->render->camera.y = 0;
 
-		app->physics->active = false;
+		//app->physics->active = false;
 		app->scene->active = false;		
 		app->map->active = false;
 		
@@ -193,18 +198,26 @@ bool TitleScreen::Update(float dt)
 		spearFrame->Update(dt);
 
 		if (app->scene->active == false && startt == true) {
-			app->scene->player = nullptr;
-			app->physics->active = true;
-			app->physics->Start();
+		
+			if (backfromPlay == false) 
+			{
+				app->physics->active = true;
+				app->physics->Start();
+
+			}
 			pugi::xml_node n = mynode.parent().child("scene");
 			app->scene->active = true;
+			app->scene->currentLvl = 0;
 			app->scene->Awake(n);
 			app->scene->Start();
-
+			app->scene->player->active = true;
 			app->map->active = true;
 			app->map->Start();
 
-
+			app->scene->prevLevel = 0;
+			backfromPlay = true;
+			app->scene->player->Spawn(0);
+			app->scene->player->Attacking = false;
 			app->guiManager->active = true;
 			app->guiManager->Start();
 			gcButtom->state = GuiControlState::DISABLED;

@@ -25,7 +25,7 @@ TitleScreen::TitleScreen() : Module()
 	name.Create("title_screen");
 }
 
-// Destructorhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+// Destructor
 TitleScreen::~TitleScreen()
 {}
 
@@ -38,7 +38,7 @@ bool TitleScreen::Awake(pugi::xml_node& config)
 	mynode = config;
 	return true;
 }
-//hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+
 // Called before the first frame
 bool TitleScreen::Start()
 {
@@ -96,6 +96,7 @@ bool TitleScreen::Start()
 	SDL_Rect musicbtPos = { windowW / 2 - 60, windowH / 2 + 120 , 120,20 };
 	SDL_Rect vSyncPos = { windowW / 2 - 60, windowH / 2 + 150 , 40,40 };
 	SDL_Rect fullscreenbtPos = { windowW / 2 - 60, windowH / 2 + 50  , 40,40 };
+	SDL_Rect creditPos = { windowW / 2 - 60, windowH / 2 + 200  , 120,20 };
 
 	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "   Start   ", btPos, this);
 	exitButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, "   Exit   ", exitPos, this);
@@ -104,11 +105,13 @@ bool TitleScreen::Start()
 	musicButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 2, "   Sound   ", musicbtPos, this);
 	fullScreenButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 11, "   Fullscreen   ", fullscreenbtPos, this);
 	vSyncButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 12, "   Vsync   ", vSyncPos, this);
+	creditButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 13, "   Credits   ", creditPos, this);
 
 
 	gcButtom->state = GuiControlState::DISABLED;
 	exitButtom->state = GuiControlState::DISABLED;
 	optionsButtom->state = GuiControlState::DISABLED;
+	creditButtom->state = GuiControlState::DISABLED;
 	return true;
 	
 }
@@ -126,6 +129,14 @@ bool TitleScreen::Update(float dt)
 {
 	tittleTimerSec = titleTimer.ReadSec();
 	tittleTimerMSec = titleTimer.ReadMSec();
+
+	if (credits == true) 
+	{
+		creditsText = "Coding: Marco Baldan, Pau Mora                 " ;
+		creditsText2 = "Art: Marco Baldan                  ";
+		app->render->DrawText(creditsText, app->scene->windowW / 2 -550, app->scene->windowH / 2 , 600, 60);
+		app->render->DrawText(creditsText2, app->scene->windowW / 2 - 550, app->scene->windowH / 2 + 80, 600, 60);
+	}
 
 	if (back == true) 
 	{
@@ -198,6 +209,7 @@ bool TitleScreen::Update(float dt)
 			app->guiManager->Start();
 			gcButtom->state = GuiControlState::DISABLED;
 			exitButtom->state = GuiControlState::DISABLED;
+			creditButtom->state = GuiControlState::DISABLED;
 			optionsButtom->state = GuiControlState::DISABLED;
 		}
 
@@ -217,6 +229,7 @@ bool TitleScreen::Update(float dt)
 			gcButtom->state = GuiControlState::NORMAL;
 			exitButtom->state = GuiControlState::NORMAL;
 			optionsButtom->state = GuiControlState::NORMAL;
+			creditButtom->state = GuiControlState::NORMAL;
 		}
 
 		if (tittleTimerSec > 44 && tittleTimerSec < 49 || skip == true) {
@@ -252,6 +265,7 @@ bool TitleScreen::Update(float dt)
 		gcButtom->state = GuiControlState::DISABLED;
 		exitButtom->state = GuiControlState::DISABLED;
 		optionsButtom->state = GuiControlState::DISABLED;
+		creditButtom->state = GuiControlState::DISABLED;
 		backButtom->state = GuiControlState::NORMAL;
 
 		musicButtom->state = GuiControlState::NORMAL;
@@ -349,6 +363,16 @@ bool TitleScreen::OnGuiMouseClickEvent(GuiControl* control)
 
 		SDL_SetWindowFullscreen(app->win->window, 0);
 		SDL_SetWindowSize(app->win->window, width, heigth);
+	}
+	if (control->id == 13) {
+		if (credits == true) {
+			credits = false;
+
+		}
+		else if (credits == false) {
+			credits = true;
+		}
+
 	}
 
 	if (control->id == 12 && vSync == false && vsyncOnce >= 1) {

@@ -67,7 +67,7 @@ public:
 
 	bool started = false;
 	bool finished = false;
-
+	
 	int alpha = 0;
 
 	SDL_Rect size;
@@ -164,8 +164,12 @@ public:
 	GuiControlButton* musicButtom;
 	GuiControlButton* fullScreenButtom;
 	GuiControlButton* vSyncButtom;
+	GuiControlButton* creditButtom;
 	bool exit = false;
 	bool skip = false;
+	bool credits = false;
+	char* creditsText;
+	char* creditsText2;
 	float tittleTimerSec;
 	float tittleTimerMSec;
 	int stopesquizo;

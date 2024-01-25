@@ -677,6 +677,12 @@ void Player::Spawn(int Level) {
 		orbs = 0;
 	}
 	if (Level == 1) {
+
+		if (app->scene->bossZone) {
+			app->scene->bossZone = false;
+			app->physics->DestroyObject(app->scene->bossDoor);
+		}
+
 		float x;
 		float y;
 		app->scene->noir = false;

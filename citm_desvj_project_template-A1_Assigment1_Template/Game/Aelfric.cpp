@@ -454,7 +454,7 @@ void Aelfric::ThunderLogic() {
 			esL->SetSpeed(0.5f);
 			break;
 		case(2):
-			esL->SetSpeed(2.0f);
+			esL->SetSpeed(0.8f);
 			break;
 		case(3):
 			esL->SetSpeed(1.2f);

@@ -35,11 +35,11 @@ bool EvilSpearLightning::Awake() {
 	// the awake is only called for entities that are awaken with the manager
 	texture = app->tex->Load("Assets/Textures/priest.png");
 
-	pbody = app->physics->CreateRectangle(position.x, position.y, 16, 350, bodyType::KINEMATIC, ColliderType::ENEMY);
+	pbody = app->physics->CreateRectangle(position.x, position.y, 16, 350, bodyType::KINEMATIC, ColliderType::PHYS2);
 	pbody->ctype = ColliderType::ENEMY;
 	pbody->body->SetGravityScale(0);
 
-	eviltwinpbody = app->physics->CreateRectangle(position.x, position.y, 16, 350, bodyType::KINEMATIC, ColliderType::ENEMY);
+	eviltwinpbody = app->physics->CreateRectangle(position.x, position.y, 16, 350, bodyType::KINEMATIC, ColliderType::PHYS2);
 	eviltwinpbody->ctype = ColliderType::ENEMY;
 	pbody->body->SetGravityScale(0);
 
@@ -68,7 +68,7 @@ bool EvilSpearLightning::PreUpdate(float dt)
 bool EvilSpearLightning::Update(float dt)
 {
 	startAtackTimer++;
-	if (deathTaimer.ReadSec() > 3)
+	if (deathTaimer.ReadSec() > 5)
 	{
 		pendingToDestroy = true;
 		Lthunder->pendingToDestroy = true;

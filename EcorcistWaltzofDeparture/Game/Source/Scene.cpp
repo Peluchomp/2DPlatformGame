@@ -39,6 +39,7 @@ bool Scene::Awake(pugi::xml_node& config)
 
 
 		if (currentLvl == 0) {
+			levelTimer.Start();
 
 			if (blackDetection != nullptr)
 			{
@@ -104,13 +105,13 @@ bool Scene::Awake(pugi::xml_node& config)
 			return ret;
 		}
 		else /*Level 2*/ {
-			
-			LOG("Loading Scene");
+			levelTimer.Start();
 			bool ret = true;
 			app->map->name = config.child("map1").attribute("name").as_string();
 			app->map->path = config.child("map1").attribute("path").as_string();
 
 			scene_parameter = config;
+			app->map->firstLoad = false;
 
 			// iterate all objects in the scene
 			// Check https://pugixml.org/docs/quickstart.html#access
@@ -133,7 +134,7 @@ bool Scene::Awake(pugi::xml_node& config)
 
 			}
 
-			chandelierDeathFx = app->audio->LoadFx("Assets/Audio/Fx/chandelierFx.wav");
+			chandelierDeathFx = app->audio->LoadFx(config.child("chandelierFx").attribute("audiopath").as_string());
 			if (currentLvl == 1) {
 				for (pugi::xml_node orbNode = config.child("chandelure"); orbNode; orbNode = orbNode.next_sibling("chandelure")) {
 					Chandelier* orb = (Chandelier*)app->entityManager->CreateEntity(EntityType::CHANDELIER);
@@ -435,6 +436,9 @@ bool Scene::PostUpdate()
 
 	}
 
+
+	levelTimeDisplay = "Time:" + std::to_string(levelTimer.ReadSec());
+	app->render->DrawText(levelTimeDisplay.c_str(), app->scene->windowW / 2 + 420 , app->scene->windowH / 2 - 380, 80, 40);
 
 	// Render a texture where the mouse is over to highlight the tile, use the texture 'mouseTileTex'
 	iPoint highlightedTileWorld = app->map->MapToWorld(mouseTile.x, mouseTile.y);

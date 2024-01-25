@@ -52,22 +52,7 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, int id, const char
 
 bool GuiManager::Update(float dt)
 {	
-
-	ListItem<GuiControl*>* control = guiControlsList.start;
-
-	while (control != nullptr)
-	{
-		if (control->data->id != 43 && control->data->id != 5 && control->data->id != 1  && control->data->id != 3 && control->data->id != 4 )
-		control->data->Update(dt);
-
-		if (app->scene->active == true)
-		if ((control->data->id == 43 || control->data->id == 5 || control->data->id == 4 || control->data->id == 3 || control->data->id == 1) && app->titleS->options == true)
-			control->data->Update(dt);
-		
-		
-		control = control->next;
-	}
-
+	this->dt = dt;
 	return true;
 }
 
@@ -86,4 +71,24 @@ bool GuiManager::CleanUp()
 }
 
 
+bool GuiManager::PostUpdate() {
 
+
+	ListItem<GuiControl*>* control = guiControlsList.start;
+
+	while (control != nullptr)
+	{
+		if (control->data->id != 43 && control->data->id != 5 && control->data->id != 1 && control->data->id != 3 && control->data->id != 4)
+			control->data->Update(dt);
+
+		if (app->scene->active == true)
+			if ((control->data->id == 43 || control->data->id == 5 || control->data->id == 4 || control->data->id == 3 || control->data->id == 1) && app->titleS->options == true)
+				control->data->Update(dt);
+
+
+		control = control->next;
+	}
+
+	return true;
+
+}

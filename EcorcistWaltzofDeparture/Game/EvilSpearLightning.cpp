@@ -65,7 +65,7 @@ bool EvilSpearLightning::PreUpdate(float dt)
 bool EvilSpearLightning::Update(float dt)
 {
 	startAtackTimer++;
-	if (deathTaimer.ReadSec() > 6)
+	if (deathTaimer.ReadSec() > 7)
 	{
 		pendingToDestroy = true;
 		Lthunder->pendingToDestroy = true;
@@ -112,8 +112,8 @@ bool EvilSpearLightning::Update(float dt)
 	b2Vec2 pozition = { pbody->body->GetPosition().x + 2, 16.405};
 	eviltwinpbody->body->SetTransform(pozition, 0);
 	SDL_Rect spearRect = { 560,1,17,85 };
-	app->render->DrawTexture(texture, METERS_TO_PIXELS(pbody->body->GetTransform().p.x), METERS_TO_PIXELS(pbody->body->GetTransform().p.y - 130), false, &spearRect);
-	app->render->DrawTexture(texture, METERS_TO_PIXELS(eviltwinpbody->body->GetTransform().p.x), METERS_TO_PIXELS(eviltwinpbody->body->GetTransform().p.y - 130), false, &spearRect);
+	app->render->DrawTexture(texture, METERS_TO_PIXELS(pbody->body->GetTransform().p.x), METERS_TO_PIXELS(pbody->body->GetTransform().p.y - 130), false, &spearRect,255,1,255,255,0);
+	app->render->DrawTexture(texture, METERS_TO_PIXELS(eviltwinpbody->body->GetTransform().p.x), METERS_TO_PIXELS(eviltwinpbody->body->GetTransform().p.y - 130), false, &spearRect,255, 1, 255, 255, 0);
 
 	return true;
 }

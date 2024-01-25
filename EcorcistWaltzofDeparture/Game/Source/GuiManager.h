@@ -22,6 +22,8 @@ public:
 	 // Called each loop iteration
 	 bool Update(float dt);
 
+	 bool PostUpdate();
+
 	// Called before quitting
 	bool CleanUp();
 
@@ -29,6 +31,7 @@ public:
 	GuiControl* CreateGuiControl(GuiControlType type, int id, const char* text, SDL_Rect bounds, Module* observer, SDL_Rect sliderBounds = { 0,0,0,0 });
 
 public:
+	float dt;
 	float volumeSync = 90;
 	List<GuiControl*> guiControlsList;
 	SDL_Texture* texture;

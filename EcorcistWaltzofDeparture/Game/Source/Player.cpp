@@ -140,11 +140,11 @@ bool Player::Update(float dt)
 
 	if (hp <= 0) { 
 
-
-		Spawn(app->scene->currentLvl); 
+		// spawn at previous checkpoint
+		Spawn(app->scene->currentLvl,true); 
 	}
-	if (position.x > 7000 || app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) /*Victory condition*/ {
-		Spawn(1);
+	if (position.x > 7000) /*Victory condition*/ {
+		Spawn(1,false);
 		
 	}
 
@@ -306,18 +306,10 @@ bool Player::Update(float dt)
 	}
 
 
-	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_UP || app->input->GetKey(SDL_SCANCODE_F1) == KEY_UP || dead == true && godMode == false) {
-
-		Spawn(app->scene->currentLvl);
-		dead = false;
-	}
+	DebugControls();
 
 
-	//Options menu/pause screen toggle
-	
-
-
-
+	// F11 deactivated the game's framecap
 	if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN && fpsCap == true)
 	{
 		app->maxFrameDuration = 1000 / 30;
@@ -332,78 +324,10 @@ bool Player::Update(float dt)
 
 
 
-	if ((spawning == true && powerTransition == false && currentAnim != &poweUpAnim2 && currentAnim != &poweUpAnim3)) {
+	PowerUpLogic();
+	
 
-		if (provisional == b2Vec2{ 999,999 }) {
-			provisional = { movementx, gravity };
-		}
-
-		movementx = 0; gravity = 0;
-		currentAnim = currentSpawnAnim;
-		if (currentSpawnAnim->HasFinished()) {
-			movementx = provisional.x;
-			gravity = provisional.y;
-			provisional = b2Vec2{ 999,999 };
-		}
-
-	}
-	if ((powerTransition == true) && currentAnim != &poweUpAnim2 && currentAnim != &poweUpAnim3) {
-
-		if (provisional == b2Vec2{ 999,999 }) {
-			provisional = { movementx, gravity };
-		}
-
-		movementx = 0; gravity = 0;
-		currentAnim = &poweUpAnim;
-		if (poweUpAnim.HasFinished()) {
-			poweUpAnim.Reset();
-
-			currentAnim = &poweUpAnim2;
-		}
-	}
-	if (currentAnim == &poweUpAnim2) {
-		powerMessage.active = true;
-
-		if (poweUpAnim2.loopCount > 2) {
-			poweUpAnim2.Reset();
-			currentAnim = &poweUpAnim3;
-
-		}
-	}
-	if (currentAnim == &poweUpAnim3) {
-		if (poweUpAnim3.loopCount > 2) {
-
-			poweUpAnim3.Reset();
-			movementx = provisional.x;
-			gravity = provisional.y;
-			provisional = b2Vec2{ 999,999 };
-			powerTransition = false;
-			spawning = false;
-			powerMessage.active = false;
-		}
-	}
-
-
-	if (orbs > 9) {
-		orbs = 0;
-		myThunder = (Thunder*)app->entityManager->CreateEntity(EntityType::THUNDER);
-		myThunder->parameters = app->scene->scene_parameter.child("thunder");
-
-
-		switch (power) {
-		case(PowerLvl::NORMAL):
-			power = PowerLvl::MID;
-			powerTransition = true;
-			spawning = true;
-			break;
-
-		case(PowerLvl::MID):
-			power = PowerLvl::OP; // not finished
-			powerTransition = true;
-			spawning = true;
-			break;
-		}
-	}
+	//---------------Damage knockback code------------------//
 
 	if (hurt && knockTimer.ReadMSec() < 200 && knockDir == Direction::RIGHT) {
 		pbody->body->SetLinearVelocity(b2Vec2(8, -3));
@@ -652,7 +576,91 @@ void Player::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 	isTouching += 1;
 }
 
-void Player::Spawn(int Level) {
+
+// This function handles the transitions between one power stage to another after having collected 10 power orbs
+void Player::PowerUpLogic() {
+	// logic of powerup animation
+	if ((spawning == true && powerTransition == false && currentAnim != &poweUpAnim2 && currentAnim != &poweUpAnim3)) {
+
+		if (provisional == b2Vec2{ 999,999 }) {
+			provisional = { movementx, gravity };
+		}
+
+		movementx = 0; gravity = 0;
+		currentAnim = currentSpawnAnim;
+		if (currentSpawnAnim->HasFinished()) {
+			movementx = provisional.x;
+			gravity = provisional.y;
+			provisional = b2Vec2{ 999,999 };
+		}
+
+	}
+	if ((powerTransition == true) && currentAnim != &poweUpAnim2 && currentAnim != &poweUpAnim3) {
+
+		if (provisional == b2Vec2{ 999,999 }) {
+			provisional = { movementx, gravity };
+		}
+
+		movementx = 0; gravity = 0;
+		currentAnim = &poweUpAnim;
+		if (poweUpAnim.HasFinished()) {
+			poweUpAnim.Reset();
+			myThunder->pendingToDestroy = true;
+			currentAnim = &poweUpAnim2;
+		}
+	}
+	if (currentAnim == &poweUpAnim2) {
+		powerMessage.active = true;
+
+		if (poweUpAnim2.loopCount > 2) {
+			poweUpAnim2.Reset();
+			myThunder->pendingToDestroy = true;
+			currentAnim = &poweUpAnim3;
+
+		}
+	}
+	if (currentAnim == &poweUpAnim3) {
+		if (poweUpAnim3.loopCount > 2) {
+
+			poweUpAnim3.Reset();
+			myThunder->pendingToDestroy = true;
+			movementx = provisional.x;
+			gravity = provisional.y;
+			provisional = b2Vec2{ 999,999 };
+			powerTransition = false;
+			spawning = false;
+			powerMessage.active = false;
+		}
+	}
+
+	// next stage if colected more than 9 orbs
+	if (orbs > 9) {
+		orbs = 0;
+		myThunder = (Thunder*)app->entityManager->CreateEntity(EntityType::THUNDER);
+		myThunder->parameters = app->scene->scene_parameter.child("thunder");
+
+
+		switch (power) {
+		case(PowerLvl::NORMAL):
+			power = PowerLvl::MID;
+			powerTransition = true;
+			spawning = true;
+			break;
+
+		case(PowerLvl::MID):
+			power = PowerLvl::OP; // not finished
+			powerTransition = true;
+			spawning = true;
+			break;
+		}
+	}
+
+}
+
+// if checkpoint = true spawn at previous checkpoint position, else spawn at deafult spawn position
+void Player::Spawn(int Level, bool checkPoint) {
+
+	app->scene->prevLevel = app->scene->currentLvl;
 
 	app->entityManager->ReSpawn();
 
@@ -667,16 +675,19 @@ void Player::Spawn(int Level) {
 	}
 
 	if (Level == 0) {
+		app->scene->currentLvl = 0;
+
 		power = PowerLvl::NORMAL;
 		hp = 4;
 		spawning = true;
 		spawnFire.loopCount = 2;
-		//para checkear si funciona los checkpoints
-	/*	float x = position.x = parameters.attribute("x").as_float();
-		float y = position.y = parameters.attribute("y").as_float();
-		x = PIXEL_TO_METERS(x); y = PIXEL_TO_METERS(y);*/
+		
+
 		float x = PIXEL_TO_METERS( checkpointX);
 		float y =  PIXEL_TO_METERS( checkpointY);
+		if (!checkPoint) {
+			x = PIXEL_TO_METERS(startX); y = PIXEL_TO_METERS( startY);
+		}
 	
 		
 		b2Vec2 startPos = { x,y };
@@ -687,8 +698,17 @@ void Player::Spawn(int Level) {
 		movementx = 0;
 
 		orbs = 0;
+
+		// if you were previously in level 1 we must recreate level 0
+		if (app->scene->prevLevel == 1) {
+			app->audio->PlayFx(winEffext);
+			app->physics->breakAll = true;
+
+		}
+
 	}
 	if (Level == 1) {
+		app->scene->currentLvl = 1;
 
 		if (app->scene->bossZone) {
 			app->scene->bossZone = false;
@@ -700,6 +720,10 @@ void Player::Spawn(int Level) {
 		app->scene->noir = false;
 		x = position.x = checkpointX;
 		y = position.y = checkpointY;
+		if (!checkPoint) {
+			x = PIXEL_TO_METERS(startX); y = PIXEL_TO_METERS(startY);
+		}
+
 		if (app->scene->prevLevel == 0) 
 		{
 			x = position.x = 2 * 40;
@@ -1363,7 +1387,7 @@ void Player::StartIFrames() {
 }
 
 void Player::ManageInvencibility() {
-
+	// deactivate invencibility after timer has passed
 	if (iframes && invicibilityTimer.ReadMSec() > INVINCIBILITY_MS) {
 		iframes = false;
 		b2Fixture* playerFixture = pbody->body->GetFixtureList();
@@ -1455,4 +1479,28 @@ void Player::InputControls(float dt) {
 		app->physics->world->SetGravity({ 0,10 });
 
 	}
+}
+
+
+void Player::DebugControls() {
+
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN){
+		//Teleport to start of level1
+		Spawn(0,false);
+	}
+	if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
+		//Teleport to start of level2
+		Spawn(1,false);
+	}
+	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_UP || app->input->GetKey(SDL_SCANCODE_F1) == KEY_UP || dead == true && godMode == false) {
+		//Respawn current level
+		Spawn(app->scene->currentLvl, false);
+		dead = false;
+	}
+	if (app->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {
+		// Teleport to last checkpoint
+		Spawn(app->scene->currentLvl, true);
+		dead = false;
+	}
+
 }

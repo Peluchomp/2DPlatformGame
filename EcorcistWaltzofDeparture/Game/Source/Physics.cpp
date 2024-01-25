@@ -105,7 +105,7 @@ bool Physics::PreUpdate()
 		app->map->Start();
 
 		app->render->camera.y = -5832;
-		app->scene->prevLevel = 1;
+		//app->scene->prevLevel = 1;
 
 	}
 

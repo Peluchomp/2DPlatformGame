@@ -216,7 +216,7 @@ bool TitleScreen::Update(float dt)
 
 			app->scene->prevLevel = 0;
 			backfromPlay = true;
-			app->scene->player->Spawn(0);
+			app->scene->player->Spawn(0, false);
 			app->scene->player->Attacking = false;
 			app->guiManager->active = true;
 			app->guiManager->Start();

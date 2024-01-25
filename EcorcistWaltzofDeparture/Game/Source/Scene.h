@@ -43,6 +43,8 @@ public:
 
 	void SpawnGoons(bool first = false);
 
+	void checkAndRecreateLvl();
+
 	Player* player;
 	Orb* orbs[50] = { nullptr };
 

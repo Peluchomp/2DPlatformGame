@@ -543,6 +543,29 @@ bool Scene::SaveState(pugi::xml_node node) {
 	return true;
 }
 
+void Scene::checkAndRecreateLvl() {
+
+	if (currentLvl != prevLevel) {
+		LOG("Have to recreate level");
+		noir = false;
+		prevLevel = currentLvl;
+		currentLvl = prevLevel;
+
+		if (currentLvl == 0) { blackDetection->active = false; }
+
+		app->physics->DestroyPlatforms();
+		app->entityManager->DestroyAll();
+
+
+		app->map->CleanUp();
+		app->scene->Awake(app->scene->scene_parameter);
+		app->map->mapData.layers.Clear();
+		app->map->Start();
+
+
+	}
+}
+
 bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 {
 	fullscreenOnce++;

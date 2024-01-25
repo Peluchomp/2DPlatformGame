@@ -58,7 +58,7 @@ public:
 	void OnCollision(PhysBody* physA, PhysBody* physB);
 	void OnCollisionEnd(PhysBody* physA, PhysBody* physB);
 
-	void Spawn(int Level);
+	void Spawn(int Level, bool checkPoint);
 
 	void LoadAnimations();
 
@@ -66,10 +66,14 @@ public:
 
 	void AttackingLogic();
 
+	void PowerUpLogic();
+
 	void InputControls(float dt);
 
 	void StartIFrames();
 	void ManageInvencibility();
+
+	void DebugControls();
 
 	
 
@@ -182,6 +186,9 @@ public:
 
 	float checkpointX = 100;
 	float checkpointY = 200;
+
+	float startX = 100;
+	float startY = 200;
 
 	std::string scoreText;
 	

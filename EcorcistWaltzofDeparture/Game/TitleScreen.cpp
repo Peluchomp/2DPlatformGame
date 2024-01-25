@@ -129,19 +129,20 @@ bool TitleScreen::Update(float dt)
 
 	if (back == true) 
 	{
-		
 		app->physics->DestroyPlatforms();
 		app->entityManager->titlescreenreset = true;
 		app->entityManager->DestroyAll();
 		app->entityManager->titlescreenreset = false;
+
 		app->map->CleanUp();	
 		app->map->mapData.layers.Clear();
-		
+		app->scene->player->pendingToDestroy = true;
+
 		app->physics->active = false;
 		app->scene->active = false;		
 		app->map->active = false;
 		
-		skip = false;
+		skip = true;
 		stopesquizo = 0;
 		startt = false;
 		options = false;
@@ -181,7 +182,7 @@ bool TitleScreen::Update(float dt)
 		spearFrame->Update(dt);
 
 		if (app->scene->active == false && startt == true) {
-
+			app->scene->player = nullptr;
 			app->physics->active = true;
 			app->physics->Start();
 			pugi::xml_node n = mynode.parent().child("scene");

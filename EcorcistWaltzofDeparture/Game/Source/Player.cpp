@@ -471,8 +471,11 @@ bool Player::Update(float dt)
 		}
 	}
 
-	if (SpearhasBeenThrown) {
+	if (SpearhasBeenThrown && app->scene->noir == false) {
 		app->render->DrawTexture(mySpear->texture, mySpear->position.x, mySpear->position.y, false, &mySpear->currentAnim->GetCurrentFrame());
+	}
+	else if (SpearhasBeenThrown && app->scene->noir == true) {
+		app->render->DrawTexture(mySpear->texture, mySpear->position.x, mySpear->position.y, false, &mySpear->currentAnim->GetCurrentFrame(),alpha,1,0,0,0);
 	}
 
 	if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && mySpear->isPicked == true) //en vez de w usamos app->input->GetMouseButtonDown(0) == KEY_REPEAT
@@ -604,7 +607,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			break;
 		case ColliderType::BLACK_TRIGGER:
 			LOG("Collision UNKNOWN");
-			if (physB->myEntity == nullptr) {
+			if (physB->myEntity == nullptr && app->scene->noir == false) {
 				app->scene->noir = true;
 				app->audio->PlayMusic(app->scene->bossMusicPath.GetString());
 			}
@@ -705,7 +708,7 @@ void Player::Spawn(int Level) {
 		}
 	
 
-		if (mySpear->isPicked == false && mySpear->isSticked == false) {
+		/*if (mySpear->isPicked == false && mySpear->isSticked == false) {
 
 			b2Vec2 positiondissapera = b2Vec2(-100, -100);
 			b2Vec2 positionPlayer = b2Vec2(x, y);
@@ -723,7 +726,7 @@ void Player::Spawn(int Level) {
 			mySpear->ThePlatform->body->SetTransform(positiondissapera, 0);
 			mySpear->daPlatform = true;
 			mySpear->isSticked = false;
-		}
+		}*/
 
 		app->scene->currentLvl = 1;
 		power = PowerLvl::NORMAL;

@@ -87,6 +87,28 @@ bool Physics::PreUpdate()
 {
 	OPTICK_FRAME("Physics")
 	bool ret = true;
+	if (breakAll) {
+		
+		breakAll = false;
+
+		DestroyPlatforms();
+		app->entityManager->DestroyAll();
+		app->scene->player->mySpear->pendingToDestroy = false;
+
+		app->scene->player->newLevel = true;
+		app->map->CleanUp();
+
+		
+
+		app->scene->Awake(app->scene->scene_parameter);
+		app->map->mapData.layers.Clear();
+		app->map->Start();
+
+		app->render->camera.y = -5832;
+		app->scene->prevLevel = 1;
+
+	}
+
 
 	// Step (update) the World
 	// WARNING: WE ARE STEPPING BY CONSTANT 1/60 SECONDS!
@@ -682,7 +704,7 @@ void Physics::DestroyPlatforms() {
 		item = item->next;
 	}
 
-
+	app->map->killers.Clear();
 }
 
 void Physics::DestroyObject(PhysBody* pbody) {

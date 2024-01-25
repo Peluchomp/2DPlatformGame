@@ -707,26 +707,6 @@ void Player::Spawn(int Level) {
 		}
 	
 
-		/*if (mySpear->isPicked == false && mySpear->isSticked == false) {
-
-			b2Vec2 positiondissapera = b2Vec2(-100, -100);
-			b2Vec2 positionPlayer = b2Vec2(x, y);
-			mySpear->pbody->body->SetTransform(positionPlayer, 0);
-			mySpear->ThePlatform->body->SetTransform(positiondissapera, 0);
-			mySpear->daPlatform = true;
-			mySpear->isSticked = false;
-		}
-
-		if (mySpear->isPicked == false && mySpear->isSticked == true) {
-
-			b2Vec2 positiondissapera = b2Vec2(-100, -100);
-			b2Vec2 positionPlayer = b2Vec2(x, y);
-			mySpear->pbody->body->SetTransform(positionPlayer, 0);
-			mySpear->ThePlatform->body->SetTransform(positiondissapera, 0);
-			mySpear->daPlatform = true;
-			mySpear->isSticked = false;
-		}*/
-
 		app->scene->currentLvl = 1;
 		power = PowerLvl::NORMAL;
 		hp = 4;
@@ -747,18 +727,8 @@ void Player::Spawn(int Level) {
 
 		if (app->scene->prevLevel == 0)/*if it's the first time you enter level0*/ {
 			app->audio->PlayFx(winEffext);
-			app->physics->DestroyPlatforms();
-			app->entityManager->DestroyAll();
-			mySpear->pendingToDestroy = false;
-
-			newLevel = true;
-			app->map->CleanUp();
-			app->scene->Awake(app->scene->scene_parameter);
-			app->map->mapData.layers.Clear();
-			app->map->Start();
-
-			app->render->camera.y = -5832;
-			app->scene->prevLevel = 1;
+			app->physics->breakAll = true;
+			
 		}
 	}
 

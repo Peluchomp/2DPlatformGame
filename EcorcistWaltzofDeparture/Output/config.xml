@@ -13,6 +13,7 @@
 
 		<enemyTexture path="Assets/Textures/Morgan.png" />
 		<chandelier path ="Assets/Textures/chandelier.png" />
+		<angleTexture path = "Assets/Textures/angelGuard.png"/>
 		
 	</entitymanager>
 	
@@ -80,12 +81,17 @@
 			<frame x="241" y="169" w="383" h="184" timeStart="37" timeStay="4" appearance ="down"  desiredX="241" desiredY="169"/>
 
 		</page>
-		<page texturepath ="Assets/Textures/Opening/Frame7.png">
-			<frame x="-40" y="0" w="640" h="360" timeStart="42" timeStay="5" appearance ="fade"      desiredX="0" desiredY="0"/>
-		
+		<page texturepath ="Assets/Textures/Opening/Frame8.png">
+			<frame x="0" y="0" w="640" h="360" timeStart="42" timeStay="5" appearance ="fade"      desiredX="-40" desiredY="0"/>
 
+			
 		</page>
-		
+
+		<finalframe texturepath ="Assets/Textures/Opening/Frame7.png"/>
+		<logo texturepath ="Assets/Textures/Opening/Logo.png"/>
+		<spear texturepath = "Assets/Textures/Opening/logoSpear.png"/>
+
+
 	</title_screen>
 
   <scene>

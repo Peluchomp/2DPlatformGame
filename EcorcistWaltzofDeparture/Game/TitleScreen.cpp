@@ -69,18 +69,18 @@ bool TitleScreen::Start()
 		}
 
 	}
-	finalFrame = app->tex->Load("Assets/Textures/Opening/Frame8.png");
-	Logo.texture = app->tex->Load("Assets/Textures/Opening/Logo.png");
+	finalFrame = app->tex->Load(config.child("finalframe").attribute("texturepath").as_string());
+	Logo.texture = app->tex->Load(config.child("logo").attribute("texturepath").as_string());
 
 	Flame = new Icon();
-	Flame->texture = app->tex->Load("Assets/Textures/Opening/flameSheet.png");
+	Flame->texture = app->tex->Load(config.child("flame").attribute("texturepath").as_string());
 	for (pugi::xml_node pNode = config.child("flame").child("frame"); pNode; pNode = pNode.next_sibling("frame")) {
 		Flame->defaultAnim.PushBack(SDL_Rect{ pNode.attribute("x").as_int(), pNode.attribute("y").as_int(),pNode.attribute("w").as_int(),pNode.attribute("h").as_int() });
 	}
 	Flame->defaultAnim.speed = 0.2f / 16.0f;
 	Flame->currentAnim = &Flame->defaultAnim;
 	spearFrame =  new Frame(iPoint(-30, 70), 0.005f, Appearance::LEFTWARDS, SDL_Rect{ 0,0,640,185 }, 10000, 45200);
-	spearFrame->texture = app->tex->Load("Assets/Textures/Opening/logoSpear.png");
+	spearFrame->texture = app->tex->Load(config.child("spear").attribute("texturepath").as_string());
 
 	delayTimer.Start();
 
@@ -246,8 +246,8 @@ bool TitleScreen::Update(float dt)
 			if (stopesquizo > 300)
 				alpha = 0;
 
-			SDL_Rect ruct = SDL_Rect{ -40,0,640,360 };
-			app->render->DrawTexture(finalFrame, 0, 0, false, &ruct, alpha);
+			SDL_Rect ruct = SDL_Rect{ 0,0,640,360 };
+			app->render->DrawTexture(finalFrame, -40, 0, false, &ruct, alpha);
 		}
 		
 		if (tittleTimerSec > 47) {

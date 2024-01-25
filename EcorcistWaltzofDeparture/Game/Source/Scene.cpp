@@ -465,9 +465,13 @@ bool Scene::LoadState(pugi::xml_node node) {
 
 	if (currentLvl != actualLevel) {
 		LOG("Have to recreate level");
+		noir = false;
+		prevLevel = actualLevel;
 		currentLvl = actualLevel;
 
-		//app->physics->DestroyPlatforms();
+		if (actualLevel == 0) { blackDetection->active = false; }
+
+		app->physics->DestroyPlatforms();
 		app->entityManager->DestroyAll();
 		
 

@@ -63,7 +63,7 @@ bool EntityManager::Start() {
 	chandelier_tex = app->tex->Load(myNode.child("chandelier").attribute("path").as_string());
 
 	// CHANGE
-	angel_tex = app->tex->Load("Assets/Textures/angelGuard.png");
+	angel_tex = app->tex->Load(myNode.child("angleTexture").attribute("path").as_string());
 
 	//Iterates over the entities and calls Start
 	ListItem<Entity*>* item;
@@ -77,7 +77,6 @@ bool EntityManager::Start() {
 		ret = item->data->Start();
 	}
 
-	//shadowZone = app->physics->CreateRectangleSensor()
 
 	return ret;
 }
@@ -441,7 +440,7 @@ void EntityManager::DestroyAll() {
 	for (item = entities.start; item != NULL && ret == true; item = item->next)
 	{
 		pEntity = item->data;
-		if ((pEntity->type == EntityType::ORB || pEntity->type == EntityType::MORGAN || pEntity->type == EntityType::JORGE || pEntity->type == EntityType::MEGA_MORGAN ) || pEntity->type == EntityType::PLAYER && titlescreenreset == true) {
+		if ((pEntity->type == EntityType::ORB || pEntity->type == EntityType::MORGAN || pEntity->type == EntityType::JORGE || pEntity->type == EntityType::MEGA_MORGAN || pEntity->type == EntityType::CHANDELIER || pEntity->type == EntityType::ANGEL) || pEntity->type == EntityType::PLAYER && titlescreenreset == true) {
 			for (ListItem<PhysBody*>* corpse = pEntity->myBodies.start; corpse != NULL; corpse = corpse->next) {
 
 				// Destroy all of the entity's b2bodies

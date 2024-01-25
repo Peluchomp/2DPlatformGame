@@ -159,7 +159,7 @@ public:
 
 public:
 
-
+	bool breakAll = false;
 
 	// Box2D World
 	b2World* world;

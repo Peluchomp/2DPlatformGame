@@ -247,6 +247,8 @@ bool Map::CleanUp()
         RELEASE(layerItem->data);
         layerItem = layerItem->next;
     }
+   
+
 
     return true;
 }

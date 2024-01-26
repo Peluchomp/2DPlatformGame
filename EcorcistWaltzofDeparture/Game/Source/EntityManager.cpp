@@ -273,6 +273,14 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 
     pEntity = NULL;
 
+
+	pugi::xml_node LevelNode = node.child("currentLevel");
+	
+	int LevelValue = LevelNode.attribute("value").as_int();
+
+	if(LevelValue == 0){ node = node.child("level0"); }
+	else if (LevelValue == 1) { node = node.child("level1"); }
+
 	// Spawn saved entities
 	for (item = app->entityManager->savedEntities.start; item != NULL && ret == true; item = item->next)
 	{
@@ -333,6 +341,20 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 				}
 			}
 		}
+		else if (pEntity->type == EntityType::CHANDELIER) {
+
+			for (pugi::xml_node orbNode = node.child("mega_morgan"); orbNode; orbNode = orbNode.next_sibling("morgan")) {
+				if (pEntity->num == orbNode.attribute("num").as_int()) {
+					pEntity = app->entityManager->CreateEntity(EntityType::CHANDELIER);
+					pEntity->position.x = orbNode.child("position").attribute("x").as_int();
+					pEntity->position.y = orbNode.child("position").attribute("y").as_int();
+					pEntity->num = orbNode.attribute("num").as_int();
+					pEntity->parameters = orbNode;
+					pEntity->Start();
+
+				}
+			}
+		}
 
 	}
 	// entities.Clear(); this removes them from the list, it doesnt delete them
@@ -349,55 +371,125 @@ bool EntityManager::SaveState(pugi::xml_node node) {
 
 	ListItem<Entity*>* item;
 
+	pugi::xml_node LevelNode = node.append_child("currentLevel");
+	LevelNode.append_attribute("value").set_value(app->scene->currentLvl);
+
 	bool ret = true;
 
 	Entity* pEntity = NULL;
+	if (app->scene->currentLvl == 0) {
 
+		node = node.append_child("level0");
 
-	for (item = entities.start; item != NULL && ret == true; item = item->next)
-	{
-		pEntity = item->data;
-		if (pEntity->type == EntityType::MORGAN) {
+		for (item = entities.start; item != NULL && ret == true; item = item->next)
+		{
+			pEntity = item->data;
+			if (pEntity->type == EntityType::MORGAN) {
 
-			pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
-			morganNode.append_attribute("HP").set_value(pEntity->hp);
-			morganNode.append_attribute("num").set_value(pEntity->num);
-			morganNode = morganNode.append_child("position");
-			morganNode.append_attribute("x").set_value(pEntity->position.x);
-			morganNode.append_attribute("y").set_value(pEntity->position.y);
+				pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
+				morganNode.append_attribute("HP").set_value(pEntity->hp);
+				morganNode.append_attribute("num").set_value(pEntity->num);
+				morganNode = morganNode.append_child("position");
+				morganNode.append_attribute("x").set_value(pEntity->position.x);
+				morganNode.append_attribute("y").set_value(pEntity->position.y);
 
-		}
-		if (pEntity->type == EntityType::JORGE) {
+			}
+			if (pEntity->type == EntityType::JORGE) {
 
-			pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
-			morganNode.append_attribute("HP").set_value(pEntity->hp);
-			morganNode.append_attribute("num").set_value(pEntity->num);
-			morganNode = morganNode.append_child("position");
-			morganNode.append_attribute("x").set_value(pEntity->position.x);
-			morganNode.append_attribute("y").set_value(pEntity->position.y);
+				pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
+				morganNode.append_attribute("HP").set_value(pEntity->hp);
+				morganNode.append_attribute("num").set_value(pEntity->num);
+				morganNode = morganNode.append_child("position");
+				morganNode.append_attribute("x").set_value(pEntity->position.x);
+				morganNode.append_attribute("y").set_value(pEntity->position.y);
 
-		}
-		if (pEntity->type == EntityType::MEGA_MORGAN) {
+			}
+			if (pEntity->type == EntityType::MEGA_MORGAN) {
 
-			pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
-			morganNode.append_attribute("HP").set_value(pEntity->hp);
-			morganNode.append_attribute("num").set_value(pEntity->num);
-			morganNode = morganNode.append_child("position");
-			morganNode.append_attribute("x").set_value(pEntity->position.x);
-			morganNode.append_attribute("y").set_value(pEntity->position.y);
+				pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
+				morganNode.append_attribute("HP").set_value(pEntity->hp);
+				morganNode.append_attribute("num").set_value(pEntity->num);
+				morganNode = morganNode.append_child("position");
+				morganNode.append_attribute("x").set_value(pEntity->position.x);
+				morganNode.append_attribute("y").set_value(pEntity->position.y);
 
-		}
-		if (pEntity->type == EntityType::ORB) {
+			}
+			if (pEntity->type == EntityType::ORB) {
 
-			pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
-			morganNode.append_attribute("num").set_value(pEntity->num);
-			morganNode = morganNode.append_child("position");
-			morganNode.append_attribute("x").set_value(pEntity->position.x);
-			morganNode.append_attribute("y").set_value(pEntity->position.y);
+				pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
+				morganNode.append_attribute("num").set_value(pEntity->num);
+				morganNode = morganNode.append_child("position");
+				morganNode.append_attribute("x").set_value(pEntity->position.x);
+				morganNode.append_attribute("y").set_value(pEntity->position.y);
 
+			}
+			if (pEntity->type == EntityType::CHANDELIER) {
+
+				pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
+				morganNode.append_attribute("num").set_value(pEntity->num);
+				morganNode = morganNode.append_child("position");
+				morganNode.append_attribute("x").set_value(pEntity->position.x);
+				morganNode.append_attribute("y").set_value(pEntity->position.y);
+
+			}
 		}
 	}
+	else {
+		node = node.append_child("level1");
 
+		for (item = entities.start; item != NULL && ret == true; item = item->next)
+		{
+			pEntity = item->data;
+			if (pEntity->type == EntityType::MORGAN) {
+
+				pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
+				morganNode.append_attribute("HP").set_value(pEntity->hp);
+				morganNode.append_attribute("num").set_value(pEntity->num);
+				morganNode = morganNode.append_child("position");
+				morganNode.append_attribute("x").set_value(pEntity->position.x);
+				morganNode.append_attribute("y").set_value(pEntity->position.y);
+
+			}
+			if (pEntity->type == EntityType::JORGE) {
+
+				pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
+				morganNode.append_attribute("HP").set_value(pEntity->hp);
+				morganNode.append_attribute("num").set_value(pEntity->num);
+				morganNode = morganNode.append_child("position");
+				morganNode.append_attribute("x").set_value(pEntity->position.x);
+				morganNode.append_attribute("y").set_value(pEntity->position.y);
+
+			}
+			if (pEntity->type == EntityType::MEGA_MORGAN) {
+
+				pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
+				morganNode.append_attribute("HP").set_value(pEntity->hp);
+				morganNode.append_attribute("num").set_value(pEntity->num);
+				morganNode = morganNode.append_child("position");
+				morganNode.append_attribute("x").set_value(pEntity->position.x);
+				morganNode.append_attribute("y").set_value(pEntity->position.y);
+
+			}
+			if (pEntity->type == EntityType::ORB) {
+
+				pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
+				morganNode.append_attribute("num").set_value(pEntity->num);
+				morganNode = morganNode.append_child("position");
+				morganNode.append_attribute("x").set_value(pEntity->position.x);
+				morganNode.append_attribute("y").set_value(pEntity->position.y);
+
+			}
+			if (pEntity->type == EntityType::CHANDELIER) {
+
+				pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
+				morganNode.append_attribute("num").set_value(pEntity->num);
+				morganNode = morganNode.append_child("position");
+				morganNode.append_attribute("x").set_value(pEntity->position.x);
+				morganNode.append_attribute("y").set_value(pEntity->position.y);
+
+			}
+		}
+	}
 
 	return true;
 }

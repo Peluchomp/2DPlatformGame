@@ -333,6 +333,8 @@ bool TitleScreen::Update(float dt)
 		continueButoom->state = GuiControlState::DISABLED;
 	}
 
+
+
 	return true;
 }
 

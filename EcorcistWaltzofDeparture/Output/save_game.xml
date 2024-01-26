@@ -8,144 +8,179 @@
 	<title_screen />
 	<scene currentLevel="1">
 		<player orbs="0" PowerLvl="0" HP="4">
-			<position x="455" y="3000" />
+			<position x="89" y="3160" />
 		</player>
 	</scene>
 	<:anonymous />
 	<entitymanager>
-		<orb num="0">
-			<position x="264" y="191" />
-		</orb>
-		<orb num="1">
-			<position x="528" y="311" />
-		</orb>
-		<orb num="2">
-			<position x="528" y="186" />
-		</orb>
-		<orb num="3">
-			<position x="833" y="95" />
-		</orb>
-		<orb num="4">
-			<position x="991" y="60" />
-		</orb>
-		<orb num="5">
-			<position x="991" y="141" />
-		</orb>
-		<orb num="6">
-			<position x="1231" y="149" />
-		</orb>
-		<orb num="7">
-			<position x="1375" y="224" />
-		</orb>
-		<orb num="8">
-			<position x="1656" y="317" />
-		</orb>
-		<orb num="9">
-			<position x="2028" y="208" />
-		</orb>
-		<orb num="10">
-			<position x="2431" y="333" />
-		</orb>
-		<orb num="11">
-			<position x="3447" y="317" />
-		</orb>
-		<orb num="12">
-			<position x="3711" y="108" />
-		</orb>
-		<orb num="29">
-			<position x="4849" y="408" />
-		</orb>
-		<orb num="30">
-			<position x="5769" y="273" />
-		</orb>
-		<orb num="31">
-			<position x="5933" y="272" />
-		</orb>
-		<orb num="32">
-			<position x="6743" y="489" />
-		</orb>
-		<orb num="34">
-			<position x="7506" y="443" />
-		</orb>
-		<orb num="35">
-			<position x="7525" y="438" />
-		</orb>
-		<orb num="36">
-			<position x="7516" y="452" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<orb num="-1">
-			<position x="100" y="420" />
-		</orb>
-		<mega_morgan HP="50" num="0">
-			<position x="561" y="2703" />
-		</mega_morgan>
-		<mega_morgan HP="50" num="0">
-			<position x="943" y="943" />
-		</mega_morgan>
-		<mega_morgan HP="50" num="0">
-			<position x="1019" y="943" />
-		</mega_morgan>
-		<mega_morgan HP="50" num="0">
-			<position x="1101" y="943" />
-		</mega_morgan>
-		<mega_morgan HP="50" num="0">
-			<position x="1319" y="943" />
-		</mega_morgan>
-		<mega_morgan HP="50" num="0">
-			<position x="1351" y="943" />
-		</mega_morgan>
-		<mega_morgan HP="50" num="0">
-			<position x="1543" y="943" />
-		</mega_morgan>
+		<currentLevel value="1" />
+		<level1>
+			<orb num="0">
+				<position x="264" y="191" />
+			</orb>
+			<orb num="1">
+				<position x="528" y="311" />
+			</orb>
+			<orb num="2">
+				<position x="528" y="186" />
+			</orb>
+			<orb num="3">
+				<position x="833" y="95" />
+			</orb>
+			<orb num="4">
+				<position x="991" y="60" />
+			</orb>
+			<orb num="5">
+				<position x="991" y="141" />
+			</orb>
+			<orb num="6">
+				<position x="1231" y="149" />
+			</orb>
+			<orb num="7">
+				<position x="1375" y="224" />
+			</orb>
+			<orb num="8">
+				<position x="1656" y="317" />
+			</orb>
+			<orb num="9">
+				<position x="2028" y="208" />
+			</orb>
+			<orb num="10">
+				<position x="2431" y="333" />
+			</orb>
+			<orb num="11">
+				<position x="3447" y="317" />
+			</orb>
+			<orb num="12">
+				<position x="3711" y="108" />
+			</orb>
+			<orb num="29">
+				<position x="4849" y="408" />
+			</orb>
+			<orb num="30">
+				<position x="5769" y="273" />
+			</orb>
+			<orb num="31">
+				<position x="5933" y="272" />
+			</orb>
+			<orb num="32">
+				<position x="6743" y="489" />
+			</orb>
+			<orb num="34">
+				<position x="7506" y="443" />
+			</orb>
+			<orb num="35">
+				<position x="7525" y="438" />
+			</orb>
+			<orb num="36">
+				<position x="7516" y="452" />
+			</orb>
+			<chandelier num="37">
+				<position x="520" y="2400" />
+			</chandelier>
+			<chandelier num="38">
+				<position x="250" y="2400" />
+			</chandelier>
+			<chandelier num="40">
+				<position x="440" y="1640" />
+			</chandelier>
+			<chandelier num="41">
+				<position x="640" y="1570" />
+			</chandelier>
+			<chandelier num="42">
+				<position x="440" y="1240" />
+			</chandelier>
+			<chandelier num="43">
+				<position x="320" y="760" />
+			</chandelier>
+			<chandelier num="44">
+				<position x="440" y="480" />
+			</chandelier>
+			<chandelier num="45">
+				<position x="280" y="360" />
+			</chandelier>
+			<chandelier num="46">
+				<position x="1780" y="920" />
+			</chandelier>
+			<chandelier num="47">
+				<position x="3640" y="640" />
+			</chandelier>
+			<chandelier num="48">
+				<position x="4520" y="760" />
+			</chandelier>
+			<mega_morgan HP="50" num="0">
+				<position x="359" y="3023" />
+			</mega_morgan>
+			<mega_morgan HP="50" num="0">
+				<position x="415" y="2608" />
+			</mega_morgan>
+			<mega_morgan HP="50" num="0">
+				<position x="893" y="943" />
+			</mega_morgan>
+			<mega_morgan HP="50" num="0">
+				<position x="1009" y="943" />
+			</mega_morgan>
+			<mega_morgan HP="50" num="0">
+				<position x="1089" y="943" />
+			</mega_morgan>
+			<mega_morgan HP="50" num="0">
+				<position x="1249" y="943" />
+			</mega_morgan>
+			<mega_morgan HP="50" num="0">
+				<position x="1329" y="943" />
+			</mega_morgan>
+			<mega_morgan HP="50" num="0">
+				<position x="1489" y="943" />
+			</mega_morgan>
+			<jorge HP="2" num="16">
+				<position x="360" y="2440" />
+			</jorge>
+			<jorge HP="2" num="16">
+				<position x="360" y="2440" />
+			</jorge>
+			<jorge HP="2" num="16">
+				<position x="79" y="1879" />
+			</jorge>
+			<jorge HP="2" num="16">
+				<position x="680" y="1679" />
+			</jorge>
+			<jorge HP="2" num="16">
+				<position x="200" y="600" />
+			</jorge>
+			<jorge HP="2" num="16">
+				<position x="479" y="428" />
+			</jorge>
+			<jorge HP="2" num="16">
+				<position x="119" y="159" />
+			</jorge>
+			<jorge HP="2" num="16">
+				<position x="319" y="440" />
+			</jorge>
+			<jorge HP="2" num="16">
+				<position x="2240" y="760" />
+			</jorge>
+			<healingorb num="-1">
+				<position x="100" y="420" />
+			</healingorb>
+			<healingorb num="-1">
+				<position x="220" y="1580" />
+			</healingorb>
+			<healingorb num="-1">
+				<position x="420" y="2340" />
+			</healingorb>
+			<healingorb num="-1">
+				<position x="3340" y="820" />
+			</healingorb>
+			<healingorb num="-1">
+				<position x="3820" y="580" />
+			</healingorb>
+			<healingorb num="-1">
+				<position x="4020" y="820" />
+			</healingorb>
+		</level1>
 	</entitymanager>
-	<moduleEnemies />
 	<guiManager />
 	<renderer>
-		<camera x="-398" y="-5470" />
+		<camera x="0" y="-5790" />
 	</renderer>
 </game_state>

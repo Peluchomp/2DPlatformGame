@@ -148,11 +148,13 @@ bool Scene::Awake(pugi::xml_node& config)
 				}
 			}
 
-			father = (Aelfric*)app->entityManager->CreateEntity(EntityType::AELFRIC);
-			father->parameters = config.child("aelfric");
-			father->Start();
+			if (father == nullptr) {
+				father = (Aelfric*)app->entityManager->CreateEntity(EntityType::AELFRIC);
+				father->parameters = config.child("aelfric");
+				father->Start();
+			}
 
-			blackDetection = app->physics->CreateRectangleSensor(15 * 40, 5 * 40, 200, 200, bodyType::STATIC, ColliderType::BLACK_TRIGGER);
+			blackDetection = app->physics->CreateRectangleSensor(15 * 40, 5 * 40, 200, 200, bodyType::STATIC, ColliderType::PLATFORM);
 			blackDetection->listener = player;
 			blackDetection->ctype = ColliderType::BLACK_TRIGGER;
 

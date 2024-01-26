@@ -193,7 +193,8 @@ public:
 
 	std::string scoreText;
 	
-
+	Timer backtoTitle;
+	bool titleTimer = false;
 
 	bool startIdle = false;
 	Timer IdleTimer;

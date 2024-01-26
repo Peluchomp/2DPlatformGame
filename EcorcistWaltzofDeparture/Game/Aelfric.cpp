@@ -107,11 +107,12 @@ bool Aelfric::Update(float dt)
 {
 	OPTICK_EVENT("Boss behaviour");
 
-	if (hp <= 0) {
+	if (hp <= 0 && !dead) {
 		dead = true;
 		app->scene->player->winScreen = true;
+	
 	}
-	else {
+	else if(hp > 0) {
 		dead = false;
 	}
 	if (!dead) {

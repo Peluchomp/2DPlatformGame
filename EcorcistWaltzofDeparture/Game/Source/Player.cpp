@@ -446,16 +446,7 @@ bool Player::Update(float dt)
 
 		app->render->DrawText("Hope perishes here", app->scene->windowW / 2 - 450, app->scene->windowH / 2 - 250,900, 200,255,0,0);
 	}
-	if (app->scene->player->winScreen == true) {
-
-		SDL_Rect squarePos = { app->scene->windowW / 2 - 700, app->scene->windowH / 2 - 700 , 1400,1200 };
-
-		app->render->DrawRectangle(squarePos, 106, 13, 173, 255, true, false);
-
-
-		app->render->DrawText("Light prevails today", app->scene->windowW / 2 - 450, app->scene->windowH / 2 - 250, 900, 200, 238, 210, 2);
-
-	}
+	
 
 	app->render->camera.y;
 
@@ -476,6 +467,25 @@ bool Player::PostUpdate() {
 	orbMeter = { 25 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), orbs * 10, 15 };
 	app->render->DrawRectangle(SDL_Rect{ 25 - (app->render->camera.x / 2), 20 - (app->render->camera.y / 2), 100,15 }, 50, 0, 140, 255);
 	app->render->DrawRectangle(orbMeter, 130, 238, 255, 255);
+
+
+	if (app->scene->player->winScreen == true) {
+
+		SDL_Rect squarePos = { app->scene->windowW / 2 - 700, app->scene->windowH / 2 - 700 , 1400,1200 };
+
+		app->render->DrawRectangle(squarePos, 106, 13, 173, 255, true, false);
+
+		if (titleTimer == false) { backtoTitle.Start(); }
+		titleTimer = true;
+		app->render->DrawText("Light prevails today", app->scene->windowW / 2 - 450, app->scene->windowH / 2 - 250, 900, 200, 238, 210, 2);
+
+	}
+
+	if (winScreen && backtoTitle.ReadSec() > 3) {
+		app->titleS->back = true;
+		titleTimer = false;
+		winScreen = false;
+	}
 
 	return true;
 }
@@ -701,6 +711,9 @@ void Player::Spawn(int Level, bool checkPoint) {
 
 	if (Level == 0) {
 		app->scene->currentLvl = 0;
+		app->scene->bossZone = false;
+		if (app->scene->father != nullptr) { app->scene->father->hp = 0; }
+
 
 		power = PowerLvl::NORMAL;
 		hp = 4;
@@ -1486,7 +1499,7 @@ void Player::InputControls(float dt) {
 		movementx = speed * dt;
 
 		if (godMode == true) {
-			movementx = speed * dt * 9;
+			movementx = speed * dt ;
 		}
 	}
 

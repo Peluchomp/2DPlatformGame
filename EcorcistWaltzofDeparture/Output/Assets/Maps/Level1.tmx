@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="129" height="88" tilewidth="40" tileheight="40" infinite="0" nextlayerid="17" nextobjectid="191">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="129" height="88" tilewidth="40" tileheight="40" infinite="0" nextlayerid="17" nextobjectid="191">
  <tileset firstgid="1" name="church spritesheet" tilewidth="40" tileheight="40" tilecount="420" columns="28">
-  <image source="../../../../tilemaps/church spritesheet.png" width="1120" height="612"/>
+  <image source="church spritesheet.png" width="1120" height="612"/>
  </tileset>
  <tileset firstgid="421" name="church spriteshee flip" tilewidth="40" tileheight="40" tilecount="390" columns="26">
-  <image source="../../../../tilemaps/church spriteshee flip.png" width="1040" height="612"/>
+  <image source="church spriteshee flip.png" width="1040" height="612"/>
  </tileset>
  <tileset firstgid="811" name="street tilemap" tilewidth="40" tileheight="40" tilecount="144" columns="16">
-  <image source="../../../../tilemaps/street tilemap.png" width="640" height="360"/>
+  <image source="street tilemap.png" width="640" height="360"/>
  </tileset>
  <tileset firstgid="955" name="angelGuard" tilewidth="40" tileheight="40" tilecount="2240" columns="160">
   <image source="../Textures/angelGuard.png" width="6428" height="578"/>

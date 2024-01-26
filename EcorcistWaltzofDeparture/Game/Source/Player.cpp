@@ -446,7 +446,16 @@ bool Player::Update(float dt)
 
 		app->render->DrawText("Hope perishes here", app->scene->windowW / 2 - 450, app->scene->windowH / 2 - 250,900, 200,255,0,0);
 	}
+	if (app->scene->player->winScreen == true) {
 
+		SDL_Rect squarePos = { app->scene->windowW / 2 - 700, app->scene->windowH / 2 - 700 , 1400,1200 };
+
+		app->render->DrawRectangle(squarePos, 106, 13, 173, 255, true, false);
+
+
+		app->render->DrawText("Light prevails today", app->scene->windowW / 2 - 450, app->scene->windowH / 2 - 250, 900, 200, 238, 210, 2);
+
+	}
 
 	app->render->camera.y;
 
@@ -677,7 +686,7 @@ void Player::PowerUpLogic() {
 void Player::Spawn(int Level, bool checkPoint) {
 
 	app->scene->prevLevel = app->scene->currentLvl;
-
+	winScreen = false;
 	app->entityManager->ReSpawn();
 
 	if (mySpear->isPicked == false && mySpear->isSticked == true) {

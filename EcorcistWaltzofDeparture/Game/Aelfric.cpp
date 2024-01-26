@@ -107,158 +107,167 @@ bool Aelfric::Update(float dt)
 {
 	OPTICK_EVENT("Boss behaviour");
 
-	if (!startFight && app->scene->bossZone == true){
-		attackChangeTimer.Start();
-		startFight = true;
-		ogTransform = _body->body->GetPosition();
-		tietleTimer.Start();
+	if (hp <= 0) {
+		dead = true;
+		app->scene->player->winScreen = true;
+	}
+	else {
+		dead = false;
+	}
+	if (!dead) {
 
+		if (!startFight && app->scene->bossZone == true) {
+			attackChangeTimer.Start();
+			startFight = true;
+			ogTransform = _body->body->GetPosition();
+			tietleTimer.Start();
+
+
+		}
+
+
+
+		int R = 255, G = 255, B = 255;
+		if (_body->active && app->scene->bossZone == true) {
+			_body->GetPosition(position.x, position.y);
+
+			/*Select a random attack*/
+			if (attackChangeTimer.ReadSec() > 15 && groundPhase == true) {
+				attackChangeTimer.Start();
+				startedSpin = false; startedThunder = false;
+
+				int id = getRandomNumber(1, 2);
+				switch (id) {
+				case(1):
+					currentAttack = SPIN;
+					groundPhase = false;
+					break;
+				case(2):
+					currentAttack = THUNDERS;
+					groundPhase = false;
+					break;
+				}
+
+			}
+			if (attackChangeTimer.ReadSec() > 10 && groundPhase == false) {
+				groundPhase = true;
+				currentAttack = GROUND_SPEARS;
+				Teleport();
+				CreateSpears();
+				attackChangeTimer.Start();
+
+			}
+
+
+			if (currentAttack == SPIN) {
+				// Instanciates spinning spears entities in random positions
+				SpinAttackLogic();
+
+			}
+			else if (currentAttack == THUNDERS) {
+				// Instanciates EvilTunderSpear entities that trap the player
+				ThunderLogic();
+			}
+
+			if (currentAttack == GROUND_SPEARS) {
+				b2Vec2 Velocity;
+				// Default state is ground spears where he will constantly instanciate ground spear entities arounf the player
+				// (all boss instanciated entities delete themselves)
+
+				if (floorSpearTimer.ReadSec() > floorSpearWait) {
+					FloorSpears* fs = (FloorSpears*)app->entityManager->CreateEntity(EntityType::FLOORSPEAR);
+					fs->Awake();
+					app->audio->PlayFx(groundSpearFx);
+					fs->SetSpeed(4);
+					floorSpearTimer.Start();
+					floorSpearWait = 1.5f / getRandomNumber(1, 3);
+				}
+
+
+				if (myDir == Direction::RIGHT) {
+
+					Velocity.x = 2; Velocity.y = _body->body->GetLinearVelocity().y;
+
+				}
+				else if (myDir == Direction::LEFT) {
+					Velocity.x = -2; Velocity.y = _body->body->GetLinearVelocity().y;
+
+				}
+
+				if (ChangePosTimer.ReadSec() > 2) {
+					// Randomly change walking direction
+					if (getRandomNumber(0, 1) == 0) {
+						myDir = Direction::RIGHT;
+					}
+					else {
+						myDir = Direction::LEFT;
+					}
+
+				}
+
+
+				_body->body->SetLinearVelocity(Velocity);
+				_body->body->SetLinearVelocity(Velocity);
+
+
+				if (hurt == true) {
+					if (hurtTimer.ReadMSec() < 800) {
+						// change rgb to read when hurt
+						G = 0; B = 0;
+					}
+					else {
+						hurt = false;
+					}
+
+				}
+
+
+				// The spears spin if the player enters into the dtection collider, after 1.5s they stpo spinning
+				if (defending && defendTimer.ReadMSec() > 1500 && !destroySpears) {
+					defending = false;
+					revol1->SetMotorSpeed(0);
+					revol2->SetMotorSpeed(0);
+
+					// reset orientation
+					b2Vec2 pos1 = MrSpear.pbody->body->GetPosition(); pos1.y = ogP1.y;
+					b2Vec2 pos2 = MrSpear.pbody->body->GetPosition(); pos1.y = ogP2.y;
+
+					MrSpear.pbody->body->SetTransform(pos1, 0); MrSpear.pbody->body->SetTransform(pos2, 0);
+				}
+
+				int sp1Posx;
+				int sp1Posy;
+				MrSpear.pbody->GetPosition(sp1Posx, sp1Posy);
+				int sp2Posx;
+				int sp2Posy;
+				MsSpear.pbody->GetPosition(sp2Posx, sp2Posy);
+
+
+				// the detection body makes the spears rotate when the player gets near the boss
+				_detectionBody->body->SetTransform(_body->body->GetPosition(), 0.0f);
+				MsSpear.pbody->body->SetTransform(MsSpear.pbody->body->GetPosition(), MrSpear.pbody->GetRotation());
+
+
+
+
+
+				if (!destroySpears) {
+					// These are the 2 spears that follow and protect the boss 
+					SDL_Rect spearRect = { 560,1,17,85 };
+					app->render->DrawTexture(texture, sp1Posx - 8, sp1Posy - 30, false, &spearRect, 255, 1, 255, 255, 255, MrSpear.pbody->GetRotation());
+					app->render->DrawTexture(texture, sp2Posx - 8, sp2Posy - 30, false, &spearRect, 255, 1, 255, 255, 255, MsSpear.pbody->GetRotation());
+				}
+			}
+			currentAnimation->Update();
+			if (myDir == Direction::LEFT) {
+				app->render->DrawTexture(texture, position.x - 40, position.y - 35, true, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
+			}
+			else if (myDir == Direction::RIGHT) {
+				app->render->DrawTexture(texture, position.x - 60, position.y - 35, false, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
+			}
+		}
 
 	}
-
-	
-	
-	int R = 255, G = 255, B = 255;
-	if (_body->active && app->scene->bossZone == true) {
-		_body->GetPosition(position.x, position.y);
-
-		/*Select a random attack*/
-		if (attackChangeTimer.ReadSec() > 15 && groundPhase == true) {
-			attackChangeTimer.Start();
-			startedSpin = false; startedThunder = false;
-
-			int id = getRandomNumber(1, 2);
-			switch (id) {
-			case(1):
-				currentAttack = SPIN;
-				groundPhase = false;
-				break;
-			case(2):
-				currentAttack = THUNDERS;
-				groundPhase = false;
-				break;
-			}
-
-		}
-		if (attackChangeTimer.ReadSec() > 10 && groundPhase == false) {
-			groundPhase = true;
-			currentAttack = GROUND_SPEARS;
-			Teleport();
-			CreateSpears();
-			attackChangeTimer.Start();
-		
-		}
-		
-		
-		if (currentAttack == SPIN ) {
-			// Instanciates spinning spears entities in random positions
-			SpinAttackLogic();
-
-		}
-		else if (currentAttack == THUNDERS) {
-			// Instanciates EvilTunderSpear entities that trap the player
-			ThunderLogic();
-		}
-	
-		if (currentAttack == GROUND_SPEARS) {
-			b2Vec2 Velocity;
-			// Default state is ground spears where he will constantly instanciate ground spear entities arounf the player
-			// (all boss instanciated entities delete themselves)
-			
-			if (floorSpearTimer.ReadSec() > floorSpearWait) {
-				FloorSpears* fs = (FloorSpears*) app->entityManager->CreateEntity(EntityType::FLOORSPEAR);
-				fs->Awake();
-				app->audio->PlayFx(groundSpearFx);
-				fs->SetSpeed(4);
-				floorSpearTimer.Start();
-				floorSpearWait = 1.5f / getRandomNumber(1, 3);
-			}
-
-
-			if (myDir == Direction::RIGHT) {
-
-				Velocity.x = 2; Velocity.y = _body->body->GetLinearVelocity().y;
-
-			}
-			else if (myDir == Direction::LEFT) {
-				Velocity.x = -2; Velocity.y = _body->body->GetLinearVelocity().y;
-
-			}
-
-			if (ChangePosTimer.ReadSec() > 2) {
-				// Randomly change walking direction
-				if (getRandomNumber(0, 1) == 0) {
-					myDir = Direction::RIGHT;
-				}
-				else {
-					myDir = Direction::LEFT;
-				}
-
-			}
-
-
-			_body->body->SetLinearVelocity(Velocity);
-			_body->body->SetLinearVelocity(Velocity);
-
-			
-			if (hurt == true) {
-				if (hurtTimer.ReadMSec() < 800) {
-					// change rgb to read when hurt
-					G = 0; B = 0;
-				}
-				else {
-					hurt = false;
-				}
-
-			}
-
-
-			// The spears spin if the player enters into the dtection collider, after 1.5s they stpo spinning
-			if (defending && defendTimer.ReadMSec() > 1500 && !destroySpears) {
-				defending = false;
-				revol1->SetMotorSpeed(0);
-				revol2->SetMotorSpeed(0);
-
-				// reset orientation
-				b2Vec2 pos1 = MrSpear.pbody->body->GetPosition(); pos1.y = ogP1.y;
-				b2Vec2 pos2 = MrSpear.pbody->body->GetPosition(); pos1.y = ogP2.y;
-
-				MrSpear.pbody->body->SetTransform(pos1, 0); MrSpear.pbody->body->SetTransform(pos2, 0);
-			}
-
-			int sp1Posx;
-			int sp1Posy;
-			MrSpear.pbody->GetPosition(sp1Posx, sp1Posy);
-			int sp2Posx;
-			int sp2Posy;
-			MsSpear.pbody->GetPosition(sp2Posx, sp2Posy);
-
-
-			// the detection body makes the spears rotate when the player gets near the boss
-			_detectionBody->body->SetTransform(_body->body->GetPosition(), 0.0f);
-			MsSpear.pbody->body->SetTransform(MsSpear.pbody->body->GetPosition(), MrSpear.pbody->GetRotation());
-
-
-
-			
-
-			if (!destroySpears) {
-				// These are the 2 spears that follow and protect the boss 
-				SDL_Rect spearRect = { 560,1,17,85 };
-				app->render->DrawTexture(texture, sp1Posx - 8, sp1Posy - 30, false, &spearRect, 255, 1, 255, 255, 255, MrSpear.pbody->GetRotation());
-				app->render->DrawTexture(texture, sp2Posx - 8, sp2Posy - 30, false, &spearRect, 255, 1, 255, 255, 255, MsSpear.pbody->GetRotation());
-			}
-		}
-		currentAnimation->Update();
-		if (myDir == Direction::LEFT) {
-			app->render->DrawTexture(texture, position.x - 40, position.y - 35, true, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
-		}
-		else if (myDir == Direction::RIGHT) {
-			app->render->DrawTexture(texture, position.x - 60, position.y - 35, false, &currentAnimation->GetCurrentFrame(), 255, 1, R, G, B);
-		}
-	}
-	
-
 
 
 	return true;

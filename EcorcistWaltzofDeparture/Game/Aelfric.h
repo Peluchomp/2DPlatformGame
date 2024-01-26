@@ -67,6 +67,8 @@ public:
 
 	void Teleport();
 
+	bool dead = false;
+
 	bool startFight = false;
 
 	Animation* currentAnimation;

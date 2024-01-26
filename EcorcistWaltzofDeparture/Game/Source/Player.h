@@ -178,6 +178,7 @@ public:
 	bool fpsCap = true;
 	bool options = false;
 	bool deathScreen = false;
+	bool winScreen = false;
 	bool activee = true;
 
 	bool thrown = false;

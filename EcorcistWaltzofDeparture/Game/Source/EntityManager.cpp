@@ -273,6 +273,8 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 
     pEntity = NULL;
 
+	app->map->firstLoad = false;
+
 
 	pugi::xml_node LevelNode = node.child("currentLevel");
 	

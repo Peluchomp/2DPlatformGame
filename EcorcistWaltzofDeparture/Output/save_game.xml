@@ -7,8 +7,8 @@
 	<:anonymous />
 	<title_screen />
 	<scene currentLevel="1">
-		<player orbs="0" PowerLvl="0" HP="4">
-			<position x="71" y="3160" />
+		<player orbs="0" PowerLvl="0" HP="2">
+			<position x="311" y="2204" />
 		</player>
 	</scene>
 	<:anonymous />
@@ -109,31 +109,31 @@
 				<position x="4520" y="760" type="1" />
 			</chandelure>
 			<mega_morgan HP="50" num="100">
-				<position x="319" y="3023" />
+				<position x="310" y="3183" />
 			</mega_morgan>
 			<mega_morgan HP="50" num="101">
-				<position x="431" y="2703" />
+				<position x="373" y="2703" />
 			</mega_morgan>
 			<mega_morgan HP="50" num="102">
-				<position x="900" y="943" />
+				<position x="931" y="943" />
 			</mega_morgan>
 			<mega_morgan HP="50" num="103">
-				<position x="1017" y="943" />
+				<position x="1021" y="943" />
 			</mega_morgan>
 			<mega_morgan HP="50" num="104">
-				<position x="1097" y="943" />
+				<position x="1102" y="943" />
 			</mega_morgan>
 			<mega_morgan HP="50" num="105">
-				<position x="1257" y="943" />
+				<position x="1301" y="943" />
 			</mega_morgan>
 			<mega_morgan HP="50" num="106">
-				<position x="1337" y="943" />
+				<position x="1347" y="943" />
 			</mega_morgan>
 			<mega_morgan HP="50" num="107">
-				<position x="1497" y="943" />
+				<position x="1537" y="943" />
 			</mega_morgan>
 			<jorge HP="2" num="200">
-				<position x="360" y="2440" />
+				<position x="359" y="2315" />
 			</jorge>
 			<jorge HP="2" num="201">
 				<position x="680" y="1679" />
@@ -154,9 +154,6 @@
 				<position x="220" y="1580" />
 			</healingorb>
 			<healingorb num="-1">
-				<position x="420" y="2340" />
-			</healingorb>
-			<healingorb num="-1">
 				<position x="3340" y="820" />
 			</healingorb>
 			<healingorb num="-1">
@@ -169,6 +166,6 @@
 	</entitymanager>
 	<guiManager />
 	<renderer>
-		<camera x="0" y="-5790" />
+		<camera x="-110" y="-3876" />
 	</renderer>
 </game_state>

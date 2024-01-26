@@ -887,6 +887,21 @@
 	  <orb_spawn num="35"  x="7525" y="438" />
 	  <orb_spawn num="36"  x="7516" y="452" />
 
+    <orb_spawn1 num="0"  x="400" y="3000" />
+    <orb_spawn1 num="1"  x="840" y="2720" />
+    <orb_spawn1 num="2"  x="200" y="2640" />
+    <orb_spawn1 num="3"  x="200" y="2320" />
+    <orb_spawn1 num="4"  x="640" y="2000" />
+    <orb_spawn1 num="5"  x="480" y="920" />
+    <orb_spawn1 num="6"  x="40" y="320" />
+    <orb_spawn1 num="7"  x="920" y="840" />ael
+    <orb_spawn1 num="8"  x="1360" y="840" />aeflric
+							
+    <orb_spawn1 num="9"  x="2240" y="920" />
+    <orb_spawn1 num="10"  x="3840" y="560" />
+  
+  
+
     
 	  <chandelure num="37" x="520" y ="2400" dir="left" type="0" />
 	  <chandelure num="38" x="250" y ="2400" dir="right" type="1" />

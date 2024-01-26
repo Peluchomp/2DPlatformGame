@@ -125,7 +125,7 @@ bool Scene::Awake(pugi::xml_node& config)
 			}*/
 
 			//--------Spawn all Orbs----------//
-			for (pugi::xml_node orbNode = config.child("orb_spawn"); orbNode; orbNode = orbNode.next_sibling("orb_spawn")) {
+			for (pugi::xml_node orbNode = config.child("orb_spawn1"); orbNode; orbNode = orbNode.next_sibling("orb_spawn1")) {
 				Orb* orb = (Orb*)app->entityManager->CreateEntity(EntityType::ORB);
 				orb->position.x = orbNode.attribute("x").as_int();
 				orb->position.y = orbNode.attribute("y").as_int();

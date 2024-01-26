@@ -774,7 +774,7 @@ void Player::Spawn(int Level, bool checkPoint) {
 		pbody->body->SetAngularVelocity(0.0f);
 		movementx = 0;
 
-		orbs = 0;
+
 
 		if (app->scene->father != nullptr) {
 

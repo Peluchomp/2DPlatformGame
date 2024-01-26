@@ -98,6 +98,7 @@ bool TitleScreen::Start()
 	SDL_Rect vSyncPos = { windowW / 2 - 60, windowH / 2 + 150 , 40,40 };
 	SDL_Rect fullscreenbtPos = { windowW / 2 - 60, windowH / 2 + 50  , 40,40 };
 	SDL_Rect creditPos = { windowW / 2 - 60, windowH / 2 + 200  , 120,20 };
+	SDL_Rect continuePos = { windowW / 2 - 60, windowH / 2 + 100 , 120,20 };
 
 	gcButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "   Start   ", btPos, this);
 	exitButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, "   Exit   ", exitPos, this);
@@ -107,12 +108,14 @@ bool TitleScreen::Start()
 	fullScreenButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 11, "   Fullscreen   ", fullscreenbtPos, this);
 	vSyncButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 12, "   Vsync   ", vSyncPos, this);
 	creditButtom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 13, "   Credits   ", creditPos, this);
+	continueButoom = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 14, "   Continue   ", continuePos, this);
 
 
 	gcButtom->state = GuiControlState::DISABLED;
 	exitButtom->state = GuiControlState::DISABLED;
 	optionsButtom->state = GuiControlState::DISABLED;
 	creditButtom->state = GuiControlState::DISABLED;
+	continueButoom->state = GuiControlState::DISABLED;
 	return true;
 	
 }
@@ -229,6 +232,14 @@ bool TitleScreen::Update(float dt)
 			exitButtom->state = GuiControlState::DISABLED;
 			creditButtom->state = GuiControlState::DISABLED;
 			optionsButtom->state = GuiControlState::DISABLED;
+			continueButoom->state = GuiControlState::DISABLED;
+
+			if (continueOption == true) 
+			{
+				app->LoadRequest();
+				continueOption = false;
+			}
+
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
@@ -247,7 +258,8 @@ bool TitleScreen::Update(float dt)
 			gcButtom->state = GuiControlState::NORMAL;
 			exitButtom->state = GuiControlState::NORMAL;
 			optionsButtom->state = GuiControlState::NORMAL;
-			creditButtom->state = GuiControlState::NORMAL;
+			creditButtom->state = GuiControlState::NORMAL; 
+			continueButoom->state = GuiControlState::NORMAL;
 		}
 
 		if (tittleTimerSec > 44 && tittleTimerSec < 49 || skip == true) {
@@ -287,6 +299,7 @@ bool TitleScreen::Update(float dt)
 		exitButtom->state = GuiControlState::DISABLED;
 		optionsButtom->state = GuiControlState::DISABLED;
 		creditButtom->state = GuiControlState::DISABLED;
+		continueButoom->state = GuiControlState::DISABLED;
 		backButtom->state = GuiControlState::NORMAL;
 
 		musicButtom->state = GuiControlState::NORMAL;
@@ -317,6 +330,7 @@ bool TitleScreen::Update(float dt)
 		exitButtom->state = GuiControlState::DISABLED;
 		optionsButtom->state = GuiControlState::DISABLED;
 		creditButtom->state = GuiControlState::DISABLED;
+		continueButoom->state = GuiControlState::DISABLED;
 	}
 
 	return true;
@@ -395,6 +409,11 @@ bool TitleScreen::OnGuiMouseClickEvent(GuiControl* control)
 			credits = true;
 		}
 
+	}
+
+	if (control->id == 14) {
+		continueOption = true;
+		startt = true;
 	}
 
 	if (control->id == 12 && vSync == false && vsyncOnce >= 1) {

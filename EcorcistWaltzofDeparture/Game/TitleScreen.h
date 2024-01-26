@@ -165,15 +165,17 @@ public:
 	GuiControlButton* fullScreenButtom;
 	GuiControlButton* vSyncButtom;
 	GuiControlButton* creditButtom;
+	GuiControlButton* continueButoom;
 	bool exit = false;
 	bool skip = false;
 	bool credits = false;
-	char* creditsText;
+	char* creditsText ;
 	char* creditsText2;
 	float tittleTimerSec;
 	float tittleTimerMSec;
 	int stopesquizo;
 	bool optionsTittle;
+	bool continueOption = false;
 
 	bool backfromPlay = false;
 	bool fullscreen = false;

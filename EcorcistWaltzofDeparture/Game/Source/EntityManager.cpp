@@ -278,8 +278,12 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 	
 	int LevelValue = LevelNode.attribute("value").as_int();
 
-	if(LevelValue == 0){ node = node.child("level0"); }
-	else if (LevelValue == 1) { node = node.child("level1"); }
+	if(LevelValue == 0){
+		node = node.child("level0"); 
+	}
+	else if (LevelValue == 1) {
+		node = node.child("level1");
+	}
 
 	// Spawn saved entities
 	for (item = app->entityManager->savedEntities.start; item != NULL && ret == true; item = item->next)
@@ -329,9 +333,9 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 		}
 		else if (pEntity->type == EntityType::MEGA_MORGAN) {
 
-			for (pugi::xml_node orbNode = node.child("mega_morgan"); orbNode; orbNode = orbNode.next_sibling("morgan")) {
+			for (pugi::xml_node orbNode = node.child("mega_morgan"); orbNode; orbNode = orbNode.next_sibling("mega_morgan")) {
 				if (pEntity->num == orbNode.attribute("num").as_int()) {
-					pEntity = app->entityManager->CreateEntity(EntityType::MORGAN);
+					pEntity = app->entityManager->CreateEntity(EntityType::MEGA_MORGAN);
 					pEntity->position.x = orbNode.child("position").attribute("x").as_int();
 					pEntity->position.y = orbNode.child("position").attribute("y").as_int();
 					pEntity->num = orbNode.attribute("num").as_int();
@@ -343,13 +347,17 @@ bool EntityManager::LoadState(pugi::xml_node node) {
 		}
 		else if (pEntity->type == EntityType::CHANDELIER) {
 
-			for (pugi::xml_node orbNode = node.child("mega_morgan"); orbNode; orbNode = orbNode.next_sibling("morgan")) {
+			for (pugi::xml_node orbNode = node.child("chandelure"); orbNode; orbNode = orbNode.next_sibling("chandelure")) {
 				if (pEntity->num == orbNode.attribute("num").as_int()) {
 					pEntity = app->entityManager->CreateEntity(EntityType::CHANDELIER);
+
+					Chandelier* chand = (Chandelier*)pEntity;
+
 					pEntity->position.x = orbNode.child("position").attribute("x").as_int();
 					pEntity->position.y = orbNode.child("position").attribute("y").as_int();
 					pEntity->num = orbNode.attribute("num").as_int();
 					pEntity->parameters = orbNode;
+					pEntity->Awake();
 					pEntity->Start();
 
 				}
@@ -379,7 +387,12 @@ bool EntityManager::SaveState(pugi::xml_node node) {
 	Entity* pEntity = NULL;
 	if (app->scene->currentLvl == 0) {
 
-		node = node.append_child("level0");
+		if (node.child("level0") == NULL) {
+			node = node.append_child("level0");
+		}
+		else {
+			node = node.child("level0");
+		}
 
 		for (item = entities.start; item != NULL && ret == true; item = item->next)
 		{
@@ -423,19 +436,17 @@ bool EntityManager::SaveState(pugi::xml_node node) {
 				morganNode.append_attribute("y").set_value(pEntity->position.y);
 
 			}
-			if (pEntity->type == EntityType::CHANDELIER) {
-
-				pugi::xml_node morganNode = node.append_child(pEntity->name.GetString());
-				morganNode.append_attribute("num").set_value(pEntity->num);
-				morganNode = morganNode.append_child("position");
-				morganNode.append_attribute("x").set_value(pEntity->position.x);
-				morganNode.append_attribute("y").set_value(pEntity->position.y);
-
-			}
+			
 		}
 	}
 	else {
-		node = node.append_child("level1");
+
+		if (node.child("level1") == NULL) {
+			node = node.append_child("level1");
+		}
+		else {
+			node = node.child("level1");
+		}
 
 		for (item = entities.start; item != NULL && ret == true; item = item->next)
 		{
@@ -486,7 +497,9 @@ bool EntityManager::SaveState(pugi::xml_node node) {
 				morganNode = morganNode.append_child("position");
 				morganNode.append_attribute("x").set_value(pEntity->position.x);
 				morganNode.append_attribute("y").set_value(pEntity->position.y);
-
+				Chandelier* chand = (Chandelier*)pEntity;
+				if (chand->myType == 0) { morganNode.append_attribute("type").set_value(0); }
+				else if (chand->myType == 1) { morganNode.append_attribute("type").set_value(1); }
 			}
 		}
 	}

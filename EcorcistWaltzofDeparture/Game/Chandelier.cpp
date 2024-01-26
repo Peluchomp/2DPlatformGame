@@ -11,7 +11,7 @@
 
 Chandelier::Chandelier() : Entity(EntityType::CHANDELIER)
 {
-	name.Create("chandelier");
+	name.Create("chandelure");
 }
 
 

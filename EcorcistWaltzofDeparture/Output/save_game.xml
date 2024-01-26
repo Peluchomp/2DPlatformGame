@@ -8,7 +8,7 @@
 	<title_screen />
 	<scene currentLevel="1">
 		<player orbs="0" PowerLvl="0" HP="4">
-			<position x="89" y="3160" />
+			<position x="71" y="3160" />
 		</player>
 	</scene>
 	<:anonymous />
@@ -75,88 +75,76 @@
 			<orb num="36">
 				<position x="7516" y="452" />
 			</orb>
-			<chandelier num="37">
-				<position x="520" y="2400" />
-			</chandelier>
-			<chandelier num="38">
-				<position x="250" y="2400" />
-			</chandelier>
-			<chandelier num="40">
-				<position x="440" y="1640" />
-			</chandelier>
-			<chandelier num="41">
-				<position x="640" y="1570" />
-			</chandelier>
-			<chandelier num="42">
-				<position x="440" y="1240" />
-			</chandelier>
-			<chandelier num="43">
-				<position x="320" y="760" />
-			</chandelier>
-			<chandelier num="44">
-				<position x="440" y="480" />
-			</chandelier>
-			<chandelier num="45">
-				<position x="280" y="360" />
-			</chandelier>
-			<chandelier num="46">
-				<position x="1780" y="920" />
-			</chandelier>
-			<chandelier num="47">
-				<position x="3640" y="640" />
-			</chandelier>
-			<chandelier num="48">
-				<position x="4520" y="760" />
-			</chandelier>
-			<mega_morgan HP="50" num="0">
-				<position x="359" y="3023" />
+			<chandelure num="37">
+				<position x="520" y="2400" type="1" />
+			</chandelure>
+			<chandelure num="38">
+				<position x="250" y="2400" type="0" />
+			</chandelure>
+			<chandelure num="40">
+				<position x="440" y="1640" type="0" />
+			</chandelure>
+			<chandelure num="41">
+				<position x="640" y="1570" type="0" />
+			</chandelure>
+			<chandelure num="42">
+				<position x="440" y="1240" type="0" />
+			</chandelure>
+			<chandelure num="43">
+				<position x="320" y="760" type="1" />
+			</chandelure>
+			<chandelure num="44">
+				<position x="440" y="480" type="1" />
+			</chandelure>
+			<chandelure num="45">
+				<position x="280" y="360" type="1" />
+			</chandelure>
+			<chandelure num="46">
+				<position x="1780" y="920" type="1" />
+			</chandelure>
+			<chandelure num="47">
+				<position x="3640" y="640" type="0" />
+			</chandelure>
+			<chandelure num="48">
+				<position x="4520" y="760" type="1" />
+			</chandelure>
+			<mega_morgan HP="50" num="100">
+				<position x="319" y="3023" />
 			</mega_morgan>
-			<mega_morgan HP="50" num="0">
-				<position x="415" y="2608" />
+			<mega_morgan HP="50" num="101">
+				<position x="431" y="2703" />
 			</mega_morgan>
-			<mega_morgan HP="50" num="0">
-				<position x="893" y="943" />
+			<mega_morgan HP="50" num="102">
+				<position x="900" y="943" />
 			</mega_morgan>
-			<mega_morgan HP="50" num="0">
-				<position x="1009" y="943" />
+			<mega_morgan HP="50" num="103">
+				<position x="1017" y="943" />
 			</mega_morgan>
-			<mega_morgan HP="50" num="0">
-				<position x="1089" y="943" />
+			<mega_morgan HP="50" num="104">
+				<position x="1097" y="943" />
 			</mega_morgan>
-			<mega_morgan HP="50" num="0">
-				<position x="1249" y="943" />
+			<mega_morgan HP="50" num="105">
+				<position x="1257" y="943" />
 			</mega_morgan>
-			<mega_morgan HP="50" num="0">
-				<position x="1329" y="943" />
+			<mega_morgan HP="50" num="106">
+				<position x="1337" y="943" />
 			</mega_morgan>
-			<mega_morgan HP="50" num="0">
-				<position x="1489" y="943" />
+			<mega_morgan HP="50" num="107">
+				<position x="1497" y="943" />
 			</mega_morgan>
-			<jorge HP="2" num="16">
+			<jorge HP="2" num="200">
 				<position x="360" y="2440" />
 			</jorge>
-			<jorge HP="2" num="16">
-				<position x="360" y="2440" />
-			</jorge>
-			<jorge HP="2" num="16">
-				<position x="79" y="1879" />
-			</jorge>
-			<jorge HP="2" num="16">
+			<jorge HP="2" num="201">
 				<position x="680" y="1679" />
 			</jorge>
-			<jorge HP="2" num="16">
+			<jorge HP="2" num="202">
 				<position x="200" y="600" />
 			</jorge>
-			<jorge HP="2" num="16">
-				<position x="479" y="428" />
-			</jorge>
-			<jorge HP="2" num="16">
+			<jorge HP="2" num="203">
 				<position x="119" y="159" />
 			</jorge>
-			<jorge HP="2" num="16">
-				<position x="319" y="440" />
-			</jorge>
-			<jorge HP="2" num="16">
+			<jorge HP="2" num="204">
 				<position x="2240" y="760" />
 			</jorge>
 			<healingorb num="-1">
